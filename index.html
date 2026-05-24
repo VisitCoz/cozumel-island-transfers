@@ -153,6 +153,13 @@
     color: var(--mute); margin: 0 0 36px;
     max-width: 540px; line-height: 1.5;
   }
+  .hero-price-anchor {
+    display: inline-block; margin: -10px 0 30px;
+    font-size: 0.98rem; color: var(--mute);
+    padding: 8px 16px; background: var(--surface);
+    border: 1px solid var(--line-soft); border-radius: var(--pill);
+  }
+  .hero-price-anchor strong { color: var(--ink); font-weight: 700; }
   .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
@@ -483,6 +490,25 @@
   }
   .reroute-callout strong { color: var(--success-deep); font-weight: 700; }
 
+  /* ===== Airport inline link ===== */
+  .airport-link {
+    padding: 30px 24px;
+    text-align: center;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--bg);
+  }
+  .airport-link a {
+    color: var(--ink); font-size: 1rem; font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--line);
+    padding-bottom: 3px;
+  }
+  .airport-link a:hover {
+    color: var(--accent); border-color: var(--accent);
+  }
+  .airport-link strong { color: var(--ink); }
+
   /* ===== Sticky mobile WhatsApp button ===== */
   .sticky-wa {
     display: none;
@@ -589,63 +615,6 @@
   .work-compact .right {
     flex-shrink: 0;
     display: flex; align-items: center;
-  }
-
-  /* ===== "Two paths" chooser (cruise vs airport) ===== */
-  .chooser {
-    padding: 64px 24px 80px;
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .chooser-inner {
-    max-width: var(--max-grid); margin: 0 auto;
-  }
-  .chooser-head {
-    text-align: center; max-width: 640px; margin: 0 auto 36px;
-  }
-  .chooser-head h2 {
-    font-size: clamp(1.5rem, 2.8vw, 2rem);
-    font-weight: 700; letter-spacing: var(--track-tight); margin: 0 0 8px;
-  }
-  .chooser-head p { color: var(--mute); font-size: 1rem; margin: 0; }
-  .chooser-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-  }
-  .chooser-card {
-    display: block;
-    background: var(--bg); border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 36px 32px;
-    text-decoration: none; color: var(--ink);
-    transition: border-color .15s, transform .15s, box-shadow .15s;
-  }
-  .chooser-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
-    color: var(--ink);
-  }
-  .chooser-icon {
-    width: 56px; height: 56px; border-radius: 14px;
-    background: rgba(29,122,252,.08); color: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 22px;
-  }
-  .chooser-eyebrow {
-    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em;
-    color: var(--mute); text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .chooser-card h3 {
-    font-size: 1.5rem; font-weight: 700;
-    letter-spacing: var(--track-tight); margin: 0 0 10px;
-  }
-  .chooser-card p {
-    color: var(--mute); font-size: 0.98rem; line-height: 1.55;
-    margin: 0 0 22px;
-  }
-  .chooser-arrow {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 0.92rem; font-weight: 600; color: var(--accent);
   }
 
   /* ===== Booking modal ===== */
@@ -771,8 +740,6 @@
   @media (max-width: 560px) {
     .modal-card { padding: 28px 22px; }
     .m-row-2 { grid-template-columns: 1fr; }
-    .chooser-grid { grid-template-columns: 1fr; gap: 14px; }
-    .chooser-card { padding: 28px 24px; }
   }
 
   /* ===== Footer ===== */
@@ -961,7 +928,6 @@
     .footer-inner { grid-template-columns: 1fr; gap: 22px; }
     .hero-ctas { flex-direction: column; align-items: stretch; }
     .hero-ctas .btn { justify-content: center; }
-    .chooser-card { padding: 28px 24px; }
     .price-savings { font-size: 0.9rem; padding: 11px 14px; }
   }
 </style>
@@ -997,6 +963,9 @@
       <p class="lede" data-en="Private vehicles for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015." data-es="Vehículos privados para 1–40 pasajeros. Monitoreo en tiempo real de barco y vuelo. Garantía de regreso puntual o reembolso. Desde 2015.">
         Private vehicles for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015.
       </p>
+      <div class="hero-price-anchor" data-en="From <strong>$269 USD</strong> all-in · round-trip · up to 8 passengers" data-es="Desde <strong>$269 USD</strong> todo incluido · viaje redondo · hasta 8 pasajeros">
+        From <strong>$269 USD</strong> all-in · round-trip · up to 8 passengers
+      </div>
       <div class="hero-ctas">
         <a href="#vehicles" class="btn btn-primary" data-en="See pricing" data-es="Ver precios">See pricing</a>
         <a href="https://wa.me/529871146853?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20a%20transfer%20in%20Cozumel." target="_blank" rel="noopener" class="btn btn-ghost" data-en="WhatsApp quote" data-es="Cotizar por WhatsApp">WhatsApp quote</a>
@@ -1031,197 +1000,8 @@
   </div>
 </div>
 
-<!-- ===== "TWO PATHS" CHOOSER (Cruise vs Airport) ===== -->
-<section class="chooser">
-  <div class="chooser-inner">
-    <div class="chooser-head">
-      <h2 data-en="Which one are you?" data-es="¿Cuál es tu caso?">Which one are you?</h2>
-      <p data-en="Two services, both private, both fixed price. Pick yours." data-es="Dos servicios, ambos privados, ambos precio fijo. Elige el tuyo.">Two services, both private, both fixed price. Pick yours.</p>
-    </div>
-    <div class="chooser-grid">
-
-      <a href="cruise-transfers.html" class="chooser-card">
-        <div class="chooser-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20 21c-1.39 0-2.78-.47-4-1.32-2.44 1.71-5.56 1.71-8 0C6.78 20.53 5.39 21 4 21H2v2h2c1.38 0 2.74-.35 4-.99 2.52 1.29 5.48 1.29 8 0 1.26.65 2.62.99 4 .99h2v-2zm-.05-4.27L18 11l-1.41-1.41L13 13.17V6.04L18.96 4 17 1.5l-3.96 1.83-3.92-1.83L7 4l5 2.04V13.17l-3.59-3.58L7 11l-1.95 5.73L4 16.36V18l2.05.95 4.05-1.95 4 1.95 4 1.95L20 18v-1.64z"/></svg>
-        </div>
-        <div class="chooser-eyebrow" data-en="For cruise guests" data-es="Para cruceristas">For cruise guests</div>
-        <h3 data-en="Cruise transfers" data-es="Traslados de crucero">Cruise transfers</h3>
-        <p data-en="5–6 hours in port, real-time ship tracking, back at the pier before your ship sails. Round-trip private vans for 1–40." data-es="5–6 horas en puerto, monitoreo del barco en tiempo real, regreso antes del zarpe. Vans privadas para 1–40 personas.">5–6 hours in port, real-time ship tracking, back at the pier before your ship sails. Round-trip private vans for 1–40.</p>
-        <span class="chooser-arrow" data-en="See cruise pricing →" data-es="Ver precios de crucero →">See cruise pricing →</span>
-      </a>
-
-      <a href="airport-transfers.html" class="chooser-card">
-        <div class="chooser-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5C13 2.67 12.33 2 11.5 2S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
-        </div>
-        <div class="chooser-eyebrow" data-en="For airport arrivals" data-es="Para llegadas al aeropuerto">For airport arrivals</div>
-        <h3 data-en="Airport transfers" data-es="Traslados al aeropuerto">Airport transfers</h3>
-        <p data-en="Meet & greet at terminal exit, flight tracked in real-time, door-to-door to your Cozumel hotel or Airbnb. One-way or round-trip." data-es="Recepción en la salida de la terminal, vuelo monitoreado, puerta a puerta a tu hotel o Airbnb. One-way o round-trip.">Meet & greet at terminal exit, flight tracked in real-time, door-to-door to your Cozumel hotel or Airbnb. One-way or round-trip.</p>
-        <span class="chooser-arrow" data-en="See airport pricing →" data-es="Ver precios de aeropuerto →">See airport pricing →</span>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== HOW IT WORKS ===== -->
-<section id="how-it-works" class="alt">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="kicker" data-en="How it works" data-es="Cómo funciona">How it works</span>
-      <h2 data-en="Three simple steps." data-es="Tres pasos simples.">Three simple steps.</h2>
-      <p data-en="Built for cruise guests who want a stress-free port day." data-es="Hecho para cruceristas que quieren un día sin estrés.">Built for cruise guests who want a stress-free port day.</p>
-    </div>
-    <div class="steps-grid">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3 data-en="Book your transfer" data-es="Reserva tu traslado">Book your transfer</h3>
-        <p data-en="Pick your destination, a pickup time, and a return time. Confirmation comes instantly by email and WhatsApp." data-es="Elige tu destino, hora de recogida y hora de regreso. Confirmación inmediata por email y WhatsApp.">Pick your destination, a pickup time, and a return time. Confirmation comes instantly by email and WhatsApp.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3 data-en="We meet you at the pier" data-es="Te recibimos en el muelle">We meet you at the pier</h3>
-        <p data-en="Your driver waits at the cruise terminal with a sign showing your name. Bottled water and A/C ready in the van." data-es="Tu chofer te espera en la terminal con un letrero con tu nombre. Agua embotellada y A/C listos en la van.">Your driver waits at the cruise terminal with a sign showing your name. Bottled water and A/C ready in the van.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3 data-en="We return at your scheduled time" data-es="Regresamos a tu hora">We return at your scheduled time</h3>
-        <p data-en="The vehicle drops you off and comes back at the time you picked. You're free to enjoy your day without watching a meter." data-es="El vehículo te deja y regresa a la hora que elegiste. Disfruta tu día sin preocuparte por el tiempo.">The vehicle drops you off and comes back at the time you picked. You're free to enjoy your day without watching a meter.</p>
-      </div>
-    </div>
-    <div class="how-callout">
-      <strong>Important:</strong> the vehicle doesn't stay with you — that's what keeps prices low. Pick a return time that gives you a <strong>90-minute buffer before your ship sails</strong>. We monitor your ship in real-time, so even if your return time is too tight, your driver adjusts.
-    </div>
-    <div class="tracking-proof">
-      <div class="pin">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 21c-1.39 0-2.78-.47-4-1.32-2.44 1.71-5.56 1.71-8 0C6.78 20.53 5.39 21 4 21H2v2h2c1.38 0 2.74-.35 4-.99 2.52 1.29 5.48 1.29 8 0 1.26.65 2.62.99 4 .99h2v-2zM3.95 19h.05c1.6 0 3.02-.88 4-2 .98 1.12 2.4 2 4 2s3.02-.88 4-2c.98 1.12 2.4 2 4 2h.05l1.89-6.68c.08-.26.06-.54-.06-.78s-.34-.42-.6-.5L20 10.62V6c0-1.1-.9-2-2-2h-3V1H9v3H6c-1.1 0-2 .9-2 2v4.62l-1.29.42c-.26.08-.48.26-.6.5s-.15.52-.06.78L3.95 19zM6 6h12v3.97L12 8 6 9.97V6z"/></svg>
-      </div>
-      <div>
-        <strong data-en="We track every ship arriving in Cozumel." data-es="Monitoreamos cada barco que llega a Cozumel.">We track every ship arriving in Cozumel.</strong>
-        <span data-en="Live AIS data from MarineTraffic tells us the moment your ship is delayed, rerouted, or running ahead — so your driver is at the pier the instant you walk off." data-es="Datos AIS en vivo de MarineTraffic nos avisan en cuanto tu barco se retrasa o adelanta — tu chofer está en el muelle el momento que bajas."> Live AIS data from MarineTraffic tells us the moment your ship is delayed, rerouted, or running ahead — so your driver is at the pier the instant you walk off. </span>
-        <a href="https://www.marinetraffic.com/en/ais/home/centerx:-86.94/centery:20.51/zoom:11" target="_blank" rel="noopener" data-en="See live Cozumel ship traffic →" data-es="Ver tráfico de barcos en vivo →">See live Cozumel ship traffic →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== DESTINATIONS ===== -->
-<section id="destinations">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="kicker" data-en="Pickup &amp; drop-off" data-es="Recogida y destino">Pickup &amp; drop-off</span>
-      <h2 data-en="Where do you need to go?" data-es="¿A dónde necesitas ir?">Where do you need to go?</h2>
-      <p data-en="Pickup at the cruise port. Drop-off and pickup at any of these — or tell us where." data-es="Recogida en el puerto de cruceros. Llegada y regreso al destino que elijas — o dinos tú.">Pickup at the cruise port. Drop-off and pickup at any of these — or tell us where.</p>
-    </div>
-    <div class="dest-grid">
-
-      <a href="#vehicles" class="dest dest-featured">
-        <div class="dest-label" data-en="You know where" data-es="Tú sabes dónde">You know where</div>
-        <h3 data-en="Tell us the place and time" data-es="Dinos lugar y hora">Tell us the place and time</h3>
-        <p data-en="Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes." data-es="¿Visitante frecuente? Elige tu vehículo abajo y especifica tu destino al reservar — te enviamos cotización fija en minutos.">Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes.</p>
-        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
-      </a>
-
-      <a href="tierra-maya.html" class="dest dest-tierramaya">
-        <div class="dest-label">Mayan preserve</div>
-        <h3>Tierra Maya</h3>
-        <p data-en="Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port." data-es="Cacao, miel, tortilla y mezcal mayas en nuestra reserva cultural privada. 15 min del puerto.">Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.</p>
-        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
-      </a>
-
-      <a href="mr-sanchos.html" class="dest">
-        <div class="dest-label">Beach club</div>
-        <h3>Mr. Sanchos</h3>
-        <p data-en="All-inclusive food, drinks, beach. 15 min south of port." data-es="Comida, bebida y playa all-inclusive. 15 min al sur del puerto.">All-inclusive food, drinks, beach. 15 min south of port.</p>
-        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
-      </a>
-
-      <a href="chankanaab.html" class="dest">
-        <div class="dest-label">National park</div>
-        <h3>Chankanaab</h3>
-        <p data-en="Snorkel reef, dolphin lagoon, botanical garden. 10 min south." data-es="Arrecife, laguna de delfines, jardín botánico. 10 min al sur.">Snorkel reef, dolphin lagoon, botanical garden. 10 min south.</p>
-        <span class="dest-arrow">View &amp; book →</span>
-      </a>
-
-      <a href="nachi-cocom.html" class="dest">
-        <div class="dest-label">Beach club</div>
-        <h3>Nachi Cocom</h3>
-        <p data-en="Exclusive, 130-guest cap. Quietest beach club. 20 min south." data-es="Exclusivo, tope de 130 personas. El más tranquilo. 20 min al sur.">Exclusive, 130-guest cap. Quietest beach club. 20 min south.</p>
-        <span class="dest-arrow">View &amp; book →</span>
-      </a>
-
-      <a href="paradise-beach.html" class="dest">
-        <div class="dest-label">Beach club</div>
-        <h3>Paradise Beach</h3>
-        <p data-en="Inflatable Aqua Park, all-inclusive option. 15 min south." data-es="Parque acuático inflable, opción all-inclusive. 15 min al sur.">Inflatable Aqua Park, all-inclusive option. 15 min south.</p>
-        <span class="dest-arrow">View &amp; book →</span>
-      </a>
-
-      <a href="bucanos.html" class="dest">
-        <div class="dest-label">Beach club</div>
-        <h3>Buccanos</h3>
-        <p data-en="Quieter, north-side club. 10 min from cruise port." data-es="Más tranquilo, en el norte. 10 min del puerto.">Quieter, north-side club. 10 min from cruise port.</p>
-        <span class="dest-arrow">View &amp; book →</span>
-      </a>
-
-      <a href="san-gervasio.html" class="dest">
-        <div class="dest-label">Cultural site</div>
-        <h3>San Gervasio Ruins</h3>
-        <p data-en="Cozumel&rsquo;s largest Mayan archaeological site. 20 min inland." data-es="El sitio arqueológico maya más grande de Cozumel. 20 min tierra adentro.">Cozumel's largest Mayan archaeological site. 20 min inland.</p>
-        <span class="dest-arrow">View &amp; book →</span>
-      </a>
-
-      <a href="kuza.html" class="dest">
-        <div class="dest-label">Beach club</div>
-        <h3>KUZA</h3>
-        <p data-en="Round-trip transfer from cruise port to KUZA." data-es="Traslado redondo desde el puerto a KUZA.">Round-trip transfer from cruise port to KUZA.</p>
-        <span class="dest-arrow">View &amp; book →</span>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== REVIEWS ===== -->
-<section id="reviews">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="kicker" data-en="What guests say" data-es="Lo que dicen">What guests say</span>
-      <h2 data-en="5★ on TripAdvisor since 2015." data-es="5★ en TripAdvisor desde 2015.">5★ on TripAdvisor since 2015.</h2>
-      <p data-en="18 verified reviews from cruise guests and airport arrivals." data-es="18 reseñas verificadas de cruceristas y viajeros del aeropuerto.">18 verified reviews from cruise guests and airport arrivals.</p>
-    </div>
-    <div class="reviews-grid">
-
-      <article class="review">
-        <div class="review-stars">★★★★★</div>
-        <h3 class="review-title">Great company</h3>
-        <p class="review-body">They communicated well and very fast to respond. We made a last-minute change to our meeting time and they accommodated. It was nice to not have to wait at our resort and have an air-conditioned van waiting for us. Would highly recommend.</p>
-        <div class="review-meta"><strong>Genny</strong> · May 2026 · via TripAdvisor</div>
-      </article>
-
-      <article class="review">
-        <div class="review-stars">★★★★★</div>
-        <h3 class="review-title">Excellent Transfer</h3>
-        <p class="review-body">Wonderful experience. Prompt, easy, friendly, clean, and safe! Would highly recommend if you need transportation for a group. Our driver even came early when we finished a tour earlier than expected.</p>
-        <div class="review-meta"><strong>Meghan G</strong> · Jun 2025 · via TripAdvisor</div>
-      </article>
-
-      <article class="review">
-        <div class="review-stars">★★★★★</div>
-        <h3 class="review-title">Perfect service</h3>
-        <p class="review-body">Cozumel Island Transfers exceeded my expectations with their reliable, punctual, and professional service. The vehicle was clean and well-equipped with amenities, making for an enjoyable ride. I'll certainly use this service again.</p>
-        <div class="review-meta"><strong>Hasna E</strong> · Nov 2023 · via TripAdvisor</div>
-      </article>
-
-    </div>
-    <div class="reviews-footer">
-      <a href="https://www.tripadvisor.com/AttractionProductReview-g150809-d25564410-Cozumel_Island_Transfers-Cozumel_Yucatan_Peninsula.html" target="_blank" rel="noopener" class="ta-badge" data-en="Read all 18 reviews on TripAdvisor →" data-es="Lee las 18 reseñas en TripAdvisor →">Read all 18 reviews on TripAdvisor →</a>
-    </div>
-  </div>
-</section>
-
 <!-- ===== VEHICLES / PRICING ===== -->
-<section id="vehicles" class="alt">
+<section id="vehicles">
   <div class="section-inner">
     <div class="section-head">
       <span class="kicker" data-en="Vehicles" data-es="Vehículos">Vehicles</span>
@@ -1320,8 +1100,171 @@
   </div>
 </section>
 
+<!-- ===== DESTINATIONS ===== -->
+<section id="destinations" class="alt">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker" data-en="Pickup &amp; drop-off" data-es="Recogida y destino">Pickup &amp; drop-off</span>
+      <h2 data-en="Where do you need to go?" data-es="¿A dónde necesitas ir?">Where do you need to go?</h2>
+      <p data-en="Pickup at the cruise port. Drop-off and pickup at any of these — or tell us where." data-es="Recogida en el puerto de cruceros. Llegada y regreso al destino que elijas — o dinos tú.">Pickup at the cruise port. Drop-off and pickup at any of these — or tell us where.</p>
+    </div>
+    <div class="dest-grid">
+
+      <a href="#vehicles" class="dest dest-featured">
+        <div class="dest-label" data-en="You know where" data-es="Tú sabes dónde">You know where</div>
+        <h3 data-en="Tell us the place and time" data-es="Dinos lugar y hora">Tell us the place and time</h3>
+        <p data-en="Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes." data-es="¿Visitante frecuente? Elige tu vehículo abajo y especifica tu destino al reservar — te enviamos cotización fija en minutos.">Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes.</p>
+        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
+      </a>
+
+      <a href="tierra-maya.html" class="dest dest-tierramaya">
+        <div class="dest-label">Mayan preserve</div>
+        <h3>Tierra Maya</h3>
+        <p data-en="Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port." data-es="Cacao, miel, tortilla y mezcal mayas en nuestra reserva cultural privada. 15 min del puerto.">Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.</p>
+        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
+      </a>
+
+      <a href="mr-sanchos.html" class="dest">
+        <div class="dest-label">Beach club</div>
+        <h3>Mr. Sanchos</h3>
+        <p data-en="All-inclusive food, drinks, beach. 15 min south of port." data-es="Comida, bebida y playa all-inclusive. 15 min al sur del puerto.">All-inclusive food, drinks, beach. 15 min south of port.</p>
+        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
+      </a>
+
+      <a href="chankanaab.html" class="dest">
+        <div class="dest-label">National park</div>
+        <h3>Chankanaab</h3>
+        <p data-en="Snorkel reef, dolphin lagoon, botanical garden. 10 min south." data-es="Arrecife, laguna de delfines, jardín botánico. 10 min al sur.">Snorkel reef, dolphin lagoon, botanical garden. 10 min south.</p>
+        <span class="dest-arrow">View &amp; book →</span>
+      </a>
+
+      <a href="nachi-cocom.html" class="dest">
+        <div class="dest-label">Beach club</div>
+        <h3>Nachi Cocom</h3>
+        <p data-en="Exclusive, 130-guest cap. Quietest beach club. 20 min south." data-es="Exclusivo, tope de 130 personas. El más tranquilo. 20 min al sur.">Exclusive, 130-guest cap. Quietest beach club. 20 min south.</p>
+        <span class="dest-arrow">View &amp; book →</span>
+      </a>
+
+      <a href="paradise-beach.html" class="dest">
+        <div class="dest-label">Beach club</div>
+        <h3>Paradise Beach</h3>
+        <p data-en="Inflatable Aqua Park, all-inclusive option. 15 min south." data-es="Parque acuático inflable, opción all-inclusive. 15 min al sur.">Inflatable Aqua Park, all-inclusive option. 15 min south.</p>
+        <span class="dest-arrow">View &amp; book →</span>
+      </a>
+
+      <a href="bucanos.html" class="dest">
+        <div class="dest-label">Beach club</div>
+        <h3>Buccanos</h3>
+        <p data-en="Quieter, north-side club. 10 min from cruise port." data-es="Más tranquilo, en el norte. 10 min del puerto.">Quieter, north-side club. 10 min from cruise port.</p>
+        <span class="dest-arrow">View &amp; book →</span>
+      </a>
+
+      <a href="san-gervasio.html" class="dest">
+        <div class="dest-label">Cultural site</div>
+        <h3>San Gervasio Ruins</h3>
+        <p data-en="Cozumel&rsquo;s largest Mayan archaeological site. 20 min inland." data-es="El sitio arqueológico maya más grande de Cozumel. 20 min tierra adentro.">Cozumel's largest Mayan archaeological site. 20 min inland.</p>
+        <span class="dest-arrow">View &amp; book →</span>
+      </a>
+
+      <a href="kuza.html" class="dest">
+        <div class="dest-label">Beach club</div>
+        <h3>KUZA</h3>
+        <p data-en="Round-trip transfer from cruise port to KUZA." data-es="Traslado redondo desde el puerto a KUZA.">Round-trip transfer from cruise port to KUZA.</p>
+        <span class="dest-arrow">View &amp; book →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how-it-works">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker" data-en="How it works" data-es="Cómo funciona">How it works</span>
+      <h2 data-en="Three simple steps." data-es="Tres pasos simples.">Three simple steps.</h2>
+      <p data-en="Built for cruise guests who want a stress-free port day." data-es="Hecho para cruceristas que quieren un día sin estrés.">Built for cruise guests who want a stress-free port day.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 data-en="Book your transfer" data-es="Reserva tu traslado">Book your transfer</h3>
+        <p data-en="Pick your destination, a pickup time, and a return time. Confirmation comes instantly by email and WhatsApp." data-es="Elige tu destino, hora de recogida y hora de regreso. Confirmación inmediata por email y WhatsApp.">Pick your destination, a pickup time, and a return time. Confirmation comes instantly by email and WhatsApp.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 data-en="We meet you at the pier" data-es="Te recibimos en el muelle">We meet you at the pier</h3>
+        <p data-en="Your driver waits at the cruise terminal with a sign showing your name. Bottled water and A/C ready in the van." data-es="Tu chofer te espera en la terminal con un letrero con tu nombre. Agua embotellada y A/C listos en la van.">Your driver waits at the cruise terminal with a sign showing your name. Bottled water and A/C ready in the van.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 data-en="We return at your scheduled time" data-es="Regresamos a tu hora">We return at your scheduled time</h3>
+        <p data-en="The vehicle drops you off and comes back at the time you picked. You're free to enjoy your day without watching a meter." data-es="El vehículo te deja y regresa a la hora que elegiste. Disfruta tu día sin preocuparte por el tiempo.">The vehicle drops you off and comes back at the time you picked. You're free to enjoy your day without watching a meter.</p>
+      </div>
+    </div>
+    <div class="how-callout">
+      <strong>Important:</strong> the vehicle doesn't stay with you — that's what keeps prices low. Pick a return time that gives you a <strong>90-minute buffer before your ship sails</strong>. We monitor your ship in real-time, so even if your return time is too tight, your driver adjusts.
+    </div>
+    <div class="tracking-proof">
+      <div class="pin">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 21c-1.39 0-2.78-.47-4-1.32-2.44 1.71-5.56 1.71-8 0C6.78 20.53 5.39 21 4 21H2v2h2c1.38 0 2.74-.35 4-.99 2.52 1.29 5.48 1.29 8 0 1.26.65 2.62.99 4 .99h2v-2zM3.95 19h.05c1.6 0 3.02-.88 4-2 .98 1.12 2.4 2 4 2s3.02-.88 4-2c.98 1.12 2.4 2 4 2h.05l1.89-6.68c.08-.26.06-.54-.06-.78s-.34-.42-.6-.5L20 10.62V6c0-1.1-.9-2-2-2h-3V1H9v3H6c-1.1 0-2 .9-2 2v4.62l-1.29.42c-.26.08-.48.26-.6.5s-.15.52-.06.78L3.95 19zM6 6h12v3.97L12 8 6 9.97V6z"/></svg>
+      </div>
+      <div>
+        <strong data-en="We track every ship arriving in Cozumel." data-es="Monitoreamos cada barco que llega a Cozumel.">We track every ship arriving in Cozumel.</strong>
+        <span data-en="Live AIS data from MarineTraffic tells us the moment your ship is delayed, rerouted, or running ahead — so your driver is at the pier the instant you walk off." data-es="Datos AIS en vivo de MarineTraffic nos avisan en cuanto tu barco se retrasa o adelanta — tu chofer está en el muelle el momento que bajas."> Live AIS data from MarineTraffic tells us the moment your ship is delayed, rerouted, or running ahead — so your driver is at the pier the instant you walk off. </span>
+        <a href="https://www.marinetraffic.com/en/ais/home/centerx:-86.94/centery:20.51/zoom:11" target="_blank" rel="noopener" data-en="See live Cozumel ship traffic →" data-es="Ver tráfico de barcos en vivo →">See live Cozumel ship traffic →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section id="reviews" class="alt">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker" data-en="What guests say" data-es="Lo que dicen">What guests say</span>
+      <h2 data-en="5★ on TripAdvisor since 2015." data-es="5★ en TripAdvisor desde 2015.">5★ on TripAdvisor since 2015.</h2>
+      <p data-en="18 verified reviews from cruise guests and airport arrivals." data-es="18 reseñas verificadas de cruceristas y viajeros del aeropuerto.">18 verified reviews from cruise guests and airport arrivals.</p>
+    </div>
+    <div class="reviews-grid">
+
+      <article class="review">
+        <div class="review-stars">★★★★★</div>
+        <h3 class="review-title">Great company</h3>
+        <p class="review-body">They communicated well and very fast to respond. We made a last-minute change to our meeting time and they accommodated. It was nice to not have to wait at our resort and have an air-conditioned van waiting for us. Would highly recommend.</p>
+        <div class="review-meta"><strong>Genny</strong> · May 2026 · via TripAdvisor</div>
+      </article>
+
+      <article class="review">
+        <div class="review-stars">★★★★★</div>
+        <h3 class="review-title">Excellent Transfer</h3>
+        <p class="review-body">Wonderful experience. Prompt, easy, friendly, clean, and safe! Would highly recommend if you need transportation for a group. Our driver even came early when we finished a tour earlier than expected.</p>
+        <div class="review-meta"><strong>Meghan G</strong> · Jun 2025 · via TripAdvisor</div>
+      </article>
+
+      <article class="review">
+        <div class="review-stars">★★★★★</div>
+        <h3 class="review-title">Perfect service</h3>
+        <p class="review-body">Cozumel Island Transfers exceeded my expectations with their reliable, punctual, and professional service. The vehicle was clean and well-equipped with amenities, making for an enjoyable ride. I'll certainly use this service again.</p>
+        <div class="review-meta"><strong>Hasna E</strong> · Nov 2023 · via TripAdvisor</div>
+      </article>
+
+    </div>
+    <div class="reviews-footer">
+      <a href="https://www.tripadvisor.com/AttractionProductReview-g150809-d25564410-Cozumel_Island_Transfers-Cozumel_Yucatan_Peninsula.html" target="_blank" rel="noopener" class="ta-badge" data-en="Read all 18 reviews on TripAdvisor →" data-es="Lee las 18 reseñas en TripAdvisor →">Read all 18 reviews on TripAdvisor →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AIRPORT INLINE LINK ===== -->
+<div class="airport-link">
+  <a href="airport-transfers.html" data-en="✈ Flying into CZM airport instead? See <strong>airport transfers</strong> →" data-es="✈ ¿Vuelas al aeropuerto en lugar del crucero? Ver <strong>traslados al aeropuerto</strong> →">
+    ✈ Flying into CZM airport instead? See <strong>airport transfers</strong> →
+  </a>
+</div>
+
 <!-- ===== FAQ — asymmetric editorial layout ===== -->
-<section id="faq" class="alt">
+<section id="faq">
   <div class="faq-grid">
 
     <aside class="faq-side">
@@ -1489,6 +1432,7 @@
             <label for="mDestination">Destination</label>
             <select id="mDestination" name="destination" required>
               <option value="">Pick one…</option>
+              <option>Tierra Maya (Mayan preserve)</option>
               <option>Mr. Sanchos</option>
               <option>Chankanaab</option>
               <option>Nachi Cocom</option>
