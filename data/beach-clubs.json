@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "note": "Single source of truth for destination landing pages. Pricing is UNIVERSAL across all destinations (per Mike — flat capacity-based pricing for any round-trip transfer on the island). Add or edit a destination here and re-run `node scripts/build.js` to regenerate the static HTML pages.",
+    "note": "Single source of truth for destination landing pages. Pricing is UNIVERSAL across all destinations (per Mike — flat capacity-based pricing for any round-trip transfer on the island). Content for each destination is sourced from the official venue website (2026-05-24). Add or edit a destination here and re-run `node scripts/build.js` to regenerate the static HTML pages.",
     "lastUpdated": "2026-05-24",
     "fieldsNeedingMikeInput": [
       "tripadvisorUrl (Mike to share)",
-      "Photo for each destination (assets/destinations/<slug>.jpg)",
-      "KUZA full details (Mike to confirm distance, drive time, real description)"
+      "Mr. Sanchos: official site blocked WebFetch (403). Content kept generic; Mike to verify or paste real description.",
+      "Nachi Cocom: official site returned limited info; description/FAQs partly inferred."
     ]
   },
   "pricing": [
@@ -16,26 +16,49 @@
   ],
   "destinations": [
     {
+      "slug": "tierra-maya",
+      "name": "Tierra Maya",
+      "shortName": "Tierra Maya",
+      "type": "cultural-preserve",
+      "typeLabel": "Cultural Preserve · Ours",
+      "tagline": "Hands-on Mayan cacao, honey, tortilla, and mezcal in a private cultural preserve — 15 minutes from the cruise port.",
+      "metaDescription": "Round-trip transfer from Cozumel cruise port to Tierra Maya — a private Mayan cultural preserve. Cacao grinding, stingless bee honey tasting, tortilla pressing, and tequila workshops. 15 minutes from port.",
+      "description": "Tierra Maya is a private cultural preserve where guests grind cacao on volcanic stone, press fresh tortillas over open fire, meet the sacred Melipona stingless bees, and taste artisanal tequila and liqueur — all using centuries-old Mayan techniques. Guides adapt the pace to your group rather than rushing through a scripted tour. Three experience tiers (Honey & Chocolate $45, Sacred Roots $70, Living Traditions $80 per person) plus a private full-island option. About 15 minutes from the cruise port.",
+      "distanceFromPort": "15 minutes from cruise port",
+      "driveTime": "15 min",
+      "transferOnly": false,
+      "bundleAvailable": true,
+      "bundleNote": "Bundle: round-trip transfer + Tierra Maya experience. Three tiers: Honey & Chocolate (2 stations, ~1 hr, $45/pax), Sacred Roots (3 stations, ~1.5 hr, $70/pax), Living Traditions (all 4 stations, ~2 hr, $80/pax). Kids under 12 free.",
+      "heroImage": "https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg",
+      "heroAlt": "Mayan cacao and Tierra Maya cultural experience",
+      "faqs": [
+        { "q": "What's the full experience like?", "a": "Living Traditions covers all 4 stations in about 2 hours: ceremonial cacao grinding on volcanic stone, the Zik'il P'aak salsa and tortilla workshop, a visit to the sacred Melipona stingless bees with honey tasting, and an artisanal tequila and liqueur tasting." },
+        { "q": "Are children welcome?", "a": "Yes — children under 12 attend free and receive non-alcoholic juice pairings at the tequila station." },
+        { "q": "How long total with the transfer?", "a": "Plan on about 3 hours door-to-door: 15 min ride from the port, ~2 hours at Tierra Maya, 15 min back. Easily fits within a 5–6 hour port day with time left for downtown or the beach." },
+        { "q": "Is this owned by the same company as the transfers?", "a": "Yes — Tierra Maya is a Visit Cozumel / Cozumel Island Transfers venue. You're booking direct, not through a reseller, so the price you see is what you pay." }
+      ]
+    },
+    {
       "slug": "mr-sanchos",
       "name": "Mr. Sanchos Beach Club",
       "shortName": "Mr. Sanchos",
       "type": "beach-club",
       "typeLabel": "Beach Club",
-      "tagline": "All-inclusive food, drinks, and beach access — 15 minutes from the cruise port.",
-      "heroImage": "https://images.unsplash.com/photo-1579493933703-70473cdf84f8?w=1500&q=80&auto=format&fit=crop",
-      "heroAlt": "Caribbean beach with palm trees",
+      "tagline": "All-inclusive food, drinks, and beach access — 15 minutes south of the cruise port.",
       "metaDescription": "Private round-trip transfer from the Cozumel cruise port to Mr. Sanchos Beach Club. Real-time ship tracking, return-on-time refund. Vans for 1–40 guests.",
-      "description": "Mr. Sanchos is one of Cozumel's most popular all-inclusive beach clubs, on the southwest coast about 7 miles south of the cruise terminals. Day pass includes unlimited food, drinks, beach chairs, pool, and kayaks. Our driver waits for you with bottled water and brings you back to the ship with a 90-minute buffer before sailing.",
+      "description": "Mr. Sanchos is one of Cozumel's most popular all-inclusive beach clubs, on the southwest coast about 7 miles south of the cruise terminals. The day pass includes unlimited food and drinks, beach chairs, pool access, kayaks, and snorkel gear. Massages and watersports are paid extras. Our driver waits for you with bottled water and brings you back to the ship with a 90-minute buffer before sailing.",
       "distanceFromPort": "7 miles south of cruise port",
       "driveTime": "15–20 min",
       "transferOnly": false,
       "bundleAvailable": true,
-      "bundleNote": "Bundle: round-trip transfer + Mr. Sanchos all-inclusive day pass at a partner rate. Pricing TBD pending agreement.",
+      "bundleNote": "Bundle: round-trip transfer + Mr. Sanchos all-inclusive day pass at a partner rate. Final pricing TBD pending agreement.",
+      "heroImage": "https://images.unsplash.com/photo-1579493933703-70473cdf84f8?w=1500&q=80&auto=format&fit=crop",
+      "heroAlt": "Caribbean beach with palm trees",
       "faqs": [
-        { "q": "Do I need a reservation at Mr. Sanchos?", "a": "Mr. Sanchos accepts walk-ins but cruise days fill fast. Booking your day pass in advance is recommended for Tuesday–Thursday port calls when multiple ships are docked." },
+        { "q": "Do I need a reservation at Mr. Sanchos?", "a": "Mr. Sanchos accepts walk-ins but cruise days fill fast — booking your day pass ahead is recommended on Tuesday–Thursday port calls when multiple ships are docked." },
         { "q": "What is included with the day pass?", "a": "Unlimited food and drinks, beach chairs, pool access, kayaks, and snorkel gear. Massages, watersports, and shopping are paid extras." },
-        { "q": "How early do you pick me up before sailing?", "a": "We pick you up at Mr. Sanchos with a 90-minute buffer before your ship's all-aboard time. This includes return drive + boarding line buffer." },
-        { "q": "What if my ship arrives late to Cozumel?", "a": "We track every cruise ship in real-time via marinetraffic.com. Your driver will be waiting at the pier whenever you actually disembark, no rescheduling needed." }
+        { "q": "How early do you pick me up before sailing?", "a": "We pick you up at Mr. Sanchos with a 90-minute buffer before your ship's all-aboard time — that's return drive plus boarding-line buffer." },
+        { "q": "What if my ship arrives late to Cozumel?", "a": "We track every cruise ship in real-time. Your driver is at the pier whenever you actually disembark — no rescheduling needed." }
       ]
     },
     {
@@ -43,21 +66,22 @@
       "name": "Chankanaab National Park",
       "shortName": "Chankanaab",
       "type": "park",
-      "typeLabel": "National Park",
-      "tagline": "Snorkeling reef, dolphin lagoon, and botanical gardens — Cozumel's premier eco-park.",
-      "heroImage": "https://images.unsplash.com/photo-1560364897-472befdd3d1c?w=1500&q=80&auto=format&fit=crop",
-      "heroAlt": "Stingray gliding through Caribbean water",
-      "metaDescription": "Private round-trip transfer from the Cozumel cruise port to Chankanaab Park. Snorkeling, dolphins, beach. Vans for 1–40 guests.",
-      "description": "Chankanaab is Cozumel's national marine park, about 5 miles south of the cruise port. It combines a protected snorkeling reef, a dolphin and sea lion lagoon, botanical gardens, replica Mayan ruins, and a small beach. Park entry is separate from the transfer. We drop you at the gate and pick you up at your scheduled return time.",
+      "typeLabel": "National Marine Park",
+      "tagline": "Snorkeling reef, dolphin encounters, and botanical gardens inside Cozumel's National Marine Reef Park — 10 minutes south of the port.",
+      "metaDescription": "Round-trip transfer from the Cozumel cruise port to Chankanaab National Park. Snorkel reef, dolphin lagoon, beach, tequila experience. Vans for 1–40 guests.",
+      "description": "Chankanaab sits inside Cozumel's National Reef Marine Park, about 5 miles south of the cruise port. The day combines a protected snorkeling reef, a dolphin and sea lion lagoon, botanical gardens, replica Mayan ruins, underwater statues, a small beach, and a tequila experience. Park entry covers the basics (chairs, hammocks, life vests, bathrooms, showers); activities like scuba ($45–65), Sea Trek ($84), and dolphin encounters ($109) are paid extras. Three oceanview restaurants on site.",
       "distanceFromPort": "5 miles south of cruise port",
       "driveTime": "10–15 min",
       "transferOnly": false,
       "bundleAvailable": true,
-      "bundleNote": "Bundle: round-trip transfer + Chankanaab Park entry. Park entry pricing TBD pending agreement.",
+      "bundleNote": "Bundle: round-trip transfer + Chankanaab Park entry (Adult $31 / Child 4–12 $22 / Under 3 free). Pricing TBD pending B2B agreement.",
+      "heroImage": "https://cozumelparks.com/wp-content/uploads/2021/04/Chankanaab-2021.png",
+      "heroAlt": "Chankanaab National Park beach and reef",
       "faqs": [
-        { "q": "Is snorkel gear included?", "a": "Park entry includes basic snorkel gear rental. Bring your own if you prefer a custom fit, or rent prescription masks at the on-site dive shop." },
-        { "q": "Can I do the dolphin experience same day?", "a": "Dolphin interactions are bookable directly with the park (Dolphin Discovery). Many time slots sell out — book before your cruise day." },
-        { "q": "How long should I plan for Chankanaab?", "a": "Most cruise guests spend 3–4 hours at Chankanaab. You can comfortably combine it with downtown shopping if you book a later pickup." }
+        { "q": "What's included with park entry?", "a": "Parking, bathrooms, showers, dressing rooms, hammocks, beach chairs, life vests, the underwater statues, the inlet swimming area, Mayan replicas, tropical gardens, and the tequila experience. Snorkel rental is $15, scuba is $45–65, Sea Trek is $84, dolphin encounters from $109." },
+        { "q": "Hours?", "a": "Monday to Saturday, 8 AM to 4 PM. Closed Sundays." },
+        { "q": "How long should I plan for Chankanaab?", "a": "Most cruise guests spend 3–4 hours. Comfortably combines with downtown shopping if you book a later pickup." },
+        { "q": "Can I do the dolphin experience the same day?", "a": "Dolphin interactions sell out — book directly with the park ahead of your cruise day." }
       ]
     },
     {
@@ -66,20 +90,20 @@
       "shortName": "Nachi Cocom",
       "type": "beach-club",
       "typeLabel": "Beach Club",
-      "tagline": "Cozumel's quietest all-inclusive — capped at 130 guests per day.",
-      "heroImage": "https://images.unsplash.com/photo-1554635105-a9e562cf7113?w=1500&q=80&auto=format&fit=crop",
-      "heroAlt": "Cozumel coastline at sunset",
-      "metaDescription": "Private round-trip transfer from the Cozumel cruise port to Nachi Cocom. Real-time ship tracking. Vans for 1–40 guests.",
-      "description": "Nachi Cocom is Cozumel's most exclusive beach club, capping admission at 130 guests per day to keep the experience quiet and uncrowded. Located about 9 miles south of the cruise port, the drive takes 20–25 minutes. We provide the transfer only — purchase your day pass directly through Nachi Cocom in advance to guarantee entry.",
+      "tagline": "Cozumel's quietest all-inclusive — open bar and 4-course lunch in a 130-guest-cap retreat.",
+      "metaDescription": "Round-trip transfer from the Cozumel cruise port to Nachi Cocom. Quietest all-inclusive beach club on the island. Vans for 1–40 guests.",
+      "description": "Nachi Cocom is Cozumel's most exclusive beach club — a 130-guest daily cap keeps it serene even on multi-ship days. The all-inclusive day pass covers open bar, a 4-course lunch, and full beach club amenities. Located about 9 miles south of the cruise port (20–25 minutes). We provide the transfer only; purchase your day pass directly through Nachi Cocom in advance to guarantee entry.",
       "distanceFromPort": "9 miles south of cruise port",
       "driveTime": "20–25 min",
       "transferOnly": true,
-      "transferOnlyReason": "Nachi Cocom asks guests to arrange transfers directly; we provide round-trip transfer only and recommend you book your day pass through Nachi Cocom's own site.",
+      "transferOnlyReason": "Nachi Cocom asks guests to arrange transfers directly; we provide round-trip transfer only and recommend booking your day pass through Nachi Cocom's own site.",
       "bundleAvailable": false,
+      "heroImage": "https://images.unsplash.com/photo-1554635105-a9e562cf7113?w=1500&q=80&auto=format&fit=crop",
+      "heroAlt": "Cozumel coastline at sunset",
       "faqs": [
         { "q": "Do I need to book Nachi Cocom in advance?", "a": "Yes — Nachi Cocom caps admission at 130 guests/day and often sells out 2–3 weeks ahead, especially on Tuesday–Thursday port days. Book your day pass on cozumelnachicocom.com before your cruise." },
-        { "q": "Is Nachi Cocom adults-only?", "a": "No, but the atmosphere is intentionally quiet and skews toward couples and small groups looking to avoid waterpark-style beach clubs." },
-        { "q": "What time should you pick me up from the cruise port?", "a": "We recommend pickup at the port within 30 minutes of your ship's actual arrival to maximize beach time. Our drivers monitor your ship's arrival in real-time." }
+        { "q": "What's in the day pass?", "a": "Open bar service, a 4-course lunch, and access to all beach club amenities. Some activities are available for an additional fee." },
+        { "q": "When should you pick me up from the cruise port?", "a": "We recommend pickup at the port within 30 minutes of your ship's actual arrival to maximize beach time. Our drivers monitor your ship's arrival in real-time." }
       ]
     },
     {
@@ -88,20 +112,21 @@
       "shortName": "Paradise Beach",
       "type": "beach-club",
       "typeLabel": "Beach Club",
-      "tagline": "All-inclusive beach club with inflatable water park — popular with families and repeat cruisers.",
-      "heroImage": "https://images.unsplash.com/photo-1560424729-e7519277b60d?w=1500&q=80&auto=format&fit=crop",
-      "heroAlt": "Caribbean beach scene with boats",
-      "metaDescription": "Private round-trip transfer from the Cozumel cruise port to Paradise Beach. Vans for 1–40 guests.",
-      "description": "Paradise Beach Cozumel is an all-inclusive beach club about 7 miles south of the cruise port, known for its large inflatable water park (the Aqua Park), pool, swim-up bar, and food spread. Drive is 15 minutes. Day pass available at the gate or pre-purchased.",
+      "tagline": "All-inclusive beach club with Cozumel's largest heated pool, taco truck, and Fun Pass water toys.",
+      "metaDescription": "Round-trip transfer from the Cozumel cruise port to Paradise Beach. Largest heated pool on the island, Fun Pass water park, all-inclusive option. Vans for 1–40.",
+      "description": "Paradise Beach Cozumel is a family-friendly all-inclusive beach club about 7 miles south of the cruise port (~15 min drive). The standout is the island's largest heated pool, plus a swim-up bar, multiple dining venues including a taco truck, and the Fun Pass — kayaks, paddleboards, snorkel gear, life jackets, and water slides. Two pricing options: $15 entry plus a $10/person food-and-drink minimum (à la carte), or the All-Inclusive Package (book day-bed reservations early — they sell out). Open 8 AM to 5 PM.",
       "distanceFromPort": "7 miles south of cruise port",
       "driveTime": "15 min",
       "transferOnly": false,
       "bundleAvailable": true,
-      "bundleNote": "Bundle: round-trip transfer + Paradise Beach all-inclusive day pass at a partner rate. Pricing TBD pending agreement.",
+      "bundleNote": "Bundle: round-trip transfer + Paradise Beach Fun Pass ($18) or all-inclusive day pass. Pricing TBD pending agreement.",
+      "heroImage": "https://images.unsplash.com/photo-1560424729-e7519277b60d?w=1500&q=80&auto=format&fit=crop",
+      "heroAlt": "Caribbean beach scene with boats",
       "faqs": [
-        { "q": "Is the Aqua Park included with the day pass?", "a": "Paradise Beach charges separately for Aqua Park access. Check at the gate or pre-purchase to bundle with your day pass." },
-        { "q": "Can I just pay for a beach lounger and order food à la carte?", "a": "Yes — Paradise Beach offers both all-inclusive day passes and lounger-only entry with menu pricing for food and drinks." },
-        { "q": "How crowded does Paradise Beach get on multi-ship days?", "a": "It's one of the busier beach clubs on 4-ship days. If quiet matters more than the Aqua Park, consider Nachi Cocom." }
+        { "q": "What's the Fun Pass?", "a": "$18/person — gets you water slides, kayaks, stand-up paddle boards, snorkel gear, and life jackets for the day. Add to your day pass." },
+        { "q": "Can I just pay an entry fee and order food à la carte?", "a": "Yes — $15 entry plus a $10/person minimum spend on food/drinks. The All-Inclusive Package is the alternative if you want everything covered." },
+        { "q": "Are day beds available?", "a": "Day beds require an All-Inclusive reservation and availability is limited — book early, especially on multi-ship days." },
+        { "q": "Hours?", "a": "Open 8 AM to 5 PM daily." }
       ]
     },
     {
@@ -109,21 +134,21 @@
       "name": "Buccanos at Duna",
       "shortName": "Buccanos",
       "type": "beach-club",
-      "typeLabel": "Beach Club",
-      "tagline": "Quieter, north-side beach club — round-trip transfer only.",
-      "heroImage": "https://images.unsplash.com/photo-1566085239414-0ef5a4745dde?w=1500&q=80&auto=format&fit=crop",
-      "heroAlt": "Aerial view of Cozumel tropical landscape",
-      "metaDescription": "Private round-trip transfer from the Cozumel cruise port to Buccanos at Duna. Vans for 1–40 guests.",
-      "description": "Buccanos at Duna sits on the north end of Cozumel, away from the cruise-day crowds of the southern beach strip. Roughly 4 miles north of the cruise port (10-minute drive). We provide round-trip transfer only — you purchase food and drinks directly at the venue.",
+      "typeLabel": "Beach Club · Wine Bar",
+      "tagline": "Quieter north-side beach club and wine bar — 10 minutes from the cruise port.",
+      "metaDescription": "Round-trip transfer from the Cozumel cruise port to Buccanos at Duna. North-side beach club + wine bar, calmer alternative to southern crowds. Vans for 1–40.",
+      "description": "Buccanos at Duna sits on the north end of Cozumel, away from the cruise-day crowds of the southern beach strip. About 4 miles north of the cruise port (10-minute drive). The venue operates as both a beach club by day and a wine bar with nighttime entertainment — calmer water on the north side, full food and drink service, and a kid-friendly atmosphere. We provide round-trip transfer only; food, drinks, and amenities are paid directly at Buccanos.",
       "distanceFromPort": "4 miles north of cruise port",
       "driveTime": "10 min",
       "transferOnly": true,
-      "transferOnlyReason": "Round-trip transfer service only; food, drinks, and beach access paid directly at Buccanos.",
+      "transferOnlyReason": "Round-trip transfer only; food, drinks, and beach access paid directly at Buccanos (no day-pass model — order à la carte from their menu).",
       "bundleAvailable": false,
+      "heroImage": "https://static.wixstatic.com/media/39776a_75740fb5aa854ce8ab0f8f5c67065fa5f000.jpg",
+      "heroAlt": "Buccanos beach club on Cozumel's north side",
       "faqs": [
-        { "q": "Why is Buccanos a good alternative to the southern beach clubs?", "a": "It's closer to the cruise port (north side, 4 miles vs 7–9 miles south) and quieter on busy multi-ship days." },
-        { "q": "Is Buccanos kid-friendly?", "a": "Yes — calmer water on the north side and less of a party atmosphere than southern clubs. Good for families with younger kids." },
-        { "q": "Will my ship's all-aboard still work?", "a": "Yes — the shorter drive gives us extra buffer time. Our drivers monitor your ship's all-aboard time and pick you up with at least 60 minutes safety margin." }
+        { "q": "Why is Buccanos a good alternative to the southern beach clubs?", "a": "Closer to the cruise port (north side, 4 miles vs 7–9 miles south), calmer water, and noticeably less crowded on multi-ship days." },
+        { "q": "Is Buccanos kid-friendly?", "a": "Yes — calmer water and a less party-oriented atmosphere than southern beach clubs. Good for families with younger kids." },
+        { "q": "Do I need to pre-book?", "a": "No — order from their menu when you arrive. We bring you there and pick you up at your scheduled return time." }
       ]
     },
     {
@@ -131,42 +156,44 @@
       "name": "San Gervasio Mayan Ruins",
       "shortName": "San Gervasio",
       "type": "cultural-site",
-      "typeLabel": "Cultural Site",
-      "tagline": "Cozumel's most important Mayan archaeological site — 20 minutes inland from the cruise port.",
-      "heroImage": "https://images.unsplash.com/photo-1484506025411-cb25bd1cf586?w=1500&q=80&auto=format&fit=crop",
-      "heroAlt": "Thatch parasol near Mayan ruins on island",
-      "metaDescription": "Private round-trip transfer from the Cozumel cruise port to San Gervasio Mayan Ruins. Optional entry bundle. Vans for 1–40 guests.",
-      "description": "San Gervasio is the largest pre-Columbian Mayan site on Cozumel, dedicated to the goddess Ixchel. Roughly 9 miles inland from the cruise port (20–25 minute drive). Entry fee paid at the site (or bundle it with your transfer). Most cruise guests spend 1.5–2 hours on site. Pairs well with a beach stop afterward.",
+      "typeLabel": "Mayan Archaeological Site",
+      "tagline": "Sanctuary to the goddess Ixchel — Cozumel's most important pre-Hispanic archaeological site.",
+      "metaDescription": "Round-trip transfer from the Cozumel cruise port to San Gervasio Mayan ruins. Most important Mayan site on the island, ~20 min inland. Vans for 1–40.",
+      "description": "San Gervasio is the most important and well-studied pre-Hispanic archaeological site on Cozumel — a sacred Maya pilgrimage center dedicated to the goddess Ixchel. Six architectural complexes plus isolated temples connected by a network of white roads called sacbés. About 9 miles inland from the cruise port (20–25 minute drive). Entry is $231 MXN (~$13 USD), payable at the ticket office. Open 8 AM to 4 PM, every day. Snack bar, restrooms, parking, and souvenir stores on site; guide services available for an extra fee.",
       "distanceFromPort": "9 miles inland from cruise port",
       "driveTime": "20–25 min",
       "transferOnly": false,
       "bundleAvailable": true,
-      "bundleNote": "Bundle: round-trip transfer + San Gervasio site entry. Pricing TBD pending agreement.",
+      "bundleNote": "Bundle: round-trip transfer + San Gervasio site entry ($231 MXN / ~$13 USD). Optional guide service at the site is paid in cash.",
+      "heroImage": "https://cozumelparks.com/wp-content/uploads/2021/04/San-Gervasio-2021.png",
+      "heroAlt": "San Gervasio Mayan archaeological site",
       "faqs": [
-        { "q": "How long should I plan for San Gervasio?", "a": "Most visitors spend 1.5–2 hours walking the site. Bring sunscreen, water, and insect repellent — much of it is in the open jungle." },
-        { "q": "Is a guide included?", "a": "Guides are available at the entrance for a small additional fee (paid in cash at the site). Self-guided is also fine with the posted information signs in English and Spanish." },
-        { "q": "Can I combine San Gervasio with a beach club?", "a": "Yes — popular combos are San Gervasio (morning) + Mr. Sanchos or Paradise Beach (afternoon). Message us on WhatsApp to build a custom multi-stop day." }
+        { "q": "What was San Gervasio?", "a": "A sacred Maya pilgrimage center dedicated to Ixchel, goddess of fertility and the moon. Six architectural complexes connected by white roads called sacbés, dating back over a thousand years." },
+        { "q": "How long should I plan for San Gervasio?", "a": "Most visitors spend 1.5–2 hours walking the site. Bring sunscreen, water, and insect repellent — much of it is in open jungle. Snack bar and bathrooms on site." },
+        { "q": "Is a guide included?", "a": "No — guides are paid in cash at the site entrance. Self-guided is fine too, with English-and-Spanish info signs at each ruin." },
+        { "q": "Can I combine San Gervasio with a beach club?", "a": "Yes — popular combo: San Gervasio (morning) + Mr. Sanchos or Paradise Beach (afternoon). WhatsApp us to build a custom multi-stop day." }
       ]
     },
     {
       "slug": "kuza",
-      "name": "KUZA",
-      "shortName": "KUZA",
-      "type": "beach-club",
-      "typeLabel": "Beach Club",
-      "tagline": "Cozumel beach club — round-trip transfer from the cruise port.",
-      "heroImage": "https://images.unsplash.com/photo-1647222797756-1f2fc7b0f728?w=1500&q=80&auto=format&fit=crop",
-      "heroAlt": "Colorful Cozumel street scene",
-      "metaDescription": "Private round-trip transfer from the Cozumel cruise port to KUZA. Vans for 1–40 guests.",
-      "description": "[PLACEHOLDER — Mike to confirm: KUZA description, distance from cruise port, drive time, what's included with the venue, kid-friendliness, all-inclusive vs à la carte.]",
-      "distanceFromPort": "TBD — Mike to confirm",
+      "name": "KUZÁ Park",
+      "shortName": "KUZÁ",
+      "type": "park",
+      "typeLabel": "Theme Park · Beach",
+      "tagline": "Cozumel's first and only theme park — beach, water slides, zipline, snorkeling, and the El Cielo reef tour.",
+      "metaDescription": "Round-trip transfer from the Cozumel cruise port to KUZÁ Park. Beach + adventure park: water slides, zipline, snorkel, El Cielo reef. Vans for 1–40.",
+      "description": "KUZÁ is Cozumel's first and only theme park — a hybrid of Caribbean beach and adventure park with water slides, zipline circuits, jungle activities, snorkeling, kayaks, and paddleboards. Day pass packages start at $45 USD (regularly $49) and scale up to $135 with full activity inclusions, lunch buffet, and unlimited domestic drinks. Open Monday–Friday 9 AM to 5 PM, Saturday–Sunday 9 AM to 4 PM (Sundays subject to availability).",
+      "distanceFromPort": "Mike to confirm exact distance / drive time",
       "driveTime": "TBD",
       "transferOnly": false,
       "bundleAvailable": true,
-      "bundleNote": "Bundle: round-trip transfer + KUZA day pass / entry. Pricing TBD pending agreement.",
+      "bundleNote": "Bundle: round-trip transfer + KUZÁ day pass. Tiers from $45/pax (basic beach + theme park) up to $135/pax (all activities + lunch + open bar).",
+      "heroImage": "https://images.unsplash.com/photo-1647222797756-1f2fc7b0f728?w=1500&q=80&auto=format&fit=crop",
+      "heroAlt": "Cozumel beach and theme park scene",
       "faqs": [
-        { "q": "What's included at KUZA?", "a": "[PLACEHOLDER — Mike to confirm]" },
-        { "q": "How do I book a day pass?", "a": "[PLACEHOLDER — Mike to confirm]" }
+        { "q": "What's the cheapest day pass?", "a": "$45 USD (regularly $49) gets you theme park access, beach umbrellas, lounge chairs, nature walks, and cultural experiences. Higher tiers add water park, snorkeling, kayaks, paddleboarding, lunch buffet, and unlimited drinks." },
+        { "q": "What's El Cielo?", "a": "A famous shallow sandbar and starfish snorkeling spot in Cozumel's reef. KUZÁ's higher-tier packages include a guided El Cielo tour." },
+        { "q": "Are activities included or paid extras?", "a": "Depends on the tier. The $45 base is mostly beach + light access; the $85–$135 tiers include the activity menu. Pick the package that matches what you want to do." }
       ]
     }
   ]
