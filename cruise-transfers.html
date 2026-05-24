@@ -794,9 +794,71 @@
       text-align: center; font-size: 1rem;
     }
 
-    .price-card { padding: 28px 24px; }
-    .price-big { font-size: 2.6rem; }
-    .price-name { font-size: 1.4rem; }
+    /* Mobile pricing — compact horizontal rows */
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .price-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "name price" "pax button";
+      column-gap: 14px;
+      padding: 16px 18px;
+      border-radius: 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--card-blue);
+      text-align: left;
+      align-items: center;
+      transform: none !important;
+    }
+    .price-card:last-child { border-bottom: 0; }
+    .price-card.popular {
+      background: var(--card-green);
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 16px 18px;
+    }
+    .price-card.popular .price-name::before { content: '★ '; color: var(--success-deep); }
+    .price-card .price-pill,
+    .price-card .price-allin,
+    .price-card .price-divider,
+    .price-card .price-type,
+    .price-card .price-cancel,
+    .price-card .price-ribbon { display: none; }
+    .price-name {
+      grid-area: name; font-size: 1.04rem;
+      margin: 0; text-align: left; align-self: end;
+    }
+    .price-pax-sub {
+      grid-area: pax; font-size: 0.82rem;
+      margin: 0; opacity: 0.7; align-self: start;
+    }
+    .price-big {
+      grid-area: price; font-size: 1.35rem;
+      margin: 0; text-align: right; line-height: 1.1; align-self: end;
+    }
+    .price-big .currency { font-size: 0.66rem; vertical-align: 0.3em; }
+    .price-cta {
+      grid-area: button; padding: 7px 16px; font-size: 0.84rem;
+      border-width: 1.5px; justify-self: end; align-self: start;
+    }
+    .price-savings { font-size: 0.92rem; padding: 12px 16px; margin-bottom: 14px; }
+
+    /* Mobile FAQ — collapsible accordion */
+    .faq-row .faq-a { display: none; }
+    .faq-row.expanded .faq-a { display: block; margin-top: 6px; }
+    .faq-q { cursor: pointer; position: relative; padding-right: 32px; }
+    .faq-q::after {
+      content: '+';
+      position: absolute; right: 0; top: -2px;
+      color: var(--accent); font-weight: 300; font-size: 1.6rem; line-height: 1;
+    }
+    .faq-row.expanded .faq-q::after { content: '−'; }
     .steps-grid, .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
     .dest-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
     .pricing-grid { grid-template-columns: 1fr; gap: 22px; }
@@ -916,17 +978,17 @@
     </div>
     <div class="dest-grid">
 
-      <a href="tierra-maya.html" class="dest dest-tierramaya">
-        <div class="dest-label">★ Our own preserve</div>
-        <h3>Tierra Maya</h3>
-        <p data-en="Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port." data-es="Cacao, miel, tortilla y mezcal mayas en nuestra reserva cultural privada. 15 min del puerto.">Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.</p>
-        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
-      </a>
-
       <a href="#vehicles" class="dest dest-featured">
         <div class="dest-label" data-en="You know where" data-es="Tú sabes dónde">You know where</div>
         <h3 data-en="Tell us the place and time" data-es="Dinos lugar y hora">Tell us the place and time</h3>
         <p data-en="Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes." data-es="¿Visitante frecuente? Elige tu vehículo abajo y especifica tu destino al reservar — te enviamos cotización fija en minutos.">Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes.</p>
+        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
+      </a>
+
+      <a href="tierra-maya.html" class="dest dest-tierramaya">
+        <div class="dest-label">Mayan preserve</div>
+        <h3>Tierra Maya</h3>
+        <p data-en="Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port." data-es="Cacao, miel, tortilla y mezcal mayas en nuestra reserva cultural privada. 15 min del puerto.">Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.</p>
         <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
       </a>
 
@@ -1417,6 +1479,15 @@
   document.querySelectorAll('.nav-links a').forEach(a => {
     a.addEventListener('click', () => {
       document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Mobile FAQ — tap a question to expand its answer
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        q.closest('.faq-row').classList.toggle('expanded');
+      }
     });
   });
   function applyLang(lang) {

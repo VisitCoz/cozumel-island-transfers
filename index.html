@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Private round-trip transfers across Cozumel. Cruise port, hotels, beach clubs, Mayan ruins. Real-time ship tracking, return-on-time refund. English-speaking drivers since 2015.">
-<meta property="og:title" content="Cozumel Island Transfers — On Time, Every Transfer">
-<meta property="og:description" content="Private vans, Sprinters, and coaches for Cozumel cruise and airport guests. 10 years of on-time pickups.">
-<meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/642c9c20e70c5d437e0cf874/8e59db41-b50d-4761-8efb-4b2bcfa126b7/imgi_4_cozumel-van-tour.jpg?format=1500w">
+<meta property="og:title" content="Cozumel Island Transfers — Private Transfers Across Cozumel">
+<meta property="og:description" content="Vans, Sprinters, and coaches for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015.">
+<meta property="og:image" content="/assets/hero-vans.png">
 <meta property="og:type" content="website">
-<title>Cozumel Island Transfers — On Time, Every Transfer</title>
+<title>Cozumel Island Transfers — Private Transfers Across Cozumel</title>
 <link rel="icon" href="https://images.squarespace-cdn.com/content/v1/642c9c20e70c5d437e0cf874/5f65b404-11cf-4bec-86df-4c2ceb7265db/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -796,11 +796,82 @@
 
     .steps-grid, .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
     .dest-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .pricing-grid { grid-template-columns: 1fr; gap: 18px; }
-    .price-card { padding: 28px 24px; }
-    .price-card.popular { padding-top: 36px; }
-    .price-big { font-size: 2.6rem; }
-    .price-name { font-size: 1.4rem; }
+
+    /* Mobile pricing — compact horizontal rows (all 4 visible on one screen) */
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .price-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "name price" "pax button";
+      column-gap: 14px;
+      padding: 16px 18px;
+      border-radius: 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--card-blue);
+      text-align: left;
+      align-items: center;
+      transform: none !important;
+    }
+    .price-card:last-child { border-bottom: 0; }
+    .price-card.popular {
+      background: var(--card-green);
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 16px 18px;
+    }
+    .price-card.popular .price-name::before { content: '★ '; color: var(--success-deep); }
+    .price-card .price-pill,
+    .price-card .price-allin,
+    .price-card .price-divider,
+    .price-card .price-type,
+    .price-card .price-cancel,
+    .price-card .price-ribbon { display: none; }
+    .price-name {
+      grid-area: name; font-size: 1.04rem;
+      margin: 0; text-align: left;
+      align-self: end;
+    }
+    .price-pax-sub {
+      grid-area: pax; font-size: 0.82rem;
+      margin: 0; opacity: 0.7;
+      align-self: start;
+    }
+    .price-big {
+      grid-area: price; font-size: 1.35rem;
+      margin: 0; text-align: right; line-height: 1.1;
+      align-self: end;
+    }
+    .price-big .currency { font-size: 0.66rem; vertical-align: 0.3em; }
+    .price-cta {
+      grid-area: button; padding: 7px 16px; font-size: 0.84rem;
+      border-width: 1.5px; justify-self: end;
+      align-self: start;
+    }
+    .price-savings { font-size: 0.92rem; padding: 12px 16px; margin-bottom: 14px; }
+
+    /* Mobile FAQ — collapsible accordion */
+    .faq-row .faq-a { display: none; }
+    .faq-row.expanded .faq-a { display: block; margin-top: 6px; }
+    .faq-q {
+      cursor: pointer;
+      position: relative;
+      padding-right: 32px;
+    }
+    .faq-q::after {
+      content: '+';
+      position: absolute; right: 0; top: -2px;
+      color: var(--accent);
+      font-weight: 300; font-size: 1.6rem; line-height: 1;
+    }
+    .faq-row.expanded .faq-q::after { content: '−'; }
+
     .reviews-head { flex-direction: column; align-items: flex-start; }
     .faq-grid { grid-template-columns: 1fr; gap: 36px; }
     .faq-side { position: static; }
@@ -815,9 +886,8 @@
     .footer-inner { grid-template-columns: 1fr; gap: 22px; }
     .hero-ctas { flex-direction: column; align-items: stretch; }
     .hero-ctas .btn { justify-content: center; }
-    .price-big { font-size: 2.4rem; }
     .chooser-card { padding: 28px 24px; }
-    .price-savings { font-size: 0.94rem; padding: 12px 16px; }
+    .price-savings { font-size: 0.9rem; padding: 11px 14px; }
   }
 </style>
 </head>
@@ -847,10 +917,10 @@
 <header class="hero">
   <div class="hero-inner">
     <div>
-      <span class="hero-kicker">Private transfers in Cozumel · Since 2015</span>
-      <h1 data-en="On time. Every transfer." data-es="Puntuales. En cada traslado.">On time. Every transfer.</h1>
-      <p class="lede" data-en="Private vans, Sprinters, and coaches for Cozumel cruise and airport guests. Real-time ship tracking. English-speaking drivers. Return-on-time refund guarantee." data-es="Vans, Sprinters y autobuses privados para cruceristas y viajeros de aeropuerto en Cozumel. Monitoreo de barco en tiempo real. Choferes bilingües. Garantía de regreso puntual o reembolso.">
-        Private vans, Sprinters, and coaches for Cozumel cruise and airport guests. Real-time ship tracking. English-speaking drivers. Return-on-time refund guarantee.
+      <span class="hero-kicker">Cozumel cruise port · airport · since 2015</span>
+      <h1 data-en="Private transfers across Cozumel." data-es="Traslados privados en Cozumel.">Private transfers across Cozumel.</h1>
+      <p class="lede" data-en="Vans, Sprinters, and coaches for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015." data-es="Vans, Sprinters y autobuses para 1–40 pasajeros. Monitoreo en tiempo real de barco y vuelo. Garantía de regreso puntual o reembolso. Desde 2015.">
+        Vans, Sprinters, and coaches for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015.
       </p>
       <div class="hero-ctas">
         <a href="#vehicles" class="btn btn-primary" data-en="See pricing" data-es="Ver precios">See pricing</a>
@@ -858,7 +928,7 @@
       </div>
     </div>
     <div class="hero-photo">
-      <img src="https://images.squarespace-cdn.com/content/v1/642c9c20e70c5d437e0cf874/8e59db41-b50d-4761-8efb-4b2bcfa126b7/imgi_4_cozumel-van-tour.jpg?format=1500w" alt="Cozumel Island Transfers van on the island" loading="eager">
+      <img src="assets/hero-vans.png" alt="Cozumel Island Transfers vans" loading="eager">
     </div>
   </div>
 </header>
@@ -952,17 +1022,17 @@
     </div>
     <div class="dest-grid">
 
-      <a href="tierra-maya.html" class="dest dest-tierramaya">
-        <div class="dest-label">★ Our own preserve</div>
-        <h3>Tierra Maya</h3>
-        <p data-en="Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port." data-es="Cacao, miel, tortilla y mezcal mayas en nuestra reserva cultural privada. 15 min del puerto.">Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.</p>
-        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
-      </a>
-
       <a href="#vehicles" class="dest dest-featured">
         <div class="dest-label" data-en="You know where" data-es="Tú sabes dónde">You know where</div>
         <h3 data-en="Tell us the place and time" data-es="Dinos lugar y hora">Tell us the place and time</h3>
         <p data-en="Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes." data-es="¿Visitante frecuente? Elige tu vehículo abajo y especifica tu destino al reservar — te enviamos cotización fija en minutos.">Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes.</p>
+        <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
+      </a>
+
+      <a href="tierra-maya.html" class="dest dest-tierramaya">
+        <div class="dest-label">Mayan preserve</div>
+        <h3>Tierra Maya</h3>
+        <p data-en="Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port." data-es="Cacao, miel, tortilla y mezcal mayas en nuestra reserva cultural privada. 15 min del puerto.">Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.</p>
         <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
       </a>
 
@@ -1455,6 +1525,15 @@
   document.querySelectorAll('.nav-links a').forEach(a => {
     a.addEventListener('click', () => {
       document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Mobile FAQ — tap a question to expand its answer (desktop stays expanded via CSS).
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        q.closest('.faq-row').classList.toggle('expanded');
+      }
     });
   });
   function applyLang(lang) {
