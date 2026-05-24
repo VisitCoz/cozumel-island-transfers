@@ -1,0 +1,1481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Private Cozumel airport transfers. Meet & greet at terminal exit, real-time flight tracking, door-to-door to your hotel or Airbnb. One-way or round-trip. Vans for 1–40. Since 2015.">
+<meta property="og:title" content="Cozumel Airport Transfers — Meet & Greet, Door-to-Door">
+<meta property="og:description" content="Private Cozumel airport transfers — meet & greet at terminal exit, flight tracking, door-to-door to your hotel. One-way or round-trip. Vans for 1–40.">
+<meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/642c9c20e70c5d437e0cf874/8e59db41-b50d-4761-8efb-4b2bcfa126b7/imgi_4_cozumel-van-tour.jpg?format=1500w">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.cozumelislandtransfers.com/airport-transfers.html">
+<title>Cozumel Airport Transfers — Meet & Greet, Door-to-Door</title>
+<link rel="icon" href="https://images.squarespace-cdn.com/content/v1/642c9c20e70c5d437e0cf874/5f65b404-11cf-4bec-86df-4c2ceb7265db/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #0E0E10;
+    --navy: #0F2C44;          /* deep navy for pricing card text (matches screenshot) */
+    --mute: #6E6E73;
+    --mute-2: #8C9AAB;
+    --line: #E5E5E7;
+    --line-soft: #F1F1F4;
+    --surface: #FAFAFC;
+    --accent: #1D7AFC;
+    --accent-pressed: #0F62D6;
+    --success: #34C759;
+    --success-deep: #1F7A3F;
+    --warn: #FF9F0A;
+    --danger: #FF453A;
+    --card-blue: #E8F0FB;     /* light blue tinted card bg (per pricing screenshot) */
+    --card-blue-2: #DBE7FA;
+    --card-green: #E6F4EA;    /* light green for "most popular" pricing card */
+    --card-green-border: #4DAF6F;
+    --shadow: 0 1px 2px rgba(14,14,16,.04), 0 8px 24px rgba(14,14,16,.06);
+    --max-grid: 1180px;
+    --max-prose: 720px;
+    --section-y: 100px;
+    --section-y-mobile: 60px;
+    --pill: 999px;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --radius-input: 8px;
+    --track-tight: -0.022em;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 17px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-pressed); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+
+  /* ===== Nav ===== */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    height: 60px;
+    background: rgba(255,255,255,.88);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    height: 100%; max-width: var(--max-grid); margin: 0 auto;
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 28px;
+  }
+  .brand {
+    font-weight: 700; font-size: 1.04rem; color: var(--ink);
+    letter-spacing: -0.01em; text-decoration: none;
+  }
+  .brand .dot { color: var(--accent); }
+  .nav-links {
+    display: flex; gap: 24px; margin-left: auto; align-items: center;
+  }
+  .nav-link {
+    color: var(--ink); font-weight: 500; font-size: 0.93rem;
+    text-decoration: none;
+  }
+  .nav-link:hover { color: var(--accent); }
+  .nav-link.active { color: var(--accent); font-weight: 600; }
+
+  /* ===== Round-trip / One-way direction toggle (airport-only) ===== */
+  .dir-toggle-wrap { text-align: center; margin-bottom: 36px; }
+  .dir-toggle {
+    display: inline-flex; gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 4px;
+    border-radius: var(--pill);
+  }
+  .dir-btn {
+    padding: 9px 22px;
+    border-radius: var(--pill);
+    border: 0; background: transparent;
+    color: var(--mute); font-weight: 600; font-size: 0.9rem;
+    cursor: pointer; font-family: inherit;
+    transition: background .12s, color .12s;
+  }
+  .dir-btn.active {
+    background: var(--bg); color: var(--ink);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  /* ===== Hotel chips (airport destinations replacement) ===== */
+  .hotel-chips {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center; max-width: 800px; margin: 0 auto;
+  }
+  .hotel-chip {
+    display: inline-block;
+    padding: 11px 20px; border-radius: var(--pill);
+    background: var(--surface); border: 1px solid var(--line);
+    font-size: 0.94rem; font-weight: 500; color: var(--ink);
+    transition: border-color .12s, transform .12s;
+  }
+  .hotel-chip:hover { border-color: var(--ink); transform: translateY(-1px); }
+  .hotel-chip.any {
+    background: rgba(29,122,252,.08); border-color: rgba(29,122,252,.25);
+    color: var(--accent); font-weight: 600;
+  }
+  .hotels-note {
+    max-width: 600px; margin: 32px auto 0;
+    text-align: center; color: var(--mute); font-size: 0.94rem;
+    line-height: 1.6;
+  }
+  .nav-phone {
+    color: var(--mute); font-weight: 500; font-size: 0.91rem;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-phone:hover { color: var(--ink); }
+  .lang-toggle {
+    background: transparent; border: 1px solid var(--line); color: var(--ink);
+    padding: 5px 10px; border-radius: 6px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
+  }
+  .lang-toggle:hover { border-color: var(--ink); }
+  .nav-cta {
+    background: var(--accent); color: #fff;
+    padding: 8px 18px; border-radius: var(--pill);
+    font-weight: 600; font-size: 0.9rem; text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--accent-pressed); color: #fff; }
+
+  /* ===== Hero ===== */
+  .hero {
+    padding: 90px 24px 100px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .hero-inner {
+    max-width: var(--max-grid); margin: 0 auto;
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px;
+    align-items: center;
+  }
+  .hero-kicker {
+    display: inline-block;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 18px;
+    padding: 5px 12px; background: rgba(29,122,252,.08); border-radius: var(--pill);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700; letter-spacing: var(--track-tight); line-height: 1.05;
+    margin: 0 0 22px;
+  }
+  .hero .lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    color: var(--mute); margin: 0 0 36px;
+    max-width: 540px; line-height: 1.5;
+  }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 28px; border-radius: var(--pill);
+    font-weight: 600; font-size: 1rem; text-decoration: none;
+    border: 1px solid transparent; transition: background .12s, border-color .12s;
+    line-height: 1;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-pressed); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-wa {
+    background: #25D366; color: #fff; border-color: #25D366;
+  }
+  .btn-wa:hover { background: #1ebd5a; color: #fff; }
+  .hero-photo {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .hero-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+
+  /* ===== Trust band ===== */
+  .trust {
+    padding: 30px 24px;
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--bg);
+  }
+  .trust-inner {
+    max-width: var(--max-grid); margin: 0 auto;
+    text-align: center; color: var(--mute);
+    font-size: 0.94rem; line-height: 1.6;
+  }
+  .trust-inner strong { color: var(--ink); font-weight: 600; }
+  .trust-inner .dot { color: var(--line); margin: 0 12px; }
+  .trust-inner a { color: var(--mute); border-bottom: 1px dotted var(--line); }
+  .trust-inner a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ===== Sections (generic) ===== */
+  section { padding: var(--section-y) 24px; }
+  section.alt { background: var(--surface); }
+  .section-inner { max-width: var(--max-grid); margin: 0 auto; }
+  .section-head {
+    max-width: var(--max-prose); margin: 0 auto 56px;
+    text-align: center;
+  }
+  h2 {
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    font-weight: 700; letter-spacing: var(--track-tight); line-height: 1.12;
+    margin: 0 0 14px;
+  }
+  .section-head p {
+    color: var(--mute); font-size: 1.08rem; margin: 0; line-height: 1.5;
+  }
+  .kicker {
+    display: inline-block;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ===== How it works ===== */
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-bottom: 48px;
+  }
+  .step {
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 32px 28px;
+  }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-weight: 700; font-size: 0.95rem;
+    margin-bottom: 18px;
+  }
+  .step h3 {
+    font-size: 1.2rem; font-weight: 700; margin: 0 0 10px;
+    letter-spacing: -0.005em;
+  }
+  .step p { color: var(--mute); font-size: 0.96rem; margin: 0; line-height: 1.55; }
+  .how-callout {
+    max-width: 760px; margin: 0 auto; padding: 24px 28px;
+    background: var(--bg); border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    font-size: 1rem; color: var(--ink); line-height: 1.6;
+  }
+  .how-callout strong { color: var(--accent); font-weight: 600; }
+
+  /* ===== Destinations grid ===== */
+  .dest-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .dest {
+    display: block; background: var(--bg); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 24px 22px;
+    text-decoration: none; color: var(--ink);
+    transition: border-color .15s, transform .15s;
+  }
+  .dest:hover {
+    border-color: var(--ink); color: var(--ink); transform: translateY(-2px);
+  }
+  .dest.dest-featured {
+    background: linear-gradient(135deg, rgba(29,122,252,.06), rgba(29,122,252,.12));
+    border-color: rgba(29,122,252,.25);
+  }
+  .dest.dest-featured:hover { border-color: var(--accent); }
+  .dest-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--mute); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .dest.dest-featured .dest-label { color: var(--accent); }
+  .dest h3 {
+    font-size: 1.1rem; font-weight: 600; margin: 0 0 8px;
+    letter-spacing: -0.005em;
+  }
+  .dest p {
+    color: var(--mute); font-size: 0.92rem; margin: 0 0 16px; line-height: 1.45;
+  }
+  .dest-arrow {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.86rem; font-weight: 600; color: var(--accent);
+  }
+
+  /* ===== Pricing cards (vehicles section) — single all-in price, no fees clutter ===== */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    align-items: stretch;
+  }
+  .price-card {
+    position: relative;
+    background: var(--card-blue);
+    border-radius: var(--radius-lg);
+    padding: 36px 28px 32px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; color: var(--navy);
+    transition: transform .15s;
+  }
+  .price-card:hover { transform: translateY(-3px); }
+  .price-card.popular {
+    background: var(--card-green);
+    border: 3px solid var(--card-green-border);
+    padding-top: 44px;
+  }
+  .price-ribbon {
+    position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+    background: var(--success-deep); color: #fff;
+    padding: 8px 18px; border-radius: var(--pill);
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
+    display: inline-flex; align-items: center; gap: 6px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(31,122,63,.25);
+  }
+  .price-pill {
+    display: inline-block;
+    background: #fff; color: var(--navy);
+    padding: 5px 14px; border-radius: var(--pill);
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .price-name {
+    font-size: 1.6rem; font-weight: 700;
+    letter-spacing: var(--track-tight); margin: 0 0 4px;
+    color: var(--navy);
+  }
+  .price-pax-sub {
+    font-size: 0.9rem; font-weight: 500; color: var(--navy); opacity: .65;
+    margin: 0 0 24px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .price-pax-sub svg { color: var(--navy); opacity: .55; }
+  .price-big {
+    font-size: 3.2rem; font-weight: 800;
+    letter-spacing: var(--track-tight); line-height: 1;
+    color: var(--navy);
+    margin: 0 0 8px;
+  }
+  .price-big .currency {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--navy); margin-left: 4px;
+    vertical-align: 0.5em;
+    opacity: .7;
+  }
+  .price-allin {
+    font-size: 0.82rem; color: var(--navy); opacity: .6;
+    margin: 0 0 24px;
+    letter-spacing: 0.02em;
+  }
+  .price-divider {
+    width: 56px; height: 1px;
+    background: rgba(15,44,68,.18);
+    margin: 0 0 22px;
+  }
+  .price-type {
+    font-size: 0.94rem; font-weight: 500; color: var(--navy); opacity: .85;
+    margin-bottom: 14px;
+  }
+  .price-cancel {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.88rem; font-weight: 600; color: var(--success-deep);
+    margin-bottom: 26px;
+    text-align: center;
+  }
+  .price-cancel svg { flex-shrink: 0; }
+  .price-cta {
+    background: #fff; color: var(--navy);
+    border: 2.5px solid var(--navy);
+    padding: 13px 36px; border-radius: var(--pill);
+    font-weight: 700; font-size: 1rem; text-decoration: none;
+    transition: background .12s, color .12s;
+    margin-top: auto;
+    font-family: inherit;
+  }
+  .price-cta:hover { background: var(--navy); color: #fff; }
+  .price-card.popular .price-cta {
+    border-color: var(--success-deep);
+    color: var(--success-deep);
+  }
+  .price-card.popular .price-cta:hover {
+    background: var(--success-deep); color: #fff;
+  }
+
+  /* ===== Reviews ===== */
+  .reviews-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    max-width: var(--max-grid); margin: 0 auto 40px;
+    gap: 24px;
+  }
+  .reviews-head .head-left h2 { margin: 0; }
+  .reviews-head .head-left p { color: var(--mute); margin: 6px 0 0; font-size: 1rem; }
+  .reviews-tripadvisor {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--ink); font-size: 0.95rem; font-weight: 600;
+    text-decoration: none;
+    padding: 10px 18px; border: 1px solid var(--line); border-radius: var(--pill);
+    flex-shrink: 0;
+  }
+  .reviews-tripadvisor:hover { border-color: var(--ink); color: var(--ink); }
+  .reviews-tripadvisor .ta-count { color: var(--success-deep); font-weight: 700; }
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .review {
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 28px 26px;
+  }
+  .review blockquote {
+    margin: 0 0 22px; font-size: 0.98rem; color: var(--ink);
+    line-height: 1.6;
+  }
+  .review blockquote::before { content: ""; }
+  .review-meta { font-size: 0.86rem; color: var(--mute); }
+  .review-meta strong {
+    display: block; color: var(--ink); font-weight: 600;
+    margin-bottom: 2px; font-size: 0.94rem;
+  }
+
+  /* ===== FAQ (asymmetric editorial layout) ===== */
+  .faq-grid {
+    max-width: var(--max-grid); margin: 0 auto;
+    display: grid; grid-template-columns: 0.85fr 1.6fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .faq-side { position: sticky; top: 88px; }
+  .faq-side .kicker { margin-bottom: 14px; }
+  .faq-side h2 {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    font-weight: 700; letter-spacing: var(--track-tight); line-height: 1.15;
+    margin: 0 0 18px;
+  }
+  .faq-side p {
+    color: var(--mute); font-size: 1rem; line-height: 1.6;
+    margin: 0 0 24px;
+  }
+  .faq-side .reassure {
+    font-size: 0.92rem; color: var(--mute);
+    border-top: 1px solid var(--line);
+    padding-top: 22px; margin-top: 28px;
+    line-height: 1.55;
+  }
+  .faq-side .reassure a {
+    color: var(--accent); font-weight: 600; text-decoration: none;
+    border-bottom: 1px solid rgba(29,122,252,.35);
+  }
+  .faq-side .reassure a:hover { border-bottom-color: var(--accent); }
+
+  .faq-rows { }
+  .faq-row {
+    display: grid; grid-template-columns: 52px 1fr;
+    gap: 16px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+  }
+  .faq-row:first-child { border-top: 0; padding-top: 4px; }
+  .faq-num {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent); text-transform: uppercase;
+    padding-top: 4px;
+    font-feature-settings: 'tnum';
+  }
+  .faq-q {
+    font-size: 1.1rem; font-weight: 600; color: var(--ink);
+    margin: 0 0 10px; line-height: 1.4;
+    letter-spacing: -0.005em;
+  }
+  .faq-a {
+    font-size: 0.98rem; color: var(--mute);
+    margin: 0; line-height: 1.65;
+  }
+
+  /* ===== Not on cruise mini-section ===== */
+  .nocruise {
+    background: var(--bg);
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nocruise-inner {
+    max-width: 820px; margin: 0 auto; text-align: center;
+  }
+  .nocruise h2 { margin-bottom: 14px; }
+  .nocruise p { color: var(--mute); font-size: 1.05rem; margin: 0 0 28px; line-height: 1.55; }
+
+  /* ===== Work with us — COMPACT band, sits just above footer, minimal vertical space ===== */
+  .work-compact {
+    background: var(--surface);
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 44px 24px;
+  }
+  .work-compact-inner {
+    max-width: var(--max-grid); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 40px; align-items: center;
+  }
+  .work-compact .kicker { margin-bottom: 6px; display: inline-block; }
+  .work-compact h3 {
+    font-size: 1.35rem; font-weight: 700; margin: 0 0 8px;
+    letter-spacing: -0.005em; color: var(--ink);
+  }
+  .work-compact p {
+    color: var(--mute); font-size: 0.95rem; margin: 0;
+    max-width: 720px; line-height: 1.55;
+  }
+  .work-compact p .sep { color: var(--line); margin: 0 8px; }
+  .work-compact .right {
+    flex-shrink: 0;
+    display: flex; align-items: center;
+  }
+
+  /* ===== "Two paths" chooser (cruise vs airport) ===== */
+  .chooser {
+    padding: 64px 24px 80px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .chooser-inner {
+    max-width: var(--max-grid); margin: 0 auto;
+  }
+  .chooser-head {
+    text-align: center; max-width: 640px; margin: 0 auto 36px;
+  }
+  .chooser-head h2 {
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    font-weight: 700; letter-spacing: var(--track-tight); margin: 0 0 8px;
+  }
+  .chooser-head p { color: var(--mute); font-size: 1rem; margin: 0; }
+  .chooser-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .chooser-card {
+    display: block;
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    text-decoration: none; color: var(--ink);
+    transition: border-color .15s, transform .15s, box-shadow .15s;
+  }
+  .chooser-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    color: var(--ink);
+  }
+  .chooser-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: rgba(29,122,252,.08); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 22px;
+  }
+  .chooser-eyebrow {
+    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--mute); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .chooser-card h3 {
+    font-size: 1.5rem; font-weight: 700;
+    letter-spacing: var(--track-tight); margin: 0 0 10px;
+  }
+  .chooser-card p {
+    color: var(--mute); font-size: 0.98rem; line-height: 1.55;
+    margin: 0 0 22px;
+  }
+  .chooser-arrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.92rem; font-weight: 600; color: var(--accent);
+  }
+
+  /* ===== Booking modal ===== */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(14, 14, 16, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-card {
+    background: var(--bg);
+    border-radius: var(--radius-lg);
+    max-width: 560px; width: 100%;
+    padding: 36px 36px 32px;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 0; background: var(--surface); color: var(--mute);
+    font-size: 1.4rem; line-height: 1; font-weight: 400;
+    cursor: pointer; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .12s, color .12s;
+  }
+  .modal-close:hover { background: var(--line); color: var(--ink); }
+  .modal-title {
+    font-size: 1.4rem; font-weight: 700;
+    letter-spacing: var(--track-tight);
+    margin: 0 0 6px; padding-right: 40px;
+  }
+  .modal-summary {
+    background: var(--surface); color: var(--ink);
+    font-weight: 600; font-size: 0.94rem;
+    padding: 14px 16px; border-radius: var(--radius-input);
+    margin: 14px 0 22px;
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--line-soft);
+  }
+  .modal-summary .check-mark {
+    color: var(--success); font-weight: 700; font-size: 1.05rem;
+  }
+  .m-row { display: grid; gap: 12px; margin-bottom: 12px; }
+  .m-row-2 { grid-template-columns: 1fr 1fr; }
+  .m-field { display: flex; flex-direction: column; margin-bottom: 12px; }
+  .m-field:last-child { margin-bottom: 0; }
+  .m-row .m-field { margin-bottom: 0; }
+  .m-field label {
+    font-size: 0.74rem; font-weight: 600; color: var(--mute);
+    letter-spacing: 0.04em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .m-field input,
+  .m-field select,
+  .m-field textarea {
+    width: 100%; padding: 10px 13px;
+    border: 1px solid var(--line); border-radius: var(--radius-input);
+    background: var(--bg); color: var(--ink);
+    font-size: 0.96rem; outline: none; font-family: inherit;
+    transition: border-color .12s, box-shadow .12s;
+  }
+  .m-field input:focus, .m-field select:focus, .m-field textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29,122,252,.16);
+  }
+  .m-field textarea { resize: vertical; min-height: 60px; }
+  .m-submit {
+    width: 100%; background: var(--accent); color: #fff;
+    border: 0; border-radius: var(--pill);
+    padding: 14px 24px;
+    font-size: 1rem; font-weight: 600; cursor: pointer;
+    margin-top: 16px; transition: background .12s;
+  }
+  .m-submit:hover:not(:disabled) { background: var(--accent-pressed); }
+  .m-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .m-trust {
+    font-size: 0.82rem; color: var(--mute); text-align: center;
+    margin: 12px 0 0; line-height: 1.5;
+  }
+  .m-tz-note {
+    background: rgba(29,122,252,.06);
+    border: 1px solid rgba(29,122,252,.18);
+    border-radius: var(--radius-input);
+    padding: 10px 14px;
+    font-size: 0.84rem; color: var(--ink);
+    margin: 6px 0 14px;
+    line-height: 1.45;
+  }
+  .m-tz-note strong { color: var(--accent); font-weight: 600; }
+  .m-optional {
+    color: var(--mute); font-weight: 400;
+    text-transform: none; letter-spacing: 0; font-size: 0.78rem;
+  }
+  .modal-success-view { text-align: center; padding: 16px 0; }
+  .modal-success-view .success-check {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(52,199,89,0.12); color: var(--success);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .modal-success-view h3 {
+    font-size: 1.6rem; font-weight: 700;
+    letter-spacing: var(--track-tight);
+    margin: 0 0 12px;
+  }
+  .modal-success-view p {
+    color: var(--mute); font-size: 0.98rem; line-height: 1.55;
+    margin: 6px 0; max-width: 420px; margin-left: auto; margin-right: auto;
+  }
+  .success-id {
+    display: inline-block; background: var(--surface);
+    padding: 7px 14px; border-radius: 6px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.85rem; color: var(--ink); margin-top: 16px;
+  }
+  @media (max-width: 560px) {
+    .modal-card { padding: 28px 22px; }
+    .m-row-2 { grid-template-columns: 1fr; }
+    .chooser-grid { grid-template-columns: 1fr; gap: 14px; }
+    .chooser-card { padding: 28px 24px; }
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,.7);
+    padding: 64px 24px 28px;
+  }
+  .footer-inner {
+    max-width: var(--max-grid); margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px;
+  }
+  .footer-brand {
+    font-weight: 700; color: #fff; font-size: 1.06rem;
+    letter-spacing: -0.01em; margin-bottom: 14px;
+  }
+  .footer-brand .dot { color: var(--accent); }
+  .footer-tag {
+    color: rgba(255,255,255,.5); font-size: 0.92rem;
+    line-height: 1.55; margin: 0; max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: 0.74rem; color: rgba(255,255,255,.5);
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    margin: 0 0 16px;
+  }
+  .footer-col a, .footer-col p {
+    color: rgba(255,255,255,.82); text-decoration: none;
+    display: block; font-size: 0.92rem; margin-bottom: 10px;
+  }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom {
+    max-width: var(--max-grid); margin: 48px auto 0; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,.1);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    font-size: 0.82rem; color: rgba(255,255,255,.45);
+  }
+  .footer-bottom .links { display: flex; gap: 18px; }
+  .footer-bottom a { color: rgba(255,255,255,.5); text-decoration: none; }
+  .footer-bottom a:hover { color: rgba(255,255,255,.9); }
+  .footer-bottom .partnership {
+    color: rgba(255,255,255,.3); font-size: 0.78rem;
+    text-decoration: underline; text-decoration-style: dotted;
+  }
+  .footer-bottom .partnership:hover { color: rgba(255,255,255,.7); }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 980px) {
+    section { padding: var(--section-y-mobile) 20px; }
+    .hero { padding: 56px 20px 64px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+    .nav-link, .nav-phone { display: none; }
+    .nav-link.mobile-show { display: inline; }
+    .nav-links { gap: 12px; }
+    .steps-grid, .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
+    .dest-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .pricing-grid { grid-template-columns: 1fr; gap: 22px; }
+    .price-card.popular { padding-top: 36px; }
+    .reviews-head { flex-direction: column; align-items: flex-start; }
+    .faq-grid { grid-template-columns: 1fr; gap: 36px; }
+    .faq-side { position: static; }
+    .faq-row { grid-template-columns: 1fr; gap: 4px; padding: 22px 0; }
+    .work-compact { padding: 32px 20px; }
+    .work-compact-inner { grid-template-columns: 1fr; gap: 18px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+  @media (max-width: 560px) {
+    .dest-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 22px; }
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .hero-ctas .btn { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">cozumel<span class="dot">·</span>transfers</a>
+    <div class="nav-links">
+      <a href="cruise-transfers.html" class="nav-link">Cruise</a>
+      <a href="airport-transfers.html" class="nav-link active">Airport</a>
+      <a href="#destinations" class="nav-link">Destinations</a>
+      <a href="#vehicles" class="nav-link">Vehicles</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="tel:+529871146853" class="nav-phone">📞 +52 987 114 6853</a>
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">ES</button>
+      <a href="#vehicles" class="nav-cta">Book</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-kicker">Airport transfers · Since 2015</span>
+      <h1 data-en="Meet &amp; greet at terminal. Door-to-door to your hotel." data-es="Te recibimos en la terminal. Puerta a puerta a tu hotel.">Meet &amp; greet at terminal. Door-to-door to your hotel.</h1>
+      <p class="lede" data-en="Private transfers from Cozumel International Airport (CZM) to any hotel, Airbnb, or address on the island. Flight tracked in real-time. English-speaking drivers. One-way or round-trip — same fixed-rate vans for 1 to 40." data-es="Traslados privados desde el Aeropuerto Internacional de Cozumel (CZM) a cualquier hotel, Airbnb o dirección en la isla. Vuelo monitoreado en tiempo real. Choferes bilingües. One-way o round-trip — misma tarifa fija para 1 a 40 personas.">
+        Private transfers from Cozumel International Airport (CZM) to any hotel, Airbnb, or address on the island. Flight tracked in real-time. English-speaking drivers. One-way or round-trip — same fixed-rate vans for 1 to 40.
+      </p>
+      <div class="hero-ctas">
+        <a href="#vehicles" class="btn btn-primary" data-en="See pricing" data-es="Ver precios">See pricing</a>
+        <a href="https://wa.me/529871146853?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20a%20transfer%20in%20Cozumel." target="_blank" rel="noopener" class="btn btn-ghost" data-en="WhatsApp quote" data-es="Cotizar por WhatsApp">WhatsApp quote</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="https://images.unsplash.com/photo-1688619102725-f2fd886313e6?w=1500&q=80&auto=format&fit=crop" alt="Private transfer van waiting at the curb" loading="eager">
+    </div>
+  </div>
+</header>
+
+<!-- ===== TRUST BAND ===== -->
+<div class="trust">
+  <div class="trust-inner">
+    <strong>Since 2015</strong>
+    <span class="dot">·</span>
+    Flight tracked in real-time
+    <span class="dot">·</span>
+    24/7 WhatsApp dispatch
+    <span class="dot">·</span>
+    English-speaking drivers
+    <span class="dot">·</span>
+    <a href="#" target="_blank" rel="noopener">5★ on TripAdvisor →</a>
+  </div>
+</div>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how-it-works" class="alt">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker" data-en="How it works" data-es="Cómo funciona">How it works</span>
+      <h2 data-en="Three simple steps." data-es="Tres pasos simples.">Three simple steps.</h2>
+      <p data-en="No taxi-stand hassle. No language barrier. No surge pricing." data-es="Sin tener que negociar con taxistas. Sin barrera de idioma. Sin sobrecargos.">No taxi-stand hassle. No language barrier. No surge pricing.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 data-en="Book with your flight number" data-es="Reserva con tu vuelo">Book with your flight number</h3>
+        <p data-en="Pick your hotel or destination, give us your flight number, and we'll track it. Confirmation comes instantly by email and WhatsApp." data-es="Elige tu hotel o destino, danos tu vuelo y lo monitoreamos. Confirmación inmediata por email y WhatsApp.">Pick your hotel or destination, give us your flight number, and we'll track it. Confirmation comes instantly by email and WhatsApp.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 data-en="Driver waits at terminal exit" data-es="Chofer te espera en la salida">Driver waits at terminal exit</h3>
+        <p data-en="Walk out of customs and look for the sign with your name. Driver helps with luggage, takes you straight to the van — no negotiation, no waiting line." data-es="Sal de migración y busca el letrero con tu nombre. El chofer te ayuda con el equipaje y te lleva directo a la van — sin negociar, sin filas.">Walk out of customs and look for the sign with your name. Driver helps with luggage, takes you straight to the van — no negotiation, no waiting line.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 data-en="Door-to-door to your address" data-es="Puerta a puerta a tu dirección">Door-to-door to your address</h3>
+        <p data-en="Direct ride to your hotel, Airbnb, or any address — A/C and bottled water in the van. Round-trip? Same driver, same van for your departure." data-es="Viaje directo a tu hotel, Airbnb o cualquier dirección — A/C y agua embotellada. ¿Round-trip? Mismo chofer y misma van para el regreso.">Direct ride to your hotel, Airbnb, or any address — A/C and bottled water in the van. Round-trip? Same driver, same van for your departure.</p>
+      </div>
+    </div>
+    <div class="how-callout">
+      <strong>Flight delayed?</strong> No problem. We monitor every arrival in real-time and adjust your pickup automatically. <strong>No rescheduling fees, no missed-pickup penalties.</strong> Same goes for early arrivals — your driver is there whenever you actually clear customs.
+    </div>
+  </div>
+</section>
+
+<!-- ===== DESTINATIONS (airport variant: hotel chips) ===== -->
+<section id="destinations">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker" data-en="Drop-off" data-es="Destino">Drop-off</span>
+      <h2 data-en="Anywhere on Cozumel." data-es="A cualquier punto de Cozumel.">Anywhere on Cozumel.</h2>
+      <p data-en="Hotels, Airbnbs, downtown San Miguel, the ferry terminal — door-to-door from the airport. Common hotels:" data-es="Hoteles, Airbnbs, centro de San Miguel, terminal de ferry — puerta a puerta desde el aeropuerto. Hoteles comunes:">Hotels, Airbnbs, downtown San Miguel, the ferry terminal — door-to-door from the airport. Common hotels:</p>
+    </div>
+    <div class="hotel-chips">
+      <span class="hotel-chip">Cozumel Palace</span>
+      <span class="hotel-chip">Iberostar</span>
+      <span class="hotel-chip">El Cid La Ceiba</span>
+      <span class="hotel-chip">Cozumel Hotel &amp; Resort</span>
+      <span class="hotel-chip">Hotel B</span>
+      <span class="hotel-chip">Playa Azul</span>
+      <span class="hotel-chip">Downtown San Miguel</span>
+      <span class="hotel-chip any">+ any address you give us</span>
+    </div>
+    <p class="hotels-note" data-en="Not sure of your address? Give us your hotel name and we'll route the driver. If you booked Airbnb, share the property name or street address in the booking notes." data-es="¿No sabes tu dirección? Danos el nombre de tu hotel y el chofer encuentra el camino. Si reservaste Airbnb, comparte el nombre o calle en las notas de reserva.">
+      Not sure of your address? Give us your hotel name and we'll route the driver. If you booked Airbnb, share the property name or street address in the booking notes.
+    </p>
+  </div>
+</section>
+
+<!-- ===== VEHICLES / PRICING (airport: with round-trip / one-way toggle) ===== -->
+<section id="vehicles" class="alt">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker">Vehicles</span>
+      <h2>Choose by group size.</h2>
+      <p>Private transfer between Cozumel airport and any address on the island. Pay by vehicle, not by person.</p>
+    </div>
+
+    <div class="dir-toggle-wrap">
+      <div class="dir-toggle" role="tablist" aria-label="Trip direction">
+        <button type="button" class="dir-btn active" data-dir="round-trip" onclick="setDirection('round-trip')">Round-trip</button>
+        <button type="button" class="dir-btn" data-dir="one-way" onclick="setDirection('one-way')">One-way</button>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="price-card" data-vehicle="van_1_8" data-vname="Van" data-pax="1–8 passengers" data-rt="269" data-ow="179">
+        <div class="price-pill">PRIVATE</div>
+        <h3 class="price-name">Van</h3>
+        <div class="price-pax-sub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          1–8 passengers
+        </div>
+        <div class="price-big"><span class="price-num">269</span><span class="currency">USD</span></div>
+        <div class="price-allin">All-inclusive · final price</div>
+        <div class="price-divider"></div>
+        <div class="price-type">Round-trip private transfer</div>
+        <div class="price-cancel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Free cancellation up to 24h before</span>
+        </div>
+        <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
+      </div>
+
+      <div class="price-card popular" data-vehicle="l_van" data-vname="L Van" data-pax="9–14 passengers" data-rt="319" data-ow="209">
+        <div class="price-ribbon">★ MOST POPULAR</div>
+        <div class="price-pill">PRIVATE</div>
+        <h3 class="price-name">L Van</h3>
+        <div class="price-pax-sub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          9–14 passengers
+        </div>
+        <div class="price-big"><span class="price-num">319</span><span class="currency">USD</span></div>
+        <div class="price-allin">All-inclusive · final price</div>
+        <div class="price-divider"></div>
+        <div class="price-type">Round-trip private transfer</div>
+        <div class="price-cancel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Free cancellation up to 24h before</span>
+        </div>
+        <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
+      </div>
+
+      <div class="price-card" data-vehicle="xl_van" data-vname="XL Van" data-pax="15–20 passengers" data-rt="369" data-ow="239">
+        <div class="price-pill">PRIVATE</div>
+        <h3 class="price-name">XL Van</h3>
+        <div class="price-pax-sub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          15–20 passengers
+        </div>
+        <div class="price-big"><span class="price-num">369</span><span class="currency">USD</span></div>
+        <div class="price-allin">All-inclusive · final price</div>
+        <div class="price-divider"></div>
+        <div class="price-type">Round-trip private transfer</div>
+        <div class="price-cancel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Free cancellation up to 24h before</span>
+        </div>
+        <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
+      </div>
+
+      <div class="price-card" data-vehicle="bus" data-vname="Private Bus" data-pax="21–40 passengers" data-rt="518" data-ow="329">
+        <div class="price-pill">PRIVATE</div>
+        <h3 class="price-name">Private Bus</h3>
+        <div class="price-pax-sub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          21–40 passengers
+        </div>
+        <div class="price-big"><span class="price-num">518</span><span class="currency">USD</span></div>
+        <div class="price-allin">All-inclusive · final price</div>
+        <div class="price-divider"></div>
+        <div class="price-type">Round-trip private transfer</div>
+        <div class="price-cancel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Free cancellation up to 24h before</span>
+        </div>
+        <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section id="reviews">
+  <div class="section-inner">
+    <div class="reviews-head">
+      <div class="head-left">
+        <span class="kicker" data-en="Reviews" data-es="Reseñas">Reviews</span>
+        <h2 data-en="What guests say" data-es="Lo que dicen los huéspedes">What guests say</h2>
+        <p data-en="Pulled from TripAdvisor and post-trip emails." data-es="De TripAdvisor y emails post-viaje.">Pulled from TripAdvisor and post-trip emails.</p>
+      </div>
+      <a href="#" target="_blank" rel="noopener" class="reviews-tripadvisor">
+        <span class="ta-count">500+</span> 5★ reviews on TripAdvisor →
+      </a>
+    </div>
+    <div class="reviews-grid">
+      <div class="review">
+        <blockquote>"[Real TripAdvisor review placeholder — pick one mentioning on-time pickup, professional driver, clean vehicle.]"</blockquote>
+        <div class="review-meta">
+          <strong>[Guest Name]</strong>
+          Royal Caribbean · March 2025
+        </div>
+      </div>
+      <div class="review">
+        <blockquote>"[Real review placeholder — pick one mentioning ship monitoring or return-on-time guarantee.]"</blockquote>
+        <div class="review-meta">
+          <strong>[Guest Name]</strong>
+          Carnival · February 2025
+        </div>
+      </div>
+      <div class="review">
+        <blockquote>"[Real review placeholder — pick one highlighting group transfer or family with kids.]"</blockquote>
+        <div class="review-meta">
+          <strong>[Guest Name]</strong>
+          Norwegian · January 2025
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ — airport-tuned editorial layout ===== -->
+<section id="faq" class="alt">
+  <div class="faq-grid">
+
+    <aside class="faq-side">
+      <span class="kicker">FAQ</span>
+      <h2>What you actually need to know.</h2>
+      <p>Most airport guests ask the same handful of questions before booking. Here are the honest answers — no fine print, no surprise fees.</p>
+      <div class="reassure">
+        Still unclear? <a href="https://wa.me/529871146853">WhatsApp us</a> at +52 987 114 6853 — a real person answers, 24/7.
+      </div>
+    </aside>
+
+    <div class="faq-rows">
+
+      <div class="faq-row">
+        <div class="faq-num">01</div>
+        <div>
+          <h3 class="faq-q">How do I find my driver at the airport?</h3>
+          <p class="faq-a">After you clear customs and exit the terminal, look for the driver holding a sign with your name. We send a WhatsApp message ~1 hour before your flight lands with the driver's name, photo, and vehicle details so you know exactly who to look for.</p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">02</div>
+        <div>
+          <h3 class="faq-q">What if my flight is delayed?</h3>
+          <p class="faq-a">We track every arrival in real-time and adjust your pickup automatically. No rescheduling fees, no missed-pickup penalties. Your driver is there whenever you actually walk out — even if you land 4 hours late.</p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">03</div>
+        <div>
+          <h3 class="faq-q">Can you take me to my Airbnb or a private address?</h3>
+          <p class="faq-a">Yes — any address on the island. Just paste the property name or street address in the booking notes. If you only have the Airbnb listing name, that works too — our drivers know the island block by block.</p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">04</div>
+        <div>
+          <h3 class="faq-q">Do you do round-trip for my departure?</h3>
+          <p class="faq-a">Yes. Round-trip pricing covers both legs (airport → hotel on arrival, hotel → airport on departure). Same driver if available. If your trip is one-way only, the toggle above swaps to one-way pricing.</p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">05</div>
+        <div>
+          <h3 class="faq-q">Do you provide child seats or wheelchair-accessible vehicles?</h3>
+          <p class="faq-a">Unfortunately, no — we don't provide child seats or wheelchair-accessible vehicles at this time. If you need either, bring your own portable car seat (we'll secure it) or message us before booking so we can advise you on alternatives.</p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">06</div>
+        <div>
+          <h3 class="faq-q">Can we make multiple stops?</h3>
+          <p class="faq-a">Yes. Common request: drop the family at the hotel, then take a couple of guests to dinner or shopping downtown. Add stops in the booking notes — no surcharge for nearby stops, longer detours quoted individually.</p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">07</div>
+        <div>
+          <h3 class="faq-q">Do I tip the driver?</h3>
+          <p class="faq-a">Tips are appreciated but not required — your fare covers the full service. Customary tip if you'd like to tip: 10–15% of the fare, in USD or pesos, paid directly to the driver.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <div class="footer-brand">cozumel<span class="dot">·</span>transfers</div>
+      <p class="footer-tag" data-en="Private transfers across Cozumel. On time, every transfer. Since 2015." data-es="Traslados privados en Cozumel. Puntuales siempre. Desde 2015.">Private transfers across Cozumel. On time, every transfer. Since 2015.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Contact" data-es="Contacto">Contact</h4>
+      <a href="https://wa.me/529871146853">+52 987 114 6853</a>
+      <a href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
+      <a href="tel:+529871146853">Call us</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Hours" data-es="Horario">Hours</h4>
+      <p data-en="24/7 WhatsApp dispatch" data-es="Despacho 24/7 vía WhatsApp">24/7 WhatsApp dispatch</p>
+      <p data-en="Office: 6 AM – 10 PM" data-es="Oficina: 6 AM – 10 PM">Office: 6 AM – 10 PM</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Destinations" data-es="Destinos">Destinations</h4>
+      <a href="mr-sanchos.html">Mr. Sanchos</a>
+      <a href="chankanaab.html">Chankanaab</a>
+      <a href="nachi-cocom.html">Nachi Cocom</a>
+      <a href="paradise-beach.html">Paradise Beach</a>
+      <a href="bucanos.html">Buccanos</a>
+      <a href="san-gervasio.html">San Gervasio</a>
+      <a href="kuza.html">KUZA</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Our company" data-es="Nuestra empresa">Our company</h4>
+      <a href="#about" data-en="About us" data-es="Sobre nosotros">About us</a>
+      <a href="mailto:hello@cozumelislandtransfers.com?subject=Working%20with%20Cozumel%20Island%20Transfers" data-en="Join the team" data-es="Únete al equipo">Join the team</a>
+      <a href="https://wa.me/529871146853?text=Hi%2C%20I%27m%20interested%20in%20a%20partnership%20opportunity%20with%20Cozumel%20Island%20Transfers." target="_blank" rel="noopener" data-en="Contact us" data-es="Contáctanos">Contact us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2015 – 2026 Cozumel Island Transfers · Licensed transport operator</span>
+    <div class="links">
+      <a href="#terms" data-en="Terms of Use" data-es="Términos de Uso">Terms of Use</a>
+      <a href="#privacy" data-en="Privacy Policy" data-es="Política de Privacidad">Privacy Policy</a>
+      <a href="mailto:hello@cozumelislandtransfers.com?subject=Partnership%20Opportunity" class="partnership" data-en="Partnership opportunities" data-es="Oportunidades de alianza">Partnership opportunities</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div class="modal-backdrop" id="bookingModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+    <button class="modal-close" type="button" onclick="closeBookingModal()" aria-label="Close">×</button>
+
+    <div id="modalFormView">
+      <h3 class="modal-title" id="bookingModalTitle">Book your transfer</h3>
+      <div class="modal-summary">
+        <span class="check-mark">✓</span>
+        <span id="bookingSummary">L Van · 9–14 passengers · $319 USD all-in</span>
+      </div>
+
+      <form id="bookingForm" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return submitBooking(event)">
+        <input type="hidden" name="form-name" value="booking">
+        <input type="hidden" name="vehicle" id="bookingVehicle">
+        <input type="hidden" name="vehiclePax" id="bookingVehiclePax">
+        <input type="hidden" name="priceUSD" id="bookingPriceUSD">
+        <input type="hidden" name="serviceType" id="bookingServiceType">
+        <input type="hidden" name="tripDirection" id="bookingTripDirection">
+        <p hidden><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
+
+        <div class="m-row m-row-2">
+          <div class="m-field">
+            <label for="mDate">Pickup date</label>
+            <input type="date" id="mDate" name="date" required>
+          </div>
+          <div class="m-field">
+            <label for="mDestination">Destination</label>
+            <select id="mDestination" name="destination" required>
+              <option value="">Pick one…</option>
+              <option>Mr. Sanchos</option>
+              <option>Chankanaab</option>
+              <option>Nachi Cocom</option>
+              <option>Paradise Beach</option>
+              <option>Buccanos</option>
+              <option>San Gervasio</option>
+              <option>KUZA</option>
+              <option>Cozumel airport</option>
+              <option>Hotel (specify in notes)</option>
+              <option>Ferry to Playa del Carmen</option>
+              <option>Other (specify in notes)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="m-tz-note">⏰ All times in <strong>Cozumel local time</strong> (UTC−5 · no daylight savings).</div>
+        <div class="m-row m-row-2">
+          <div class="m-field">
+            <label for="mPickupTime">Pickup time</label>
+            <select id="mPickupTime" name="pickupTime" required>
+              <option value="">Time</option>
+              <option>6:00 AM</option><option>7:00 AM</option><option>8:00 AM</option>
+              <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+              <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+              <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+              <option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+            </select>
+          </div>
+          <div class="m-field">
+            <label for="mReturnTime">Return time</label>
+            <select id="mReturnTime" name="returnTime" required>
+              <option value="">Time</option>
+              <option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option>
+              <option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option>
+              <option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option>
+              <option>7:00 PM</option><option>8:00 PM</option><option>9:00 PM</option>
+              <option>10:00 PM</option><option>11:00 PM</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="m-field" id="mAllAboardField" style="display: none;">
+          <label for="mAllAboard">Your ship's all-aboard time <span class="m-optional">(when must you be back on board)</span></label>
+          <select id="mAllAboard" name="allAboardTime">
+            <option value="">Select all-aboard time</option>
+            <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+            <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+            <option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+            <option>9:00 PM</option><option>10:00 PM</option><option>11:00 PM</option>
+          </select>
+        </div>
+
+        <div class="m-field">
+          <label for="mPickupLoc">Pickup &amp; drop-off location</label>
+          <select id="mPickupLoc" name="pickupLocation" required onchange="onPickupChange()">
+            <option value="">Pick one…</option>
+            <option value="International Cruise Terminal · Royal Caribbean">🚢 International Cruise Terminal · Royal Caribbean</option>
+            <option value="Puerta Maya Cruise Terminal · Carnival">🚢 Puerta Maya Cruise Terminal · Carnival</option>
+            <option value="Punta Langosta Cruise Terminal · Other cruise lines">🚢 Punta Langosta Cruise Terminal · Other cruise lines</option>
+            <option value="Cozumel International Airport (CZM)">✈️ Cozumel International Airport (CZM)</option>
+            <option value="other">📍 Other — hotel, Airbnb, address (specify below)</option>
+          </select>
+          <input type="text" id="mPickupLocOther" name="pickupLocationOther" placeholder="Hotel name, address, or pickup details" style="margin-top: 8px; display: none;">
+        </div>
+
+        <div class="m-row m-row-2">
+          <div class="m-field">
+            <label for="mName">Full name</label>
+            <input type="text" id="mName" name="name" required>
+          </div>
+          <div class="m-field">
+            <label for="mEmail">Email</label>
+            <input type="email" id="mEmail" name="email" required>
+          </div>
+        </div>
+
+        <div class="m-row m-row-2">
+          <div class="m-field">
+            <label for="mWhatsApp">WhatsApp</label>
+            <input type="tel" id="mWhatsApp" name="whatsapp" placeholder="+1 555 123 4567" required>
+          </div>
+          <div class="m-field">
+            <label id="mShipLabel" for="mShip">Cruise ship (if any)</label>
+            <input type="text" id="mShip" name="cruiseShipOrFlight" placeholder="e.g. Symphony of the Seas">
+          </div>
+        </div>
+
+        <div class="m-field">
+          <label for="mNotes">Anything we should know? <span class="m-optional">(all-aboard time, kids' ages, allergies, multiple stops…)</span></label>
+          <textarea id="mNotes" name="notes"></textarea>
+        </div>
+
+        <button type="submit" class="m-submit" id="bookingSubmitBtn">Send booking request</button>
+        <p class="m-trust">📧 Email receipt within 5 minutes. WhatsApp confirmation within 1 hour. Pay your driver on arrival in USD, or via secure payment link before your trip.</p>
+      </form>
+    </div>
+
+    <div class="modal-success-view" id="modalSuccessView" style="display: none;">
+      <div class="success-check">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <h3>Got it.</h3>
+      <p>Your booking request is in. You'll get an email receipt within 5 minutes and a WhatsApp confirmation within 1 hour. Pay your driver on arrival in USD, or via secure payment link before your trip.</p>
+      <div class="success-id">Reference: <span id="successRef"></span></div>
+      <div style="margin-top: 20px;">
+        <a href="https://wa.me/529871146853" target="_blank" rel="noopener" class="btn btn-wa">Message us now →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // EN/ES toggle (uses innerHTML so embedded markup in data-en
+  // attributes — e.g. inline <a> in the FAQ reassurance line —
+  // renders correctly instead of leaking raw HTML as text).
+  // ============================================================
+  function toggleLang() {
+    const cur = localStorage.getItem('cit_lang') || 'en';
+    const next = cur === 'en' ? 'es' : 'en';
+    localStorage.setItem('cit_lang', next);
+    applyLang(next);
+  }
+  function applyLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const t = el.dataset[lang];
+      if (t) el.innerHTML = t;
+    });
+    const tog = document.getElementById('langToggle');
+    if (tog) tog.textContent = lang === 'en' ? 'ES' : 'EN';
+  }
+  applyLang(localStorage.getItem('cit_lang') || 'en');
+
+  // ============================================================
+  // Booking modal (used by Book Now CTAs on pricing cards)
+  // ============================================================
+  function openBookingModal(slug, name, paxRange, priceUSD, preselectedDestination, serviceType, tripDirection) {
+    const modal = document.getElementById('bookingModal');
+
+    // Defaults — homepage / cruise page assume cruise + round-trip.
+    serviceType = serviceType || 'cruise';
+    tripDirection = tripDirection || 'round-trip';
+
+    // Summary line — show trip direction so the price clearly maps to it.
+    const directionLabel = tripDirection === 'one-way' ? 'one-way' : 'round-trip';
+    document.getElementById('bookingSummary').textContent =
+      name + ' · ' + paxRange + ' · $' + priceUSD + ' ' + directionLabel;
+
+    // Reset form first, then set the hidden vehicle fields + pickup default.
+    const form = document.getElementById('bookingForm');
+    form.reset();
+    document.getElementById('bookingVehicle').value = name;
+    document.getElementById('bookingVehiclePax').value = paxRange;
+    document.getElementById('bookingPriceUSD').value = priceUSD;
+    document.getElementById('bookingServiceType').value = serviceType;
+    document.getElementById('bookingTripDirection').value = tripDirection;
+
+    // Smart field swap: airport gets "Flight number", cruise gets "Cruise ship".
+    const shipLabel = document.getElementById('mShipLabel');
+    const shipInput = document.getElementById('mShip');
+    const allAboardField = document.getElementById('mAllAboardField');
+    const allAboardInput = document.getElementById('mAllAboard');
+    if (serviceType === 'airport') {
+      shipLabel.textContent = 'Flight number (if available)';
+      shipInput.placeholder = 'e.g. AM 524';
+      document.getElementById('mPickupLoc').value = 'Cozumel International Airport (CZM)';
+      if (allAboardField) allAboardField.style.display = 'none';
+      if (allAboardInput) allAboardInput.required = false;
+    } else {
+      shipLabel.textContent = 'Cruise ship (if any)';
+      shipInput.placeholder = 'e.g. Symphony of the Seas';
+      document.getElementById('mPickupLoc').value = '';
+      if (allAboardField) allAboardField.style.display = '';
+      if (allAboardInput) allAboardInput.required = true;
+    }
+    onPickupChange();
+
+    document.getElementById('mDate').min = new Date().toISOString().split('T')[0];
+    if (preselectedDestination) {
+      document.getElementById('mDestination').value = preselectedDestination;
+    }
+
+    document.getElementById('modalFormView').style.display = 'block';
+    document.getElementById('modalSuccessView').style.display = 'none';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBookingModal() {
+    const modal = document.getElementById('bookingModal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Show/hide the "Other" pickup location text input when user picks "Other".
+  function onPickupChange() {
+    const sel = document.getElementById('mPickupLoc');
+    const other = document.getElementById('mPickupLocOther');
+    if (!sel || !other) return;
+    if (sel.value === 'other') {
+      other.style.display = 'block';
+      other.required = true;
+      setTimeout(() => other.focus(), 50);
+    } else {
+      other.style.display = 'none';
+      other.required = false;
+      other.value = '';
+    }
+  }
+
+  // Close on backdrop click and Escape key.
+  document.getElementById('bookingModal').addEventListener('click', e => {
+    if (e.target.id === 'bookingModal') closeBookingModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('bookingModal').classList.contains('open')) {
+      closeBookingModal();
+    }
+  });
+
+  // Submit handler — Netlify-Forms compatible. When the site is deployed
+  // to Netlify the POST is captured (submissions land in the Netlify
+  // dashboard + email goes to Mike). On local file:// the POST silently
+  // fails and we still show the success view so the UX is testable.
+  async function submitBooking(e) {
+    e.preventDefault();
+    const form = e.target;
+    const submitBtn = document.getElementById('bookingSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    const refId = 'CIT-' + Date.now().toString().slice(-6);
+    const formData = new FormData(form);
+
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+    } catch (err) {
+      // Expected on file:// — production POST works once deployed.
+      console.log('Form post failed (expected on local file://):', err.message);
+    }
+
+    document.getElementById('successRef').textContent = refId;
+    document.getElementById('modalFormView').style.display = 'none';
+    document.getElementById('modalSuccessView').style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send booking request';
+    return false;
+  }
+
+  // ============================================================
+  // Airport-only: round-trip / one-way toggle.
+  // The 4 pricing cards have data-rt and data-ow attributes; the
+  // toggle swaps which is displayed (and which goes into the
+  // booking modal when the user clicks Book Now).
+  // ============================================================
+  let currentDirection = 'round-trip';
+  function setDirection(dir) {
+    currentDirection = dir;
+    document.querySelectorAll('.dir-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.dir === dir);
+    });
+    document.querySelectorAll('.price-card').forEach(card => {
+      const price = dir === 'one-way' ? card.dataset.ow : card.dataset.rt;
+      const numEl = card.querySelector('.price-num');
+      if (numEl) numEl.textContent = price;
+      const typeEl = card.querySelector('.price-type');
+      if (typeEl) typeEl.textContent = (dir === 'one-way' ? 'One-way' : 'Round-trip') + ' private transfer';
+    });
+  }
+
+  function airportBook(btn) {
+    const card = btn.closest('.price-card');
+    const dir = currentDirection;
+    const price = dir === 'one-way' ? card.dataset.ow : card.dataset.rt;
+    openBookingModal(
+      card.dataset.vehicle,
+      card.dataset.vname,
+      card.dataset.pax,
+      parseInt(price, 10),
+      null,            // no preselected destination — user picks hotel
+      'airport',
+      dir
+    );
+  }
+</script>
+</body>
+</html>

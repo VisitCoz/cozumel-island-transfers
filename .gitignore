@@ -1,0 +1,21 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies (we don't use any yet, but future-proof)
+node_modules/
+
+# Local-only secrets — DO NOT commit any .env file with real keys
+.env
+.env.local
+.env.*.local
+
+# Apps Script copy lives here as source of truth but is paste-into-GAS
+# (not consumed by the deployed site). Keep it tracked.
