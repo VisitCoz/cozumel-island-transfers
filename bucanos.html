@@ -96,6 +96,26 @@
     font-weight: 600; font-size: 0.9rem; text-decoration: none;
   }
   .nav-cta:hover { background: var(--accent-pressed); color: #fff; }
+  .nav-menu-toggle {
+    display: none;
+    background: transparent; border: 1px solid var(--line); color: var(--ink);
+    width: 38px; height: 38px; border-radius: 8px;
+    padding: 0; cursor: pointer;
+    align-items: center; justify-content: center;
+    transition: border-color .12s;
+  }
+  .nav-menu-toggle:hover { border-color: var(--ink); }
+  .nav-menu-toggle svg { display: block; }
+  .price-savings {
+    max-width: 760px; margin: 0 auto 40px;
+    padding: 14px 22px;
+    background: rgba(52,199,89,.08);
+    border: 1px solid rgba(52,199,89,.3);
+    border-radius: var(--radius);
+    text-align: center;
+    font-size: 1rem; line-height: 1.55; color: var(--ink);
+  }
+  .price-savings strong { color: var(--success-deep); font-weight: 700; }
 
   /* Hero */
   .hero {
@@ -502,12 +522,55 @@
   /* Mobile */
   @media (max-width: 980px) {
     section { padding: var(--section-y-mobile) 20px; }
-    .hero { padding: 56px 20px; }
+    .hero { padding: 48px 20px; }
     .hero-inner { grid-template-columns: 1fr; gap: 32px; }
-    .pricing-grid { grid-template-columns: 1fr; gap: 22px; }
+    .hero h1 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+    .pricing-grid { grid-template-columns: 1fr; gap: 18px; }
+    .price-card { padding: 28px 24px; }
     .price-card.popular { padding-top: 36px; }
-    .nav-link, .nav-phone { display: none; }
-    .nav-links { gap: 10px; }
+    .price-big { font-size: 2.6rem; }
+    .price-name { font-size: 1.4rem; }
+
+    /* Mobile nav — hamburger dropdown */
+    .nav-menu-toggle { display: inline-flex; margin-left: auto; }
+    .nav-phone, .lang-toggle, .nav-cta { display: none; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 60px; left: 0; right: 0;
+      background: rgba(255,255,255,.98);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      flex-direction: column;
+      padding: 8px 24px 20px;
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 12px 32px rgba(14,14,16,.08);
+      gap: 0; margin-left: 0; align-items: stretch;
+      z-index: 49;
+      max-height: calc(100vh - 60px); overflow-y: auto;
+    }
+    .nav-links.open { display: flex; }
+    .nav-link {
+      display: block !important;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 1.04rem;
+    }
+    .nav-links .nav-phone {
+      display: block;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 1rem; color: var(--ink);
+    }
+    .nav-links .lang-toggle {
+      display: inline-block;
+      margin: 14px 0 0; align-self: flex-start;
+    }
+    .nav-links .nav-cta {
+      display: block;
+      margin: 14px 0 0;
+      padding: 14px 18px;
+      text-align: center; font-size: 1rem;
+    }
     .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
     .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
   }
@@ -524,7 +587,10 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand">cozumel<span class="dot">·</span>transfers</a>
-    <div class="nav-links">
+    <button class="nav-menu-toggle" type="button" onclick="toggleMobileNav()" aria-label="Open menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <div class="nav-links" id="navLinks">
       <a href="index.html#destinations" class="nav-link">Destinations</a>
       <a href="index.html#vehicles" class="nav-link">Vehicles</a>
       <a href="index.html#faq" class="nav-link">FAQ</a>
@@ -589,6 +655,10 @@
       <span class="kicker">Book this transfer</span>
       <h2>Choose by group size.</h2>
       <p>Round-trip private transfer to Buccanos. All-inclusive — no taxes or fees added at checkout.</p>
+    </div>
+
+    <div class="price-savings">
+      💰 <strong>25% cheaper than Viator &amp; TripAdvisor</strong> — up to <strong>40% less</strong> than cruise-line excursions. Same vans. Same drivers. Lower price.
     </div>
 
     <div class="pricing-grid">
@@ -890,6 +960,15 @@
 </div>
 
 <script>
+  function toggleMobileNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
   // EN/ES toggle (uses innerHTML so embedded markup in data-en renders)
   function toggleLang() {
     const cur = localStorage.getItem('cit_lang') || 'en';
