@@ -196,6 +196,45 @@
   .trust-inner a { color: var(--mute); border-bottom: 1px dotted var(--line); }
   .trust-inner a:hover { color: var(--accent); border-color: var(--accent); }
 
+  /* ===== Reviews ===== */
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-bottom: 32px;
+  }
+  .review {
+    background: #fff;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 28px 26px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .review-stars {
+    color: #f5a623; font-size: 1.05rem; letter-spacing: 2px;
+  }
+  .review-title {
+    font-size: 1.05rem; font-weight: 600; color: var(--ink);
+    line-height: 1.3; margin: 0;
+  }
+  .review-body {
+    color: var(--mute); font-size: 0.96rem; line-height: 1.55;
+    margin: 0; flex: 1;
+  }
+  .review-meta {
+    font-size: 0.85rem; color: var(--mute);
+    border-top: 1px solid var(--line-soft);
+    padding-top: 12px;
+  }
+  .review-meta strong { color: var(--ink); font-weight: 600; }
+  .reviews-footer {
+    text-align: center; font-size: 0.95rem; color: var(--mute);
+  }
+  .reviews-footer .ta-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--accent); font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .reviews-footer .ta-badge:hover { border-color: var(--accent); }
+
   /* ===== Sections (generic) ===== */
   section { padding: var(--section-y) 24px; }
   section.alt { background: var(--surface); }
@@ -878,6 +917,7 @@
     .faq-row { grid-template-columns: 1fr; gap: 4px; padding: 22px 0; }
     .work-compact { padding: 32px 20px; }
     .work-compact-inner { grid-template-columns: 1fr; gap: 18px; }
+    .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
     .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
     .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
   }
@@ -919,8 +959,8 @@
     <div>
       <span class="hero-kicker">Cozumel cruise port · airport · since 2015</span>
       <h1 data-en="Private transfers across Cozumel." data-es="Traslados privados en Cozumel.">Private transfers across Cozumel.</h1>
-      <p class="lede" data-en="Vans, Sprinters, and coaches for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015." data-es="Vans, Sprinters y autobuses para 1–40 pasajeros. Monitoreo en tiempo real de barco y vuelo. Garantía de regreso puntual o reembolso. Desde 2015.">
-        Vans, Sprinters, and coaches for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015.
+      <p class="lede" data-en="Private vehicles for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015." data-es="Vehículos privados para 1–40 pasajeros. Monitoreo en tiempo real de barco y vuelo. Garantía de regreso puntual o reembolso. Desde 2015.">
+        Private vehicles for 1–40 passengers. Real-time ship and flight tracking. Return-on-time refund guarantee. Since 2015.
       </p>
       <div class="hero-ctas">
         <a href="#vehicles" class="btn btn-primary" data-en="See pricing" data-es="Ver precios">See pricing</a>
@@ -932,6 +972,21 @@
     </div>
   </div>
 </header>
+
+<!-- ===== TRUST BAND (right under hero) ===== -->
+<div class="trust">
+  <div class="trust-inner">
+    <strong>Private vehicles</strong> for 1–40 passengers
+    <span class="dot">·</span>
+    <strong>Real-time</strong> ship &amp; flight tracking
+    <span class="dot">·</span>
+    <strong>Return-on-time</strong> refund guarantee
+    <span class="dot">·</span>
+    <strong>Since 2015</strong>
+    <span class="dot">·</span>
+    <a href="https://www.tripadvisor.com/AttractionProductReview-g150809-d25564410-Cozumel_Island_Transfers-Cozumel_Yucatan_Peninsula.html" target="_blank" rel="noopener">5★ on TripAdvisor →</a>
+  </div>
+</div>
 
 <!-- ===== "TWO PATHS" CHOOSER (Cruise vs Airport) ===== -->
 <section class="chooser">
@@ -965,21 +1020,6 @@
     </div>
   </div>
 </section>
-
-<!-- ===== TRUST BAND ===== -->
-<div class="trust">
-  <div class="trust-inner">
-    <strong>Since 2015</strong>
-    <span class="dot">·</span>
-    <strong>500+</strong> cruise guests in 2025
-    <span class="dot">·</span>
-    Return-on-time refund
-    <span class="dot">·</span>
-    Real-time ship tracking
-    <span class="dot">·</span>
-    <a href="#" target="_blank" rel="noopener">5★ on TripAdvisor →</a>
-  </div>
-</div>
 
 <!-- ===== HOW IT WORKS ===== -->
 <section id="how-it-works" class="alt">
@@ -1085,6 +1125,44 @@
         <span class="dest-arrow">View &amp; book →</span>
       </a>
 
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section id="reviews">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker" data-en="What guests say" data-es="Lo que dicen">What guests say</span>
+      <h2 data-en="5★ on TripAdvisor since 2015." data-es="5★ en TripAdvisor desde 2015.">5★ on TripAdvisor since 2015.</h2>
+      <p data-en="18 verified reviews from cruise guests and airport arrivals." data-es="18 reseñas verificadas de cruceristas y viajeros del aeropuerto.">18 verified reviews from cruise guests and airport arrivals.</p>
+    </div>
+    <div class="reviews-grid">
+
+      <article class="review">
+        <div class="review-stars">★★★★★</div>
+        <h3 class="review-title">Great company</h3>
+        <p class="review-body">They communicated well and very fast to respond. We made a last-minute change to our meeting time and they accommodated. It was nice to not have to wait at our resort and have an air-conditioned van waiting for us. Would highly recommend.</p>
+        <div class="review-meta"><strong>Genny</strong> · May 2026 · via TripAdvisor</div>
+      </article>
+
+      <article class="review">
+        <div class="review-stars">★★★★★</div>
+        <h3 class="review-title">Excellent Transfer</h3>
+        <p class="review-body">Wonderful experience. Prompt, easy, friendly, clean, and safe! Would highly recommend if you need transportation for a group. Our driver even came early when we finished a tour earlier than expected.</p>
+        <div class="review-meta"><strong>Meghan G</strong> · Jun 2025 · via TripAdvisor</div>
+      </article>
+
+      <article class="review">
+        <div class="review-stars">★★★★★</div>
+        <h3 class="review-title">Perfect service</h3>
+        <p class="review-body">Cozumel Island Transfers exceeded my expectations with their reliable, punctual, and professional service. The vehicle was clean and well-equipped with amenities, making for an enjoyable ride. I'll certainly use this service again.</p>
+        <div class="review-meta"><strong>Hasna E</strong> · Nov 2023 · via TripAdvisor</div>
+      </article>
+
+    </div>
+    <div class="reviews-footer">
+      <a href="https://www.tripadvisor.com/AttractionProductReview-g150809-d25564410-Cozumel_Island_Transfers-Cozumel_Yucatan_Peninsula.html" target="_blank" rel="noopener" class="ta-badge" data-en="Read all 18 reviews on TripAdvisor →" data-es="Lee las 18 reseñas en TripAdvisor →">Read all 18 reviews on TripAdvisor →</a>
     </div>
   </div>
 </section>
