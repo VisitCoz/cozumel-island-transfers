@@ -333,6 +333,24 @@
   .dest.dest-tierramaya:hover::before { opacity: 0.55; transition: opacity .25s; }
   .dest.dest-tierramaya .dest-label { color: #A07820; }
   .dest.dest-tierramaya .dest-arrow { color: #A07820; }
+
+  /* Mr. Sanchos branded watermark */
+  .dest.dest-mrsanchos {
+    position: relative; overflow: hidden;
+  }
+  .dest.dest-mrsanchos::before {
+    content: '';
+    position: absolute;
+    right: -18px; bottom: -22px;
+    width: 130px; height: 130px;
+    background: url('assets/dest-mr-sanchos-logo.webp') no-repeat center / contain;
+    opacity: 0.28;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity .25s;
+  }
+  .dest.dest-mrsanchos > * { position: relative; z-index: 1; }
+  .dest.dest-mrsanchos:hover::before { opacity: 0.5; }
   .dest-label {
     font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
     color: var(--mute); text-transform: uppercase;
@@ -1159,7 +1177,7 @@
         <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
       </a>
 
-      <a href="mr-sanchos.html" class="dest">
+      <a href="mr-sanchos.html" class="dest dest-mrsanchos">
         <div class="dest-label">Beach club</div>
         <h3>Mr. Sanchos</h3>
         <p data-en="All-inclusive food, drinks, beach. 15 min south of port." data-es="Comida, bebida y playa all-inclusive. 15 min al sur del puerto.">All-inclusive food, drinks, beach. 15 min south of port.</p>
