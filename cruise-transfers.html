@@ -276,6 +276,42 @@
   }
   .how-callout strong { color: var(--accent); font-weight: 600; }
 
+  /* ===== Cruise piers ===== */
+  .piers-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    margin-bottom: 28px;
+  }
+  .pier-card {
+    background: #fff; border: 1px solid var(--line-soft);
+    border-top: 2px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+  }
+  .pier-card h3 {
+    font-size: 1.05rem; font-weight: 600; color: var(--ink);
+    margin: 0 0 4px; letter-spacing: -0.005em;
+  }
+  .pier-card .pier-tag {
+    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--mute); text-transform: uppercase;
+    margin: 0 0 10px;
+  }
+  .pier-card p {
+    color: var(--mute); font-size: 0.92rem; margin: 0; line-height: 1.5;
+  }
+  .piers-note {
+    text-align: center; padding: 18px 24px;
+    background: var(--surface); border-radius: var(--radius);
+    color: var(--mute); font-size: 0.96rem;
+  }
+  .piers-note strong { color: var(--ink); }
+  @media (max-width: 900px) {
+    .piers-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  }
+  @media (max-width: 480px) {
+    .piers-grid { grid-template-columns: 1fr; }
+  }
+
   /* ===== Destinations grid ===== */
   .dest-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
@@ -967,17 +1003,53 @@
 <!-- ===== TRUST BAND ===== -->
 <div class="trust">
   <div class="trust-inner">
+    <strong>Private vehicles</strong> for 1–40 passengers
+    <span class="dot">·</span>
+    <strong>Real-time</strong> ship tracking
+    <span class="dot">·</span>
+    <strong>Return-on-time</strong> refund guarantee
+    <span class="dot">·</span>
     <strong>Since 2015</strong>
     <span class="dot">·</span>
-    <strong>500+</strong> cruise guests in 2025
-    <span class="dot">·</span>
-    Return-on-time refund
-    <span class="dot">·</span>
-    Real-time ship tracking
-    <span class="dot">·</span>
-    <a href="#" target="_blank" rel="noopener">5★ on TripAdvisor →</a>
+    <a href="https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html" target="_blank" rel="noopener">🏆 Travelers' Choice on TripAdvisor →</a>
   </div>
 </div>
+
+<!-- ===== CRUISE PIERS SERVED ===== -->
+<section id="piers">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker">Cruise piers</span>
+      <h2>We pick up at all 4 Cozumel cruise piers</h2>
+      <p>Whichever ship you're on, whichever terminal you walk off, your driver is there with a sign showing your name.</p>
+    </div>
+    <div class="piers-grid">
+      <div class="pier-card">
+        <h3>TMM Terminal</h3>
+        <p class="pier-tag">Terminal Marítima de Maya</p>
+        <p>Carnival, Holland America, and Princess often dock here. North side of San Miguel. ~5 min from downtown.</p>
+      </div>
+      <div class="pier-card">
+        <h3>Puerta Maya</h3>
+        <p class="pier-tag">South pier</p>
+        <p>Carnival's primary Cozumel berth. Most cruise tours start here. ~10 min south of downtown San Miguel.</p>
+      </div>
+      <div class="pier-card">
+        <h3>Punta Langosta</h3>
+        <p class="pier-tag">Downtown pier</p>
+        <p>Smaller and mid-size ships. Walking distance to the San Miguel waterfront, restaurants, and shopping.</p>
+      </div>
+      <div class="pier-card">
+        <h3>International Pier</h3>
+        <p class="pier-tag">SSA Cozumel</p>
+        <p>Royal Caribbean, Norwegian, MSC, Celebrity, Disney. Largest pier — accommodates two megaships. South of Puerta Maya.</p>
+      </div>
+    </div>
+    <div class="piers-note">
+      <strong>Don't know your pier yet?</strong> Tell us your ship name when you book — we already know where it docks.
+    </div>
+  </div>
+</section>
 
 <!-- ===== HOW IT WORKS ===== -->
 <section id="how-it-works" class="alt">
