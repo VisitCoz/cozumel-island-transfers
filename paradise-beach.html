@@ -628,6 +628,32 @@
     .modal-card { padding: 28px 22px; }
     .m-row-2 { grid-template-columns: 1fr; }
   }
+
+  /* Official destination badge — added by add_official_badge.py */
+  .official-badge {
+    padding: 20px 24px;
+    background: #FAFAFC;
+    border-bottom: 1px solid #F1F1F4;
+    text-align: center;
+    font-size: 0.94rem; line-height: 1.5; color: #6E6E73;
+  }
+  .official-badge .badge-pill {
+    display: inline-block;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.09em;
+    color: #1F7A3F; background: rgba(52,199,89,.12);
+    padding: 4px 12px; border-radius: 999px;
+    margin-right: 10px; vertical-align: middle;
+    text-transform: uppercase;
+  }
+  .official-badge .badge-link {
+    color: #0E0E10; font-weight: 600; text-decoration: none;
+    border-bottom: 1px dotted #E5E5E7;
+  }
+  .official-badge .badge-link:hover { color: #1D7AFC; border-color: #1D7AFC; }
+  @media (max-width: 560px) {
+    .official-badge { font-size: 0.88rem; padding: 16px 20px; }
+    .official-badge .badge-pill { display: block; margin: 0 auto 8px; max-width: max-content; }
+  }
 </style>
 </head>
 <body>
@@ -688,6 +714,13 @@
     <a href="#" target="_blank" rel="noopener">5★ TripAdvisor →</a>
   </div>
 </div>
+
+<!-- official-destination-badge -->
+<div class="official-badge">
+  <span class="badge-pill">✓ Authorized transfer</span>
+  We&rsquo;re the ride, not the destination. Official Paradise Beach Cozumel site: <a href="https://paradisebeachcozumel.com" target="_blank" rel="noopener" class="badge-link">paradisebeachcozumel.com &rarr;</a>
+</div>
+
 
 <!-- ===== ABOUT ===== -->
 <section>
