@@ -314,43 +314,31 @@
   .dest.dest-featured:hover { border-color: var(--accent); }
   /* Tierra Maya = Mike's own venue, honey-gold accent (Tierra Maya brand) */
   .dest.dest-tierramaya {
-    position: relative; overflow: hidden;
     background: linear-gradient(135deg, rgba(212,176,80,.08), rgba(212,176,80,.16));
     border-color: rgba(212,176,80,.32);
   }
-  .dest.dest-tierramaya::before {
-    content: '';
-    position: absolute;
-    right: -24px; bottom: -28px;
-    width: 150px; height: 150px;
-    background: url('assets/tierra-maya-logo.png') no-repeat center / contain;
-    opacity: 0.35;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .dest.dest-tierramaya > * { position: relative; z-index: 1; }
   .dest.dest-tierramaya:hover { border-color: #C8A040; }
-  .dest.dest-tierramaya:hover::before { opacity: 0.55; transition: opacity .25s; }
   .dest.dest-tierramaya .dest-label { color: #A07820; }
   .dest.dest-tierramaya .dest-arrow { color: #A07820; }
+  .dest.dest-tierramaya .dest-logo { background-image: url('assets/tierra-maya-logo.png'); }
 
-  /* Generic destination-card watermark — each card sets --dest-logo inline */
-  .dest.dest-with-logo {
-    position: relative; overflow: hidden;
+  /* Destination cards with logos — visible at top of card, full color */
+  .dest.dest-with-logo .dest-logo,
+  .dest.dest-tierramaya .dest-logo {
+    display: block;
+    height: 72px;
+    margin: 0 auto 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 100%;
+    transition: transform .2s ease;
   }
-  .dest.dest-with-logo::before {
-    content: '';
-    position: absolute;
-    right: -18px; bottom: -22px;
-    width: 130px; height: 130px;
-    background: var(--dest-logo) no-repeat center / contain;
-    opacity: 0.28;
-    pointer-events: none;
-    z-index: 0;
-    transition: opacity .25s;
+  .dest.dest-with-logo .dest-logo {
+    background-image: var(--dest-logo);
   }
-  .dest.dest-with-logo > * { position: relative; z-index: 1; }
-  .dest.dest-with-logo:hover::before { opacity: 0.55; }
+  .dest.dest-with-logo:hover .dest-logo,
+  .dest.dest-tierramaya:hover .dest-logo { transform: scale(1.04); }
   .dest-label {
     font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
     color: var(--mute); text-transform: uppercase;
@@ -1171,6 +1159,7 @@
       </a>
 
       <a href="tierra-maya.html" class="dest dest-tierramaya">
+        <div class="dest-logo"></div>
         <div class="dest-label">Mayan preserve</div>
         <h3>Tierra Maya</h3>
         <p data-en="Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port." data-es="Cacao, miel, tortilla y mezcal mayas en nuestra reserva cultural privada. 15 min del puerto.">Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.</p>
@@ -1178,6 +1167,7 @@
       </a>
 
       <a href="mr-sanchos.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-mr-sanchos-logo.webp')">
+        <div class="dest-logo"></div>
         <div class="dest-label">Beach club</div>
         <h3>Mr. Sanchos</h3>
         <p data-en="All-inclusive food, drinks, beach. 15 min south of port." data-es="Comida, bebida y playa all-inclusive. 15 min al sur del puerto.">All-inclusive food, drinks, beach. 15 min south of port.</p>
@@ -1185,6 +1175,7 @@
       </a>
 
       <a href="chankanaab.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-chankanaab-logo.png')">
+        <div class="dest-logo"></div>
         <div class="dest-label">National park</div>
         <h3>Chankanaab</h3>
         <p data-en="Snorkel reef, dolphin lagoon, botanical garden. 10 min south." data-es="Arrecife, laguna de delfines, jardín botánico. 10 min al sur.">Snorkel reef, dolphin lagoon, botanical garden. 10 min south.</p>
@@ -1192,6 +1183,7 @@
       </a>
 
       <a href="nachi-cocom.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-nachi-cocom-logo.png')">
+        <div class="dest-logo"></div>
         <div class="dest-label">Beach club</div>
         <h3>Nachi Cocom</h3>
         <p data-en="Exclusive, 130-guest cap. Quietest beach club. 20 min south." data-es="Exclusivo, tope de 130 personas. El más tranquilo. 20 min al sur.">Exclusive, 130-guest cap. Quietest beach club. 20 min south.</p>
@@ -1199,6 +1191,7 @@
       </a>
 
       <a href="paradise-beach.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-paradise-beach-logo.png')">
+        <div class="dest-logo"></div>
         <div class="dest-label">Beach club</div>
         <h3>Paradise Beach</h3>
         <p data-en="Inflatable Aqua Park, all-inclusive option. 15 min south." data-es="Parque acuático inflable, opción all-inclusive. 15 min al sur.">Inflatable Aqua Park, all-inclusive option. 15 min south.</p>
@@ -1206,6 +1199,7 @@
       </a>
 
       <a href="bucanos.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-bucanos-logo.jpg')">
+        <div class="dest-logo"></div>
         <div class="dest-label">Beach club</div>
         <h3>Buccanos</h3>
         <p data-en="Quieter, north-side club. 10 min from cruise port." data-es="Más tranquilo, en el norte. 10 min del puerto.">Quieter, north-side club. 10 min from cruise port.</p>
@@ -1213,6 +1207,7 @@
       </a>
 
       <a href="san-gervasio.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-san-gervasio-logo.png')">
+        <div class="dest-logo"></div>
         <div class="dest-label">Cultural site</div>
         <h3>San Gervasio Ruins</h3>
         <p data-en="Cozumel&rsquo;s largest Mayan archaeological site. 20 min inland." data-es="El sitio arqueológico maya más grande de Cozumel. 20 min tierra adentro.">Cozumel's largest Mayan archaeological site. 20 min inland.</p>
@@ -1220,6 +1215,7 @@
       </a>
 
       <a href="kuza.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-kuza-logo.png')">
+        <div class="dest-logo"></div>
         <div class="dest-label">Beach club</div>
         <h3>KUZA</h3>
         <p data-en="Round-trip transfer from cruise port to KUZA." data-es="Traslado redondo desde el puerto a KUZA.">Round-trip transfer from cruise port to KUZA.</p>
