@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /.netlify/
+
+# Block crawl of CDN transform endpoint — serve cacheable images directly
+Disallow: /.netlify/images?
+
+Sitemap: https://cozu.netlify.app/sitemap.xml
