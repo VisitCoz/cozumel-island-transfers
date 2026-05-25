@@ -334,23 +334,23 @@
   .dest.dest-tierramaya .dest-label { color: #A07820; }
   .dest.dest-tierramaya .dest-arrow { color: #A07820; }
 
-  /* Mr. Sanchos branded watermark */
-  .dest.dest-mrsanchos {
+  /* Generic destination-card watermark — each card sets --dest-logo inline */
+  .dest.dest-with-logo {
     position: relative; overflow: hidden;
   }
-  .dest.dest-mrsanchos::before {
+  .dest.dest-with-logo::before {
     content: '';
     position: absolute;
     right: -18px; bottom: -22px;
     width: 130px; height: 130px;
-    background: url('assets/dest-mr-sanchos-logo.webp') no-repeat center / contain;
+    background: var(--dest-logo) no-repeat center / contain;
     opacity: 0.28;
     pointer-events: none;
     z-index: 0;
     transition: opacity .25s;
   }
-  .dest.dest-mrsanchos > * { position: relative; z-index: 1; }
-  .dest.dest-mrsanchos:hover::before { opacity: 0.5; }
+  .dest.dest-with-logo > * { position: relative; z-index: 1; }
+  .dest.dest-with-logo:hover::before { opacity: 0.55; }
   .dest-label {
     font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
     color: var(--mute); text-transform: uppercase;
@@ -1177,28 +1177,28 @@
         <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
       </a>
 
-      <a href="mr-sanchos.html" class="dest dest-mrsanchos">
+      <a href="mr-sanchos.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-mr-sanchos-logo.webp')">
         <div class="dest-label">Beach club</div>
         <h3>Mr. Sanchos</h3>
         <p data-en="All-inclusive food, drinks, beach. 15 min south of port." data-es="Comida, bebida y playa all-inclusive. 15 min al sur del puerto.">All-inclusive food, drinks, beach. 15 min south of port.</p>
         <span class="dest-arrow" data-en="View &amp; book →" data-es="Ver y reservar →">View &amp; book →</span>
       </a>
 
-      <a href="chankanaab.html" class="dest">
+      <a href="chankanaab.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-chankanaab-logo.png')">
         <div class="dest-label">National park</div>
         <h3>Chankanaab</h3>
         <p data-en="Snorkel reef, dolphin lagoon, botanical garden. 10 min south." data-es="Arrecife, laguna de delfines, jardín botánico. 10 min al sur.">Snorkel reef, dolphin lagoon, botanical garden. 10 min south.</p>
         <span class="dest-arrow">View &amp; book →</span>
       </a>
 
-      <a href="nachi-cocom.html" class="dest">
+      <a href="nachi-cocom.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-nachi-cocom-logo.png')">
         <div class="dest-label">Beach club</div>
         <h3>Nachi Cocom</h3>
         <p data-en="Exclusive, 130-guest cap. Quietest beach club. 20 min south." data-es="Exclusivo, tope de 130 personas. El más tranquilo. 20 min al sur.">Exclusive, 130-guest cap. Quietest beach club. 20 min south.</p>
         <span class="dest-arrow">View &amp; book →</span>
       </a>
 
-      <a href="paradise-beach.html" class="dest">
+      <a href="paradise-beach.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-paradise-beach-logo.svg')">
         <div class="dest-label">Beach club</div>
         <h3>Paradise Beach</h3>
         <p data-en="Inflatable Aqua Park, all-inclusive option. 15 min south." data-es="Parque acuático inflable, opción all-inclusive. 15 min al sur.">Inflatable Aqua Park, all-inclusive option. 15 min south.</p>
@@ -1212,14 +1212,14 @@
         <span class="dest-arrow">View &amp; book →</span>
       </a>
 
-      <a href="san-gervasio.html" class="dest">
+      <a href="san-gervasio.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-san-gervasio-logo.png')">
         <div class="dest-label">Cultural site</div>
         <h3>San Gervasio Ruins</h3>
         <p data-en="Cozumel&rsquo;s largest Mayan archaeological site. 20 min inland." data-es="El sitio arqueológico maya más grande de Cozumel. 20 min tierra adentro.">Cozumel's largest Mayan archaeological site. 20 min inland.</p>
         <span class="dest-arrow">View &amp; book →</span>
       </a>
 
-      <a href="kuza.html" class="dest">
+      <a href="kuza.html" class="dest dest-with-logo" style="--dest-logo: url('assets/dest-kuza-logo.png')">
         <div class="dest-label">Beach club</div>
         <h3>KUZA</h3>
         <p data-en="Round-trip transfer from cruise port to KUZA." data-es="Traslado redondo desde el puerto a KUZA.">Round-trip transfer from cruise port to KUZA.</p>
