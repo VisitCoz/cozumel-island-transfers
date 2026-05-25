@@ -108,7 +108,7 @@
   .nav-menu-toggle {
     display: none;
     background: transparent; border: 1px solid var(--line); color: var(--ink);
-    width: 38px; height: 38px; border-radius: 8px;
+    width: 44px; height: 44px; border-radius: 8px;
     padding: 0; cursor: pointer;
     align-items: center; justify-content: center;
     transition: border-color .12s;
@@ -861,7 +861,6 @@
     .faq-row.expanded .faq-q::after { content: '−'; }
     .steps-grid, .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
     .dest-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .pricing-grid { grid-template-columns: 1fr; gap: 22px; }
     .price-card.popular { padding-top: 36px; }
     .reviews-head { flex-direction: column; align-items: flex-start; }
     .faq-grid { grid-template-columns: 1fr; gap: 36px; }
@@ -878,6 +877,21 @@
     .hero-ctas { flex-direction: column; align-items: stretch; }
     .hero-ctas .btn { justify-content: center; }
   }
+
+  /* Sticky mobile WhatsApp button — added by iphone_fixes.py */
+  .sticky-wa {
+    display: none;
+    position: fixed; bottom: 18px; right: 18px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366; color: #fff;
+    align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px rgba(37,211,102,.45);
+    z-index: 60;
+    text-decoration: none;
+    transition: transform .15s ease;
+  }
+  .sticky-wa:hover { transform: scale(1.05); color: #fff; }
+  .sticky-wa svg { width: 30px; height: 30px; }
 </style>
 </head>
 <body>
@@ -1343,7 +1357,7 @@
         <div class="m-row m-row-2">
           <div class="m-field">
             <label for="mDate">Pickup date</label>
-            <input type="date" id="mDate" name="date" required>
+            <input type="date" id="mDate" name="date" required autocomplete="bday">
           </div>
           <div class="m-field">
             <label for="mDestination">Destination</label>
@@ -1417,11 +1431,11 @@
         <div class="m-row m-row-2">
           <div class="m-field">
             <label for="mName">Full name</label>
-            <input type="text" id="mName" name="name" required>
+            <input type="text" id="mName" name="name" required autocomplete="name">
           </div>
           <div class="m-field">
             <label for="mEmail">Email</label>
-            <input type="email" id="mEmail" name="email" required>
+            <input type="email" id="mEmail" name="email" required autocomplete="email">
           </div>
         </div>
 
@@ -1623,5 +1637,11 @@
     return false;
   }
 </script>
+<!-- ===== STICKY MOBILE WHATSAPP ===== -->
+<a href="https://wa.me/529871146853?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20a%20transfer%20in%20Cozumel."
+   target="_blank" rel="noopener" class="sticky-wa" aria-label="WhatsApp us">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 .395C7.164.395.001 7.558.001 16.394c0 2.846.744 5.625 2.157 8.073L0 32l7.715-2.022a15.97 15.97 0 0 0 8.285 2.31h.007C24.842 32.288 32 25.124 32 16.289 32 7.453 24.836.395 16 .395zm0 28.872h-.005a13.27 13.27 0 0 1-6.762-1.852l-.485-.289-5.029 1.319 1.344-4.902-.317-.502a13.265 13.265 0 0 1-2.029-7.046C2.717 8.97 8.69 2.996 16.001 2.996c3.541 0 6.87 1.378 9.374 3.884a13.18 13.18 0 0 1 3.881 9.378c-.003 7.31-5.977 13.009-13.256 13.009zm7.255-9.913c-.397-.198-2.349-1.158-2.713-1.291-.363-.133-.628-.198-.892.198-.265.397-1.025 1.291-1.256 1.557-.231.265-.463.298-.86.099-.397-.198-1.677-.618-3.196-1.97-1.181-1.054-1.978-2.353-2.21-2.749-.231-.397-.025-.611.174-.808.179-.178.397-.463.595-.694.198-.231.265-.397.397-.661.133-.265.066-.496-.033-.694-.099-.198-.892-2.149-1.222-2.943-.322-.773-.649-.668-.892-.68-.231-.011-.496-.013-.76-.013-.265 0-.694.099-1.058.496-.363.397-1.388 1.357-1.388 3.308 0 1.951 1.422 3.836 1.620 4.1.198.265 2.797 4.272 6.776 5.991.947.408 1.685.651 2.262.834.95.302 1.815.26 2.498.158.762-.114 2.349-.96 2.681-1.886.331-.926.331-1.72.231-1.886-.099-.165-.363-.265-.76-.463z"/></svg>
+</a>
+
 </body>
 </html>
