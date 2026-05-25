@@ -205,31 +205,52 @@
 
   /* ===== Reviews ===== */
   .reviews-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 20px;
     margin-bottom: 32px;
+    align-items: stretch;
   }
   .review {
+    position: relative; overflow: hidden;
     background: #fff;
     border: 1px solid var(--line-soft);
     border-radius: var(--radius);
-    padding: 28px 26px;
-    display: flex; flex-direction: column; gap: 14px;
+    padding: 32px 28px 26px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .review::before {
+    content: '\201C'; /* curly opening quote */
+    position: absolute;
+    top: -28px; right: 8px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 8rem; line-height: 1;
+    color: rgba(15,44,68,.08);
+    pointer-events: none;
   }
   .review-stars {
-    color: #f5a623; font-size: 1.05rem; letter-spacing: 2px;
+    color: #00AA6C; /* TripAdvisor green */
+    font-size: 1rem; letter-spacing: 2px;
   }
   .review-title {
-    font-size: 1.05rem; font-weight: 600; color: var(--ink);
+    font-size: 1.02rem; font-weight: 600; color: var(--ink);
     line-height: 1.3; margin: 0;
+    letter-spacing: -0.005em;
   }
   .review-body {
-    color: var(--mute); font-size: 0.96rem; line-height: 1.55;
+    color: var(--mute); font-size: 0.96rem; line-height: 1.6;
     margin: 0; flex: 1;
   }
   .review-meta {
+    display: flex; align-items: center; gap: 12px;
     font-size: 0.85rem; color: var(--mute);
     border-top: 1px solid var(--line-soft);
-    padding-top: 12px;
+    padding-top: 14px; margin-top: 4px;
+  }
+  .review-meta .avatar {
+    flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--navy));
+    color: #fff; font-weight: 600; font-size: 0.92rem;
+    display: inline-flex; align-items: center; justify-content: center;
   }
   .review-meta strong { color: var(--ink); font-weight: 600; }
   .reviews-footer {
@@ -307,38 +328,46 @@
   .dest:hover {
     border-color: var(--ink); color: var(--ink); transform: translateY(-2px);
   }
+  /* "Tell us the place" featured card — flat warm blue + top accent rule */
   .dest.dest-featured {
-    background: linear-gradient(135deg, rgba(29,122,252,.06), rgba(29,122,252,.12));
-    border-color: rgba(29,122,252,.25);
+    background: #F6F9FE;
+    border-color: var(--line);
+    border-top: 2px solid var(--accent);
   }
-  .dest.dest-featured:hover { border-color: var(--accent); }
-  /* Tierra Maya = Mike's own venue, honey-gold accent (Tierra Maya brand) */
+  .dest.dest-featured:hover { border-color: var(--accent); border-top-color: var(--accent); }
+  /* Tierra Maya = Mike's own venue, honey-gold accent rule */
   .dest.dest-tierramaya {
-    background: linear-gradient(135deg, rgba(212,176,80,.08), rgba(212,176,80,.16));
-    border-color: rgba(212,176,80,.32);
+    background: #FBF7EC;
+    border-color: #E8D9A8;
+    border-top: 2px solid #C8A040;
   }
-  .dest.dest-tierramaya:hover { border-color: #C8A040; }
+  .dest.dest-tierramaya:hover { border-color: #C8A040; border-top-color: #C8A040; }
   .dest.dest-tierramaya .dest-label { color: #A07820; }
   .dest.dest-tierramaya .dest-arrow { color: #A07820; }
   .dest.dest-tierramaya .dest-logo { background-image: url('assets/tierra-maya-logo.png'); }
 
-  /* Destination cards with logos — visible at top of card, full color */
+  /* Destination cards with logos — desaturated by default for visual unity,
+     restored to full color on hover. Kills the "logo zoo" effect. */
   .dest.dest-with-logo .dest-logo,
   .dest.dest-tierramaya .dest-logo {
     display: block;
-    height: 72px;
-    margin: 0 auto 18px;
+    height: 64px;
+    margin: 0 auto 16px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     width: 100%;
-    transition: transform .2s ease;
+    filter: grayscale(1) opacity(0.55);
+    transition: filter .25s ease, transform .25s ease;
   }
   .dest.dest-with-logo .dest-logo {
     background-image: var(--dest-logo);
   }
   .dest.dest-with-logo:hover .dest-logo,
-  .dest.dest-tierramaya:hover .dest-logo { transform: scale(1.04); }
+  .dest.dest-tierramaya:hover .dest-logo {
+    filter: none;
+    transform: scale(1.03);
+  }
   .dest-label {
     font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
     color: var(--mute); text-transform: uppercase;
@@ -355,7 +384,15 @@
   .dest-arrow {
     display: inline-flex; align-items: center; gap: 4px;
     font-size: 0.86rem; font-weight: 600; color: var(--accent);
+    transition: transform .2s ease;
   }
+  .dest:hover .dest-arrow { transform: translateX(6px); }
+  .chooser-arrow, .ta-badge {
+    transition: transform .2s ease;
+  }
+  .ta-badge:hover { transform: translateX(4px); }
+  .badge-link { transition: transform .2s ease; display: inline-block; }
+  .official-badge:hover .badge-link { transform: translateX(3px); }
 
   /* ===== Pricing cards (vehicles section) — single all-in price, no fees clutter ===== */
   .pricing-grid {
@@ -367,17 +404,22 @@
   }
   .price-card {
     position: relative;
-    background: var(--card-blue);
+    background: #fff;
+    border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     padding: 36px 28px 32px;
     display: flex; flex-direction: column; align-items: center;
     text-align: center; color: var(--navy);
-    transition: transform .15s;
+    transition: transform .15s, border-color .15s, box-shadow .15s;
   }
-  .price-card:hover { transform: translateY(-3px); }
+  .price-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--mute-2);
+    box-shadow: 0 4px 16px rgba(14,14,16,.06);
+  }
   .price-card.popular {
     background: var(--card-green);
-    border: 3px solid var(--card-green-border);
+    border: 2px solid var(--card-green-border);
     padding-top: 44px;
   }
   .price-ribbon {
@@ -397,8 +439,8 @@
     margin-bottom: 14px;
   }
   .price-name {
-    font-size: 1.6rem; font-weight: 700;
-    letter-spacing: var(--track-tight); margin: 0 0 4px;
+    font-size: 1.1rem; font-weight: 600;
+    letter-spacing: -0.01em; margin: 0 0 4px;
     color: var(--navy);
   }
   .price-pax-sub {
@@ -408,10 +450,11 @@
   }
   .price-pax-sub svg { color: var(--navy); opacity: .55; }
   .price-big {
-    font-size: 3.2rem; font-weight: 800;
-    letter-spacing: var(--track-tight); line-height: 1;
+    font-size: 3rem; font-weight: 700;
+    letter-spacing: -0.022em; line-height: 1;
     color: var(--navy);
     margin: 0 0 8px;
+    font-variant-numeric: tabular-nums;
   }
   .price-big .currency {
     font-size: 1.1rem; font-weight: 700;
@@ -441,21 +484,23 @@
   }
   .price-cancel svg { flex-shrink: 0; }
   .price-cta {
-    background: #fff; color: var(--navy);
-    border: 2.5px solid var(--navy);
-    padding: 13px 36px; border-radius: var(--pill);
-    font-weight: 700; font-size: 1rem; text-decoration: none;
-    transition: background .12s, color .12s;
+    background: var(--navy); color: #fff;
+    border: 1px solid var(--navy);
+    padding: 12px 34px; border-radius: var(--pill);
+    font-weight: 600; font-size: 0.96rem; text-decoration: none;
+    transition: background .12s, color .12s, transform .12s;
     margin-top: auto;
     font-family: inherit;
+    cursor: pointer;
   }
-  .price-cta:hover { background: var(--navy); color: #fff; }
+  .price-cta:hover { background: #1a3855; color: #fff; transform: translateY(-1px); }
   .price-card.popular .price-cta {
+    background: var(--success-deep);
     border-color: var(--success-deep);
-    color: var(--success-deep);
+    color: #fff;
   }
   .price-card.popular .price-cta:hover {
-    background: var(--success-deep); color: #fff;
+    background: #186430; color: #fff;
   }
 
   /* ===== Cruise lines strip ===== */
@@ -766,21 +811,32 @@
 
   /* ===== Footer ===== */
   footer {
-    background: var(--ink); color: rgba(255,255,255,.7);
-    padding: 64px 24px 28px;
+    background: var(--navy); color: rgba(255,255,255,.72);
+    padding: 56px 24px 28px;
+  }
+  .footer-statement {
+    max-width: var(--max-grid); margin: 0 auto 40px;
+    font-size: 1.1rem; line-height: 1.55; color: rgba(255,255,255,.92);
+    font-weight: 500; max-width: 560px;
+    letter-spacing: -0.005em;
   }
   .footer-inner {
     max-width: var(--max-grid); margin: 0 auto;
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px;
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px;
   }
   .footer-brand {
     font-weight: 700; color: #fff; font-size: 1.06rem;
     letter-spacing: -0.01em; margin-bottom: 14px;
   }
-  .footer-brand .dot { color: var(--accent); }
+  .footer-brand .dot { color: #5BA3FF; }
   .footer-tag {
-    color: rgba(255,255,255,.5); font-size: 0.92rem;
-    line-height: 1.55; margin: 0; max-width: 280px;
+    color: rgba(255,255,255,.55); font-size: 0.92rem;
+    line-height: 1.55; margin: 0; max-width: 320px;
+  }
+  .footer-legal {
+    margin-top: 18px;
+    font-size: 0.76rem; color: rgba(255,255,255,.42);
+    line-height: 1.5; letter-spacing: 0.01em;
   }
   .footer-col h4 {
     font-size: 0.74rem; color: rgba(255,255,255,.5);
@@ -1281,21 +1337,21 @@
         <div class="review-stars">★★★★★</div>
         <h3 class="review-title">Great company</h3>
         <p class="review-body">They communicated well and very fast to respond. We made a last-minute change to our meeting time and they accommodated. It was nice to not have to wait at our resort and have an air-conditioned van waiting for us. Would highly recommend.</p>
-        <div class="review-meta"><strong>Genny</strong> · May 2026 · via TripAdvisor</div>
+        <div class="review-meta"><span class="avatar">G</span><div><strong>Genny</strong><br><span style="font-size:0.78rem;opacity:0.85;">May 2026 · via TripAdvisor</span></div></div>
       </article>
 
       <article class="review">
         <div class="review-stars">★★★★★</div>
         <h3 class="review-title">Excellent Transfer</h3>
         <p class="review-body">Wonderful experience. Prompt, easy, friendly, clean, and safe! Would highly recommend if you need transportation for a group. Our driver even came early when we finished a tour earlier than expected.</p>
-        <div class="review-meta"><strong>Meghan G</strong> · Jun 2025 · via TripAdvisor</div>
+        <div class="review-meta"><span class="avatar">M</span><div><strong>Meghan G</strong><br><span style="font-size:0.78rem;opacity:0.85;">Jun 2025 · via TripAdvisor</span></div></div>
       </article>
 
       <article class="review">
         <div class="review-stars">★★★★★</div>
         <h3 class="review-title">Perfect service</h3>
         <p class="review-body">Cozumel Island Transfers exceeded my expectations with their reliable, punctual, and professional service. The vehicle was clean and well-equipped with amenities, making for an enjoyable ride. I'll certainly use this service again.</p>
-        <div class="review-meta"><strong>Hasna E</strong> · Nov 2023 · via TripAdvisor</div>
+        <div class="review-meta"><span class="avatar">H</span><div><strong>Hasna E</strong><br><span style="font-size:0.78rem;opacity:0.85;">Nov 2023 · via TripAdvisor</span></div></div>
       </article>
 
     </div>
@@ -1407,42 +1463,40 @@
 
 <!-- ===== FOOTER ===== -->
 <footer>
+  <p class="footer-statement" data-en="Cozumel&rsquo;s local private transfer company. Family-run since 2015. We&rsquo;re the people who answer when you WhatsApp at 5 AM the morning of your cruise." data-es="Compañía local de traslados privados en Cozumel. Familiar desde 2015. Somos los que contestamos cuando nos escribes por WhatsApp a las 5 AM del día de tu crucero.">
+    Cozumel&rsquo;s local private transfer company. Family-run since 2015. We&rsquo;re the people who answer when you WhatsApp at 5 AM the morning of your cruise.
+  </p>
   <div class="footer-inner">
     <div class="footer-col">
       <div class="footer-brand">cozumel<span class="dot">·</span>transfers</div>
-      <p class="footer-tag" data-en="Private transfers across Cozumel. On time, every transfer. Since 2015." data-es="Traslados privados en Cozumel. Puntuales siempre. Desde 2015.">Private transfers across Cozumel. On time, every transfer. Since 2015.</p>
+      <p class="footer-tag" data-en="Private transfers across Cozumel. On time, every transfer." data-es="Traslados privados en Cozumel. Puntuales siempre.">Private transfers across Cozumel. On time, every transfer.</p>
+      <p class="footer-legal">
+        Visit Cozumel Mexico, S. de R.L. de C.V. &middot; RFC VCM2107167R6<br>
+        Persona Moral &middot; R&eacute;gimen General 601<br>
+        Cozumel, Quintana Roo, M&eacute;xico
+      </p>
     </div>
     <div class="footer-col">
-      <h4 data-en="Contact" data-es="Contacto">Contact</h4>
+      <h4 data-en="Contact &amp; hours" data-es="Contacto y horario">Contact &amp; hours</h4>
       <a href="https://wa.me/529871146853">+52 987 114 6853</a>
       <a href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
-      <a href="tel:+529871146853">Call us</a>
-    </div>
-    <div class="footer-col">
-      <h4 data-en="Hours" data-es="Horario">Hours</h4>
-      <p data-en="24/7 WhatsApp dispatch" data-es="Despacho 24/7 vía WhatsApp">24/7 WhatsApp dispatch</p>
-      <p data-en="Office: 6 AM – 10 PM" data-es="Oficina: 6 AM – 10 PM">Office: 6 AM – 10 PM</p>
+      <p data-en="24/7 WhatsApp dispatch" data-es="Despacho 24/7 v&iacute;a WhatsApp">24/7 WhatsApp dispatch</p>
+      <p data-en="Office: 6 AM &ndash; 10 PM" data-es="Oficina: 6 AM &ndash; 10 PM">Office: 6 AM &ndash; 10 PM</p>
     </div>
     <div class="footer-col">
       <h4 data-en="Destinations" data-es="Destinos">Destinations</h4>
-      <a href="tierra-maya.html">Tierra Maya ★</a>
+      <a href="tierra-maya.html">Tierra Maya &#9733;</a>
       <a href="mr-sanchos.html">Mr. Sanchos</a>
       <a href="chankanaab.html">Chankanaab</a>
       <a href="nachi-cocom.html">Nachi Cocom</a>
       <a href="paradise-beach.html">Paradise Beach</a>
       <a href="bucanos.html">Buccanos</a>
       <a href="san-gervasio.html">San Gervasio</a>
-      <a href="kuza.html">KUZÁ</a>
-    </div>
-    <div class="footer-col">
-      <h4 data-en="Our company" data-es="Nuestra empresa">Our company</h4>
-      <a href="#about" data-en="About us" data-es="Sobre nosotros">About us</a>
-      <a href="mailto:hello@cozumelislandtransfers.com?subject=Working%20with%20Cozumel%20Island%20Transfers" data-en="Join the team" data-es="Únete al equipo">Join the team</a>
-      <a href="https://wa.me/529871146853?text=Hi%2C%20I%27m%20interested%20in%20a%20partnership%20opportunity%20with%20Cozumel%20Island%20Transfers." target="_blank" rel="noopener" data-en="Contact us" data-es="Contáctanos">Contact us</a>
+      <a href="kuza.html">KUZ&Aacute;</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2015 – 2026 Cozumel Island Transfers · Licensed transport operator</span>
+    <span>&copy; 2015 &ndash; 2026 Cozumel Island Transfers &middot; Licensed transport operator</span>
     <div class="links">
       <a href="#terms" data-en="Terms of Use" data-es="Términos de Uso">Terms of Use</a>
       <a href="#privacy" data-en="Privacy Policy" data-es="Política de Privacidad">Privacy Policy</a>
