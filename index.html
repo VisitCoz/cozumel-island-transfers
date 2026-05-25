@@ -314,10 +314,23 @@
   .dest.dest-featured:hover { border-color: var(--accent); }
   /* Tierra Maya = Mike's own venue, honey-gold accent (Tierra Maya brand) */
   .dest.dest-tierramaya {
-    background: linear-gradient(135deg, rgba(212,176,80,.06), rgba(212,176,80,.13));
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, rgba(212,176,80,.08), rgba(212,176,80,.16));
     border-color: rgba(212,176,80,.32);
   }
+  .dest.dest-tierramaya::before {
+    content: '';
+    position: absolute;
+    right: -24px; bottom: -28px;
+    width: 150px; height: 150px;
+    background: url('assets/tierra-maya-logo.png') no-repeat center / contain;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .dest.dest-tierramaya > * { position: relative; z-index: 1; }
   .dest.dest-tierramaya:hover { border-color: #C8A040; }
+  .dest.dest-tierramaya:hover::before { opacity: 0.55; transition: opacity .25s; }
   .dest.dest-tierramaya .dest-label { color: #A07820; }
   .dest.dest-tierramaya .dest-arrow { color: #A07820; }
   .dest-label {
