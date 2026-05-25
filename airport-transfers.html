@@ -331,8 +331,11 @@
 
   /* ===== Pricing cards (vehicles section) — single all-in price, no fees clutter ===== */
   .pricing-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
     align-items: stretch;
+  }
+  @media (max-width: 1180px) {
+    .pricing-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
   }
   .price-card {
     position: relative;
@@ -1069,7 +1072,7 @@
         <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
       </div>
 
-      <div class="price-card popular" data-vehicle="l_van" data-vname="L Van" data-pax="9–14 passengers" data-rt="319" data-ow="209">
+      <div class="price-card popular" data-vehicle="l_van" data-vname="L Van" data-pax="9–14 passengers" data-rt="349" data-ow="229">
         <div class="price-ribbon">★ MOST POPULAR</div>
         <div class="price-pill">PRIVATE</div>
         <h3 class="price-name">L Van</h3>
@@ -1077,7 +1080,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
           9–14 passengers
         </div>
-        <div class="price-big"><span class="price-num">319</span><span class="currency">USD</span></div>
+        <div class="price-big"><span class="price-num">349</span><span class="currency">USD</span></div>
         <div class="price-allin">All-inclusive · final price</div>
         <div class="price-divider"></div>
         <div class="price-type">Round-trip private transfer</div>
@@ -1088,14 +1091,14 @@
         <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
       </div>
 
-      <div class="price-card" data-vehicle="xl_van" data-vname="XL Van" data-pax="15–20 passengers" data-rt="369" data-ow="239">
+      <div class="price-card" data-vehicle="xl_van" data-vname="XL Van" data-pax="15–18 passengers" data-rt="449" data-ow="299">
         <div class="price-pill">PRIVATE</div>
         <h3 class="price-name">XL Van</h3>
         <div class="price-pax-sub">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-          15–20 passengers
+          15–18 passengers
         </div>
-        <div class="price-big"><span class="price-num">369</span><span class="currency">USD</span></div>
+        <div class="price-big"><span class="price-num">449</span><span class="currency">USD</span></div>
         <div class="price-allin">All-inclusive · final price</div>
         <div class="price-divider"></div>
         <div class="price-type">Round-trip private transfer</div>
@@ -1106,17 +1109,35 @@
         <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
       </div>
 
-      <div class="price-card" data-vehicle="bus" data-vname="Private Bus" data-pax="21–40 passengers" data-rt="518" data-ow="329">
+      <div class="price-card" data-vehicle="coach" data-vname="Coach" data-pax="19–20 passengers" data-rt="499" data-ow="329">
+        <div class="price-pill">PRIVATE</div>
+        <h3 class="price-name">Coach</h3>
+        <div class="price-pax-sub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          19–20 passengers
+        </div>
+        <div class="price-big"><span class="price-num">499</span><span class="currency">USD</span></div>
+        <div class="price-allin">All-inclusive · final price</div>
+        <div class="price-divider"></div>
+        <div class="price-type">Round-trip private transfer</div>
+        <div class="price-cancel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Free cancellation up to 24h before</span>
+        </div>
+        <button type="button" class="price-cta" onclick="airportBook(this)">Book Now</button>
+      </div>
+
+      <div class="price-card" data-vehicle="bus" data-vname="Private Bus" data-pax="21–40 passengers" data-rt="899" data-ow="599">
         <div class="price-pill">PRIVATE</div>
         <h3 class="price-name">Private Bus</h3>
         <div class="price-pax-sub">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
           21–40 passengers
         </div>
-        <div class="price-big"><span class="price-num">518</span><span class="currency">USD</span></div>
+        <div class="price-big"><span class="price-num">899</span><span class="currency">USD</span></div>
         <div class="price-allin">All-inclusive · final price</div>
         <div class="price-divider"></div>
-        <div class="price-type">Round-trip private transfer</div>
+        <div class="price-type">Round-trip · 2 vehicles</div>
         <div class="price-cancel">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
           <span>Free cancellation up to 24h before</span>
