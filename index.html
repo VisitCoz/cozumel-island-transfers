@@ -1002,7 +1002,15 @@
     .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
   }
   @media (max-width: 560px) {
-    .dest-grid { grid-template-columns: 1fr; }
+    /* Mobile destination cards — keep 2 cols, drop logo + description, just label + name */
+    .dest-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dest { padding: 16px 14px; }
+    .dest.dest-with-logo .dest-logo,
+    .dest.dest-tierramaya .dest-logo { display: none; }
+    .dest p { display: none; }
+    .dest-label { font-size: 0.66rem; margin-bottom: 6px; }
+    .dest h3 { font-size: 0.98rem; margin-bottom: 8px; }
+    .dest-arrow { font-size: 0.8rem; }
     .footer-inner { grid-template-columns: 1fr; gap: 22px; }
     .hero-ctas { flex-direction: column; align-items: stretch; }
     .hero-ctas .btn { justify-content: center; }
