@@ -223,6 +223,69 @@
     .compare-table th, .compare-table td { padding: 10px 8px; }
   }
 
+  /* ===== Per-person callout ===== */
+  .per-pax-callout {
+    margin: 32px auto 0;
+    max-width: 520px;
+    padding: 28px 28px 24px;
+    background: #fff;
+    border: 1px solid rgba(52,199,89,.3);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(31,122,63,.06);
+  }
+  .per-pax-head {
+    font-size: 0.74rem; font-weight: 700;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--success-deep); margin-bottom: 14px;
+  }
+  .per-pax-big {
+    font-size: 3rem; line-height: 1; color: var(--ink);
+    letter-spacing: -0.022em; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .per-pax-big .per-pax-unit {
+    display: inline-block; margin-left: 6px;
+    font-size: 0.95rem; font-weight: 500;
+    color: var(--mute); letter-spacing: 0;
+    vertical-align: 0.4em;
+  }
+  .per-pax-sub {
+    color: var(--mute); font-size: 0.96rem; margin: 10px 0 22px;
+  }
+  .per-pax-sub strong { color: var(--ink); font-weight: 600; }
+  .per-pax-vs {
+    display: flex; flex-direction: column; gap: 6px;
+    margin: 0 auto 20px; max-width: 360px;
+    text-align: left;
+  }
+  .vs-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    font-size: 0.94rem;
+    color: var(--mute);
+    font-variant-numeric: tabular-nums;
+  }
+  .vs-row.vs-us {
+    background: rgba(52,199,89,.08);
+    border-color: rgba(52,199,89,.3);
+    color: var(--ink); font-weight: 600;
+  }
+  .vs-row.vs-us .vs-price { color: var(--success-deep); }
+  .vs-label { flex: 1; }
+  .vs-price { font-weight: 600; flex-shrink: 0; }
+  .per-pax-cta {
+    font-size: 0.92rem; color: var(--success-deep); font-weight: 600;
+    margin-top: 4px; line-height: 1.5;
+  }
+  @media (max-width: 560px) {
+    .per-pax-callout { padding: 22px 18px 20px; }
+    .per-pax-big { font-size: 2.4rem; }
+    .vs-row { font-size: 0.86rem; padding: 9px 12px; }
+  }
+
   /* ===== Hero ===== */
   .hero {
     padding: 90px 24px 100px;
@@ -1256,6 +1319,29 @@
       <p class="compare-foot">
         Viator and cruise-line prices are estimates based on equivalent products in their public catalogs. Same vans, same drivers — we just sell direct so you skip the middleman markup.
       </p>
+
+      <div class="per-pax-callout">
+        <div class="per-pax-head">Traveling with a group?</div>
+        <div class="per-pax-big">
+          <span class="per-pax-num">~$30</span><span class="per-pax-unit">/person round-trip</span>
+        </div>
+        <div class="per-pax-sub">that&rsquo;s about <strong>$15 each way</strong> when you fill a 14-passenger van.</div>
+        <div class="per-pax-vs">
+          <div class="vs-row vs-us">
+            <span class="vs-label">Book direct with us</span>
+            <span class="vs-price">~$30 / pax</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-label">Viator</span>
+            <span class="vs-price">~$36 / pax</span>
+          </div>
+          <div class="vs-row">
+            <span class="vs-label">Cruise-line shore-transfer desk</span>
+            <span class="vs-price">~$35 / pax</span>
+          </div>
+        </div>
+        <div class="per-pax-cta">~20% cheaper booking direct. Same vans. Same drivers. Same ride.</div>
+      </div>
     </div>
 
     <div class="pricing-grid">
