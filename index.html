@@ -181,6 +181,48 @@
   }
   .price-savings strong { color: var(--success-deep); font-weight: 700; }
 
+  /* ===== Compare table ===== */
+  .compare-wrap {
+    max-width: var(--max-prose); margin: 0 auto 40px;
+  }
+  .compare-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.95rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .compare-table th, .compare-table td {
+    padding: 12px 14px; text-align: center;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .compare-table thead th {
+    background: var(--surface);
+    font-size: 0.76rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--mute);
+  }
+  .compare-table tbody tr:last-child td { border-bottom: 0; }
+  .compare-table .compare-vehicle {
+    text-align: left; color: var(--ink); font-weight: 500;
+  }
+  .compare-table .compare-us {
+    background: rgba(52,199,89,.06);
+    color: var(--success-deep); font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .compare-table tbody td {
+    color: var(--mute); font-variant-numeric: tabular-nums;
+  }
+  .compare-foot {
+    font-size: 0.82rem; color: var(--mute);
+    margin: 14px 0 0; text-align: center; line-height: 1.5;
+  }
+  @media (max-width: 720px) {
+    .compare-table { font-size: 0.82rem; }
+    .compare-table th, .compare-table td { padding: 10px 8px; }
+  }
+
   /* ===== Hero ===== */
   .hero {
     padding: 90px 24px 100px;
@@ -1168,6 +1210,54 @@
       💰 <strong>25% cheaper than Viator &amp; TripAdvisor</strong> — up to <strong>40% less</strong> than cruise-line excursions. Same vans. Same drivers. Lower price.
     </div>
 
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="compare-vehicle">Vehicle</th>
+            <th class="compare-us">CIT direct</th>
+            <th>Viator</th>
+            <th>Cruise-line excursion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="compare-vehicle"><strong>Van</strong> · 1–8 pax</td>
+            <td class="compare-us">$369</td>
+            <td>~$469</td>
+            <td>~$850+</td>
+          </tr>
+          <tr>
+            <td class="compare-vehicle"><strong>L Van</strong> · 9–14 pax</td>
+            <td class="compare-us">$425</td>
+            <td>~$540</td>
+            <td>~$1,050+</td>
+          </tr>
+          <tr>
+            <td class="compare-vehicle"><strong>XL Van</strong> · 15–18 pax</td>
+            <td class="compare-us">$549</td>
+            <td>~$695</td>
+            <td>~$1,400+</td>
+          </tr>
+          <tr>
+            <td class="compare-vehicle"><strong>Coach</strong> · 19–20 pax</td>
+            <td class="compare-us">$609</td>
+            <td>~$770</td>
+            <td>~$1,550+</td>
+          </tr>
+          <tr>
+            <td class="compare-vehicle"><strong>Private Bus</strong> · 21–40 pax</td>
+            <td class="compare-us">$899</td>
+            <td>~$1,140</td>
+            <td>~$2,400+</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="compare-foot">
+        Viator and cruise-line prices are estimates based on equivalent products in their public catalogs. Same vans, same drivers — we just sell direct so you skip the middleman markup.
+      </p>
+    </div>
+
     <div class="pricing-grid">
 
       <!-- Van 1-8 -->
@@ -1547,6 +1637,46 @@
           <h3 class="faq-q" data-en="Traveling with a large group?" data-es="¿Viajan en grupo grande?">Traveling with a large group?</h3>
           <p class="faq-a" data-en="Up to 40 passengers in one vehicle (Private Bus). Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing as a convoy. Message us with group size, destination, and date for a custom quote." data-es="Hasta 40 pasajeros en un solo vehículo (Bus Privado). Grupos más grandes — bodas, corporativos, multi-familias — pueden reservar varios vehículos saliendo juntos. Mándanos tamaño de grupo, destino y fecha para cotización personalizada.">
             Up to 40 passengers in one vehicle (Private Bus). Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing as a convoy. Message us with group size, destination, and date for a custom quote.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">08</div>
+        <div>
+          <h3 class="faq-q" data-en="Do you provide child or car seats?" data-es="¿Tienen sillas para bebés o niños?">Do you provide child or car seats?</h3>
+          <p class="faq-a" data-en="No, we don&rsquo;t offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle." data-es="No, no contamos con sillas para bebés. Si necesitas una, trae la tuya — viaja gratis en el vehículo.">
+            No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">09</div>
+        <div>
+          <h3 class="faq-q" data-en="What about luggage capacity?" data-es="¿Caben las maletas?">What about luggage capacity?</h3>
+          <p class="faq-a" data-en="Our standard vans are sized for cruise-port day trips — small bags and beach gear only. If you&rsquo;re traveling with full luggage (hotel pickup, airport, ferry to Playa del Carmen), tell us at booking and we&rsquo;ll dispatch a vehicle with the right luggage capacity." data-es="Nuestras vans estándar están dimensionadas para excursiones desde el puerto — solo bolsas pequeñas y artículos de playa. Si viajas con maletas completas (hotel, aeropuerto, ferry a Playa del Carmen), avísanos al reservar y enviamos un vehículo con la capacidad de equipaje adecuada.">
+            Our standard vans are sized for cruise-port day trips — small bags and beach gear only. If you're traveling with full luggage (hotel pickup, airport, ferry to Playa del Carmen), tell us at booking and we'll dispatch a vehicle with the right luggage capacity.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">10</div>
+        <div>
+          <h3 class="faq-q" data-en="How do I pay?" data-es="¿Cómo se paga?">How do I pay?</h3>
+          <p class="faq-a" data-en="Credit card, always — secure online payment at booking. No cash to the driver, no deposit games, no surprise fees at the curb." data-es="Tarjeta de crédito, siempre — pago seguro en línea al reservar. Sin efectivo al chofer, sin depósitos extraños, sin cargos sorpresa.">
+            Credit card, always — secure online payment at booking. No cash to the driver, no deposit games, no surprise fees at the curb.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-row">
+        <div class="faq-num">11</div>
+        <div>
+          <h3 class="faq-q" data-en="Should I tip the driver?" data-es="¿Se acostumbra propina al chofer?">Should I tip the driver?</h3>
+          <p class="faq-a" data-en="Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way." data-es="La propina es costumbre en México pero nunca obligatoria. Lo que sientas que es justo — el chofer lo agradece de cualquier manera.">
+            Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way.
           </p>
         </div>
       </div>
