@@ -1084,7 +1084,32 @@
       text-align: center; font-size: 1rem;
     }
 
-    .steps-grid, .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
+    .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
+    /* Mobile "How it works" — compact horizontal rows, drop card chrome + descriptions */
+    .steps-grid {
+      grid-template-columns: 1fr; gap: 0;
+      margin-bottom: 24px;
+    }
+    .step {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 4px;
+      border: 0; border-bottom: 1px solid var(--line-soft);
+      border-radius: 0; background: transparent;
+    }
+    .step:last-child { border-bottom: 0; }
+    .step-num {
+      width: 28px; height: 28px;
+      font-size: 0.82rem; margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    .step h3 {
+      font-size: 0.98rem; font-weight: 500;
+      margin: 0; line-height: 1.35;
+    }
+    .step p { display: none; }
+    #how-it-works { padding-top: 42px; padding-bottom: 42px; }
+    #how-it-works .section-head { margin-bottom: 18px; }
+    #how-it-works .section-head p { display: none; }
     .dest-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
 
     /* Mobile pricing — compact horizontal rows (all 4 visible on one screen) */
