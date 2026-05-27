@@ -1,6 +1,6 @@
 # Cozumel Island Transfers
 
-> Licensed private ground-transfer operator in Cozumel, Mexico. Family-run since 2015. Serves all four cruise piers (TMM Terminal, Puerta Maya, Punta Langosta, International Pier) and Cozumel International Airport (CZM). All-inclusive fixed prices in USD. No hidden fees. Free cancellation up to 24h before pickup.
+> Licensed private ground-transfer operator in Cozumel, Mexico. Family-run since 2015. Serves all three Cozumel cruise piers (Puerta Maya, International Pier, Punta Langosta) and Cozumel International Airport (CZM). All-inclusive fixed prices in USD. No hidden fees. Free cancellation up to 24h before pickup.
 
 ## Company
 
@@ -55,7 +55,6 @@ All prices are per vehicle (not per person), final, USD, include all taxes and f
 
 ## Cruise piers served
 
-- TMM Terminal (Terminal Marítima de Maya)
 - Puerta Maya (Carnival, Princess, Holland America)
 - Punta Langosta (smaller ships, downtown San Miguel)
 - International Pier (Royal Caribbean, Norwegian, MSC, Celebrity)
