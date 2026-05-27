@@ -1,0 +1,231 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "cozumel·transfers" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - button "Open menu" [ref=e5] [cursor=pointer]:
+        - img [ref=e6]
+  - main [ref=e8]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]: Airport transfers · Since 2015
+        - heading "Cozumel airport transfers — meet & greet to your hotel." [level=1] [ref=e13]
+        - paragraph [ref=e14]: Private transfers from Cozumel International Airport (CZM) to any hotel, Airbnb, or address on the island. Flight tracked in real-time. English-speaking drivers. One-way or round-trip — same fixed-rate vans for 1 to 40.
+        - generic [ref=e15]:
+          - link "See pricing" [ref=e16] [cursor=pointer]:
+            - /url: "#vehicles"
+          - link "WhatsApp quote" [ref=e17] [cursor=pointer]:
+            - /url: https://wa.me/529871146853?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20a%20transfer%20in%20Cozumel.
+      - img "Private transfer van waiting at the curb" [ref=e19]
+    - generic [ref=e21]:
+      - strong [ref=e22]: Since 2015
+      - text: · Flight tracked in real-time · English-speaking drivers ·
+      - link "5★ on TripAdvisor →" [ref=e23] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]: How it works
+        - heading "Three simple steps." [level=2] [ref=e28]
+        - paragraph [ref=e29]: No taxi-stand hassle. No language barrier. No surge pricing.
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]: "1"
+          - heading "Book with your flight number" [level=3] [ref=e33]
+          - paragraph [ref=e34]: Pick your hotel or destination, give us your flight number, and we'll track it. Confirmation comes instantly by email and WhatsApp.
+        - generic [ref=e35]:
+          - generic [ref=e36]: "2"
+          - heading "Driver waits at terminal exit" [level=3] [ref=e37]
+          - paragraph [ref=e38]: Walk out of customs and look for the sign with your name. Driver helps with luggage, takes you straight to the van — no negotiation, no waiting line.
+        - generic [ref=e39]:
+          - generic [ref=e40]: "3"
+          - heading "Door-to-door to your address" [level=3] [ref=e41]
+          - paragraph [ref=e42]: Direct ride to your hotel, Airbnb, or any address — A/C and bottled water in the van. Round-trip? Same driver, same van for your departure.
+      - generic [ref=e43]:
+        - strong [ref=e44]: Flight delayed?
+        - text: No problem. We monitor every arrival in real-time and adjust your pickup automatically.
+        - strong [ref=e45]: No rescheduling fees, no missed-pickup penalties.
+        - text: Same goes for early arrivals — your driver is there whenever you actually clear customs.
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e49]: Drop-off
+        - heading "Anywhere on Cozumel." [level=2] [ref=e50]
+        - paragraph [ref=e51]: "Hotels, Airbnbs, downtown San Miguel, the ferry terminal — door-to-door from the airport. Common hotels:"
+      - generic [ref=e52]:
+        - generic [ref=e53]: Cozumel Palace
+        - generic [ref=e54]: Iberostar
+        - generic [ref=e55]: El Cid La Ceiba
+        - generic [ref=e56]: Cozumel Hotel & Resort
+        - generic [ref=e57]: Hotel B
+        - generic [ref=e58]: Playa Azul
+        - generic [ref=e59]: Downtown San Miguel
+        - generic [ref=e60]: + any address you give us
+      - paragraph [ref=e61]: Not sure of your address? Give us your hotel name and we'll route the driver. If you booked Airbnb, share the property name or street address in the booking notes.
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e65]: Vehicles
+        - heading "Choose by group size." [level=2] [ref=e66]
+        - paragraph [ref=e67]: Private transfer between Cozumel airport and any address on the island. Pay by vehicle, not by person.
+      - generic [ref=e68]:
+        - text: 💰
+        - strong [ref=e69]: 25% cheaper than Viator & TripAdvisor
+        - text: — up to
+        - strong [ref=e70]: 40% less
+        - text: than cruise-line and resort transfers. Same vans. Same drivers. Lower price.
+      - tablist "Trip direction" [ref=e72]:
+        - button "Round-trip" [ref=e73] [cursor=pointer]
+        - button "One-way" [ref=e74] [cursor=pointer]
+      - generic [ref=e75]:
+        - generic [ref=e76]:
+          - heading "Van" [level=3] [ref=e77]
+          - generic [ref=e78]:
+            - img [ref=e79]
+            - text: 1–8 passengers
+          - generic [ref=e81]: 369USD
+          - button "Book Now" [ref=e82] [cursor=pointer]
+        - generic [ref=e83]:
+          - heading "★ L Van" [level=3] [ref=e84]
+          - generic [ref=e85]:
+            - img [ref=e86]
+            - text: 9–14 passengers
+          - generic [ref=e88]: 425USD
+          - button "Book Now" [ref=e89] [cursor=pointer]
+        - generic [ref=e90]:
+          - heading "XL Van" [level=3] [ref=e91]
+          - generic [ref=e92]:
+            - img [ref=e93]
+            - text: 15–18 passengers
+          - generic [ref=e95]: 549USD
+          - button "Book Now" [ref=e96] [cursor=pointer]
+        - generic [ref=e97]:
+          - heading "Coach" [level=3] [ref=e98]
+          - generic [ref=e99]:
+            - img [ref=e100]
+            - text: 19–20 passengers
+          - generic [ref=e102]: 609USD
+          - button "Book Now" [ref=e103] [cursor=pointer]
+        - generic [ref=e104]:
+          - heading "Private Bus" [level=3] [ref=e105]
+          - generic [ref=e106]:
+            - img [ref=e107]
+            - text: 21–40 passengers
+          - generic [ref=e109]: 899USD
+          - button "Book Now" [ref=e110] [cursor=pointer]
+    - generic [ref=e112]:
+      - generic [ref=e113]:
+        - generic [ref=e114]:
+          - generic [ref=e115]: Reviews
+          - heading "What guests say" [level=2] [ref=e116]
+          - paragraph [ref=e117]: Pulled from TripAdvisor and post-trip emails.
+        - link "500+ 5★ reviews on TripAdvisor →" [ref=e118] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e119]: 500+
+          - text: 5★ reviews on TripAdvisor →
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - blockquote [ref=e122]: "\"[Real TripAdvisor review placeholder — pick one mentioning on-time pickup, professional driver, clean vehicle.]\""
+          - generic [ref=e123]:
+            - strong [ref=e124]: "[Guest Name]"
+            - text: Royal Caribbean · March 2025
+        - generic [ref=e125]:
+          - blockquote [ref=e126]: "\"[Real review placeholder — pick one mentioning ship monitoring or return-on-time guarantee.]\""
+          - generic [ref=e127]:
+            - strong [ref=e128]: "[Guest Name]"
+            - text: Carnival · February 2025
+        - generic [ref=e129]:
+          - blockquote [ref=e130]: "\"[Real review placeholder — pick one highlighting group transfer or family with kids.]\""
+          - generic [ref=e131]:
+            - strong [ref=e132]: "[Guest Name]"
+            - text: Norwegian · January 2025
+    - generic [ref=e134]:
+      - complementary [ref=e135]:
+        - generic [ref=e136]: FAQ
+        - heading "What you actually need to know." [level=2] [ref=e137]
+        - paragraph [ref=e138]: Most airport guests ask the same handful of questions before booking. Here are the honest answers — no fine print, no surprise fees.
+        - generic [ref=e139]:
+          - text: Still unclear?
+          - link "WhatsApp us" [ref=e140] [cursor=pointer]:
+            - /url: https://wa.me/529871146853
+          - text: at +52 987 114 6853 — a real person answers.
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - generic [ref=e143]: "01"
+          - heading "How do I find my driver at the airport? +" [level=3] [ref=e145] [cursor=pointer]
+        - generic [ref=e146]:
+          - generic [ref=e147]: "02"
+          - heading "What if my flight is delayed? +" [level=3] [ref=e149] [cursor=pointer]
+        - generic [ref=e150]:
+          - generic [ref=e151]: "03"
+          - heading "Can you take me to my Airbnb or a private address? +" [level=3] [ref=e153] [cursor=pointer]
+        - generic [ref=e154]:
+          - generic [ref=e155]: "04"
+          - heading "Do you do round-trip for my departure? +" [level=3] [ref=e157] [cursor=pointer]
+        - generic [ref=e158]:
+          - generic [ref=e159]: "05"
+          - heading "Do you provide child seats or wheelchair-accessible vehicles? +" [level=3] [ref=e161] [cursor=pointer]
+        - generic [ref=e162]:
+          - generic [ref=e163]: "06"
+          - heading "Can we make multiple stops? +" [level=3] [ref=e165] [cursor=pointer]
+        - generic [ref=e166]:
+          - generic [ref=e167]: "07"
+          - heading "Do I tip the driver? +" [level=3] [ref=e169] [cursor=pointer]
+  - contentinfo [ref=e170]:
+    - generic [ref=e171]:
+      - generic [ref=e172]:
+        - generic [ref=e173]: cozumel·transfers
+        - paragraph [ref=e174]: Private transfers across Cozumel. On time, every transfer. Since 2015.
+      - generic [ref=e175]:
+        - heading "Contact" [level=4] [ref=e176]
+        - link "+52 987 114 6853" [ref=e177] [cursor=pointer]:
+          - /url: https://wa.me/529871146853
+        - link "hello@cozumelislandtransfers.com" [ref=e178] [cursor=pointer]:
+          - /url: mailto:hello@cozumelislandtransfers.com
+        - link "Call us" [ref=e179] [cursor=pointer]:
+          - /url: tel:+529871146853
+      - generic [ref=e180]:
+        - heading "Hours" [level=4] [ref=e181]
+        - paragraph [ref=e182]: "Office: 6 AM – 10 PM"
+      - generic [ref=e183]:
+        - heading "Destinations" [level=4] [ref=e184]
+        - link "Tierra Maya ★" [ref=e185] [cursor=pointer]:
+          - /url: /tierra-maya
+        - link "Mr. Sanchos" [ref=e186] [cursor=pointer]:
+          - /url: /mr-sanchos
+        - link "Chankanaab" [ref=e187] [cursor=pointer]:
+          - /url: /chankanaab
+        - link "Nachi Cocom" [ref=e188] [cursor=pointer]:
+          - /url: /nachi-cocom
+        - link "Paradise Beach" [ref=e189] [cursor=pointer]:
+          - /url: /paradise-beach
+        - link "Buccanos" [ref=e190] [cursor=pointer]:
+          - /url: /bucanos
+        - link "San Gervasio" [ref=e191] [cursor=pointer]:
+          - /url: /san-gervasio
+        - link "KUZÁ" [ref=e192] [cursor=pointer]:
+          - /url: /kuza
+      - generic [ref=e193]:
+        - heading "Our company" [level=4] [ref=e194]
+        - link "About us" [ref=e195] [cursor=pointer]:
+          - /url: "#about"
+        - link "Join the team" [ref=e196] [cursor=pointer]:
+          - /url: mailto:hello@cozumelislandtransfers.com?subject=Working%20with%20Cozumel%20Island%20Transfers
+        - link "Contact us" [ref=e197] [cursor=pointer]:
+          - /url: https://wa.me/529871146853?text=Hi%2C%20I%27m%20interested%20in%20a%20partnership%20opportunity%20with%20Cozumel%20Island%20Transfers.
+    - generic [ref=e198]:
+      - generic [ref=e199]: © 2015 – 2026 Cozumel Island Transfers · Licensed transport operator
+      - generic [ref=e200]:
+        - link "Terms of Use" [ref=e201] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy Policy" [ref=e202] [cursor=pointer]:
+          - /url: /privacy
+        - link "Partnership opportunities" [ref=e203] [cursor=pointer]:
+          - /url: mailto:hello@cozumelislandtransfers.com?subject=Partnership%20Opportunity
+  - dialog "Cookie consent" [ref=e204]:
+    - generic [ref=e205]:
+      - generic [ref=e206]:
+        - text: We use cookies to make the site work and measure traffic. No ads, no profiling.
+        - link "Privacy policy" [ref=e207] [cursor=pointer]:
+          - /url: /privacy
+        - text: .
+      - generic [ref=e208]:
+        - button "Essential only" [ref=e209] [cursor=pointer]
+        - button "Accept all" [ref=e210] [cursor=pointer]

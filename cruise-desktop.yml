@@ -1,0 +1,389 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "cozumel·transfers" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e271]:
+        - link "Cruise" [ref=e272] [cursor=pointer]:
+          - /url: /cruise-transfers
+        - link "Airport" [ref=e273] [cursor=pointer]:
+          - /url: /airport-transfers
+        - link "Destinations" [ref=e274] [cursor=pointer]:
+          - /url: "#destinations"
+        - link "Vehicles" [ref=e275] [cursor=pointer]:
+          - /url: "#vehicles"
+        - link "FAQ" [ref=e276] [cursor=pointer]:
+          - /url: "#faq"
+        - link "📞 +52 987 114 6853" [ref=e277] [cursor=pointer]:
+          - /url: tel:+529871146853
+        - button "ES" [ref=e278] [cursor=pointer]
+        - link "Book" [ref=e279] [cursor=pointer]:
+          - /url: "#vehicles"
+  - main [ref=e8]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]: Cruise transfers · Since 2015
+        - heading "Cozumel cruise port transfers — on time, back to your ship." [level=1] [ref=e13]
+        - paragraph [ref=e14]: Private round-trip transfers from the Cozumel cruise port to any beach club, hotel, or address. Real-time ship tracking. English-speaking drivers. Return-on-time refund — or your money back.
+        - generic [ref=e15]:
+          - link "See pricing" [ref=e16] [cursor=pointer]:
+            - /url: "#vehicles"
+          - link "WhatsApp quote" [ref=e17] [cursor=pointer]:
+            - /url: https://wa.me/529871146853?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20a%20transfer%20in%20Cozumel.
+      - img "Cozumel Island Transfers van on the island" [ref=e19]
+    - generic [ref=e21]:
+      - strong [ref=e22]: Private vehicles
+      - text: for 1–40 passengers ·
+      - strong [ref=e23]: Real-time
+      - text: ship tracking ·
+      - strong [ref=e24]: Return-on-time
+      - text: refund guarantee ·
+      - strong [ref=e25]: Since 2015
+      - text: ·
+      - link "🏆 Travelers' Choice on TripAdvisor →" [ref=e26] [cursor=pointer]:
+        - /url: https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]: Cruise piers
+        - heading "We pick up at all 3 Cozumel cruise piers" [level=2] [ref=e31]
+        - paragraph [ref=e32]: Whichever ship you're on, whichever terminal you walk off, your driver is there with a sign showing your name.
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - heading "Puerta Maya" [level=3] [ref=e35]
+          - paragraph [ref=e36]: South pier
+          - paragraph [ref=e37]: Carnival's primary Cozumel berth. Most cruise tours start here. ~10 min south of downtown San Miguel.
+        - generic [ref=e38]:
+          - heading "International Pier" [level=3] [ref=e39]
+          - paragraph [ref=e40]: SSA Cozumel
+          - paragraph [ref=e41]: Royal Caribbean, Norwegian, MSC, Celebrity, Disney. Largest pier — accommodates two megaships. South of Puerta Maya.
+        - generic [ref=e42]:
+          - heading "Punta Langosta" [level=3] [ref=e43]
+          - paragraph [ref=e44]: Downtown pier
+          - paragraph [ref=e45]: Smaller and mid-size ships. Walking distance to the San Miguel waterfront, restaurants, and shopping.
+      - generic [ref=e46]:
+        - strong [ref=e47]: Don't know your pier yet?
+        - text: Tell us your ship name when you book — we already know where it docks.
+    - generic [ref=e49]:
+      - generic [ref=e50]:
+        - generic [ref=e51]: Live tracking
+        - heading "Cozumel ship schedule today" [level=2] [ref=e52]
+        - paragraph [ref=e53]: Pulled live from the official Cozumel port authority (APIQROO). Updated weekly on Sundays.
+      - generic [ref=e54]:
+        - generic [ref=e280]:
+          - heading "Today · Tuesday, May 26 · 2 ships" [level=3] [ref=e281]:
+            - text: Today · Tuesday, May 26 ·
+            - strong [ref=e282]: 2 ships
+          - generic [ref=e283]:
+            - generic [ref=e284]:
+              - generic [ref=e285]: RADIANCE OF THE SEAS
+              - generic [ref=e286]: PUNTA LANGOSTA · ESTADOS UNIDOS
+              - generic [ref=e287]: 06:15 → 17:00
+            - generic [ref=e288]:
+              - generic [ref=e289]: M/S NORWEGIAN ESCAPE
+              - generic [ref=e290]: SSA MEXICO · ESTADOS UNIDOS
+              - generic [ref=e291]: 06:30 → 17:00
+        - generic [ref=e292]:
+          - heading "Tomorrow · Wednesday, May 27 · 3 ships" [level=3] [ref=e293]:
+            - text: Tomorrow · Wednesday, May 27 ·
+            - strong [ref=e294]: 3 ships
+          - generic [ref=e295]:
+            - generic [ref=e296]:
+              - generic [ref=e297]: ICON OF THE SEAS
+              - generic [ref=e298]: SSA MEXICO · ESTADOS UNIDOS
+              - generic [ref=e299]: 07:00 → 18:00
+            - generic [ref=e300]:
+              - generic [ref=e301]: M/S CARNIVAL VALOR
+              - generic [ref=e302]: PUERTA MAYA · ESTADOS UNIDOS
+              - generic [ref=e303]: 07:30 → 17:00
+            - generic [ref=e304]:
+              - generic [ref=e305]: M/V MSC WORLD AMERICA
+              - generic [ref=e306]: PUNTA LANGOSTA · SUIZA
+              - generic [ref=e307]: 08:30 → 19:00
+      - paragraph [ref=e56]:
+        - text: Live ship tracking on
+        - link "MarineTraffic" [ref=e57] [cursor=pointer]:
+          - /url: https://www.marinetraffic.com/en/ais/home/centerx:-86.94/centery:20.51/zoom:11
+        - text: · Full weekly schedule on
+        - link "APIQROO →" [ref=e58] [cursor=pointer]:
+          - /url: https://servicios.apiqroo.com.mx/programacion/
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - generic [ref=e62]: How it works
+        - heading "Three simple steps." [level=2] [ref=e63]
+        - paragraph [ref=e64]: Built for cruise guests who want a stress-free port day.
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - generic [ref=e67]: "1"
+          - heading "Book your transfer" [level=3] [ref=e68]
+          - paragraph [ref=e69]: Pick your destination, a pickup time, and a return time. Confirmation comes instantly by email and WhatsApp.
+        - generic [ref=e70]:
+          - generic [ref=e71]: "2"
+          - heading "We meet you at the pier" [level=3] [ref=e72]
+          - paragraph [ref=e73]: Your driver waits at the cruise terminal with a sign showing your name. Bottled water and A/C ready in the van.
+        - generic [ref=e74]:
+          - generic [ref=e75]: "3"
+          - heading "We return at your scheduled time" [level=3] [ref=e76]
+          - paragraph [ref=e77]: The vehicle drops you off and comes back at the time you picked. You're free to enjoy your day without watching a meter.
+      - generic [ref=e78]:
+        - strong [ref=e79]: "Important:"
+        - text: the vehicle doesn't stay with you — that's what keeps prices low. Pick a return time that gives you a
+        - strong [ref=e80]: 90-minute buffer before your ship sails
+        - text: . We monitor your ship in real-time, so even if your return time is too tight, your driver adjusts.
+    - generic [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]: Pickup & drop-off
+        - heading "Where do you need to go?" [level=2] [ref=e85]
+        - paragraph [ref=e86]: Pickup at the cruise port. Drop-off and pickup at any of these — or tell us where.
+      - generic [ref=e87]:
+        - link "You know where Tell us the place and time Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes. View & book →" [ref=e88] [cursor=pointer]:
+          - /url: "#vehicles"
+          - generic [ref=e89]: You know where
+          - heading "Tell us the place and time" [level=3] [ref=e90]
+          - paragraph [ref=e91]: Repeat visitor? Pick your vehicle below, then specify your custom destination at booking — we'll send a fixed quote in minutes.
+          - generic [ref=e92]: View & book →
+        - link "Mayan preserve Tierra Maya Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port. View & book →" [ref=e93] [cursor=pointer]:
+          - /url: /tierra-maya
+          - generic [ref=e94]: Mayan preserve
+          - heading "Tierra Maya" [level=3] [ref=e95]
+          - paragraph [ref=e96]: Hands-on Mayan cacao, honey, tortilla, and mezcal in our private cultural preserve. 15 min from the port.
+          - generic [ref=e97]: View & book →
+        - link "Beach club Mr. Sanchos All-inclusive food, drinks, beach. 15 min south of port. View & book →" [ref=e98] [cursor=pointer]:
+          - /url: /mr-sanchos
+          - generic [ref=e99]: Beach club
+          - heading "Mr. Sanchos" [level=3] [ref=e100]
+          - paragraph [ref=e101]: All-inclusive food, drinks, beach. 15 min south of port.
+          - generic [ref=e102]: View & book →
+        - link "National park Chankanaab Snorkel reef, dolphin lagoon, botanical garden. 10 min south. View & book →" [ref=e103] [cursor=pointer]:
+          - /url: /chankanaab
+          - generic [ref=e104]: National park
+          - heading "Chankanaab" [level=3] [ref=e105]
+          - paragraph [ref=e106]: Snorkel reef, dolphin lagoon, botanical garden. 10 min south.
+          - generic [ref=e107]: View & book →
+        - link "Beach club Nachi Cocom Exclusive, 130-guest cap. Quietest beach club. 20 min south. View & book →" [ref=e108] [cursor=pointer]:
+          - /url: /nachi-cocom
+          - generic [ref=e109]: Beach club
+          - heading "Nachi Cocom" [level=3] [ref=e110]
+          - paragraph [ref=e111]: Exclusive, 130-guest cap. Quietest beach club. 20 min south.
+          - generic [ref=e112]: View & book →
+        - link "Beach club Paradise Beach Inflatable Aqua Park, all-inclusive option. 15 min south. View & book →" [ref=e113] [cursor=pointer]:
+          - /url: /paradise-beach
+          - generic [ref=e114]: Beach club
+          - heading "Paradise Beach" [level=3] [ref=e115]
+          - paragraph [ref=e116]: Inflatable Aqua Park, all-inclusive option. 15 min south.
+          - generic [ref=e117]: View & book →
+        - link "Beach club Buccanos Quieter, north-side club. 10 min from cruise port. View & book →" [ref=e118] [cursor=pointer]:
+          - /url: /bucanos
+          - generic [ref=e119]: Beach club
+          - heading "Buccanos" [level=3] [ref=e120]
+          - paragraph [ref=e121]: Quieter, north-side club. 10 min from cruise port.
+          - generic [ref=e122]: View & book →
+        - link "Cultural site San Gervasio Ruins Cozumel’s largest Mayan archaeological site. 20 min inland. View & book →" [ref=e123] [cursor=pointer]:
+          - /url: /san-gervasio
+          - generic [ref=e124]: Cultural site
+          - heading "San Gervasio Ruins" [level=3] [ref=e125]
+          - paragraph [ref=e126]: Cozumel’s largest Mayan archaeological site. 20 min inland.
+          - generic [ref=e127]: View & book →
+        - link "Beach club KUZA Round-trip transfer from cruise port to KUZA. View & book →" [ref=e128] [cursor=pointer]:
+          - /url: /kuza
+          - generic [ref=e129]: Beach club
+          - heading "KUZA" [level=3] [ref=e130]
+          - paragraph [ref=e131]: Round-trip transfer from cruise port to KUZA.
+          - generic [ref=e132]: View & book →
+    - generic [ref=e134]:
+      - generic [ref=e135]:
+        - generic [ref=e136]: Vehicles
+        - heading "Choose by group size." [level=2] [ref=e137]
+        - paragraph [ref=e138]: Round-trip private transfer. Same low rate from 1 to 8 passengers — pay by vehicle, not by person.
+      - generic [ref=e139]:
+        - text: 💰
+        - strong [ref=e140]: 25% cheaper than Viator & TripAdvisor
+        - text: — up to
+        - strong [ref=e141]: 40% less
+        - text: than cruise-line excursions. Same vans. Same drivers. Lower price.
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - generic [ref=e308]: PRIVATE
+          - heading "Van" [level=3] [ref=e144]
+          - generic [ref=e145]:
+            - img [ref=e146]
+            - text: 1–8 passengers
+          - generic [ref=e148]: 369USD
+          - generic [ref=e309]: All-inclusive · final price
+          - generic [ref=e311]: Round-trip private transfer
+          - generic [ref=e312]:
+            - img [ref=e313]
+            - generic [ref=e315]: Free cancellation up to 24h before
+          - button "Book Now" [ref=e149] [cursor=pointer]
+        - generic [ref=e150]:
+          - generic [ref=e316]: ★ MOST POPULAR
+          - generic [ref=e317]: PRIVATE
+          - heading "L Van" [level=3] [ref=e318]
+          - generic [ref=e152]:
+            - img [ref=e153]
+            - text: 9–14 passengers
+          - generic [ref=e155]: 425USD
+          - generic [ref=e319]: All-inclusive · final price
+          - generic [ref=e321]: Round-trip private transfer
+          - generic [ref=e322]:
+            - img [ref=e323]
+            - generic [ref=e325]: Free cancellation up to 24h before
+          - button "Book Now" [ref=e156] [cursor=pointer]
+        - generic [ref=e157]:
+          - generic [ref=e326]: PRIVATE
+          - heading "XL Van" [level=3] [ref=e158]
+          - generic [ref=e159]:
+            - img [ref=e160]
+            - text: 15–20 passengers
+          - generic [ref=e162]: 549USD
+          - generic [ref=e327]: All-inclusive · final price
+          - generic [ref=e329]: Round-trip private transfer
+          - generic [ref=e330]:
+            - img [ref=e331]
+            - generic [ref=e333]: Free cancellation up to 24h before
+          - button "Book Now" [ref=e163] [cursor=pointer]
+        - generic [ref=e164]:
+          - generic [ref=e334]: PRIVATE
+          - heading "Private Bus" [level=3] [ref=e165]
+          - generic [ref=e166]:
+            - img [ref=e167]
+            - text: 21–40 passengers
+          - generic [ref=e169]: 899USD
+          - generic [ref=e335]: All-inclusive · final price
+          - generic [ref=e337]: Round-trip private transfer
+          - generic [ref=e338]:
+            - img [ref=e339]
+            - generic [ref=e341]: Free cancellation up to 24h before
+          - button "Book Now" [ref=e170] [cursor=pointer]
+    - generic [ref=e172]:
+      - generic [ref=e173]:
+        - generic [ref=e174]:
+          - generic [ref=e175]: Reviews
+          - heading "What guests say" [level=2] [ref=e176]
+          - paragraph [ref=e177]: Pulled from TripAdvisor and post-trip emails.
+        - link "500+ 5★ reviews on TripAdvisor →" [ref=e178] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e179]: 500+
+          - text: 5★ reviews on TripAdvisor →
+      - generic [ref=e180]:
+        - generic [ref=e181]:
+          - blockquote [ref=e182]: "\"[Real TripAdvisor review placeholder — pick one mentioning on-time pickup, professional driver, clean vehicle.]\""
+          - generic [ref=e183]:
+            - strong [ref=e184]: "[Guest Name]"
+            - text: Royal Caribbean · March 2025
+        - generic [ref=e185]:
+          - blockquote [ref=e186]: "\"[Real review placeholder — pick one mentioning ship monitoring or return-on-time guarantee.]\""
+          - generic [ref=e187]:
+            - strong [ref=e188]: "[Guest Name]"
+            - text: Carnival · February 2025
+        - generic [ref=e189]:
+          - blockquote [ref=e190]: "\"[Real review placeholder — pick one highlighting group transfer or family with kids.]\""
+          - generic [ref=e191]:
+            - strong [ref=e192]: "[Guest Name]"
+            - text: Norwegian · January 2025
+    - generic [ref=e194]:
+      - complementary [ref=e195]:
+        - generic [ref=e196]: FAQ
+        - heading "The things people always ask." [level=2] [ref=e197]
+        - paragraph [ref=e198]: Most cruise guests have the same handful of worries. We’ve answered them upfront — no fine print, no upsells, no surprises.
+        - generic [ref=e199]:
+          - text: Still unclear?
+          - link "WhatsApp us" [ref=e200] [cursor=pointer]:
+            - /url: https://wa.me/529871146853
+          - text: at +52 987 114 6853 — a real person answers.
+      - generic [ref=e201]:
+        - generic [ref=e202]:
+          - generic [ref=e203]: "01"
+          - generic [ref=e204]:
+            - heading "What’s included in my transfer?" [level=3] [ref=e342]
+            - paragraph [ref=e343]: Round-trip private transfer in an air-conditioned van, Sprinter, or coach. English-speaking driver, bottled water, and luggage handling. Your driver waits at the pier with your name on a sign, drops you off, and returns at your scheduled time.
+        - generic [ref=e206]:
+          - generic [ref=e207]: "02"
+          - generic [ref=e208]:
+            - heading "Where can you take me?" [level=3] [ref=e344]
+            - paragraph [ref=e345]: "Anywhere on the island: beach clubs (Mr. Sanchos, Chankanaab, Nachi Cocom, Paradise Beach, Buccanos, KUZA), Mayan ruins (San Gervasio), downtown San Miguel, the ferry terminal, the international airport, or any address you have. If you don’t see your destination listed, just message us on WhatsApp."
+        - generic [ref=e210]:
+          - generic [ref=e211]: "03"
+          - generic [ref=e212]:
+            - heading "What do you guarantee?" [level=3] [ref=e346]
+            - paragraph [ref=e347]: "Two things: (1) we’re at the pier when your ship docks — verified by real-time ship monitoring; (2) you’re back at the ship before all-aboard time. If we’re ever late and you miss boarding, we refund your transfer in full. No questions, no fine print."
+        - generic [ref=e214]:
+          - generic [ref=e215]: "04"
+          - generic [ref=e216]:
+            - heading "What happens on the day?" [level=3] [ref=e348]
+            - paragraph [ref=e349]: The morning of your transfer you’ll receive a WhatsApp message with your driver’s name, photo, and vehicle details. When you disembark, look for the sign with your name at the pier exit. Driver greets you in English, helps with luggage, brings you to your destination, and returns at your chosen return time.
+        - generic [ref=e218]:
+          - generic [ref=e219]: "05"
+          - generic [ref=e220]:
+            - heading "What if my ship is delayed?" [level=3] [ref=e350]
+            - paragraph [ref=e351]: No problem. We monitor every Cozumel arrival in real-time and adjust your pickup automatically. No rescheduling fees, no missed-pickup penalties. Same goes for early arrivals — your driver will be waiting whenever you actually disembark.
+        - generic [ref=e222]:
+          - generic [ref=e223]: "06"
+          - generic [ref=e224]:
+            - heading "Not on a cruise? We pick up from hotels & ferries too." [level=3] [ref=e352]
+            - paragraph [ref=e353]: Yes. We pick up at any Cozumel hotel, the international airport, the Playa del Carmen ferry terminal, or any address you give us. Same fixed-rate private transfer, no surge pricing.
+        - generic [ref=e226]:
+          - generic [ref=e227]: "07"
+          - generic [ref=e228]:
+            - heading "Traveling with a large group?" [level=3] [ref=e354]
+            - paragraph [ref=e355]: Up to 40 passengers in one vehicle (Private Bus). Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing as a convoy. Message us with group size, destination, and date for a custom quote.
+  - contentinfo [ref=e230]:
+    - generic [ref=e231]:
+      - generic [ref=e232]:
+        - generic [ref=e233]: cozumel·transfers
+        - paragraph [ref=e234]: Private transfers across Cozumel. On time, every transfer. Since 2015.
+      - generic [ref=e235]:
+        - heading "Contact" [level=4] [ref=e236]
+        - link "+52 987 114 6853" [ref=e237] [cursor=pointer]:
+          - /url: https://wa.me/529871146853
+        - link "hello@cozumelislandtransfers.com" [ref=e238] [cursor=pointer]:
+          - /url: mailto:hello@cozumelislandtransfers.com
+        - link "Call us" [ref=e239] [cursor=pointer]:
+          - /url: tel:+529871146853
+      - generic [ref=e240]:
+        - heading "Hours" [level=4] [ref=e241]
+        - paragraph [ref=e242]: "Office: 6 AM – 10 PM"
+      - generic [ref=e243]:
+        - heading "Destinations" [level=4] [ref=e244]
+        - link "Tierra Maya ★" [ref=e245] [cursor=pointer]:
+          - /url: /tierra-maya
+        - link "Mr. Sanchos" [ref=e246] [cursor=pointer]:
+          - /url: /mr-sanchos
+        - link "Chankanaab" [ref=e247] [cursor=pointer]:
+          - /url: /chankanaab
+        - link "Nachi Cocom" [ref=e248] [cursor=pointer]:
+          - /url: /nachi-cocom
+        - link "Paradise Beach" [ref=e249] [cursor=pointer]:
+          - /url: /paradise-beach
+        - link "Buccanos" [ref=e250] [cursor=pointer]:
+          - /url: /bucanos
+        - link "San Gervasio" [ref=e251] [cursor=pointer]:
+          - /url: /san-gervasio
+        - link "KUZÁ" [ref=e252] [cursor=pointer]:
+          - /url: /kuza
+      - generic [ref=e253]:
+        - heading "Our company" [level=4] [ref=e254]
+        - link "About us" [ref=e255] [cursor=pointer]:
+          - /url: "#about"
+        - link "Join the team" [ref=e256] [cursor=pointer]:
+          - /url: mailto:hello@cozumelislandtransfers.com?subject=Working%20with%20Cozumel%20Island%20Transfers
+        - link "Contact us" [ref=e257] [cursor=pointer]:
+          - /url: https://wa.me/529871146853?text=Hi%2C%20I%27m%20interested%20in%20a%20partnership%20opportunity%20with%20Cozumel%20Island%20Transfers.
+    - generic [ref=e258]:
+      - generic [ref=e259]: © 2015 – 2026 Cozumel Island Transfers · Licensed transport operator
+      - generic [ref=e260]:
+        - link "Terms of Use" [ref=e261] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy Policy" [ref=e262] [cursor=pointer]:
+          - /url: /privacy
+        - link "Partnership opportunities" [ref=e263] [cursor=pointer]:
+          - /url: mailto:hello@cozumelislandtransfers.com?subject=Partnership%20Opportunity
+  - dialog "Cookie consent" [ref=e264]:
+    - generic [ref=e265]:
+      - generic [ref=e266]:
+        - text: We use cookies to make the site work and measure traffic. No ads, no profiling.
+        - link "Privacy policy" [ref=e267] [cursor=pointer]:
+          - /url: /privacy
+        - text: .
+      - generic [ref=e268]:
+        - button "Essential only" [ref=e269] [cursor=pointer]
+        - button "Accept all" [ref=e270] [cursor=pointer]
