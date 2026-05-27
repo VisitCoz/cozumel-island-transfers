@@ -19,3 +19,11 @@ node_modules/
 
 # Apps Script copy lives here as source of truth but is paste-into-GAS
 # (not consumed by the deployed site). Keep it tracked.
+
+# Playwright MCP cache + agent screenshot debug artifacts
+.playwright-mcp/
+*-desktop.png
+*-mobile.png
+*-desktop.yml
+*-mobile.yml
+home-mobile-hero.png
