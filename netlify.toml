@@ -1,5 +1,6 @@
 [build]
   publish = "."
+  functions = "netlify/functions"
 
 # Security headers — defaults that any production site should have
 [[headers]]

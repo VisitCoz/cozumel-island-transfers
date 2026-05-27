@@ -956,6 +956,55 @@
   }
   .sticky-wa:hover { transform: scale(1.05); color: #fff; }
   .sticky-wa svg { width: 30px; height: 30px; }
+
+  /* ===== Ships-today widget ===== */
+  .ships-widget { max-width: var(--max-grid); margin: 0 auto; }
+  .ships-loading, .ships-empty {
+    text-align: center; color: var(--mute); padding: 24px 0;
+    font-size: 0.96rem;
+  }
+  .ships-day { margin-bottom: 28px; }
+  .ships-day:last-child { margin-bottom: 0; }
+  .ships-day h3 {
+    font-size: 0.84rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--mute); margin: 0 0 12px;
+  }
+  .ships-day h3 strong { color: var(--ink); }
+  .ships-list {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+  }
+  .ship-card {
+    background: #fff; border: 1px solid var(--line-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .ship-card.status-green { border-left-color: var(--success); }
+  .ship-card.status-yellow { border-left-color: var(--warn); }
+  .ship-card.status-red { border-left-color: #ff3b30; opacity: 0.6; }
+  .ship-name {
+    font-size: 1rem; font-weight: 600; color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .ship-meta {
+    font-size: 0.82rem; color: var(--mute);
+  }
+  .ship-times {
+    font-size: 0.88rem; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    margin-top: 4px;
+  }
+  .ships-footer {
+    text-align: center; font-size: 0.88rem; color: var(--mute);
+    margin: 24px 0 0;
+  }
+  .ships-footer a { color: var(--accent); text-decoration: none; }
+  .ships-footer a:hover { text-decoration: underline; }
+  @media (max-width: 720px) {
+    .ships-list { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -1050,6 +1099,24 @@
     <div class="piers-note">
       <strong>Don't know your pier yet?</strong> Tell us your ship name when you book — we already know where it docks.
     </div>
+  </div>
+</section>
+
+<!-- ===== SHIPS IN PORT TODAY (live via APIQROO) ===== -->
+<section id="ships-today">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="kicker">Live tracking</span>
+      <h2>Cozumel ship schedule today</h2>
+      <p>Pulled live from the official Cozumel port authority (APIQROO). Updated weekly on Sundays.</p>
+    </div>
+    <div id="ships-widget" class="ships-widget">
+      <p class="ships-loading">Loading today's schedule&hellip;</p>
+    </div>
+    <p class="ships-footer">
+      Live ship tracking on <a href="https://www.marinetraffic.com/en/ais/home/centerx:-86.94/centery:20.51/zoom:11" target="_blank" rel="noopener">MarineTraffic</a> &middot;
+      Full weekly schedule on <a href="https://servicios.apiqroo.com.mx/programacion/" target="_blank" rel="noopener">APIQROO &rarr;</a>
+    </p>
   </div>
 </section>
 
@@ -1802,6 +1869,67 @@
       document.getElementById('cit-cookie-banner').classList.remove('show');
     };
   })();
+</script>
+
+<!-- Ships-today widget loader -->
+<script>
+(function() {
+  var widget = document.getElementById('ships-widget');
+  if (!widget) return;
+
+  fetch('/.netlify/functions/ships-today')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error || data.fallback) return fallback();
+      render(data);
+    })
+    .catch(fallback);
+
+  function render(data) {
+    var html = '';
+    var today = data.today, tomorrow = data.tomorrow;
+    var any = (today && today.ships.length) || (tomorrow && tomorrow.ships.length);
+    if (!any) {
+      widget.innerHTML = '<p class="ships-empty">No ships scheduled in the next 2 days.</p>';
+      return;
+    }
+    if (today) html += dayBlock('Today', today);
+    if (tomorrow && tomorrow.ships.length) html += dayBlock('Tomorrow', tomorrow);
+    widget.innerHTML = html;
+  }
+
+  function dayBlock(label, day) {
+    if (!day.ships.length) {
+      return '<div class="ships-day"><h3>' + label + ' · ' + fmtDate(day.date) + '</h3><p class="ships-empty">No ships scheduled.</p></div>';
+    }
+    var cards = day.ships.map(card).join('');
+    return '<div class="ships-day"><h3>' + label + ' · ' + fmtDate(day.date) + ' · <strong>' + day.ships.length + ' ship' + (day.ships.length === 1 ? '' : 's') + '</strong></h3><div class="ships-list">' + cards + '</div></div>';
+  }
+
+  function card(s) {
+    var times = (s.eta || s.etd) ? '<div class="ship-times">' + esc(s.eta) + ' &rarr; ' + esc(s.etd) + '</div>' : '';
+    return '<div class="ship-card status-' + esc(s.status) + '">' +
+      '<div class="ship-name">' + esc(s.ship) + '</div>' +
+      '<div class="ship-meta">' + esc(s.port) + (s.country ? ' &middot; ' + esc(s.country) : '') + '</div>' +
+      times +
+    '</div>';
+  }
+
+  function fmtDate(iso) {
+    var d = new Date(iso + 'T12:00:00');
+    return d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+
+  function fallback() {
+    widget.innerHTML = '<p class="ships-empty">Live schedule temporarily unavailable. <a href="https://servicios.apiqroo.com.mx/programacion/" target="_blank" rel="noopener">View on APIQROO &rarr;</a></p>';
+  }
+})();
 </script>
 
 </body>
