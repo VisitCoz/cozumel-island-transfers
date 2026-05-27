@@ -704,6 +704,38 @@
     color: var(--ink); font-weight: 500;
   }
 
+  /* ===== Ships-today teaser strip ===== */
+  .ships-teaser {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; flex-wrap: wrap;
+    padding: 14px 24px;
+    background: var(--navy); color: #fff;
+    text-decoration: none;
+    font-size: 0.94rem; line-height: 1.4;
+    transition: background .15s;
+  }
+  .ships-teaser:hover { background: #1a3855; color: #fff; }
+  .ships-teaser .teaser-pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #34C759;
+    box-shadow: 0 0 0 0 rgba(52,199,89,0.6);
+    animation: teaser-pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes teaser-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(52,199,89,0.6); }
+    70%  { box-shadow: 0 0 0 8px rgba(52,199,89,0); }
+    100% { box-shadow: 0 0 0 0 rgba(52,199,89,0); }
+  }
+  .ships-teaser .teaser-text strong { font-weight: 700; }
+  .ships-teaser .teaser-arrow {
+    font-weight: 700; transition: transform .2s;
+  }
+  .ships-teaser:hover .teaser-arrow { transform: translateX(4px); }
+  @media (max-width: 560px) {
+    .ships-teaser { font-size: 0.86rem; padding: 12px 16px; gap: 8px; }
+  }
+
   /* ===== Tracking proof ===== */
   .tracking-proof {
     max-width: var(--max-prose); margin: 28px auto 0;
@@ -1304,6 +1336,25 @@
     <span class="lines">Carnival · Royal Caribbean · Norwegian · Celebrity · MSC · Disney · Princess · Holland America · <em data-en="and all major cruise lines" data-es="y todas las líneas de crucero">and all major cruise lines</em></span>
   </div>
 </div>
+
+<!-- ===== SHIPS-TODAY TEASER (live count → cruise-transfers#ships-today) ===== -->
+<a href="cruise-transfers.html#ships-today" class="ships-teaser">
+  <span class="teaser-pulse"></span>
+  <span class="teaser-text">
+    <strong id="ships-teaser-count">Live</strong> &middot; Cozumel cruise ship schedule today
+  </span>
+  <span class="teaser-arrow">&rarr;</span>
+</a>
+<script>
+(function() {
+  fetch('/.netlify/functions/ships-today').then(function(r){return r.json();}).then(function(d){
+    if (!d || !d.today) return;
+    var n = d.today.ships.length;
+    var el = document.getElementById('ships-teaser-count');
+    if (el) el.textContent = n + ' ' + (n === 1 ? 'ship' : 'ships') + ' in port';
+  }).catch(function(){});
+})();
+</script>
 
 <!-- ===== DESTINATIONS ===== -->
 <section id="destinations">
