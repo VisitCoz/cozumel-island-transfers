@@ -69,7 +69,14 @@ function parseShips(html) {
       }
       continue;
     }
-    if (!currentDate) continue;
+    // Row date: <td data-title="FECHA">10/06/2026</td> (first FECHA = arrival date).
+    // Primary source — the date-header month names switched language (jun → june)
+    // in Jun 2026 and broke header-only parsing, so don't depend on them.
+    const fechaMatch = row.match(/data-title="FECHA">\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    const rowDate = fechaMatch
+      ? `${fechaMatch[3]}-${fechaMatch[2].padStart(2, '0')}-${fechaMatch[1].padStart(2, '0')}`
+      : currentDate;
+    if (!rowDate) continue;
 
     // Ship row fields
     const port = pick(row, /data-title="PUERTO">[\s\S]*?<div>([^<]+)<\/div>/);
@@ -84,7 +91,7 @@ function parseShips(html) {
 
     if (ship) {
       ships.push({
-        dateISO: currentDate,
+        dateISO: rowDate,
         port: cleanPort(port),
         country: (country || '').trim(),
         ship: ship.trim(),
