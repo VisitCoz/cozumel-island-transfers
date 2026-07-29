@@ -84,6 +84,18 @@ button{font-family:inherit}
 .vs-row b.vs-us{color:var(--success-deep)}
 .vsbox p{margin:9px 0 0;font-size:12.5px;color:var(--mute);line-height:1.5}
 
+/* happy-guest photo strip */
+.gstrip{display:flex;gap:10px;padding:6px 18px 4px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none}
+.gstrip::-webkit-scrollbar{display:none}
+.gtile{flex:0 0 62%;scroll-snap-align:center;aspect-ratio:4/5;border-radius:14px;overflow:hidden;
+  position:relative;background:linear-gradient(150deg,#1D3B57,#2C6B93);display:flex;align-items:flex-end}
+.gtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gtile .gph{position:absolute;inset:0;display:grid;place-items:center;padding:16px;text-align:center;
+  color:rgba(255,255,255,.72);font-size:11.5px;line-height:1.45;font-weight:600}
+.gtile .gcap{position:relative;z-index:2;width:100%;padding:11px 13px;color:#fff;font-size:12px;
+  font-weight:700;background:linear-gradient(0deg,rgba(6,20,32,.8),transparent)}
+
 /* reviews */
 .revs{display:flex;gap:12px;padding:6px 18px 4px;overflow-x:auto;scroll-snap-type:x mandatory;
   scrollbar-width:none}
@@ -310,7 +322,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="home-hero">
     <img src="https://cozu.netlify.app/assets/hero-vans.png" alt="" class="hh-img">
     <div class="hh-text">
-      <div class="kick">Cozumel cruise port · airport · since 2015</div>
+      <div class="kick">Cozumel cruise port · since 2015</div>
       <h1>Private transfers<br>across Cozumel.</h1>
       <p>Your own vehicle, 1–40 people. One flat price to anywhere on the island.
          We're holding a sign with your name.</p>
@@ -370,6 +382,12 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <b>We monitor your ship in real time</b>, so a late arrival never costs you the transfer.
   </div>
 
+  <!-- Happy guests — real photos, scrollable -->
+  <div class="sechead">Real guests, real days</div>
+  <p class="blurb" style="padding-top:0">Not stock photos. These are the people we picked up.</p>
+  <div class="gstrip" id="guestStrip"></div>
+  <p class="hint" style="padding:2px 18px 0">Swipe →</p>
+
   <!-- Reviews -->
   <div class="sechead">What guests say</div>
   <p class="blurb" style="padding-top:0">🏆 Travelers' Choice on TripAdvisor. <b>4.8★ from 35
@@ -405,14 +423,10 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="sechead">Who we are</div>
   <p class="blurb" style="padding-top:0">Cozumel Island Transfers is a licensed private ground-transfer
      operator based in San Miguel de Cozumel, Quintana Roo. We've been picking up cruise guests and
-     airport arrivals on this island <b>since 2015</b>.</p>
-  <p class="blurb">Every vehicle is private — never shared. English-speaking driver, A/C, bottled
-     water, daily inspection. We pick up at Puerta Maya, the International Pier and Punta Langosta,
-     plus Cozumel International Airport. When you message us on WhatsApp, <b>you're texting our
-     family — not a call centre.</b></p>
-  <div class="cta-wrap" style="padding-top:8px">
-    <button class="btn btn-ghost" style="margin-top:0" onclick="go('airport')">✈ Flying into CZM instead? →</button>
-  </div>
+     cruise guests on this island <b>since 2015</b>.</p>
+  <p class="blurb">Every vehicle is private — never shared. A/C, bottled water, daily inspection.
+     We pick up at all three cruise terminals: Puerta Maya, the International Pier and Punta
+     Langosta. When you message us on WhatsApp, <b>you're texting a young, fun local company.</b></p>
 
   <!-- FAQ -->
   <div class="sechead">The things people always ask</div>
@@ -425,34 +439,6 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   </footer>
 </section>
 
-<!-- ═══════════ AIRPORT ═══════════ -->
-<section class="screen" id="s-airport">
-  <a class="topbar" href="#" onclick="go('hub');return false"><span class="bk">←</span> Home</a>
-  <div class="hero" style="aspect-ratio:16/9">
-    <img src="https://cozu.netlify.app/assets/hero-vans.png" alt="">
-    <div class="ht"><div class="k">Cozumel International Airport · CZM</div><h1>Airport transfers</h1></div>
-  </div>
-  <div class="metarow">
-    <div class="mpill">🚐 10–15 min to downtown</div>
-    <div class="mpill">✈️ We track your flight</div>
-  </div>
-  <p class="blurb">Not on a cruise? We meet arriving flights at Cozumel International the same way we
-     meet ships — a representative inside the terminal holding a sign with your name, and a private
-     vehicle for your group only.</p>
-
-  <div class="sechead">What's different from a cruise transfer</div>
-  <div class="incl">
-    <div class="ir yes"><span class="ic">✓</span><div><b>Full luggage capacity.</b> Tell us how many bags and we send the right vehicle.</div></div>
-    <div class="ir yes"><span class="ic">✓</span><div><b>We watch your flight number</b> — a delay doesn't cost you the transfer.</div></div>
-    <div class="ir yes"><span class="ic">✓</span><div><b>One-way or round-trip</b>, hotel, Airbnb, or the Playa del Carmen ferry.</div></div>
-    <div class="ir no"><span class="ic">!</span><div>Airport pickups are quoted on WhatsApp for now — one message and we send a fixed price.</div></div>
-  </div>
-  <div class="cta-wrap">
-    <button class="btn btn-wa" style="margin-top:0">Get an airport quote on WhatsApp</button>
-    <button class="btn btn-ghost" onclick="go('hub')">← Back to the island transfers</button>
-  </div>
-  <footer><div class="fb">COZUMEL ISLAND TRANSFERS</div>San Miguel de Cozumel, Quintana Roo, México</footer>
-</section>
 
 <!-- ═══════════ 2 · DESTINATION ═══════════ -->
 <section class="screen" id="s-dest">
@@ -468,7 +454,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <ol class="steps">
     <li>You walk off the ship at your own pace. <b>No rush — we track your ship.</b></li>
     <li>A few steps outside the terminal, <b>our representative is holding a sign with your name on it.</b></li>
-    <li>You ride in a <b>private, air-conditioned vehicle</b> — just your group, bottled water, English-speaking driver.</li>
+    <li>You ride in a <b>private, air-conditioned vehicle</b> — just your group, and bottled water.</li>
     <li>You're dropped at <b><span class="dNameInline"></span></b> and you enjoy your day.</li>
     <li>At the time <em>you</em> chose, <b>your driver is waiting at the same spot</b> to bring you back.</li>
     <li>You're back at the pier at the time you picked. <b>We recommend leaving at least 90 minutes
@@ -488,7 +474,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="sechead">What your price covers</div>
   <div class="incl">
     <div class="ir yes"><span class="ic">✓</span><div>Round-trip private vehicle, <b>paid in full online</b></div></div>
-    <div class="ir yes"><span class="ic">✓</span><div>English-speaking driver, A/C, bottled water</div></div>
+    <div class="ir yes"><span class="ic">✓</span><div>Private air-conditioned vehicle, bottled water</div></div>
     <div class="ir yes"><span class="ic">✓</span><div>Ship tracking + free cancellation if your ship skips Cozumel</div></div>
     <div class="ir yes"><span class="ic">✓</span><div><b>Nothing to pay the driver.</b> We don't accept cash.</div></div>
     <div class="ir no" id="admRow"><span class="ic">!</span><div id="admText"></div></div>
@@ -511,6 +497,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <div class="cnt"><div class="n" id="paxN">2</div><div class="l" id="paxL">people</div></div>
     <button onclick="bumpPax(1)" aria-label="One more">+</button>
   </div>
+  <div class="quickpax" id="quickPax"></div>
   <div class="vehcard">
     <div class="vt">Your vehicle</div>
     <div class="vn" id="vehName"></div>
@@ -684,7 +671,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <div class="av">JC</div>
     <div>
       <div class="dn">Julio C.</div>
-      <div class="dr">With us since 2017 · English-speaking</div>
+      <div class="dr">Driving with us since 2017</div>
       <div class="dph">[ driver photo goes here ]</div>
     </div>
   </div>
@@ -756,8 +743,8 @@ const DEST = {
     dist:'South of the pier',img:IMG+'dest-kuza-hero.jpg',
     blurb:'Part beach, part theme park — ziplines, cenote swims, animal encounters and a beach club in one gated property.',
     admName:'KUZÁ day pass',admAdult:45,admVerified:false},
-  'tierra-maya':{name:'Tierra Maya',short:'Tierra Maya',type:'Mayan Preserve · Our own venue',drive:'15 min',
-    dist:'15 minutes from the pier',
+  'tierra-maya':{name:'Tierra Maya',short:'Tierra Maya',type:'Mayan Preserve',drive:'15 min',
+    dist:'Inland, east of San Miguel',
     img:'https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg',
     blurb:'Our own cultural preserve. Grind cacao on volcanic stone, press tortillas over fire, meet the sacred stingless bees, taste artisanal liqueurs. Guides move at your pace.',
     admName:'Sacred Roots experience',admAdult:70,admVerified:true}
@@ -843,13 +830,13 @@ function scrollTo_(id){ $(id).scrollIntoView({behavior:'smooth', block:'start'})
 /* Real FAQ copy, lifted from the live site so this preview isn't invented text. */
 const FAQ = [
   ["What's included in my transfer?",
-   "Round-trip private transfer in an air-conditioned van, Sprinter, or coach. English-speaking driver, bottled water, and luggage handling. Your representative waits at our meeting point with your name on a sign, drops you off, and returns at your scheduled time."],
+   "Round-trip private transfer in an air-conditioned van, Sprinter, or coach, and bottled water. Your representative waits at our meeting point with your name on a sign, your driver takes you there, and comes back at the time you chose."],
   ["Where can you take me?",
-   "Anywhere on the island: beach clubs, Mayan ruins, downtown San Miguel, the ferry terminal, the international airport, or any address you have. If you don't see your destination listed, just message us on WhatsApp."],
+   "Anywhere on the island: beach clubs, Mayan ruins, downtown San Miguel, the Playa del Carmen ferry terminal, or any address you have. If you don't see your destination listed, just message us on WhatsApp."],
   ["What do you guarantee?",
    "Two things: we're at the pier when your ship docks — verified by real-time ship monitoring — and you're back at the pier at the time you chose. If we're ever late and you miss boarding, we refund your transfer in full. No questions, no fine print."],
   ["What happens on the day?",
-   "The morning of your transfer you'll receive a WhatsApp message with your driver's name, photo, and vehicle details. When you disembark, look for the sign with your name at our meeting point. Your driver greets you in English, helps with luggage, and returns at your chosen time."],
+   "The morning of your transfer you'll receive a WhatsApp message with your driver's name, photo, and vehicle details. When you disembark, look for the sign with your name at our meeting point. Your driver takes you to your destination and comes back at the time you chose."],
   ["What if my ship is delayed?",
    "No problem. We monitor every Cozumel arrival in real time and adjust your pickup automatically. No rescheduling fees, no missed-pickup penalties. Same for early arrivals — your driver is waiting whenever you actually disembark."],
   ["How do I pay?",
@@ -858,13 +845,24 @@ const FAQ = [
    "Up to 40 passengers in one vehicle. Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing together. Message us with group size, destination and date."],
   ["Do you provide child or car seats?",
    "No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle."],
-  ["What about luggage?",
-   "Our standard vans are sized for cruise-port day trips — small bags and beach gear. If you're travelling with full luggage, tell us at booking and we'll dispatch a vehicle with the right capacity."],
   ["Should I tip the driver?",
    "Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way."]
 ];
 $('faqList').innerHTML = FAQ.map(([q,a]) => `
   <details class="faq"><summary>${q}<span class="fa">+</span></summary><p>${a}</p></details>`).join('');
+
+/* Placeholder tiles double as Angel's shot list — each caption is the photo we need. */
+const GUEST_SHOTS = [
+  ['The hand-off at the pier', 'Rep holding a sign with a guest name, couple walking up smiling. Terminal visible behind.'],
+  ['A family loading up', 'Side door open, driver helping, kids climbing in. Van clean and branded.'],
+  ['Arriving at the beach club', 'Guests stepping out at the gate, sea behind them.'],
+  ['The group shot', '10+ people in front of the van, arms up. Big-group proof.'],
+  ['Inside the van', 'Guests in the back seat, A/C on, water bottles visible, phone-camera candid.'],
+  ['The pickup back', 'Same guests at the end of the day, sunburnt and happy, driver waiting.']
+];
+$('guestStrip').innerHTML = GUEST_SHOTS.map(([cap, brief]) => `
+  <div class="gtile"><div class="gph">▦ photo needed<br><br>${brief}</div>
+    <div class="gcap">${cap}</div></div>`).join('');
 
 $('priceList').innerHTML = VEH.map(v => `
   <div class="prow${v.max===14?' pop':''}">
@@ -881,7 +879,7 @@ $('hubGrid').innerHTML = Object.keys(DEST).map(k => `
   </button>`).join('') + `
   <button class="poster other" onclick="alert('Prototype: this would open a short \\'tell us where\\' form + WhatsApp.')">
     <div class="poster-img">📍</div>
-    <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Hotel, ferry, airport, anywhere</div>
+    <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Downtown, ferry, anywhere</div>
     <div class="go">Tell us where →</div></div>
   </button>`;
 
@@ -898,7 +896,11 @@ function openDest(k){
 }
 function startBooking(){ paintPax(); go('pax'); }
 
-/* ── 1 · how many ── */
+/* ── 1 · how many ──
+   Chips are the MAX capacity of each vehicle, so one tap jumps straight to a tier
+   instead of thirty presses on the +. */
+$('quickPax').innerHTML = VEH.map(v =>
+  `<button data-q="${v.max}" onclick="setPax(${v.max})">Up to ${v.max}</button>`).join('');
 function setPax(n){ S.pax = Math.min(40, Math.max(1,n)); paintPax(); }
 function bumpPax(d){ setPax(S.pax + d); }
 function toggleAdm(){ S.adm = !S.adm; paintPax(); }
@@ -907,6 +909,7 @@ function paintPax(){
   const d = DEST[S.dest], v = vehFor(S.pax);
   $('paxBack').textContent = d.short;
   $('paxN').textContent = S.pax; $('paxL').textContent = S.pax===1 ? 'person' : 'people';
+  document.querySelectorAll('#quickPax button').forEach(b => b.classList.toggle('on', +b.dataset.q === S.pax));
   $('vehName').textContent = v.name; $('vehSub').textContent = v.sub;
   $('vehPrice').innerHTML = money(v.price) + ' <small>round-trip, whole vehicle</small>';
   $('admTitle').textContent = 'Add ' + d.admName;
