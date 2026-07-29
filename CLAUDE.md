@@ -1,17 +1,26 @@
 # CLAUDE.md — Cozumel Island Transfers (CIT)
 
-This folder is a Warp tab. The global rules from `../../CLAUDE.md` still apply — this file only adds scope.
+The global rules from the Command_Center `CLAUDE.md` still apply — this file only adds scope.
+
+## 🛑 Work in `~/code/cozumel-island-transfers` — NOT in Google Drive
+
+**Canonical working copy: `~/code/cozumel-island-transfers` (local disk).**
+
+A copy of this repo also exists at `Command_Center/Projects/Cozumel_Island_Transfers/` inside the
+Google Drive vault. **Do not edit or commit there.** Drive's CloudStorage sync rewrites files while
+git is using them and can corrupt the object store — it has already destroyed a memory file and
+killed five LaunchAgents in this vault. Moved out 2026-07-29 per Mike's directive that GitHub is
+canonical for all code.
+
+If you find yourself in the Drive path, stop and `cd ~/code/cozumel-island-transfers`.
 
 ## Project
-Marketing site for Cozumel Island Transfers. Static HTML deployed to Netlify (`cozu.netlify.app`), auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
+Marketing site for Cozumel Island Transfers. Static HTML deployed to Netlify (`cozu.netlify.app`),
+auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
 
 ## Where the code actually lives
 
-**This folder IS the repo** — unlike the Tierra Maya and Visit Cozumel sites, whose code sits in an
-external iCloud repo. CIT is the only website whose code lives inside the vault, and the only one with
-**push-to-deploy**.
-
-- Repo root: this folder · remote `VisitCoz/cozumel-island-transfers` · last commit 2026-06-09
+- Repo root: `~/code/cozumel-island-transfers` · remote `VisitCoz/cozumel-island-transfers`
 - `netlify.toml` — `publish = "."`, `functions = "netlify/functions"`
 - `netlify/functions/ships-today.js` — scrapes APIQROO for ships in port
 - 13 static pages, `assets/`, `data/beach-clubs.json`, `scripts/build.js`, `llms.txt`, `sitemap.xml`
