@@ -46,10 +46,64 @@ button{font-family:inherit}
 .brandbar .wa{font-size:12px;font-weight:700;color:var(--success-deep);text-decoration:none;
   padding:0 4px;display:inline-flex;align-items:center;min-height:46px}
 
-.hub-hero{padding:26px 20px 20px;background:linear-gradient(150deg,#0F2C44,#16496E)}
-.hub-hero .kick{font-size:10.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#8FC2F0}
-.hub-hero h1{color:#fff;font-size:25px;line-height:1.15;margin:8px 0 6px;font-weight:800;letter-spacing:-.02em}
-.hub-hero p{margin:0;color:#C9DDEE;font-size:13.5px}
+/* home hero */
+.home-hero{position:relative;background:linear-gradient(150deg,#0F2C44,#16496E);overflow:hidden}
+.home-hero .hh-img{position:absolute;right:-18%;bottom:-6%;width:118%;opacity:.20;pointer-events:none}
+.home-hero .hh-text{position:relative;z-index:2;padding:26px 20px 24px}
+.home-hero .kick{font-size:10.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#8FC2F0}
+.home-hero h1{color:#fff;font-size:30px;line-height:1.12;margin:8px 0 8px;font-weight:800;letter-spacing:-.03em}
+.home-hero p{margin:0 0 14px;color:#C9DDEE;font-size:14px;max-width:26em}
+.hh-anchor{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:10px;
+  padding:10px 13px;color:#E4F1FA;font-size:13px;margin-bottom:16px}
+.hh-anchor b{color:#fff}
+.home-hero .btn-wa{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28)}
+
+.shipsbar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#0F2C44;color:#CFE4F5;
+  font-size:12.5px}
+.shipsbar b{color:#fff}
+.linewall{padding:16px 18px 4px;text-align:center;border-bottom:1px solid var(--line-soft)}
+.linewall .lw-t{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute-2)}
+.linewall p{margin:6px 0 14px;font-size:12.5px;color:var(--mute);line-height:1.5}
+
+/* pricing list */
+.pricelist{margin:6px 18px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.prow{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line-soft)}
+.prow:last-child{border-bottom:none}
+.prow.pop{background:var(--card-green)}
+.prow .pn{font-size:14.5px;font-weight:700;color:var(--navy)}
+.prow .pp{font-size:12px;color:var(--mute)}
+.prow .pv{margin-left:auto;font-size:19px;font-weight:800;color:var(--navy);white-space:nowrap}
+.prow .tag{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--success-deep);display:block}
+
+.vsbox{margin:14px 18px 0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px}
+.vsbox .vs-t{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:9px}
+.vs-row{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;color:#45607C}
+.vs-row b{color:var(--navy)}
+.vs-row b.vs-us{color:var(--success-deep)}
+.vsbox p{margin:9px 0 0;font-size:12.5px;color:var(--mute);line-height:1.5}
+
+/* reviews */
+.revs{display:flex;gap:12px;padding:6px 18px 4px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none}
+.revs::-webkit-scrollbar{display:none}
+.rev{flex:0 0 84%;scroll-snap-align:center;background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:15px 16px;box-shadow:var(--shadow)}
+.rev .rv-s{color:#F0A500;font-size:13px;letter-spacing:.08em}
+.rev .rv-h{font-size:14.5px;font-weight:800;color:var(--navy);margin:4px 0 5px}
+.rev p{margin:0;font-size:13px;color:#33404F}
+.rev .rv-w{margin-top:9px;font-size:11.5px;color:var(--mute-2);font-weight:600}
+
+/* faq */
+.faq{border-bottom:1px solid var(--line-soft);margin:0 18px}
+.faq:last-child{border-bottom:none}
+.faq>summary{list-style:none;cursor:pointer;padding:15px 0;font-size:14px;font-weight:700;
+  color:var(--navy);display:flex;gap:10px;align-items:flex-start;min-height:52px}
+.faq>summary::-webkit-details-marker{display:none}
+.faq>summary .fa{margin-left:auto;color:var(--accent);font-weight:800;flex:0 0 14px;text-align:right}
+.faq[open]>summary .fa{transform:rotate(45deg)}
+.faq p{margin:0 0 15px;font-size:13.5px;color:#45607C}
 .trustrow{display:flex;gap:7px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--line);
   overflow-x:auto;scrollbar-width:none}
 .trustrow::-webkit-scrollbar{display:none}
@@ -246,28 +300,158 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 
 <div class="wrap">
 
-<!-- ═══════════ 1 · HUB ═══════════ -->
+<!-- ═══════════ HOME ═══════════ -->
 <section class="screen on" id="s-hub">
   <div class="brandbar">
     <div class="logo">cozumel<span>·</span>transfers</div>
     <a class="wa" href="#" onclick="return false">WhatsApp us</a>
   </div>
-  <div class="hub-hero">
-    <div class="kick">Cozumel cruise port · airport · since 2015</div>
-    <h1>Where are you going today?</h1>
-    <p>Pick your destination. Private vehicle, one flat price, paid in full online.</p>
+
+  <div class="home-hero">
+    <img src="https://cozu.netlify.app/assets/hero-vans.png" alt="" class="hh-img">
+    <div class="hh-text">
+      <div class="kick">Cozumel cruise port · airport · since 2015</div>
+      <h1>Private transfers<br>across Cozumel.</h1>
+      <p>Your own vehicle, 1–40 people. One flat price to anywhere on the island.
+         We're holding a sign with your name.</p>
+      <div class="hh-anchor">From <b>$369 USD</b> all-in · round-trip · up to 8 people</div>
+      <button class="btn btn-primary" onclick="scrollTo_('homeDest')">Where are you going? →</button>
+      <button class="btn btn-wa">Ask us on WhatsApp</button>
+    </div>
   </div>
+
   <div class="trustrow">
     <div class="tchip">🏆 <b>4.8★</b> TripAdvisor</div>
     <div class="tchip">Since <b>2015</b></div>
-    <div class="tchip">We hold a <b>sign with your name</b></div>
+    <div class="tchip">Sign with <b>your name</b></div>
+    <div class="tchip">Card only, <b>no cash</b></div>
     <div class="tchip">Free cancellation</div>
   </div>
+
+  <div class="shipsbar">
+    <b>4 ships in port today</b> · we track every arrival in real time
+  </div>
+
+  <div class="linewall">
+    <div class="lw-t">Trusted by guests from</div>
+    <p>Carnival · Royal Caribbean · Norwegian · Celebrity · MSC · Disney · Princess ·
+       Holland America · and all major cruise lines</p>
+  </div>
+
+  <!-- Destinations -->
+  <div class="sechead" id="homeDest">Where do you need to go?</div>
+  <p class="blurb" style="padding-top:0">Pickup at the cruise port. Drop-off and pickup at any of
+     these — or tell us where.</p>
   <div class="grid" id="hubGrid"></div>
+
+  <!-- Pricing -->
+  <div class="sechead" id="homePrice">One price, by vehicle</div>
+  <p class="blurb" style="padding-top:0">Not per person. Not by distance. The same flat rate to
+     anywhere on the island — and you pay it once, online.</p>
+  <div class="pricelist" id="priceList"></div>
+  <div class="vsbox">
+    <div class="vs-t">Why it's cheaper direct</div>
+    <div class="vs-row"><span>Book direct with us</span><b class="vs-us">$369</b></div>
+    <div class="vs-row"><span>Same transfer on Viator</span><b>~$469</b></div>
+    <p>About <b>20% less</b> booking direct. Same vans, same drivers — you're just not paying a
+       booking site's markup. Viator prices are estimates from their public catalogue.</p>
+  </div>
+
+  <!-- How it works -->
+  <div class="sechead">How it works</div>
+  <ol class="steps" style="padding-bottom:6px">
+    <li><b>Book online.</b> Pick your destination, group size, and times. Pay by card — that's it.</li>
+    <li><b>We meet you at the pier.</b> Our representative is at our meeting point right outside the
+        terminal, a few steps from all three piers, holding a sign with your name.</li>
+    <li><b>We come back at your time.</b> Your driver returns to the same spot you were dropped at.</li>
+  </ol>
+  <div class="tznote" style="margin-bottom:6px">
+    The vehicle doesn't wait with you all day — that's what keeps the price flat instead of hourly.
+    <b>We monitor your ship in real time</b>, so a late arrival never costs you the transfer.
+  </div>
+
+  <!-- Reviews -->
+  <div class="sechead">What guests say</div>
+  <p class="blurb" style="padding-top:0">🏆 Travelers' Choice on TripAdvisor. <b>4.8★ from 35
+     verified reviews</b> · top 10% of operators · since 2015.</p>
+  <div class="revs">
+    <div class="rev">
+      <div class="rv-s">★★★★★</div>
+      <div class="rv-h">Great company</div>
+      <p>They communicated well and very fast to respond. We made a last-minute change to our meeting
+         time and they accommodated. It was nice to not have to wait at our resort and have an
+         air-conditioned van waiting for us.</p>
+      <div class="rv-w">Genny · May 2026 · TripAdvisor</div>
+    </div>
+    <div class="rev">
+      <div class="rv-s">★★★★★</div>
+      <div class="rv-h">Excellent transfer</div>
+      <p>Wonderful experience. Prompt, easy, friendly, clean, and safe! Would highly recommend if you
+         need transportation for a group. Our driver even came early when we finished a tour earlier
+         than expected.</p>
+      <div class="rv-w">Meghan G · Jun 2025 · TripAdvisor</div>
+    </div>
+    <div class="rev">
+      <div class="rv-s">★★★★★</div>
+      <div class="rv-h">Perfect service</div>
+      <p>Exceeded my expectations with their reliable, punctual, and professional service. The vehicle
+         was clean and well-equipped, making for an enjoyable ride. I'll certainly use this service
+         again.</p>
+      <div class="rv-w">Hasna E · Nov 2023 · TripAdvisor</div>
+    </div>
+  </div>
+
+  <!-- Who we are -->
+  <div class="sechead">Who we are</div>
+  <p class="blurb" style="padding-top:0">Cozumel Island Transfers is a licensed private ground-transfer
+     operator based in San Miguel de Cozumel, Quintana Roo. We've been picking up cruise guests and
+     airport arrivals on this island <b>since 2015</b>.</p>
+  <p class="blurb">Every vehicle is private — never shared. English-speaking driver, A/C, bottled
+     water, daily inspection. We pick up at Puerta Maya, the International Pier and Punta Langosta,
+     plus Cozumel International Airport. When you message us on WhatsApp, <b>you're texting our
+     family — not a call centre.</b></p>
+  <div class="cta-wrap" style="padding-top:8px">
+    <button class="btn btn-ghost" style="margin-top:0" onclick="go('airport')">✈ Flying into CZM instead? →</button>
+  </div>
+
+  <!-- FAQ -->
+  <div class="sechead">The things people always ask</div>
+  <div id="faqList"></div>
+
   <footer>
     <div class="fb">COZUMEL ISLAND TRANSFERS</div>
-    San Miguel de Cozumel, Quintana Roo, México
+    San Miguel de Cozumel, Quintana Roo, México · +52 987 114 6853<br>
+    Licensed private ground-transfer operator · since 2015
   </footer>
+</section>
+
+<!-- ═══════════ AIRPORT ═══════════ -->
+<section class="screen" id="s-airport">
+  <a class="topbar" href="#" onclick="go('hub');return false"><span class="bk">←</span> Home</a>
+  <div class="hero" style="aspect-ratio:16/9">
+    <img src="https://cozu.netlify.app/assets/hero-vans.png" alt="">
+    <div class="ht"><div class="k">Cozumel International Airport · CZM</div><h1>Airport transfers</h1></div>
+  </div>
+  <div class="metarow">
+    <div class="mpill">🚐 10–15 min to downtown</div>
+    <div class="mpill">✈️ We track your flight</div>
+  </div>
+  <p class="blurb">Not on a cruise? We meet arriving flights at Cozumel International the same way we
+     meet ships — a representative inside the terminal holding a sign with your name, and a private
+     vehicle for your group only.</p>
+
+  <div class="sechead">What's different from a cruise transfer</div>
+  <div class="incl">
+    <div class="ir yes"><span class="ic">✓</span><div><b>Full luggage capacity.</b> Tell us how many bags and we send the right vehicle.</div></div>
+    <div class="ir yes"><span class="ic">✓</span><div><b>We watch your flight number</b> — a delay doesn't cost you the transfer.</div></div>
+    <div class="ir yes"><span class="ic">✓</span><div><b>One-way or round-trip</b>, hotel, Airbnb, or the Playa del Carmen ferry.</div></div>
+    <div class="ir no"><span class="ic">!</span><div>Airport pickups are quoted on WhatsApp for now — one message and we send a fixed price.</div></div>
+  </div>
+  <div class="cta-wrap">
+    <button class="btn btn-wa" style="margin-top:0">Get an airport quote on WhatsApp</button>
+    <button class="btn btn-ghost" onclick="go('hub')">← Back to the island transfers</button>
+  </div>
+  <footer><div class="fb">COZUMEL ISLAND TRANSFERS</div>San Miguel de Cozumel, Quintana Roo, México</footer>
 </section>
 
 <!-- ═══════════ 2 · DESTINATION ═══════════ -->
@@ -326,10 +510,6 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <button onclick="bumpPax(-1)" aria-label="One fewer">−</button>
     <div class="cnt"><div class="n" id="paxN">2</div><div class="l" id="paxL">people</div></div>
     <button onclick="bumpPax(1)" aria-label="One more">+</button>
-  </div>
-  <div class="field" style="padding-top:16px">
-    <label for="paxSel">Or choose your group size</label>
-    <select id="paxSel" onchange="setPax(+this.value)"></select>
   </div>
   <div class="vehcard">
     <div class="vt">Your vehicle</div>
@@ -657,7 +837,42 @@ function restart(){
   go('hub');
 }
 
-/* ── 1 · hub ── */
+/* ── home ── */
+function scrollTo_(id){ $(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+
+/* Real FAQ copy, lifted from the live site so this preview isn't invented text. */
+const FAQ = [
+  ["What's included in my transfer?",
+   "Round-trip private transfer in an air-conditioned van, Sprinter, or coach. English-speaking driver, bottled water, and luggage handling. Your representative waits at our meeting point with your name on a sign, drops you off, and returns at your scheduled time."],
+  ["Where can you take me?",
+   "Anywhere on the island: beach clubs, Mayan ruins, downtown San Miguel, the ferry terminal, the international airport, or any address you have. If you don't see your destination listed, just message us on WhatsApp."],
+  ["What do you guarantee?",
+   "Two things: we're at the pier when your ship docks — verified by real-time ship monitoring — and you're back at the pier at the time you chose. If we're ever late and you miss boarding, we refund your transfer in full. No questions, no fine print."],
+  ["What happens on the day?",
+   "The morning of your transfer you'll receive a WhatsApp message with your driver's name, photo, and vehicle details. When you disembark, look for the sign with your name at our meeting point. Your driver greets you in English, helps with luggage, and returns at your chosen time."],
+  ["What if my ship is delayed?",
+   "No problem. We monitor every Cozumel arrival in real time and adjust your pickup automatically. No rescheduling fees, no missed-pickup penalties. Same for early arrivals — your driver is waiting whenever you actually disembark."],
+  ["How do I pay?",
+   "Credit card, always — secure online payment at booking. No cash to the driver, no deposits, no surprise fees at the curb."],
+  ["Traveling with a large group?",
+   "Up to 40 passengers in one vehicle. Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing together. Message us with group size, destination and date."],
+  ["Do you provide child or car seats?",
+   "No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle."],
+  ["What about luggage?",
+   "Our standard vans are sized for cruise-port day trips — small bags and beach gear. If you're travelling with full luggage, tell us at booking and we'll dispatch a vehicle with the right capacity."],
+  ["Should I tip the driver?",
+   "Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way."]
+];
+$('faqList').innerHTML = FAQ.map(([q,a]) => `
+  <details class="faq"><summary>${q}<span class="fa">+</span></summary><p>${a}</p></details>`).join('');
+
+$('priceList').innerHTML = VEH.map(v => `
+  <div class="prow${v.max===14?' pop':''}">
+    <div><div class="pn">${v.name}</div><div class="pp">${v.sub}</div>
+      ${v.max===14?'<span class="tag">Most booked</span>':''}</div>
+    <div class="pv">$${v.price}</div>
+  </div>`).join('');
+
 $('hubGrid').innerHTML = Object.keys(DEST).map(k => `
   <button class="poster" onclick="openDest('${k}')">
     <div class="poster-img"><img src="${DEST[k].img}" alt="" loading="lazy"><span class="pl">${DEST[k].type}</span></div>
@@ -683,9 +898,7 @@ function openDest(k){
 }
 function startBooking(){ paintPax(); go('pax'); }
 
-/* ── 3 · how many (Flow A) ── */
-$('paxSel').innerHTML = Array.from({length:40}, (_,i) => i+1)
-  .map(n => `<option value="${n}">${n} ${n===1?'person':'people'}</option>`).join('');
+/* ── 1 · how many ── */
 function setPax(n){ S.pax = Math.min(40, Math.max(1,n)); paintPax(); }
 function bumpPax(d){ setPax(S.pax + d); }
 function toggleAdm(){ S.adm = !S.adm; paintPax(); }
@@ -694,7 +907,6 @@ function paintPax(){
   const d = DEST[S.dest], v = vehFor(S.pax);
   $('paxBack').textContent = d.short;
   $('paxN').textContent = S.pax; $('paxL').textContent = S.pax===1 ? 'person' : 'people';
-  $('paxSel').value = S.pax;
   $('vehName').textContent = v.name; $('vehSub').textContent = v.sub;
   $('vehPrice').innerHTML = money(v.price) + ' <small>round-trip, whole vehicle</small>';
   $('admTitle').textContent = 'Add ' + d.admName;
@@ -813,11 +1025,13 @@ function onName(){
 
 /* ── 5 · pay ── */
 function tripLine(){
+  if (!S.dest) return '';
   const v = vehFor(S.pax);
   const when = S.pick ? `${fmtHour(+S.pick)}–${fmtHour(+S.pick + S.dur)}` : '';
   return `${v.name} to ${DEST[S.dest].short} · ${S.date} · ${when} · ${S.pax} ${S.pax===1?'person':'people'}`;
 }
 function paintPay(){
+  if (!S.dest) return;
   const d = DEST[S.dest], v = vehFor(S.pax);
   $('paySummary').textContent = tripLine();
   $('pVehLbl').textContent = v.name + ' — round trip'; $('pVeh').textContent = money(v.price);
@@ -828,6 +1042,7 @@ function paintPay(){
 
 /* ── confirmed ── */
 function paintDone(){
+  if (!S.dest) return;
   $('doneLine').textContent = tripLine() + ' · ' + money(grand()) + ' charged';
   $('doneRef').textContent = 'CIT-' + String(Math.floor(100000 + Math.random()*899999));
   $('donePier').innerHTML = S.notCruise
