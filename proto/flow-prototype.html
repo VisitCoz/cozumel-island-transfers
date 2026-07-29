@@ -46,17 +46,24 @@ button{font-family:inherit}
 .brandbar .wa{font-size:12px;font-weight:700;color:var(--success-deep);text-decoration:none;
   padding:0 4px;display:inline-flex;align-items:center;min-height:46px}
 
-/* home hero */
-.home-hero{position:relative;background:linear-gradient(150deg,#0F2C44,#16496E);overflow:hidden}
-.home-hero .hh-img{position:absolute;right:-18%;bottom:-6%;width:118%;opacity:.20;pointer-events:none}
-.home-hero .hh-text{position:relative;z-index:2;padding:26px 20px 24px}
-.home-hero .kick{font-size:10.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#8FC2F0}
-.home-hero h1{color:#fff;font-size:30px;line-height:1.12;margin:8px 0 8px;font-weight:800;letter-spacing:-.03em}
-.home-hero p{margin:0 0 14px;color:#C9DDEE;font-size:14px;max-width:26em}
-.hh-anchor{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:10px;
-  padding:10px 13px;color:#E4F1FA;font-size:13px;margin-bottom:16px}
-.hh-anchor b{color:#fff}
-.home-hero .btn-wa{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28)}
+/* home hero — photo full-bleed at full strength, legibility from a scrim (not from
+   dimming the image, which crushed 247 levels of contrast down to 49 and read as mud) */
+.home-hero{position:relative;background:#0F2C44;overflow:hidden}
+.home-hero .hh-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.home-hero::after{content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to bottom,rgba(15,44,68,.90) 0%,rgba(15,44,68,.62) 45%,rgba(15,44,68,.95) 100%)}
+.home-hero .hh-text{position:relative;z-index:2;padding:24px 20px 22px}
+.home-hero .kick{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9FCDF3}
+.home-hero h1{color:#fff;font-size:29px;line-height:1.1;margin:9px 0 10px;font-weight:800;letter-spacing:-.03em}
+.home-hero p{margin:0 0 16px;color:#D7E7F4;font-size:14.5px;max-width:26em}
+.hh-price{margin-bottom:18px}
+.hh-price b{display:block;color:#fff;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.hh-price span{display:block;color:#BFD8EC;font-size:13px;margin-top:2px}
+.hh-link{display:inline-flex;align-items:center;min-height:46px;margin-top:4px;color:#BFE0FF;
+  font-size:13.5px;font-weight:700;text-decoration:underline}
+
+.trustrow{flex-wrap:wrap;overflow:visible}
+.tchip{font-size:12.5px}
 
 .shipsbar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#0F2C44;color:#CFE4F5;
   font-size:12.5px}
@@ -323,37 +330,24 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <img src="https://cozu.netlify.app/assets/hero-vans.png" alt="" class="hh-img">
     <div class="hh-text">
       <div class="kick">Cozumel cruise port · since 2015</div>
-      <h1>Private transfers<br>across Cozumel.</h1>
-      <p>Your own vehicle, 1–40 people. One flat price to anywhere on the island.
-         We're holding a sign with your name.</p>
-      <div class="hh-anchor">From <b>$369 USD</b> all-in · round-trip · up to 8 people</div>
-      <button class="btn btn-primary" onclick="scrollTo_('homeDest')">Where are you going? →</button>
-      <button class="btn btn-wa">Ask us on WhatsApp</button>
+      <h1>Your own private driver.</h1>
+      <p>We meet your ship with a sign, take you where you want to go, and come back
+         at the time you chose.</p>
+      <div class="hh-price"><b>$369 flat, all-in</b>
+        <span>round-trip · up to 8 people · card only, never cash</span></div>
+      <button class="btn btn-primary" onclick="scrollTo_('homeDest')">See destinations &amp; prices →</button>
+      <a class="hh-link" href="#" onclick="return false">Questions? Message us on WhatsApp</a>
     </div>
   </div>
 
   <div class="trustrow">
-    <div class="tchip">🏆 <b>4.8★</b> TripAdvisor</div>
-    <div class="tchip">Since <b>2015</b></div>
-    <div class="tchip">Sign with <b>your name</b></div>
-    <div class="tchip">Card only, <b>no cash</b></div>
-    <div class="tchip">Free cancellation</div>
+    <div class="tchip">🏆 <b>4.8★</b> TripAdvisor · since <b>2015</b></div>
+    <div class="tchip">Card only — <b>never cash</b></div>
+    <div class="tchip">Refund if your ship <b>skips Cozumel</b></div>
   </div>
 
-  <div class="shipsbar">
-    <b>4 ships in port today</b> · we track every arrival in real time
-  </div>
-
-  <div class="linewall">
-    <div class="lw-t">Trusted by guests from</div>
-    <p>Carnival · Royal Caribbean · Norwegian · Celebrity · MSC · Disney · Princess ·
-       Holland America · and all major cruise lines</p>
-  </div>
-
-  <!-- Destinations -->
+  <!-- Destinations — first thing the buyer can actually act on, kept above the fold -->
   <div class="sechead" id="homeDest">Where do you need to go?</div>
-  <p class="blurb" style="padding-top:0">Pickup at the cruise port. Drop-off and pickup at any of
-     these — or tell us where.</p>
   <div class="grid" id="hubGrid"></div>
 
   <!-- Pricing -->
@@ -378,7 +372,8 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <li><b>We come back at your time.</b> Your driver returns to the same spot you were dropped at.</li>
   </ol>
   <div class="tznote" style="margin-bottom:6px">
-    The vehicle doesn't wait with you all day — that's what keeps the price flat instead of hourly.
+    Your driver drops you off and comes back at the time you chose — that return time is locked in
+    when you book. He isn't parked outside all day, which is what keeps the price flat instead of hourly.
     <b>We monitor your ship in real time</b>, so a late arrival never costs you the transfer.
   </div>
 
@@ -432,6 +427,12 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="sechead">The things people always ask</div>
   <div id="faqList"></div>
 
+  <div class="linewall">
+    <div class="lw-t">Guests we've picked up from</div>
+    <p>Carnival · Royal Caribbean · Norwegian · Celebrity · MSC · Disney · Princess ·
+       Holland America · and every other line that calls here</p>
+  </div>
+
   <footer>
     <div class="fb">COZUMEL ISLAND TRANSFERS</div>
     San Miguel de Cozumel, Quintana Roo, México · +52 987 114 6853<br>
@@ -453,7 +454,8 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="sechead">What happens, step by step</div>
   <ol class="steps">
     <li>You walk off the ship at your own pace. <b>No rush — we track your ship.</b></li>
-    <li>A few steps outside the terminal, <b>our representative is holding a sign with your name on it.</b></li>
+    <li>A few steps outside the terminal, <b>our English-speaking representative is holding a sign
+        with your name on it.</b> They get you settled and answer anything you need.</li>
     <li>You ride in a <b>private, air-conditioned vehicle</b> — just your group, and bottled water.</li>
     <li>You're dropped at <b><span class="dNameInline"></span></b> and you enjoy your day.</li>
     <li>At the time <em>you</em> chose, <b>your driver is waiting at the same spot</b> to bring you back.</li>
@@ -463,7 +465,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 
   <div class="signbox">
     <div class="st">How you'll find us</div>
-    <p>Our representative waits at our marked meeting point right outside the terminal — a few steps from all three
+    <p>Our <b>English-speaking representative</b> waits at our marked meeting point right outside the terminal — a few steps from all three
        piers — holding a sign with your name.</p>
     <div class="signcard">
       <div class="sl">Your sign will read</div>
@@ -474,6 +476,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="sechead">What your price covers</div>
   <div class="incl">
     <div class="ir yes"><span class="ic">✓</span><div>Round-trip private vehicle, <b>paid in full online</b></div></div>
+    <div class="ir yes"><span class="ic">✓</span><div>An <b>English-speaking representative</b> meets you at the pier</div></div>
     <div class="ir yes"><span class="ic">✓</span><div>Private air-conditioned vehicle, bottled water</div></div>
     <div class="ir yes"><span class="ic">✓</span><div>Ship tracking + free cancellation if your ship skips Cozumel</div></div>
     <div class="ir yes"><span class="ic">✓</span><div><b>Nothing to pay the driver.</b> We don't accept cash.</div></div>
@@ -559,6 +562,10 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="qhead"><div class="qk">Step 3 of 5</div><h2>Your day in Cozumel</h2>
     <p>When you want us, and how long you want to stay.</p></div>
 
+  <div class="shipsbar" style="margin-top:14px">
+    <b>4 ships in port today</b> · we track every arrival in real time, so a late dock moves your
+    pickup instead of costing you the transfer
+  </div>
   <div class="field">
     <label for="dateIn">Date</label>
     <input type="date" id="dateIn" onchange="onDate()">
@@ -624,7 +631,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <input type="text" id="nameIn" placeholder="Margaret Johnson" oninput="onName()"></div>
   <div class="field"><label for="waIn">WhatsApp or mobile</label>
     <input type="tel" id="waIn" placeholder="+1 555 123 4567">
-    <div class="hint">We send your driver's name and photo here the night before.</div></div>
+    <div class="hint">We send your driver's name, photo and licence plate here the night before.</div></div>
   <div class="field"><label for="mailIn">Email</label>
     <input type="email" id="mailIn" placeholder="you@email.com">
     <div class="hint">Your receipt and confirmation go here.</div></div>
@@ -671,7 +678,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <div class="av">JC</div>
     <div>
       <div class="dn">Julio C.</div>
-      <div class="dr">Driving with us since 2017</div>
+      <div class="dr">Driving with us since 2017<br>White Toyota Hiace · plate YUC-4471</div>
       <div class="dph">[ driver photo goes here ]</div>
     </div>
   </div>
@@ -685,7 +692,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <ul class="nextlist">
     <li><span class="e">📧</span><div>Confirmation email with your receipt — <b>within 60 seconds</b>.</div></li>
     <li><span class="e">⚓</span><div>Your <b>terminal and meeting point</b> by WhatsApp, as soon as the port publishes the schedule for your date.</div></li>
-    <li><span class="e">💬</span><div>WhatsApp message with your driver's name and photo — <b>the night before</b>.</div></li>
+    <li><span class="e">💬</span><div>WhatsApp message with your driver's name, photo, vehicle and <b>licence plate</b> — the night before, so you can check it at the curb.</div></li>
     <li><span class="e">🚢</span><div>We watch your ship. If it's late, your driver waits. If it skips Cozumel, <b>you're refunded automatically</b>.</div></li>
     <li><span class="e">📅</span><div>Add to your calendar so it's on your phone offline.</div></li>
   </ul>
@@ -830,13 +837,15 @@ function scrollTo_(id){ $(id).scrollIntoView({behavior:'smooth', block:'start'})
 /* Real FAQ copy, lifted from the live site so this preview isn't invented text. */
 const FAQ = [
   ["What's included in my transfer?",
-   "Round-trip private transfer in an air-conditioned van, Sprinter, or coach, and bottled water. Your representative waits at our meeting point with your name on a sign, your driver takes you there, and comes back at the time you chose."],
+   "Round-trip private transfer in an air-conditioned private vehicle, and bottled water. Our English-speaking representative waits at our meeting point with your name on a sign and gets you settled; your driver takes you there and comes back at the time you chose. Your pickup and return times are confirmed in writing before you ride, so nothing important depends on a conversation in the van."],
   ["Where can you take me?",
    "Anywhere on the island: beach clubs, Mayan ruins, downtown San Miguel, the Playa del Carmen ferry terminal, or any address you have. If you don't see your destination listed, just message us on WhatsApp."],
   ["What do you guarantee?",
-   "Two things: we're at the pier when your ship docks — verified by real-time ship monitoring — and you're back at the pier at the time you chose. If we're ever late and you miss boarding, we refund your transfer in full. No questions, no fine print."],
+   "Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print."],
   ["What happens on the day?",
-   "The morning of your transfer you'll receive a WhatsApp message with your driver's name, photo, and vehicle details. When you disembark, look for the sign with your name at our meeting point. Your driver takes you to your destination and comes back at the time you chose."],
+   "The night before, you'll receive a WhatsApp message with your driver's name, photo, vehicle and licence plate. When you disembark, look for the sign with your name at our meeting point. Your driver takes you to your destination and comes back at the time you chose."],
+  ["Will the ship wait for me?",
+   "No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full."],
   ["What if my ship is delayed?",
    "No problem. We monitor every Cozumel arrival in real time and adjust your pickup automatically. No rescheduling fees, no missed-pickup penalties. Same for early arrivals — your driver is waiting whenever you actually disembark."],
   ["How do I pay?",
@@ -845,6 +854,8 @@ const FAQ = [
    "Up to 40 passengers in one vehicle. Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing together. Message us with group size, destination and date."],
   ["Do you provide child or car seats?",
    "No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle."],
+  ["Is the van easy to get in and out of?",
+   "Our vans have a standard step up — most guests manage it easily, and our representative will steady an arm if you'd like. Folded walkers and collapsible wheelchairs travel with you at no charge. If anyone in your group uses a mobility scooter or needs a low step, message us before you book and we'll tell you honestly whether we can carry it."],
   ["Should I tip the driver?",
    "Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way."]
 ];
