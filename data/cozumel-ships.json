@@ -1,0 +1,1021 @@
+{
+  "source": "https://servicios.apiqroo.com.mx/programacion/",
+  "builtAt": "2026-07-29",
+  "years": [
+    2024,
+    2025,
+    2026
+  ],
+  "arrivalsScanned": 3478,
+  "shipCount": 144,
+  "ships": [
+    {
+      "name": "Carnival Breeze",
+      "line": "Carnival Cruise Line",
+      "calls": 205,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Carnival Valor",
+      "line": "Carnival Cruise Line",
+      "calls": 189,
+      "first": "2024-01",
+      "last": "2026-08"
+    },
+    {
+      "name": "Mariner of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 185,
+      "first": "2024-01",
+      "last": "2026-08"
+    },
+    {
+      "name": "Carnival Paradise",
+      "line": "Carnival Cruise Line",
+      "calls": 162,
+      "first": "2024-01",
+      "last": "2026-08"
+    },
+    {
+      "name": "Enchantment of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 162,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Carnival Jubilee",
+      "line": "Carnival Cruise Line",
+      "calls": 136,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Margaritaville at Sea Islander",
+      "line": "Margaritaville at Sea",
+      "calls": 135,
+      "first": "2024-06",
+      "last": "2026-07"
+    },
+    {
+      "name": "Harmony of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 114,
+      "first": "2024-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Grandeur of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 83,
+      "first": "2024-04",
+      "last": "2026-04"
+    },
+    {
+      "name": "Carnival Liberty",
+      "line": "Carnival Cruise Line",
+      "calls": 78,
+      "first": "2024-05",
+      "last": "2026-07"
+    },
+    {
+      "name": "MSC Seascape",
+      "line": "MSC Cruises",
+      "calls": 72,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Regal Princess",
+      "line": "Princess Cruises",
+      "calls": 65,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Icon of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 63,
+      "first": "2024-02",
+      "last": "2026-07"
+    },
+    {
+      "name": "Norwegian Escape",
+      "line": "Norwegian Cruise Line",
+      "calls": 63,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "MSC Seashore",
+      "line": "MSC Cruises",
+      "calls": 62,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Radiance of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 61,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Carnival Dream",
+      "line": "Carnival Cruise Line",
+      "calls": 60,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Norwegian Prima",
+      "line": "Norwegian Cruise Line",
+      "calls": 54,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Disney Magic",
+      "line": "Disney Cruise Line",
+      "calls": 50,
+      "first": "2024-01",
+      "last": "2026-04"
+    },
+    {
+      "name": "Carnival Horizon",
+      "line": "Carnival Cruise Line",
+      "calls": 49,
+      "first": "2024-01",
+      "last": "2026-04"
+    },
+    {
+      "name": "Disney Treasure",
+      "line": "Disney Cruise Line",
+      "calls": 45,
+      "first": "2024-12",
+      "last": "2026-07"
+    },
+    {
+      "name": "Carnival Legend",
+      "line": "Carnival Cruise Line",
+      "calls": 43,
+      "first": "2024-11",
+      "last": "2026-04"
+    },
+    {
+      "name": "Independence of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 43,
+      "first": "2024-03",
+      "last": "2026-04"
+    },
+    {
+      "name": "Wonder of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 41,
+      "first": "2024-01",
+      "last": "2025-08"
+    },
+    {
+      "name": "Celebrity Constellation",
+      "line": "Celebrity Cruises",
+      "calls": 38,
+      "first": "2024-01",
+      "last": "2026-04"
+    },
+    {
+      "name": "Voyager of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 38,
+      "first": "2024-01",
+      "last": "2025-03"
+    },
+    {
+      "name": "MSC World America",
+      "line": "MSC Cruises",
+      "calls": 36,
+      "first": "2025-04",
+      "last": "2026-07"
+    },
+    {
+      "name": "Carnival Miracle",
+      "line": "Carnival Cruise Line",
+      "calls": 31,
+      "first": "2024-10",
+      "last": "2026-04"
+    },
+    {
+      "name": "Celebrity Beyond",
+      "line": "Celebrity Cruises",
+      "calls": 31,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Mardi Gras",
+      "line": "Carnival Cruise Line",
+      "calls": 30,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Norwegian Getaway",
+      "line": "Norwegian Cruise Line",
+      "calls": 30,
+      "first": "2024-10",
+      "last": "2025-11"
+    },
+    {
+      "name": "Valiant Lady",
+      "line": "Virgin Voyages",
+      "calls": 30,
+      "first": "2024-04",
+      "last": "2025-10"
+    },
+    {
+      "name": "Brilliance of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 27,
+      "first": "2024-10",
+      "last": "2025-03"
+    },
+    {
+      "name": "Viking Mars",
+      "line": "Viking",
+      "calls": 27,
+      "first": "2024-01",
+      "last": "2026-02"
+    },
+    {
+      "name": "Disney Dream",
+      "line": "Disney Cruise Line",
+      "calls": 26,
+      "first": "2024-01",
+      "last": "2025-10"
+    },
+    {
+      "name": "Rhapsody of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 24,
+      "first": "2025-11",
+      "last": "2026-04"
+    },
+    {
+      "name": "Carnival Celebration",
+      "line": "Carnival Cruise Line",
+      "calls": 23,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Celebrity Reflection",
+      "line": "Celebrity Cruises",
+      "calls": 23,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Serenade of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 23,
+      "first": "2024-09",
+      "last": "2025-03"
+    },
+    {
+      "name": "Disney Fantasy",
+      "line": "Disney Cruise Line",
+      "calls": 22,
+      "first": "2024-01",
+      "last": "2024-12"
+    },
+    {
+      "name": "Mein Schiff 1",
+      "line": "TUI Cruises",
+      "calls": 22,
+      "first": "2024-11",
+      "last": "2026-04"
+    },
+    {
+      "name": "Norwegian Breakaway",
+      "line": "Norwegian Cruise Line",
+      "calls": 21,
+      "first": "2024-01",
+      "last": "2024-08"
+    },
+    {
+      "name": "Star of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 21,
+      "first": "2025-09",
+      "last": "2026-07"
+    },
+    {
+      "name": "Jewel of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 20,
+      "first": "2024-11",
+      "last": "2025-04"
+    },
+    {
+      "name": "Freedom of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 19,
+      "first": "2024-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Norwegian Jade",
+      "line": "Norwegian Cruise Line",
+      "calls": 19,
+      "first": "2024-01",
+      "last": "2025-03"
+    },
+    {
+      "name": "Norwegian Joy",
+      "line": "Norwegian Cruise Line",
+      "calls": 19,
+      "first": "2024-01",
+      "last": "2025-12"
+    },
+    {
+      "name": "Scarlet Lady",
+      "line": "Virgin Voyages",
+      "calls": 19,
+      "first": "2024-01",
+      "last": "2026-04"
+    },
+    {
+      "name": "Sun Princess",
+      "line": "Princess Cruises",
+      "calls": 19,
+      "first": "2024-10",
+      "last": "2026-03"
+    },
+    {
+      "name": "Celebrity Summit",
+      "line": "Celebrity Cruises",
+      "calls": 18,
+      "first": "2024-01",
+      "last": "2026-04"
+    },
+    {
+      "name": "Carnival Spirit",
+      "line": "Carnival Cruise Line",
+      "calls": 17,
+      "first": "2024-01",
+      "last": "2025-10"
+    },
+    {
+      "name": "Enchanted Princess",
+      "line": "Princess Cruises",
+      "calls": 17,
+      "first": "2024-04",
+      "last": "2025-08"
+    },
+    {
+      "name": "Nieuw Statendam",
+      "line": "Holland America Line",
+      "calls": 17,
+      "first": "2024-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Celebrity Silhouette",
+      "line": "Celebrity Cruises",
+      "calls": 16,
+      "first": "2024-01",
+      "last": "2026-04"
+    },
+    {
+      "name": "Norwegian Jewel",
+      "line": "Norwegian Cruise Line",
+      "calls": 16,
+      "first": "2024-11",
+      "last": "2026-03"
+    },
+    {
+      "name": "Symphony of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 16,
+      "first": "2024-11",
+      "last": "2026-07"
+    },
+    {
+      "name": "Eurodam",
+      "line": "Holland America Line",
+      "calls": 15,
+      "first": "2024-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Norwegian Viva",
+      "line": "Norwegian Cruise Line",
+      "calls": 15,
+      "first": "2025-12",
+      "last": "2026-04"
+    },
+    {
+      "name": "Allure of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 14,
+      "first": "2025-11",
+      "last": "2026-04"
+    },
+    {
+      "name": "Carnival Magic",
+      "line": "Carnival Cruise Line",
+      "calls": 14,
+      "first": "2024-01",
+      "last": "2025-09"
+    },
+    {
+      "name": "Disney Destiny",
+      "line": "Disney Cruise Line",
+      "calls": 14,
+      "first": "2026-01",
+      "last": "2026-07"
+    },
+    {
+      "name": "Explorer of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 14,
+      "first": "2025-02",
+      "last": "2026-04"
+    },
+    {
+      "name": "Norwegian Dawn",
+      "line": "Norwegian Cruise Line",
+      "calls": 14,
+      "first": "2025-11",
+      "last": "2026-03"
+    },
+    {
+      "name": "Norwegian Encore",
+      "line": "Norwegian Cruise Line",
+      "calls": 14,
+      "first": "2025-11",
+      "last": "2026-04"
+    },
+    {
+      "name": "Norwegian Pearl",
+      "line": "Norwegian Cruise Line",
+      "calls": 14,
+      "first": "2024-01",
+      "last": "2026-04"
+    },
+    {
+      "name": "Caribbean Princess",
+      "line": "Princess Cruises",
+      "calls": 13,
+      "first": "2024-01",
+      "last": "2025-04"
+    },
+    {
+      "name": "Celebrity Xcel",
+      "line": "Celebrity Cruises",
+      "calls": 13,
+      "first": "2025-11",
+      "last": "2026-04"
+    },
+    {
+      "name": "Celebrity Apex",
+      "line": "Celebrity Cruises",
+      "calls": 12,
+      "first": "2024-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Celebrity Eclipse",
+      "line": "Celebrity Cruises",
+      "calls": 12,
+      "first": "2025-11",
+      "last": "2026-04"
+    },
+    {
+      "name": "MSC Divina",
+      "line": "MSC Cruises",
+      "calls": 12,
+      "first": "2024-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Carnival Pride",
+      "line": "Carnival Cruise Line",
+      "calls": 11,
+      "first": "2024-01",
+      "last": "2024-04"
+    },
+    {
+      "name": "MSC Seaside",
+      "line": "MSC Cruises",
+      "calls": 11,
+      "first": "2024-11",
+      "last": "2025-12"
+    },
+    {
+      "name": "Norwegian Epic",
+      "line": "Norwegian Cruise Line",
+      "calls": 11,
+      "first": "2024-01",
+      "last": "2025-03"
+    },
+    {
+      "name": "Norwegian Gem",
+      "line": "Norwegian Cruise Line",
+      "calls": 11,
+      "first": "2024-01",
+      "last": "2025-05"
+    },
+    {
+      "name": "Sky Princess",
+      "line": "Princess Cruises",
+      "calls": 11,
+      "first": "2024-01",
+      "last": "2025-02"
+    },
+    {
+      "name": "Carnival Glory",
+      "line": "Carnival Cruise Line",
+      "calls": 10,
+      "first": "2024-01",
+      "last": "2024-03"
+    },
+    {
+      "name": "Celebrity Ascent",
+      "line": "Celebrity Cruises",
+      "calls": 9,
+      "first": "2024-01",
+      "last": "2025-04"
+    },
+    {
+      "name": "MSC Magnifica",
+      "line": "MSC Cruises",
+      "calls": 9,
+      "first": "2024-04",
+      "last": "2024-10"
+    },
+    {
+      "name": "Nieuw Amsterdam",
+      "line": "Holland America Line",
+      "calls": 9,
+      "first": "2024-03",
+      "last": "2025-03"
+    },
+    {
+      "name": "Seven Seas Grandeur",
+      "line": "Regent Seven Seas",
+      "calls": 9,
+      "first": "2024-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Star Princess",
+      "line": "Princess Cruises",
+      "calls": 9,
+      "first": "2025-11",
+      "last": "2026-03"
+    },
+    {
+      "name": "Carnival Venezia",
+      "line": "Carnival Cruise Line",
+      "calls": 8,
+      "first": "2025-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Majestic Princess",
+      "line": "Princess Cruises",
+      "calls": 8,
+      "first": "2025-11",
+      "last": "2026-03"
+    },
+    {
+      "name": "Mein Schiff 6",
+      "line": "TUI Cruises",
+      "calls": 8,
+      "first": "2024-01",
+      "last": "2024-03"
+    },
+    {
+      "name": "Queen Elizabeth",
+      "line": "Cunard",
+      "calls": 8,
+      "first": "2025-11",
+      "last": "2026-03"
+    },
+    {
+      "name": "Vista",
+      "line": "Oceania Cruises",
+      "calls": 8,
+      "first": "2024-01",
+      "last": "2025-03"
+    },
+    {
+      "name": "Carnival Conquest",
+      "line": "Carnival Cruise Line",
+      "calls": 7,
+      "first": "2024-01",
+      "last": "2025-01"
+    },
+    {
+      "name": "Insignia",
+      "line": "Oceania Cruises",
+      "calls": 7,
+      "first": "2025-12",
+      "last": "2026-05"
+    },
+    {
+      "name": "MSC Grandiosa",
+      "line": "MSC Cruises",
+      "calls": 7,
+      "first": "2025-12",
+      "last": "2026-04"
+    },
+    {
+      "name": "Oasis of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 7,
+      "first": "2025-07",
+      "last": "2025-12"
+    },
+    {
+      "name": "Celebrity Equinox",
+      "line": "Celebrity Cruises",
+      "calls": 6,
+      "first": "2024-01",
+      "last": "2025-04"
+    },
+    {
+      "name": "MSC Explora 1",
+      "line": "MSC Cruises",
+      "calls": 6,
+      "first": "2024-12",
+      "last": "2025-03"
+    },
+    {
+      "name": "Marella Explorer 2",
+      "line": "Marella Cruises",
+      "calls": 6,
+      "first": "2024-01",
+      "last": "2024-03"
+    },
+    {
+      "name": "Resilient Lady",
+      "line": "Virgin Voyages",
+      "calls": 6,
+      "first": "2024-11",
+      "last": "2026-07"
+    },
+    {
+      "name": "Sirena",
+      "line": "Oceania Cruises",
+      "calls": 5,
+      "first": "2024-01",
+      "last": "2025-02"
+    },
+    {
+      "name": "Vidantaworld's Elegant",
+      "line": "Vidanta Cruises",
+      "calls": 5,
+      "first": "2024-10",
+      "last": "2025-01"
+    },
+    {
+      "name": "Allura",
+      "line": "Oceania Cruises",
+      "calls": 4,
+      "first": "2025-12",
+      "last": "2026-02"
+    },
+    {
+      "name": "Carnival Sunrise",
+      "line": "Carnival Cruise Line",
+      "calls": 4,
+      "first": "2024-01",
+      "last": "2024-04"
+    },
+    {
+      "name": "MSC Explora II",
+      "line": "MSC Cruises",
+      "calls": 4,
+      "first": "2025-01",
+      "last": "2026-02"
+    },
+    {
+      "name": "Norwegian Sky",
+      "line": "Norwegian Cruise Line",
+      "calls": 4,
+      "first": "2024-01",
+      "last": "2024-09"
+    },
+    {
+      "name": "Norwegian Star",
+      "line": "Norwegian Cruise Line",
+      "calls": 4,
+      "first": "2025-12",
+      "last": "2026-04"
+    },
+    {
+      "name": "Seven Seas Mariner",
+      "line": "Regent Seven Seas",
+      "calls": 4,
+      "first": "2024-12",
+      "last": "2026-01"
+    },
+    {
+      "name": "Silver Nova",
+      "line": "Silversea",
+      "calls": 4,
+      "first": "2024-01",
+      "last": "2024-04"
+    },
+    {
+      "name": "Viking Octantis",
+      "line": "Viking",
+      "calls": 4,
+      "first": "2024-04",
+      "last": "2025-10"
+    },
+    {
+      "name": "Viking Polaris",
+      "line": "Viking",
+      "calls": 4,
+      "first": "2024-03",
+      "last": "2025-10"
+    },
+    {
+      "name": "AIDAdiva",
+      "line": "AIDA Cruises",
+      "calls": 3,
+      "first": "2024-01",
+      "last": "2025-11"
+    },
+    {
+      "name": "Club Med 2",
+      "line": "Club Med Cruises",
+      "calls": 3,
+      "first": "2024-03",
+      "last": "2024-03"
+    },
+    {
+      "name": "Nautica",
+      "line": "Oceania Cruises",
+      "calls": 3,
+      "first": "2025-12",
+      "last": "2026-03"
+    },
+    {
+      "name": "Norwegian Bliss",
+      "line": "Norwegian Cruise Line",
+      "calls": 3,
+      "first": "2024-12",
+      "last": "2025-02"
+    },
+    {
+      "name": "Sea Cloud Spirit",
+      "line": "Sea Cloud Cruises",
+      "calls": 3,
+      "first": "2024-02",
+      "last": "2026-03"
+    },
+    {
+      "name": "Ventura",
+      "line": "P&O Cruises",
+      "calls": 3,
+      "first": "2024-02",
+      "last": "2026-03"
+    },
+    {
+      "name": "AIDAbella",
+      "line": "AIDA Cruises",
+      "calls": 2,
+      "first": "2024-11",
+      "last": "2025-02"
+    },
+    {
+      "name": "AIDAsol",
+      "line": "AIDA Cruises",
+      "calls": 2,
+      "first": "2026-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Ambience",
+      "line": "Ambassador Cruise Line",
+      "calls": 2,
+      "first": "2025-01",
+      "last": "2025-01"
+    },
+    {
+      "name": "Aurora",
+      "line": "P&O Cruises",
+      "calls": 2,
+      "first": "2024-02",
+      "last": "2025-02"
+    },
+    {
+      "name": "Brilliant Lady",
+      "line": "Virgin Voyages",
+      "calls": 2,
+      "first": "2025-10",
+      "last": "2025-11"
+    },
+    {
+      "name": "Crystal Serenity",
+      "line": "Crystal Cruises",
+      "calls": 2,
+      "first": "2024-12",
+      "last": "2025-01"
+    },
+    {
+      "name": "Koningsdam",
+      "line": "Holland America Line",
+      "calls": 2,
+      "first": "2026-01",
+      "last": "2026-03"
+    },
+    {
+      "name": "Liberty of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 2,
+      "first": "2024-04",
+      "last": "2024-11"
+    },
+    {
+      "name": "Seven Seas Navigator",
+      "line": "Regent Seven Seas",
+      "calls": 2,
+      "first": "2024-12",
+      "last": "2025-03"
+    },
+    {
+      "name": "Silver Dawn",
+      "line": "Silversea",
+      "calls": 2,
+      "first": "2024-01",
+      "last": "2026-01"
+    },
+    {
+      "name": "Silver Ray",
+      "line": "Silversea",
+      "calls": 2,
+      "first": "2025-01",
+      "last": "2025-01"
+    },
+    {
+      "name": "Viking Neptune",
+      "line": "Viking",
+      "calls": 2,
+      "first": "2024-10",
+      "last": "2025-04"
+    },
+    {
+      "name": "Viking Sky",
+      "line": "Viking",
+      "calls": 2,
+      "first": "2024-12",
+      "last": "2025-12"
+    },
+    {
+      "name": "Zuiderdam",
+      "line": "Holland America Line",
+      "calls": 2,
+      "first": "2025-11",
+      "last": "2026-01"
+    },
+    {
+      "name": "Azamara Journey",
+      "line": "Azamara",
+      "calls": 1,
+      "first": "2024-12",
+      "last": "2024-12"
+    },
+    {
+      "name": "Azamara Onward",
+      "line": "Azamara",
+      "calls": 1,
+      "first": "2024-01",
+      "last": "2024-01"
+    },
+    {
+      "name": "Balmoral",
+      "line": "Fred. Olsen",
+      "calls": 1,
+      "first": "2025-03",
+      "last": "2025-03"
+    },
+    {
+      "name": "Emerald Princess",
+      "line": "Princess Cruises",
+      "calls": 1,
+      "first": "2025-10",
+      "last": "2025-10"
+    },
+    {
+      "name": "Europa 2",
+      "line": "Hapag-Lloyd Cruises",
+      "calls": 1,
+      "first": "2024-05",
+      "last": "2024-05"
+    },
+    {
+      "name": "Hamburg",
+      "line": "Plantours Kreuzfahrten",
+      "calls": 1,
+      "first": "2024-12",
+      "last": "2024-12"
+    },
+    {
+      "name": "Ilma",
+      "line": "The Ritz-Carlton Yacht Collection",
+      "calls": 1,
+      "first": "2024-11",
+      "last": "2024-11"
+    },
+    {
+      "name": "MSC Meraviglia",
+      "line": "MSC Cruises",
+      "calls": 1,
+      "first": "2024-01",
+      "last": "2024-01"
+    },
+    {
+      "name": "Margaritaville at Sea Paradise",
+      "line": "Margaritaville at Sea",
+      "calls": 1,
+      "first": "2026-05",
+      "last": "2026-05"
+    },
+    {
+      "name": "Marina",
+      "line": "Oceania Cruises",
+      "calls": 1,
+      "first": "2025-12",
+      "last": "2025-12"
+    },
+    {
+      "name": "Norwegian Aqua",
+      "line": "Norwegian Cruise Line",
+      "calls": 1,
+      "first": "2025-10",
+      "last": "2025-10"
+    },
+    {
+      "name": "Norwegian Luna",
+      "line": "Norwegian Cruise Line",
+      "calls": 1,
+      "first": "2026-04",
+      "last": "2026-04"
+    },
+    {
+      "name": "Rotterdam",
+      "line": "Holland America Line",
+      "calls": 1,
+      "first": "2024-04",
+      "last": "2024-04"
+    },
+    {
+      "name": "Seven Seas Splendor",
+      "line": "Regent Seven Seas",
+      "calls": 1,
+      "first": "2025-11",
+      "last": "2025-11"
+    },
+    {
+      "name": "Silver Moon",
+      "line": "Silversea",
+      "calls": 1,
+      "first": "2025-01",
+      "last": "2025-01"
+    },
+    {
+      "name": "Utopia of the Seas",
+      "line": "Royal Caribbean",
+      "calls": 1,
+      "first": "2025-05",
+      "last": "2025-05"
+    },
+    {
+      "name": "Vasco da Gama",
+      "line": "nicko cruises",
+      "calls": 1,
+      "first": "2025-12",
+      "last": "2025-12"
+    },
+    {
+      "name": "Viking Star",
+      "line": "Viking",
+      "calls": 1,
+      "first": "2024-03",
+      "last": "2024-03"
+    },
+    {
+      "name": "Windsurf",
+      "line": "Windstar Cruises",
+      "calls": 1,
+      "first": "2026-02",
+      "last": "2026-02"
+    }
+  ]
+}

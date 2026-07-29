@@ -29,11 +29,6 @@ button{font-family:inherit}
 .proto-bar{position:sticky;top:0;z-index:60;background:#12212F;color:#fff;font-size:11px;font-weight:700;
   letter-spacing:.09em;text-transform:uppercase;text-align:center;padding:7px 12px}
 .proto-bar b{color:#FFD166}
-.flowtoggle{position:fixed;right:12px;bottom:14px;z-index:70;display:flex;background:#12212F;
-  border-radius:999px;padding:4px;box-shadow:0 10px 26px -8px rgba(0,0,0,.55)}
-.flowtoggle button{background:transparent;border:none;color:#9FB3C6;font-size:11.5px;font-weight:800;
-  letter-spacing:.05em;padding:8px 13px;border-radius:999px;cursor:pointer;min-height:36px}
-.flowtoggle button.on{background:var(--accent);color:#fff}
 .restart{position:fixed;left:12px;bottom:14px;z-index:70;background:rgba(18,33,47,.9);color:#fff;border:none;
   border-radius:999px;font-size:11.5px;font-weight:700;padding:10px 15px;cursor:pointer;min-height:40px}
 
@@ -181,8 +176,8 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .warnbox{margin:14px 18px 0;background:#FFF7E8;border:1px solid #F5D9A0;border-radius:13px;padding:14px 15px}
 .warnbox .wt{font-size:14px;font-weight:800;color:#8A5A00}
 .warnbox p{margin:5px 0 0;font-size:13px;color:#6B4A08}
-.demolink{background:none;border:none;color:var(--accent);font-size:12.5px;font-weight:700;padding:10px 18px 0;
-  cursor:pointer;text-decoration:underline;min-height:40px}
+.demolink{background:none;border:none;color:var(--accent);font-size:12.5px;font-weight:700;padding:14px 18px 4px;
+  cursor:pointer;text-decoration:underline;min-height:48px;text-align:left}
 
 .shiplist{padding:6px 18px 0}
 .shipopt{display:flex;align-items:center;gap:12px;width:100%;border:1.5px solid var(--line);background:#fff;
@@ -240,19 +235,6 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 .screen.on{display:block;animation:fade .18s ease}
 @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
-/* Flow B — single card */
-.bcard{margin:14px 16px;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
-.bsec{border-bottom:1px solid var(--line)}
-.bsec:last-child{border-bottom:none}
-.bsec>.bh{display:flex;align-items:center;gap:11px;padding:15px 16px;background:#fff;cursor:pointer;min-height:56px}
-.bsec>.bh .bn{flex:0 0 26px;height:26px;border-radius:50%;background:var(--line);color:var(--mute);font-size:12px;
-  font-weight:800;display:grid;place-items:center}
-.bsec.done>.bh .bn{background:var(--success-deep);color:#fff}
-.bsec.active>.bh .bn{background:var(--accent);color:#fff}
-.bsec>.bh .bt{font-size:14.5px;font-weight:700;color:var(--navy)}
-.bsec>.bh .bv{margin-left:auto;font-size:13px;color:var(--success-deep);font-weight:700;text-align:right}
-.bbody{display:none;padding:0 0 16px}
-.bsec.active .bbody{display:block}
 </style>
 </head>
 <body>
@@ -302,7 +284,8 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <li>You ride in a <b>private, air-conditioned vehicle</b> — just your group, bottled water, English-speaking driver.</li>
     <li>You're dropped at <b><span class="dNameInline"></span></b> and you enjoy your day.</li>
     <li>At the time <em>you</em> chose, <b>your driver is waiting at the same spot</b> to bring you back.</li>
-    <li>You're back at the ship with a <b>90-minute buffer</b> before all-aboard.</li>
+    <li>You're back at the pier at the time you picked. <b>We recommend leaving at least 90 minutes
+        before your ship's all-aboard time.</b></li>
   </ol>
 
   <div class="signbox">
@@ -330,11 +313,11 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   </div>
 </section>
 
-<!-- ═══════════ FLOW A · WIZARD ═══════════ -->
+<!-- ═══════════ THE WIZARD ═══════════ -->
 <section class="screen" id="s-pax">
   <a class="topbar" href="#" onclick="go('dest');return false"><span class="bk">←</span> <span id="paxBack"></span></a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i><i class="sdot"></i></div>
-  <div class="qhead"><div class="qk">Step 1 of 4</div><h2>How many of you?</h2>
+  <div class="stepbar"><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i><i class="sdot"></i><i class="sdot"></i></div>
+  <div class="qhead"><div class="qk">Step 1 of 5</div><h2>How many of you?</h2>
     <p>Count everyone, including children. We charge by vehicle — not per person.</p></div>
   <div class="stepper">
     <button onclick="bumpPax(-1)" aria-label="One fewer">−</button>
@@ -359,16 +342,52 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <div class="tr" id="totAdmRow" style="display:none"><span id="totAdmLbl">Admission</span><span id="totAdm"></span></div>
     <div class="tr big"><span>Total</span><span id="totAll"></span></div>
   </div>
-  <div class="cta-wrap"><button class="btn btn-primary" onclick="go('date')">Continue →</button></div>
+  <div class="cta-wrap"><button class="btn btn-primary" onclick="go('ship')">Continue →</button></div>
 </section>
 
-<section class="screen" id="s-date">
+<!-- ─── Step 2 · the ship, by name only — never tied to a schedule ─── -->
+<section class="screen" id="s-ship">
   <a class="topbar" href="#" onclick="go('pax');return false"><span class="bk">←</span> How many of you</a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i></div>
-  <div class="qhead"><div class="qk">Step 2 of 4</div><h2>When are you coming?</h2>
-    <p>Pick the day your ship is in port.</p></div>
+  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i><i class="sdot"></i></div>
+  <div class="qhead"><div class="qk">Step 2 of 5</div><h2>What ship are you on?</h2>
+    <p>Start typing — we know every ship that calls at Cozumel.</p></div>
+
   <div class="field">
-    <label for="dateIn">Date in Cozumel</label>
+    <label for="shipIn">Your cruise ship</label>
+    <input type="text" id="shipIn" placeholder="Start typing, e.g. Carnival…" autocomplete="off"
+           oninput="onShipType()" onfocus="onShipType()">
+    <div class="hint" id="shipHint">144 ships, straight from the Cozumel port authority.</div>
+  </div>
+  <div class="shiplist" id="shipResults"></div>
+
+  <div id="shipChosen" style="display:none">
+    <div class="signbox" style="background:var(--card-blue);border-color:#C7DAF5">
+      <div class="st" style="color:var(--accent-pressed)">We'll confirm your pier</div>
+      <p style="color:#1D3B57">Cozumel's port authority publishes the ship schedule about a month ahead.
+        As soon as your date is published we'll message you <b>which terminal you'll dock at and the exact
+        spot our representative will be standing</b> — holding a sign with your name.</p>
+    </div>
+  </div>
+
+  <div id="noShipBlock" style="display:none">
+    <div class="field"><label for="pickupOther">Where should we pick you up?</label>
+      <input type="text" id="pickupOther" placeholder="Hotel name, address, or the ferry terminal">
+      <div class="hint">We'll confirm the exact meeting point by WhatsApp.</div></div>
+  </div>
+
+  <button class="demolink" id="noShipLink" onclick="toggleNoShip()">My ship isn't listed · I'm not on a cruise</button>
+  <div class="cta-wrap"><button class="btn btn-primary" id="shipNext" disabled onclick="go('day')">Continue →</button></div>
+</section>
+
+<!-- ─── Step 3 · the day: date + pickup + how long ─── -->
+<section class="screen" id="s-day">
+  <a class="topbar" href="#" onclick="go('ship');return false"><span class="bk">←</span> Your ship</a>
+  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i></div>
+  <div class="qhead"><div class="qk">Step 3 of 5</div><h2>Your day in Cozumel</h2>
+    <p>When you want us, and how long you want to stay.</p></div>
+
+  <div class="field">
+    <label for="dateIn">Date</label>
     <input type="date" id="dateIn" onchange="onDate()">
     <div class="hint" id="dateHint"></div>
   </div>
@@ -381,24 +400,36 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     </div>
     <div class="cta-wrap"><button class="btn btn-wa" style="margin-top:0">Message customer service on WhatsApp</button></div>
   </div>
-  <div id="shipBlock">
-    <div class="sechead">Which ship are you on?</div>
-    <div class="shiplist" id="shipList"></div>
-    <div class="autofill" id="autofill" style="display:none">
-      <div class="aftitle">We filled these in for you — tap to change</div>
-      <div class="af"><span>Pickup pier</span><b id="afPier"></b></div>
-      <div class="af"><span>Pickup time</span><b id="afPick"></b></div>
-      <div class="af"><span>We bring you back by</span><b id="afBack"></b></div>
-      <div class="af"><span>Your all-aboard time</span><b id="afAboard"></b></div>
+
+  <div id="dayBlock">
+    <div class="field">
+      <label for="pickIn">What time should we pick you up?</label>
+      <select id="pickIn" onchange="onDay()"></select>
+      <div class="hint">⏰ Cozumel local time (UTC−5, no daylight saving).</div>
     </div>
-    <div class="cta-wrap"><button class="btn btn-primary" id="dateNext" disabled onclick="go('who')">Continue →</button></div>
+
+    <div class="qhead" style="padding-top:18px"><div class="qk">How long do you want there?</div></div>
+    <div class="quickpax" id="durChips" style="padding:4px 18px 0"></div>
+
+    <div class="autofill" id="dayOut" style="display:none">
+      <div class="aftitle">So your day looks like this</div>
+      <div class="af"><span>We pick you up</span><b id="ofPick"></b></div>
+      <div class="af"><span>You're at <span id="ofDest"></span> until</span><b id="ofBack"></b></div>
+      <div class="af"><span>Back at the pier around</span><b id="ofPier2"></b></div>
+    </div>
+    <div class="warnbox" style="background:#F4F8FA;border-color:var(--line)">
+      <p style="margin:0;color:#45607C">Give yourself room — we recommend being back at the pier
+         <b>at least 90 minutes before your ship's all-aboard time</b>. Not sure? Message us and we'll
+         check your ship's departure for that date.</p>
+    </div>
+    <div class="cta-wrap"><button class="btn btn-primary" id="dayNext" disabled onclick="go('who')">Continue →</button></div>
   </div>
 </section>
 
 <section class="screen" id="s-who">
-  <a class="topbar" href="#" onclick="go('date');return false"><span class="bk">←</span> When</a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i></div>
-  <div class="qhead"><div class="qk">Step 3 of 4</div><h2>Who should we look for?</h2>
+  <a class="topbar" href="#" onclick="go('day');return false"><span class="bk">←</span> Your day</a>
+  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i></div>
+  <div class="qhead"><div class="qk">Step 4 of 5</div><h2>Who should we look for?</h2>
     <p>This is the name we'll write on the sign.</p></div>
   <div class="field"><label for="nameIn">Full name</label>
     <input type="text" id="nameIn" placeholder="Margaret Johnson" oninput="onName()"></div>
@@ -417,8 +448,8 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 
 <section class="screen" id="s-pay">
   <a class="topbar" href="#" onclick="go('who');return false"><span class="bk">←</span> Your details</a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i></div>
-  <div class="qhead"><div class="qk">Step 4 of 4</div><h2>Confirm and pay</h2><p id="paySummary"></p></div>
+  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i></div>
+  <div class="qhead"><div class="qk">Step 5 of 5</div><h2>Confirm and pay</h2><p id="paySummary"></p></div>
   <div class="total" style="margin-top:6px">
     <div class="tr"><span id="pVehLbl"></span><span id="pVeh"></span></div>
     <div class="tr" id="pAdmRow" style="display:none"><span id="pAdmLbl"></span><span id="pAdm"></span></div>
@@ -438,18 +469,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="cta-wrap"><button class="btn btn-primary" onclick="go('done')">Pay <span id="payBtnAmt"></span> and confirm</button></div>
 </section>
 
-<!-- ═══════════ FLOW B · SINGLE CARD ═══════════ -->
-<section class="screen" id="s-onecard">
-  <a class="topbar" href="#" onclick="go('dest');return false"><span class="bk">←</span> <span id="ocBack"></span></a>
-  <div class="qhead"><div class="qk">Book your transfer</div><h2 id="ocTitle"></h2>
-    <p>Everything on one screen. Nothing is charged until the last button.</p></div>
-  <div class="bcard" id="ocCard"></div>
-  <div class="total" id="ocTotal"></div>
-  <div class="nocash">Nothing to pay the driver — we don't accept cash.</div>
-  <div class="cta-wrap"><button class="btn btn-primary" id="ocPay" onclick="go('done')">Pay and confirm</button></div>
-</section>
-
-<!-- ═══════════ 7 · CONFIRMED ═══════════ -->
+<!-- ═══════════ CONFIRMED ═══════════ -->
 <section class="screen" id="s-done">
   <div class="confirm-top">
     <div class="tick">✓</div>
@@ -470,10 +490,12 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <div class="st">How you'll find him</div>
     <p>Right outside the terminal, a few steps from the pier, holding a sign that reads:</p>
     <div class="signcard"><div class="sl">Look for this sign</div><div class="sn" id="signName3">YOUR NAME</div></div>
+    <p id="donePier" style="margin-top:11px"></p>
   </div>
   <div class="sechead">What happens next</div>
   <ul class="nextlist">
     <li><span class="e">📧</span><div>Confirmation email with your receipt — <b>within 60 seconds</b>.</div></li>
+    <li><span class="e">⚓</span><div>Your <b>terminal and exact meeting point</b> by WhatsApp, as soon as the port publishes the schedule for your date.</div></li>
     <li><span class="e">💬</span><div>WhatsApp message with your driver's name and photo — <b>the night before</b>.</div></li>
     <li><span class="e">🚢</span><div>We watch your ship. If it's late, your driver waits. If it skips Cozumel, <b>you're refunded automatically</b>.</div></li>
     <li><span class="e">📅</span><div>Add to your calendar so it's on your phone offline.</div></li>
@@ -495,10 +517,6 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 </div>
 
 <button class="restart" onclick="restart()">↺ Restart</button>
-<div class="flowtoggle">
-  <button id="fa" class="on" onclick="setFlow('A')">Flow A</button>
-  <button id="fb" onclick="setFlow('B')">Flow B</button>
-</div>
 
 <script>
 /* ══════════════════════════════════════════════════════════════
@@ -552,16 +570,24 @@ const VEH = [
   {max:40,name:'Private bus',        sub:'up to 40 people', price:899}
 ];
 
-const SHIPS = [
-  {n:'Carnival Breeze',        pier:'Puerta Maya',           arr:'8:00 AM', ab:'4:30 PM'},
-  {n:'Symphony of the Seas',   pier:'International Pier',    arr:'7:00 AM', ab:'5:00 PM'},
-  {n:'Celebrity Equinox',      pier:'Punta Langosta',        arr:'9:00 AM', ab:'6:00 PM'},
-  {n:'MSC Seaside',            pier:'International Pier',    arr:'8:30 AM', ab:'5:30 PM'},
-  {n:'Disney Fantasy',         pier:'Punta Langosta',        arr:'7:30 AM', ab:'4:00 PM'}
+/* Every ship that has actually called at Cozumel, built by scripts/build_ship_list.py from the
+   port authority's own records. Deliberately NOT tied to a date: APIQROO only publishes the
+   schedule about a month out, so a dated ship picker would turn away anyone booking early. */
+let SHIPS = [];
+fetch('../data/cozumel-ships.json')
+  .then(r => r.json())
+  .then(d => { SHIPS = d.ships; $('shipHint').textContent =
+    `${d.shipCount} ships, straight from the Cozumel port authority.`; })
+  .catch(() => { $('shipHint').textContent = 'Ship list unavailable — type your ship name.'; });
+
+/* How long guests want at the destination. */
+const DURATIONS = [
+  {h:4, label:'4 hours'}, {h:5, label:'5 hours'},
+  {h:6, label:'6 hours'}, {h:8, label:'Most of the day'}
 ];
 
 /* ── state ── */
-let S = {dest:null, pax:2, adm:false, ship:null, date:'', name:'', flow:'A'};
+let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'', pick:'', dur:null, name:''};
 
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
@@ -580,12 +606,14 @@ function minDate(){
 }
 const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const pretty = d => d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-function minusMin(t, mins){
-  const m = t.match(/(\d+):(\d+) (AM|PM)/); let h = +m[1]%12 + (m[3]==='PM'?12:0);
-  let total = h*60 + +m[2] - mins; const hh = Math.floor(total/60), mm = total%60;
-  const ap = hh>=12?'PM':'AM'; const h12 = hh%12===0?12:hh%12;
-  return h12+':'+String(mm).padStart(2,'0')+' '+ap;
+const fmtHour = h => (h%12===0?12:h%12) + ':00 ' + (h>=12?'PM':'AM');
+/* minutes-since-midnight -> "2:20 PM" */
+function fmtMin(total){
+  const h = Math.floor(total/60) % 24, m = total % 60;
+  return (h%12===0?12:h%12) + ':' + String(m).padStart(2,'0') + ' ' + (h>=12?'PM':'AM');
 }
+/* "15–20 min" / "10 min" -> 15 / 10 */
+const driveMins = d => parseInt(d.drive, 10) || 20;
 
 /* ── router ── */
 function go(id){
@@ -594,16 +622,15 @@ function go(id){
   window.scrollTo(0,0);
   if (id==='pay') paintPay();
   if (id==='done') paintDone();
-  if (id==='onecard') paintOneCard();
 }
-function setFlow(f){
-  S.flow = f;
-  $('fa').classList.toggle('on', f==='A');
-  $('fb').classList.toggle('on', f==='B');
-  const cur = document.querySelector('.screen.on').id;
-  if (['s-pax','s-date','s-who','s-pay','s-onecard'].includes(cur)) startBooking();
+function restart(){
+  // date defaults to the earliest bookable day, matching what the date input shows
+  S = {dest:null,pax:2,adm:false,ship:null,notCruise:false,date:pretty(md),pick:'',dur:null,name:''};
+  $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
+  $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
+  $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
+  go('hub');
 }
-function restart(){ S = {dest:null,pax:2,adm:false,ship:null,date:'',name:'',flow:S.flow}; go('hub'); }
 
 /* ── 1 · hub ── */
 $('hubGrid').innerHTML = Object.keys(DEST).map(k => `
@@ -629,7 +656,7 @@ function openDest(k){
     ${d.admVerified?'':'<span class="est"> ‹placeholder rate›</span>'}`;
   go('dest');
 }
-function startBooking(){ S.flow==='A' ? (paintPax(), go('pax')) : go('onecard'); }
+function startBooking(){ paintPax(); go('pax'); }
 
 /* ── 3 · how many (Flow A) ── */
 $('quickPax').innerHTML = [2,4,6,10,14].map(n =>
@@ -657,151 +684,107 @@ function paintPax(){
   $('totAll').textContent = money(grand());
 }
 
-/* ── 4 · when (Flow A) ── */
+/* ── 2 · the ship — type-ahead over the name list, no dates involved ── */
+function onShipType(){
+  const q = $('shipIn').value.trim().toLowerCase();
+  const box = $('shipResults');
+  if (q.length < 2){ box.innerHTML = ''; return; }
+  const hits = SHIPS.filter(s => s.name.toLowerCase().includes(q)).slice(0, 8);
+  box.innerHTML = hits.length
+    ? hits.map(s => `<button class="shipopt" onclick="pickShip('${s.name.replace(/'/g,"\\'")}')">
+        <div><div class="sname">${s.name}</div><div class="spier">${s.line || 'Cruise ship'}</div></div>
+      </button>`).join('')
+    : `<div class="hint" style="padding:12px 0">No match. Check the spelling, or tap
+       “My ship isn't listed” below — we'll sort it out on WhatsApp.</div>`;
+}
+function pickShip(name){
+  S.ship = SHIPS.find(s => s.name === name) || {name, line:null};
+  S.notCruise = false;
+  $('shipIn').value = S.ship.name;
+  $('shipResults').innerHTML = '';
+  $('shipChosen').style.display = 'block';
+  $('noShipBlock').style.display = 'none';
+  $('shipNext').disabled = false;
+}
+function toggleNoShip(){
+  S.notCruise = !S.notCruise;
+  S.ship = null;
+  $('shipIn').value = ''; $('shipResults').innerHTML = '';
+  $('shipChosen').style.display = 'none';
+  $('noShipBlock').style.display = S.notCruise ? 'block' : 'none';
+  $('shipNext').disabled = !S.notCruise;
+}
+
+/* ── 3 · the day — date, pickup time, how long ── */
 const md = minDate();
 $('dateIn').min = iso(md); $('dateIn').value = iso(md);
 $('dateHint').textContent = 'Earliest online booking: ' + pretty(md) + ' — we need 24 hours’ notice.';
 S.date = pretty(md);
+$('pickIn').innerHTML = '<option value="">Pick a time</option>' +
+  Array.from({length:15}, (_,i) => i+6).map(h => `<option value="${h}">${fmtHour(h)}</option>`).join('');
+$('durChips').innerHTML = DURATIONS.map(d =>
+  `<button data-h="${d.h}" onclick="setDur(${d.h})">${d.label}</button>`).join('');
+
 function onDate(){
   const v = $('dateIn').value; if(!v) return;
   const picked = new Date(v + 'T12:00:00');
   if (picked < md){ demoTooSoon(); return; }
-  $('tooSoon').style.display = 'none'; $('shipBlock').style.display = 'block';
+  $('tooSoon').style.display = 'none'; $('dayBlock').style.display = 'block';
   S.date = pretty(picked);
 }
 function demoTooSoon(){
   const shown = $('tooSoon').style.display === 'block';
   $('tooSoon').style.display = shown ? 'none' : 'block';
-  $('shipBlock').style.display = shown ? 'block' : 'none';
+  $('dayBlock').style.display = shown ? 'block' : 'none';
   if (!shown) $('tooSoon').scrollIntoView({behavior:'smooth',block:'center'});
 }
-$('shipList').innerHTML = SHIPS.map((s,i) => `
-  <button class="shipopt" data-i="${i}" onclick="pickShip(${i})">
-    <div><div class="sname">${s.n}</div><div class="spier">${s.pier}</div></div>
-    <div class="stime">in ${s.arr}<br>all-aboard ${s.ab}</div>
-  </button>`).join('') + `
-  <button class="shipopt" onclick="pickShip(-1)"><div><div class="sname">I'm not on a cruise</div>
-  <div class="spier">Hotel, airport or ferry pickup</div></div></button>`;
-function pickShip(i){
-  S.ship = i>=0 ? SHIPS[i] : null;
-  document.querySelectorAll('.shipopt').forEach(b => b.classList.toggle('on', +b.dataset.i === i));
-  $('dateNext').disabled = false;
-  if (S.ship){
-    $('autofill').style.display='block';
-    $('afPier').textContent = S.ship.pier;
-    $('afPick').textContent = S.ship.arr + ' (when you dock)';
-    $('afBack').textContent = minusMin(S.ship.ab, 90);
-    $('afAboard').textContent = S.ship.ab;
-  } else $('autofill').style.display='none';
+function setDur(h){ S.dur = h; onDay(); }
+function onDay(){
+  S.pick = $('pickIn').value;
+  document.querySelectorAll('#durChips button').forEach(b => b.classList.toggle('on', +b.dataset.h === S.dur));
+  if (!S.pick || !S.dur){ $('dayOut').style.display='none'; $('dayNext').disabled = true; return; }
+  const d = DEST[S.dest], start = +S.pick, end = start + S.dur;
+  $('ofPick').textContent = fmtHour(start);
+  $('ofDest').textContent = d.short;
+  $('ofBack').textContent = fmtHour(end);
+  $('ofPier2').textContent = fmtMin(end*60 + driveMins(d));
+  $('dayOut').style.display = 'block';
+  $('dayNext').disabled = false;
 }
 
-/* ── 5 · who (Flow A) ── */
+/* ── 4 · who ── */
 function onName(){
   S.name = $('nameIn').value.trim();
   const t = S.name ? S.name.toUpperCase() : 'YOUR NAME';
   ['signName','signName2','signName3'].forEach(id => { if($(id)) $(id).textContent = t; });
 }
 
-/* ── 6 · pay (Flow A) ── */
+/* ── 5 · pay ── */
+function tripLine(){
+  const v = vehFor(S.pax);
+  const when = S.pick ? `${fmtHour(+S.pick)}–${fmtHour(+S.pick + S.dur)}` : '';
+  return `${v.name} to ${DEST[S.dest].short} · ${S.date} · ${when} · ${S.pax} ${S.pax===1?'person':'people'}`;
+}
 function paintPay(){
   const d = DEST[S.dest], v = vehFor(S.pax);
-  $('paySummary').textContent = `${v.name} to ${d.short} · ${S.date} · ${S.pax} ${S.pax===1?'person':'people'}`;
+  $('paySummary').textContent = tripLine();
   $('pVehLbl').textContent = v.name + ' — round trip'; $('pVeh').textContent = money(v.price);
   $('pAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('pAdmLbl').textContent = d.admName + ' × ' + S.pax; $('pAdm').textContent = money(admTotal());
   $('pAll').textContent = money(grand()); $('payBtnAmt').textContent = money(grand());
 }
 
-/* ── 7 · confirmed ── */
+/* ── confirmed ── */
 function paintDone(){
-  const d = DEST[S.dest], v = vehFor(S.pax);
-  $('doneLine').textContent = `${v.name} to ${d.short} · ${S.date} · ${money(grand())} charged`;
+  $('doneLine').textContent = tripLine() + ' · ' + money(grand()) + ' charged';
   $('doneRef').textContent = 'CIT-' + String(Math.floor(100000 + Math.random()*899999));
+  $('donePier').innerHTML = S.notCruise
+    ? `We'll confirm your exact meeting point by WhatsApp.`
+    : `We'll message you <b>which terminal ${S.ship ? S.ship.name : 'your ship'} docks at</b> and the exact
+       spot to meet us, as soon as the port publishes the schedule for your date.`;
   onName();
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FLOW B — the same four questions, all on one card
-   ══════════════════════════════════════════════════════════════ */
-let ocOpen = 1;
-function ocToggle(n){ ocOpen = ocOpen===n ? 0 : n; paintOneCard(); }
-function ocSetPax(n){ S.pax = Math.min(40,Math.max(1,n)); paintOneCard(); }
-function ocAdm(e){ e.stopPropagation(); S.adm = !S.adm; paintOneCard(); }
-function ocShip(i){ S.ship = i>=0 ? SHIPS[i] : null; ocOpen = 3; paintOneCard(); }
-function ocName(v){ S.name = v.trim(); const t = S.name?S.name.toUpperCase():'YOUR NAME';
-  const el = $('ocSign'); if(el) el.textContent = t; }
-
-function paintOneCard(){
-  const d = DEST[S.dest], v = vehFor(S.pax);
-  $('ocBack').textContent = d.short;
-  $('ocTitle').textContent = 'Transfer to ' + d.short;
-
-  const sec = (n,title,val,body) => `
-    <div class="bsec ${ocOpen===n?'active':''} ${val&&ocOpen!==n?'done':''}">
-      <div class="bh" onclick="ocToggle(${n})">
-        <div class="bn">${val&&ocOpen!==n?'✓':n}</div><div class="bt">${title}</div>
-        <div class="bv">${ocOpen===n?'':(val||'')}</div>
-      </div>
-      <div class="bbody">${body}</div>
-    </div>`;
-
-  $('ocCard').innerHTML =
-    sec(1,'How many of you?', S.pax + (S.pax===1?' person':' people'), `
-      <div class="stepper" style="padding-top:8px">
-        <button onclick="ocSetPax(${S.pax-1})">−</button>
-        <div class="cnt"><div class="n">${S.pax}</div><div class="l">${S.pax===1?'person':'people'}</div></div>
-        <button onclick="ocSetPax(${S.pax+1})">+</button>
-      </div>
-      <div class="vehcard"><div class="vt">Your vehicle</div><div class="vn">${v.name}</div>
-        <div class="vs">${v.sub}</div><div class="vp">${money(v.price)} <small>whole vehicle</small></div></div>
-      <div class="addon ${S.adm?'on':''}" onclick="ocAdm(event)">
-        <div class="box">✓</div>
-        <div class="ab"><div class="at">Add ${d.admName}</div>
-          <div class="ad">$${d.admAdult} per person × ${S.pax} — pay nothing at the gate.
-          ${d.admVerified?'':'<span class="est">‹placeholder rate›</span>'}</div></div>
-        <div class="ap">+$${(d.admAdult*S.pax).toLocaleString('en-US')}</div></div>`) +
-
-    sec(2,'When?', S.date, `
-      <div class="field"><label>Date in Cozumel</label>
-        <input type="date" min="${iso(md)}" value="${iso(md)}" onchange="S.date=new Date(this.value+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});paintOneCard()">
-        <div class="hint">Earliest online booking: ${pretty(md)} — we need 24 hours’ notice.
-          Sooner than that? Message customer service.</div></div>`) +
-
-    sec(3,'Your ship', S.ship ? S.ship.n : (S.ship===null && ocOpen>3 ? 'Not on a cruise':''), `
-      <div class="shiplist">${SHIPS.map((s,i)=>`
-        <button class="shipopt ${S.ship&&S.ship.n===s.n?'on':''}" onclick="ocShip(${i})">
-          <div><div class="sname">${s.n}</div><div class="spier">${s.pier}</div></div>
-          <div class="stime">all-aboard ${s.ab}</div></button>`).join('')}
-        <button class="shipopt" onclick="ocShip(-1)"><div><div class="sname">I'm not on a cruise</div></div></button>
-      </div>
-      ${S.ship?`<div class="autofill"><div class="aftitle">Filled in for you</div>
-        <div class="af"><span>Pickup pier</span><b>${S.ship.pier}</b></div>
-        <div class="af"><span>Pickup time</span><b>${S.ship.arr}</b></div>
-        <div class="af"><span>Back at the ship by</span><b>${minusMin(S.ship.ab,90)}</b></div></div>`:''}`) +
-
-    sec(4,'Your details', S.name, `
-      <div class="field"><label>Full name — this goes on the sign</label>
-        <input type="text" value="${S.name}" placeholder="Margaret Johnson" oninput="ocName(this.value)"></div>
-      <div class="field"><label>WhatsApp or mobile</label><input type="tel" placeholder="+1 555 123 4567"></div>
-      <div class="field"><label>Email</label><input type="email" placeholder="you@email.com"></div>
-      <div class="signbox" style="margin:14px 18px 0"><div class="st">Preview of your sign</div>
-        <div class="signcard"><div class="sl">Our rep will be holding</div>
-        <div class="sn" id="ocSign">${S.name?S.name.toUpperCase():'YOUR NAME'}</div></div></div>`) +
-
-    sec(5,'Payment', '', `
-      <div class="paycard" style="margin-top:6px">
-        <label style="font-size:12.5px;font-weight:700;color:var(--navy)">Card number</label>
-        <input placeholder="1234 1234 1234 1234" inputmode="numeric">
-        <div class="row2"><div><input placeholder="MM / YY"></div><div><input placeholder="CVC"></div></div>
-      </div>
-      <div class="securenote">🔒 Prototype only — this card box does nothing</div>`);
-
-  $('ocTotal').innerHTML = `
-    <div class="tr"><span>${v.name}</span><span>${money(v.price)}</span></div>
-    ${S.adm?`<div class="tr"><span>${d.admName} × ${S.pax}</span><span>${money(admTotal())}</span></div>`:''}
-    <div class="tr big"><span>Charged today</span><span>${money(grand())}</span></div>`;
-  $('ocPay').textContent = 'Pay ' + money(grand()) + ' and confirm';
-}
 </script>
 </body>
 </html>
