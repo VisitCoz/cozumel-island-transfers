@@ -46,19 +46,19 @@ button{font-family:inherit}
 .brandbar .wa{font-size:12px;font-weight:700;color:var(--success-deep);text-decoration:none;
   padding:0 4px;display:inline-flex;align-items:center;min-height:46px}
 
-/* home hero — photo full-bleed at full strength, legibility from a scrim (not from
-   dimming the image, which crushed 247 levels of contrast down to 49 and read as mud) */
-.home-hero{position:relative;background:#0F2C44;overflow:hidden}
-.home-hero .hh-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
-.home-hero::after{content:'';position:absolute;inset:0;z-index:1;
-  background:linear-gradient(to bottom,rgba(15,44,68,.90) 0%,rgba(15,44,68,.62) 45%,rgba(15,44,68,.95) 100%)}
-.home-hero .hh-text{position:relative;z-index:2;padding:24px 20px 22px}
+/* home hero — no vehicle photo (Mike: she isn't buying a van). Clean navy field;
+   the destination photography below does the selling. */
+.home-hero{position:relative;background:linear-gradient(160deg,#0F2C44,#17527A)}
+.home-hero .hh-text{position:relative;z-index:2;padding:22px 20px 22px}
+.hh-logo{font-weight:800;letter-spacing:-.02em;font-size:17px;color:#fff;margin-bottom:20px}
+.hh-logo span{color:#6FB6F5}
 .home-hero .kick{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9FCDF3}
 .home-hero h1{color:#fff;font-size:29px;line-height:1.1;margin:9px 0 10px;font-weight:800;letter-spacing:-.03em}
 .home-hero p{margin:0 0 16px;color:#D7E7F4;font-size:14.5px;max-width:26em}
 .hh-price{margin-bottom:18px}
 .hh-price b{display:block;color:#fff;font-size:20px;font-weight:800;letter-spacing:-.02em}
 .hh-price span{display:block;color:#BFD8EC;font-size:13px;margin-top:2px}
+.hh-price .hh-pp{display:inline;color:#8FE3AE;font-size:13px;font-weight:800}
 .hh-link{display:inline-flex;align-items:center;min-height:46px;margin-top:4px;color:#BFE0FF;
   font-size:13.5px;font-weight:700;text-decoration:underline}
 
@@ -79,16 +79,21 @@ button{font-family:inherit}
 .prow.pop{background:var(--card-green)}
 .prow .pn{font-size:14.5px;font-weight:700;color:var(--navy)}
 .prow .pp{font-size:12px;color:var(--mute)}
-.prow .pv{margin-left:auto;font-size:19px;font-weight:800;color:var(--navy);white-space:nowrap}
+.prow .pv{margin-left:auto;font-size:19px;font-weight:800;color:var(--navy);white-space:nowrap;text-align:right}
+.prow .ppp{display:block;font-size:11.5px;font-weight:700;color:var(--success-deep);margin-top:1px}
 .prow .tag{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
   color:var(--success-deep);display:block}
 
 .vsbox{margin:14px 18px 0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px}
 .vsbox .vs-t{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
   margin-bottom:9px}
-.vs-row{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;color:#45607C}
-.vs-row b{color:var(--navy)}
-.vs-row b.vs-us{color:var(--success-deep)}
+.vs-row{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:9px 0;color:#45607C;
+  border-bottom:1px solid var(--line);align-items:flex-start}
+.vs-row:last-of-type{border-bottom:none}
+.vs-row b{color:var(--navy);text-align:right;white-space:nowrap}
+.vs-row.vs-us{background:var(--card-green);margin:0 -16px;padding:11px 16px;border-radius:10px;border-bottom:none}
+.vs-row b.vs-us{color:var(--success-deep);background:none;margin:0;padding:0}
+.vs-n{font-weight:500;font-size:12px;color:var(--mute);white-space:normal;display:inline-block}
 .vsbox p{margin:9px 0 0;font-size:12.5px;color:var(--mute);line-height:1.5}
 
 /* happy-guest photo strip */
@@ -252,6 +257,10 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .warnbox{margin:14px 18px 0;background:#FFF7E8;border:1px solid #F5D9A0;border-radius:13px;padding:14px 15px}
 .warnbox .wt{font-size:14px;font-weight:800;color:#8A5A00}
 .warnbox p{margin:5px 0 0;font-size:13px;color:#6B4A08}
+.okbox{display:flex;gap:11px;align-items:flex-start;margin-top:13px;padding-top:12px;
+  border-top:1px dashed #E2C898;font-size:12.5px;color:#6B4A08;cursor:pointer;min-height:44px}
+.okbox input{flex:0 0 22px;width:22px;height:22px;margin:0}
+.okbox b{color:#5A3D06}
 .demolink{background:none;border:none;color:var(--accent);font-size:12.5px;font-weight:700;padding:14px 18px 4px;
   cursor:pointer;text-decoration:underline;min-height:48px;text-align:left}
 
@@ -321,20 +330,16 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 
 <!-- ═══════════ HOME ═══════════ -->
 <section class="screen on" id="s-hub">
-  <div class="brandbar">
-    <div class="logo">cozumel<span>·</span>transfers</div>
-    <a class="wa" href="#" onclick="return false">WhatsApp us</a>
-  </div>
-
   <div class="home-hero">
-    <img src="https://cozu.netlify.app/assets/hero-vans.png" alt="" class="hh-img">
     <div class="hh-text">
+      <div class="hh-logo">cozumel<span>·</span>transfers</div>
       <div class="kick">Cozumel cruise port · since 2015</div>
       <h1>Your own private driver.</h1>
       <p>We meet your ship with a sign, take you where you want to go, and come back
          at the time you chose.</p>
       <div class="hh-price"><b>$369 flat, all-in</b>
-        <span>round-trip · up to 8 people · card only, never cash</span></div>
+        <span>round-trip for the whole van · <b class="hh-pp">$46 each</b> with 8 of you ·
+          card only, never cash</span></div>
       <button class="btn btn-primary" onclick="scrollTo_('homeDest')">See destinations &amp; prices →</button>
       <a class="hh-link" href="#" onclick="return false">Questions? Message us on WhatsApp</a>
     </div>
@@ -356,11 +361,14 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
      anywhere on the island — and you pay it once, online.</p>
   <div class="pricelist" id="priceList"></div>
   <div class="vsbox">
-    <div class="vs-t">Why it's cheaper direct</div>
-    <div class="vs-row"><span>Book direct with us</span><b class="vs-us">$369</b></div>
-    <div class="vs-row"><span>Same transfer on Viator</span><b>~$469</b></div>
-    <p>About <b>20% less</b> booking direct. Same vans, same drivers — you're just not paying a
-       booking site's markup. Viator prices are estimates from their public catalogue.</p>
+    <div class="vs-t">Your three options for getting there</div>
+    <div class="vs-row vs-us"><span><b>Our van, booked direct</b><br><span class="vs-n">Your group only. You pick the times.</span></span><b class="vs-us">$46 each<br><span class="vs-n">8 people · $369 the van</span></b></div>
+    <div class="vs-row"><span><b>A tour from the ship</b><br><span class="vs-n">The ride comes with the tour — their route, their schedule.</span></span><b>up to $80 each</b></div>
+    <div class="vs-row"><span><b>The taxi line</b><br><span class="vs-n">No fixed price, and you have to find one again for the ride back.</span></span><b>?</b></div>
+    <div class="vs-row"><span><b>Same transfer on Viator</b></span><b>~$469 the van</b></div>
+    <p>The ship's excursion desk doesn't sell transfers on their own — the ride is bundled into a tour,
+       so you go where the tour goes, when it goes. Booking our van direct is also about <b>20% less</b>
+       than the same transfer on Viator, because you're not paying a booking site's markup.</p>
   </div>
 
   <!-- How it works -->
@@ -374,7 +382,8 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="tznote" style="margin-bottom:6px">
     Your driver drops you off and comes back at the time you chose — that return time is locked in
     when you book. He isn't parked outside all day, which is what keeps the price flat instead of hourly.
-    <b>We monitor your ship in real time</b>, so a late arrival never costs you the transfer.
+    <b>We follow the port authority's arrival feed, and one of our team checks it again before every
+    pickup</b> — so a late arrival never costs you the transfer.
   </div>
 
   <!-- Happy guests — real photos, scrollable -->
@@ -386,7 +395,11 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <!-- Reviews -->
   <div class="sechead">What guests say</div>
   <p class="blurb" style="padding-top:0">🏆 Travelers' Choice on TripAdvisor. <b>4.8★ from 35
-     verified reviews</b> · top 10% of operators · since 2015.</p>
+     verified reviews</b> · since 2015.
+     <a href="https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
+        target="_blank" rel="noopener"
+        style="color:var(--accent);font-weight:700;display:inline-block;padding:11px 0">Read all 35 on
+        TripAdvisor →</a></p>
   <div class="revs">
     <div class="rev">
       <div class="rv-s">★★★★★</div>
@@ -421,7 +434,8 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
      cruise guests on this island <b>since 2015</b>.</p>
   <p class="blurb">Every vehicle is private — never shared. A/C, bottled water, daily inspection.
      We pick up at all three cruise terminals: Puerta Maya, the International Pier and Punta
-     Langosta. When you message us on WhatsApp, <b>you're texting a young, fun local company.</b></p>
+     Langosta. <b>You're not texting a call centre. You're texting Emma, in Cozumel — the same person
+     who'll answer on the day of your trip.</b></p>
 
   <!-- FAQ -->
   <div class="sechead">The things people always ask</div>
@@ -563,8 +577,8 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <p>When you want us, and how long you want to stay.</p></div>
 
   <div class="shipsbar" style="margin-top:14px">
-    <b>4 ships in port today</b> · we track every arrival in real time, so a late dock moves your
-    pickup instead of costing you the transfer
+    <b>4 ships in port today</b> · we pull arrivals from the port authority's own feed and check yours
+    again before your pickup, so a late dock moves your pickup instead of costing you the transfer
   </div>
   <div class="field">
     <label for="dateIn">Date</label>
@@ -603,9 +617,13 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
       about 90 minutes to spare before all-aboard.
     </div>
     <div class="warnbox" id="longDay" style="display:none">
-      <div class="wt">That's a long day ashore</div>
-      <p>Double-check your ship's all-aboard time before you book — you'll want to be back at the
-         pier at least 90 minutes before it.</p>
+      <div class="wt">More than 5 hours — let us check it with you</div>
+      <p>We won't sell you a return time that could cost you your ship. Message us with your ship and
+         date and we'll confirm your all-aboard time, then book it for you in a minute.</p>
+      <button class="btn btn-wa" style="margin-top:12px">Have us check my all-aboard time</button>
+      <label class="okbox"><input type="checkbox" id="longOk" onchange="onDay()">
+        <span>Or tick to continue anyway — <b>I've checked my ship's all-aboard time and I'll be back
+        at the pier at least 90 minutes before it.</b></span></label>
     </div>
 
     <div class="autofill" id="dayOut" style="display:none">
@@ -697,8 +715,13 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <li><span class="e">📅</span><div>Add to your calendar so it's on your phone offline.</div></li>
   </ul>
   <div class="cta-wrap">
-    <button class="btn btn-ghost" style="margin-top:0">Add to calendar</button>
+    <button class="btn btn-primary" style="margin-top:0" onclick="openVoucher()">🖨 Print your voucher</button>
+    <button class="btn btn-ghost">Add to calendar</button>
     <button class="btn btn-wa">Message us on WhatsApp</button>
+  </div>
+  <div class="tznote" style="margin-bottom:0">
+    <b>Print it or screenshot it before you sail.</b> Everything you need is on one page — your times,
+    your meeting point, your driver, and a phone number that works without WhatsApp or data.
   </div>
   <div class="protonote">
     <div class="pt">Prototype note — still to decide</div>
@@ -847,7 +870,11 @@ const FAQ = [
   ["Will the ship wait for me?",
    "No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full."],
   ["What if my ship is delayed?",
-   "No problem. We monitor every Cozumel arrival in real time and adjust your pickup automatically. No rescheduling fees, no missed-pickup penalties. Same for early arrivals — your driver is waiting whenever you actually disembark."],
+   "No problem. We pull every Cozumel arrival from the port authority's feed, and one of our team checks yours again before your pickup — so we adjust instead of losing you. No rescheduling fees, no missed-pickup penalties. Same for early arrivals."],
+  ["What if I need to cancel?",
+   "Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, the refund is automatic: you don't have to ask us for it."],
+  ["Can I come back earlier than I booked?",
+   "Yes. If your plans change, message us on WhatsApp with about 30 to 60 minutes' notice and we'll come for you sooner. One thing to know: the return trip runs once, so the whole group comes back together — we can't do one run for part of the group and a second run for the rest."],
   ["How do I pay?",
    "Credit card, always — secure online payment at booking. No cash to the driver, no deposits, no surprise fees at the curb."],
   ["Traveling with a large group?",
@@ -875,11 +902,13 @@ $('guestStrip').innerHTML = GUEST_SHOTS.map(([cap, brief]) => `
   <div class="gtile"><div class="gph">▦ photo needed<br><br>${brief}</div>
     <div class="gcap">${cap}</div></div>`).join('');
 
+/* Per-person figure = whole-vehicle price ÷ its capacity. This is the number the guest
+   compares against the ship's tour, which is quoted per person. */
 $('priceList').innerHTML = VEH.map(v => `
   <div class="prow${v.max===14?' pop':''}">
     <div><div class="pn">${v.name}</div><div class="pp">${v.sub}</div>
       ${v.max===14?'<span class="tag">Most booked</span>':''}</div>
-    <div class="pv">$${v.price}</div>
+    <div class="pv">$${v.price}<span class="ppp">$${Math.round(v.price/v.max)} each with ${v.max}</span></div>
   </div>`).join('');
 
 $('hubGrid').innerHTML = Object.keys(DEST).map(k => `
@@ -971,6 +1000,9 @@ const md = minDate();
 $('dateIn').min = iso(md); $('dateIn').value = iso(md);
 $('dateHint').textContent = 'Earliest online booking: ' + pretty(md) + ' — we need 24 hours’ notice.';
 S.date = pretty(md);
+/* 5 hours is the safe default for a cruise guest — it lands them back at the pier with
+   roughly 90 minutes of slack. Anything longer routes to customer service (see onDay). */
+S.durMode = '5'; S.dur = 5;
 $('pickIn').innerHTML = '<option value="">Pick a time</option>' +
   Array.from({length:15}, (_,i) => i+6).map(h => `<option value="${h}">${fmtHour(h)}</option>`).join('');
 $('durChips').innerHTML = DURATIONS.map(d =>
@@ -1025,9 +1057,12 @@ function onDay(){
   $('ofBack').textContent = fmtHour(end);
   $('ofPier2').textContent = fmtMin(end*60 + DRIVE_MIN);
   $('dayOut').style.display = 'block';
-  // Cruise guests only — someone staying on the island has no all-aboard to miss.
-  $('longDay').style.display = (!S.notCruise && S.dur > 5) ? 'block' : 'none';
-  $('dayNext').disabled = false;
+  // Over 5 hours, route to customer service rather than sell a return time that could
+  // cost them the ship. They can still self-certify. Cruise guests only — someone
+  // staying on the island has no all-aboard to miss.
+  const risky = !S.notCruise && S.dur > 5;
+  $('longDay').style.display = risky ? 'block' : 'none';
+  $('dayNext').disabled = risky && !$('longOk').checked;
 }
 
 /* ── 4 · who ── */
@@ -1052,6 +1087,95 @@ function paintPay(){
   $('pAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('pAdmLbl').textContent = d.admName + ' × ' + S.pax; $('pAdm').textContent = money(admTotal());
   $('pAll').textContent = money(grand()); $('payBtnAmt').textContent = money(grand());
+}
+
+/* ── the printable voucher ──
+   Paper survives no signal. This is what the guest holds walking off the ship, and it
+   carries an ordinary phone number so nothing depends on WhatsApp or roaming data. */
+function openVoucher(){
+  const d = DEST[S.dest], v = vehFor(S.pax), start = +S.pick, end = start + S.dur;
+  const ref = $('doneRef').textContent;
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
+  <title>${ref} — Cozumel Island Transfers voucher</title><style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:26px;font:14px/1.5 -apple-system,Helvetica,Arial,sans-serif;color:#0E0E10}
+  .v{max-width:680px;margin:0 auto;border:2px solid #0F2C44;border-radius:10px;overflow:hidden}
+  .vh{background:#0F2C44;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+  .vh .b{font-weight:800;font-size:17px;letter-spacing:-.02em}
+  .vh .r{font-size:13px;font-weight:700;background:rgba(255,255,255,.16);padding:6px 11px;border-radius:7px}
+  .vb{padding:20px}
+  h2{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#2F6FED;margin:20px 0 8px}
+  h2:first-child{margin-top:0}
+  table{width:100%;border-collapse:collapse}
+  td{padding:7px 0;border-bottom:1px solid #E5E5E7;vertical-align:top}
+  td:first-child{color:#6E6E73;width:42%}
+  td:last-child{font-weight:700;text-align:right}
+  .big{font-size:19px}
+  .sign{margin-top:18px;border:2px dashed #1F7A3F;border-radius:9px;padding:16px;text-align:center;background:#F2FAF5}
+  .sign .l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#6E6E73}
+  .sign .n{font-size:24px;font-weight:800;color:#0F2C44;margin-top:4px}
+  .call{margin-top:16px;border:2px solid #0F2C44;border-radius:9px;padding:14px 16px;text-align:center}
+  .call .l{font-size:11px;color:#6E6E73}
+  .call .p{font-size:23px;font-weight:800;letter-spacing:-.01em}
+  .call .n{font-size:11.5px;color:#6E6E73;margin-top:3px}
+  .es{margin-top:18px;border:1px solid #E5E5E7;border-radius:9px;padding:14px 16px;background:#FAFBFC}
+  .es .t{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6E6E73;margin-bottom:8px}
+  .es p{margin:7px 0;font-size:14px}
+  .es b{display:block;font-size:15px}
+  .es i{color:#6E6E73;font-size:12.5px;font-style:normal}
+  .fine{margin-top:16px;font-size:11.5px;color:#6E6E73;line-height:1.55}
+  @media print{body{padding:0}.v{border-width:1px}}
+  </style></head><body><div class="v">
+  <div class="vh"><div class="b">cozumel·transfers</div><div class="r">${ref}</div></div>
+  <div class="vb">
+    <h2>Your transfer</h2>
+    <table>
+      <tr><td>Guest</td><td class="big">${(S.name||'—').toUpperCase()}</td></tr>
+      <tr><td>Date</td><td>${S.date}</td></tr>
+      <tr><td>Ship</td><td>${S.ship ? S.ship.name : 'Not on a cruise'}</td></tr>
+      <tr><td>Destination</td><td>${d.name}</td></tr>
+      <tr><td>Group</td><td>${S.pax} ${S.pax===1?'person':'people'} · ${v.name}</td></tr>
+      <tr><td>We pick you up</td><td class="big">${fmtHour(start)}</td></tr>
+      <tr><td>We come back for you</td><td class="big">${fmtHour(end)}</td></tr>
+      <tr><td>Back at the pier around</td><td>${fmtMin(end*60 + DRIVE_MIN)}</td></tr>
+      <tr><td>Paid in full</td><td>${money(grand())} · card · nothing to pay the driver</td></tr>
+    </table>
+    <p style="font-size:12.5px;color:#6E6E73;margin:9px 0 0">All times are <b>Cozumel local time
+      (UTC−5)</b> — not your ship's onboard clock.</p>
+
+    <h2>Where to meet us</h2>
+    <p style="margin:0">Our English-speaking representative is at our marked meeting point right
+      outside the terminal, a few steps from all three piers.</p>
+    <div class="sign"><div class="l">Look for this sign</div>
+      <div class="n">${(S.name||'YOUR NAME').toUpperCase()}</div></div>
+    <p style="font-size:12.5px;color:#6E6E73;margin:10px 0 0">We'll message you your exact terminal
+      once the port publishes the schedule for your date.</p>
+
+    <h2>If anything goes wrong</h2>
+    <div class="call"><div class="l">Call or text — a person answers in English</div>
+      <div class="p">+52 987 114 6853</div>
+      <div class="n">Works as a normal phone call. You do not need WhatsApp or mobile data.</div></div>
+
+    <h2>Point at these if you need to tell your driver something</h2>
+    <div class="es"><div class="t">Español</div>
+      <p><b>"Por favor, lléveme de vuelta al muelle ahora."</b><i>Please take me back to the pier now.</i></p>
+      <p><b>"Quisiera salir 30 minutos antes."</b><i>I'd like to leave 30 minutes early.</i></p>
+      <p><b>"Por favor, espere diez minutos."</b><i>Please wait ten minutes.</i></p>
+      <p><b>"Por favor, llame a su oficina."</b><i>Please call your office for me.</i></p>
+    </div>
+
+    <div class="fine">
+      <b>Coming back early?</b> Message us 30–60 minutes ahead and we'll come sooner. The return runs
+      once, so the whole group travels back together.<br>
+      <b>Cancelling?</b> Free up to 24 hours before pickup — 100% back to the same card within five
+      business days. If your ship never docks in Cozumel the refund is automatic; you don't have to ask.<br>
+      Cozumel Island Transfers · San Miguel de Cozumel, Quintana Roo, México · since 2015
+    </div>
+  </div></div>
+  <script>window.onload=function(){window.print()}<\/script>
+  </body></html>`);
+  w.document.close();
 }
 
 /* ── confirmed ── */
