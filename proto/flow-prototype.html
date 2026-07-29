@@ -173,6 +173,9 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .field input:focus,.field select:focus{outline:none;border-color:var(--accent)}
 .field .hint{font-size:12px;color:var(--mute);margin-top:5px}
 
+.tznote{margin:12px 18px 0;background:var(--card-blue);border:1px solid #C7DAF5;border-radius:13px;
+  padding:13px 15px;font-size:13px;color:#1D3B57}
+.tznote b{color:var(--navy)}
 .warnbox{margin:14px 18px 0;background:#FFF7E8;border:1px solid #F5D9A0;border-radius:13px;padding:14px 15px}
 .warnbox .wt{font-size:14px;font-weight:800;color:#8A5A00}
 .warnbox p{margin:5px 0 0;font-size:13px;color:#6B4A08}
@@ -324,7 +327,10 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <div class="cnt"><div class="n" id="paxN">2</div><div class="l" id="paxL">people</div></div>
     <button onclick="bumpPax(1)" aria-label="One more">+</button>
   </div>
-  <div class="quickpax" id="quickPax"></div>
+  <div class="field" style="padding-top:16px">
+    <label for="paxSel">Or choose your group size</label>
+    <select id="paxSel" onchange="setPax(+this.value)"></select>
+  </div>
   <div class="vehcard">
     <div class="vt">Your vehicle</div>
     <div class="vn" id="vehName"></div>
@@ -364,15 +370,15 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     <div class="signbox" style="background:var(--card-blue);border-color:#C7DAF5">
       <div class="st" style="color:var(--accent-pressed)">We'll confirm your pier</div>
       <p style="color:#1D3B57">Cozumel's port authority publishes the ship schedule about a month ahead.
-        As soon as your date is published we'll message you <b>which terminal you'll dock at and the exact
-        spot our representative will be standing</b> — holding a sign with your name.</p>
+        As soon as your date is published we'll message you <b>which terminal you'll dock at and our
+        meeting point</b> — where our representative will be standing, holding a sign with your name.</p>
     </div>
   </div>
 
   <div id="noShipBlock" style="display:none">
     <div class="field"><label for="pickupOther">Where should we pick you up?</label>
       <input type="text" id="pickupOther" placeholder="Hotel name, address, or the ferry terminal">
-      <div class="hint">We'll confirm the exact meeting point by WhatsApp.</div></div>
+      <div class="hint">We'll confirm the meeting point by WhatsApp.</div></div>
   </div>
 
   <button class="demolink" id="noShipLink" onclick="toggleNoShip()">My ship isn't listed · I'm not on a cruise</button>
@@ -403,13 +409,30 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 
   <div id="dayBlock">
     <div class="field">
-      <label for="pickIn">What time should we pick you up?</label>
+      <label for="pickIn">What time should we pick you up? <span style="color:var(--accent)">(Cozumel time)</span></label>
       <select id="pickIn" onchange="onDay()"></select>
-      <div class="hint">⏰ Cozumel local time (UTC−5, no daylight saving).</div>
+    </div>
+    <div class="tznote">
+      🕐 <b>Every time on this page is Cozumel local time</b> (UTC−5, no daylight saving) —
+      <b>not</b> your ship's onboard clock. Many ships run an hour ahead of the island. Check with
+      guest services before you set your pickup.
     </div>
 
-    <div class="qhead" style="padding-top:18px"><div class="qk">How long do you want there?</div></div>
+    <div class="qhead" style="padding-top:18px"><div class="qk">How long do you want to stay?</div></div>
     <div class="quickpax" id="durChips" style="padding:4px 18px 0"></div>
+    <div id="customRet" style="display:none">
+      <div class="field"><label for="retIn">What time should we come back for you?</label>
+        <select id="retIn" onchange="setCustomRet()"></select></div>
+    </div>
+    <div class="hint" style="padding:10px 18px 0">
+      On a cruise? <b>We recommend no more than 5 hours</b> — that puts you back at the pier with
+      about 90 minutes to spare before all-aboard.
+    </div>
+    <div class="warnbox" id="longDay" style="display:none">
+      <div class="wt">That's a long day ashore</div>
+      <p>Double-check your ship's all-aboard time before you book — you'll want to be back at the
+         pier at least 90 minutes before it.</p>
+    </div>
 
     <div class="autofill" id="dayOut" style="display:none">
       <div class="aftitle">So your day looks like this</div>
@@ -418,8 +441,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
       <div class="af"><span>Back at the pier around</span><b id="ofPier2"></b></div>
     </div>
     <div class="warnbox" style="background:#F4F8FA;border-color:var(--line)">
-      <p style="margin:0;color:#45607C">Give yourself room — we recommend being back at the pier
-         <b>at least 90 minutes before your ship's all-aboard time</b>. Not sure? Message us and we'll
+      <p style="margin:0;color:#45607C">Not sure what time your ship leaves? Message us and we'll
          check your ship's departure for that date.</p>
     </div>
     <div class="cta-wrap"><button class="btn btn-primary" id="dayNext" disabled onclick="go('who')">Continue →</button></div>
@@ -495,7 +517,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="sechead">What happens next</div>
   <ul class="nextlist">
     <li><span class="e">📧</span><div>Confirmation email with your receipt — <b>within 60 seconds</b>.</div></li>
-    <li><span class="e">⚓</span><div>Your <b>terminal and exact meeting point</b> by WhatsApp, as soon as the port publishes the schedule for your date.</div></li>
+    <li><span class="e">⚓</span><div>Your <b>terminal and meeting point</b> by WhatsApp, as soon as the port publishes the schedule for your date.</div></li>
     <li><span class="e">💬</span><div>WhatsApp message with your driver's name and photo — <b>the night before</b>.</div></li>
     <li><span class="e">🚢</span><div>We watch your ship. If it's late, your driver waits. If it skips Cozumel, <b>you're refunded automatically</b>.</div></li>
     <li><span class="e">📅</span><div>Add to your calendar so it's on your phone offline.</div></li>
@@ -580,14 +602,18 @@ fetch('../data/cozumel-ships.json')
     `${d.shipCount} ships, straight from the Cozumel port authority.`; })
   .catch(() => { $('shipHint').textContent = 'Ship list unavailable — type your ship name.'; });
 
-/* How long guests want at the destination. */
+/* How long guests want at the destination. 'custom' reveals a return-time picker. */
 const DURATIONS = [
   {h:4, label:'4 hours'}, {h:5, label:'5 hours'},
-  {h:6, label:'6 hours'}, {h:8, label:'Most of the day'}
+  {h:6, label:'6 hours'}, {h:'custom', label:'Choose my return time'}
 ];
+/* Port → destination → port. Held flat at 20 min: the island is small and every
+   destination is 10–25 minutes out, so one honest number beats per-venue precision. */
+const DRIVE_MIN = 20;
 
 /* ── state ── */
-let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'', pick:'', dur:null, name:''};
+let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'',
+         pick:'', dur:null, durMode:null, name:''};
 
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
@@ -612,8 +638,6 @@ function fmtMin(total){
   const h = Math.floor(total/60) % 24, m = total % 60;
   return (h%12===0?12:h%12) + ':' + String(m).padStart(2,'0') + ' ' + (h>=12?'PM':'AM');
 }
-/* "15–20 min" / "10 min" -> 15 / 10 */
-const driveMins = d => parseInt(d.drive, 10) || 20;
 
 /* ── router ── */
 function go(id){
@@ -625,7 +649,8 @@ function go(id){
 }
 function restart(){
   // date defaults to the earliest bookable day, matching what the date input shows
-  S = {dest:null,pax:2,adm:false,ship:null,notCruise:false,date:pretty(md),pick:'',dur:null,name:''};
+  S = {dest:null,pax:2,adm:false,ship:null,notCruise:false,date:pretty(md),
+       pick:'',dur:null,durMode:null,name:''};
   $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
   $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
   $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
@@ -659,8 +684,8 @@ function openDest(k){
 function startBooking(){ paintPax(); go('pax'); }
 
 /* ── 3 · how many (Flow A) ── */
-$('quickPax').innerHTML = [2,4,6,10,14].map(n =>
-  `<button onclick="setPax(${n})" data-q="${n}">${n===2?'Just the two of us':n+' of us'}</button>`).join('');
+$('paxSel').innerHTML = Array.from({length:40}, (_,i) => i+1)
+  .map(n => `<option value="${n}">${n} ${n===1?'person':'people'}</option>`).join('');
 function setPax(n){ S.pax = Math.min(40, Math.max(1,n)); paintPax(); }
 function bumpPax(d){ setPax(S.pax + d); }
 function toggleAdm(){ S.adm = !S.adm; paintPax(); }
@@ -669,7 +694,7 @@ function paintPax(){
   const d = DEST[S.dest], v = vehFor(S.pax);
   $('paxBack').textContent = d.short;
   $('paxN').textContent = S.pax; $('paxL').textContent = S.pax===1 ? 'person' : 'people';
-  document.querySelectorAll('#quickPax button').forEach(b => b.classList.toggle('on', +b.dataset.q === S.pax));
+  $('paxSel').value = S.pax;
   $('vehName').textContent = v.name; $('vehSub').textContent = v.sub;
   $('vehPrice').innerHTML = money(v.price) + ' <small>round-trip, whole vehicle</small>';
   $('admTitle').textContent = 'Add ' + d.admName;
@@ -723,7 +748,7 @@ S.date = pretty(md);
 $('pickIn').innerHTML = '<option value="">Pick a time</option>' +
   Array.from({length:15}, (_,i) => i+6).map(h => `<option value="${h}">${fmtHour(h)}</option>`).join('');
 $('durChips').innerHTML = DURATIONS.map(d =>
-  `<button data-h="${d.h}" onclick="setDur(${d.h})">${d.label}</button>`).join('');
+  `<button data-h="${d.h}" onclick="setDur('${d.h}')">${d.label}</button>`).join('');
 
 function onDate(){
   const v = $('dateIn').value; if(!v) return;
@@ -738,17 +763,44 @@ function demoTooSoon(){
   $('dayBlock').style.display = shown ? 'block' : 'none';
   if (!shown) $('tooSoon').scrollIntoView({behavior:'smooth',block:'center'});
 }
-function setDur(h){ S.dur = h; onDay(); }
+function setDur(h){
+  S.durMode = h;
+  S.dur = h === 'custom' ? null : +h;
+  onDay();
+}
+/* Return-time picker — only offered when the guest asks for it. */
+function setCustomRet(){
+  const ret = +$('retIn').value;
+  S.dur = ret ? ret - (+S.pick) : null;
+  onDay();
+}
 function onDay(){
   S.pick = $('pickIn').value;
-  document.querySelectorAll('#durChips button').forEach(b => b.classList.toggle('on', +b.dataset.h === S.dur));
-  if (!S.pick || !S.dur){ $('dayOut').style.display='none'; $('dayNext').disabled = true; return; }
-  const d = DEST[S.dest], start = +S.pick, end = start + S.dur;
+  document.querySelectorAll('#durChips button')
+    .forEach(b => b.classList.toggle('on', b.dataset.h === String(S.durMode)));
+
+  const custom = S.durMode === 'custom';
+  $('customRet').style.display = custom && S.pick ? 'block' : 'none';
+  if (custom && S.pick){
+    // Return options run from 2 hours after pickup to 10 PM.
+    const first = +S.pick + 2, prev = $('retIn').value;
+    $('retIn').innerHTML = '<option value="">Pick a time</option>' +
+      Array.from({length: Math.max(0, 22 - first + 1)}, (_,i) => first + i)
+        .map(h => `<option value="${h}">${fmtHour(h)}</option>`).join('');
+    if (prev) $('retIn').value = prev;
+  }
+
+  if (!S.pick || !S.dur){ $('dayOut').style.display='none'; $('longDay').style.display='none';
+    $('dayNext').disabled = true; return; }
+
+  const start = +S.pick, end = start + S.dur;
   $('ofPick').textContent = fmtHour(start);
-  $('ofDest').textContent = d.short;
+  $('ofDest').textContent = DEST[S.dest].short;
   $('ofBack').textContent = fmtHour(end);
-  $('ofPier2').textContent = fmtMin(end*60 + driveMins(d));
+  $('ofPier2').textContent = fmtMin(end*60 + DRIVE_MIN);
   $('dayOut').style.display = 'block';
+  // Cruise guests only — someone staying on the island has no all-aboard to miss.
+  $('longDay').style.display = (!S.notCruise && S.dur > 5) ? 'block' : 'none';
   $('dayNext').disabled = false;
 }
 
@@ -779,9 +831,9 @@ function paintDone(){
   $('doneLine').textContent = tripLine() + ' · ' + money(grand()) + ' charged';
   $('doneRef').textContent = 'CIT-' + String(Math.floor(100000 + Math.random()*899999));
   $('donePier').innerHTML = S.notCruise
-    ? `We'll confirm your exact meeting point by WhatsApp.`
-    : `We'll message you <b>which terminal ${S.ship ? S.ship.name : 'your ship'} docks at</b> and the exact
-       spot to meet us, as soon as the port publishes the schedule for your date.`;
+    ? `We'll confirm your meeting point by WhatsApp.`
+    : `We'll message you <b>which terminal ${S.ship ? S.ship.name : 'your ship'} docks at</b> and our
+       meeting point, as soon as the port publishes the schedule for your date.`;
   onName();
 }
 
