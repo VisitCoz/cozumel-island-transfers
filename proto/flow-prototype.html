@@ -335,27 +335,32 @@ footer{padding:22px 20px 40px;text-align:center;color:var(--mute);font-size:11.5
   margin-top:20px}
 footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 
-/* footer — "The Trust Cut": navy full-bleed, one size, one weight.
-   Hierarchy comes from colour only; white is rationed to four strings so they land. */
-footer{background:#0F2C44;padding:32px 18px 40px;text-align:left;margin-top:20px;border-top:none;
+/* footer — "The Trust Cut": navy, one size, one weight. Hierarchy is colour only.
+   Rhythm is strict: 4px between a line and its explanation, 28px between groups.
+   Tap targets get their height from min-height, never from padding, so the
+   optical spacing stays even. */
+footer{background:#0F2C44;padding:34px 18px 42px;text-align:left;margin-top:20px;border-top:none;
   -webkit-font-smoothing:antialiased}
-footer,footer *{font-family:Inter,-apple-system,sans-serif;font-size:15px;line-height:22px;
+footer,footer *{font-family:Inter,-apple-system,sans-serif;font-size:15px;line-height:23px;
   font-weight:400;letter-spacing:-.15px;color:#A4AFB8}
-footer p{margin:0}
+footer p{margin:0;max-width:34em}
 .ft-white{color:#fff}
-.ft-dim{color:#A4AFB8}
-.ft-band{margin-bottom:24px}
-footer a{display:block;padding:11px 0;text-decoration:none;color:#A4AFB8}
-.ft-reach{margin:0}
-.ft-tel{display:inline-block;color:#fff !important;letter-spacing:0 !important;
-  font-variant-numeric:tabular-nums;white-space:nowrap;padding:11px 0;margin-right:6px}
-.ft-mail{text-decoration:underline;text-decoration-color:rgba(164,175,184,.45);
-  text-underline-offset:4px;overflow-wrap:anywhere}
-.ft-pol{display:flex;flex-wrap:wrap;column-gap:24px;row-gap:0}
-.ft-pol a{display:inline-flex;align-items:center;min-height:44px;padding:0;
-  text-decoration:underline;text-decoration-color:rgba(164,175,184,.45);text-underline-offset:4px}
-.ft-legal{margin-top:32px}
-.ft-legal p{color:#7C8A96}
+
+.ft-g{margin-bottom:28px}
+.ft-g > a{display:flex;align-items:center;min-height:38px;text-decoration:none;margin-bottom:2px}
+.ft-tel{color:#fff !important;font-size:19px !important;letter-spacing:-.2px !important;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.ft-mail{color:#A4AFB8;overflow-wrap:anywhere;
+  text-decoration:underline;text-decoration-color:rgba(164,175,184,.4);text-underline-offset:4px}
+
+.ft-pol{display:flex;flex-wrap:wrap;column-gap:26px;row-gap:0}
+.ft-pol a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;
+  text-decoration-color:rgba(164,175,184,.4);text-underline-offset:4px}
+
+.ft-legal{margin-top:34px;padding-top:26px;border-top:1px solid rgba(255,255,255,.10)}
+.ft-legal p{color:#7C8A96;font-size:13.5px;line-height:21px}
+.ft-legal p + p{margin-top:8px}
+.ft-legal .ft-cr{margin-top:18px}
 
 .screen{display:none}
 .screen.on{display:block;animation:fade .18s ease}
@@ -492,29 +497,33 @@ footer a{display:block;padding:11px 0;text-decoration:none;color:#A4AFB8}
   </div>
 
   <footer>
-    <div class="ft-band">
-      <p class="ft-reach"><a class="ft-tel" href="https://wa.me/529871146853">+52 987 114 6853</a>
-        <span class="ft-dim">WhatsApp is the fastest way to reach us — same number to call. From the
-        US or Canada, dial it exactly as shown, the + included.</span></p>
-      <a class="ft-mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
-      <p class="ft-dim">Someone answers 9 AM – 5 PM, Cozumel time (UTC−5, year round).</p>
+    <div class="ft-g">
+      <a class="ft-tel" href="https://wa.me/529871146853">+52 987 114 6853</a>
+      <p>WhatsApp is the fastest way to reach us — same number to call. From the US or Canada,
+        dial it exactly as shown, the + included.</p>
     </div>
 
-    <div class="ft-band ft-pol">
+    <div class="ft-g">
+      <a class="ft-mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
+      <p>Someone answers 9 AM – 5 PM, Cozumel time (UTC−5, year round).</p>
+    </div>
+
+    <div class="ft-g ft-pol">
       <a href="#" onclick="return false">Cancellation &amp; refunds</a>
       <a href="#" onclick="return false">Terms of use</a>
       <a href="#" onclick="return false">Privacy policy</a>
     </div>
 
-    <div class="ft-band">
+    <div class="ft-g">
       <p class="ft-white">Your card is charged by Stripe. We never see the number.</p>
-      <p class="ft-dim">All prices in US dollars, per vehicle, paid in full when you book.</p>
+      <p>All prices in US dollars, per vehicle, paid in full when you book.</p>
     </div>
 
     <div class="ft-legal">
-      <p>Cozumel Island Transfers, S. de R.L. de C.V. · San Miguel de Cozumel, Quintana Roo, México</p>
+      <p>Cozumel Island Transfers, S. de R.L. de C.V.<br>
+        San Miguel de Cozumel, Quintana Roo, México</p>
       <p>Licensed private ground-transfer operator · permit no. 483290</p>
-      <p style="margin-top:10px">© 2015–2026 Cozumel Island Transfers</p>
+      <p class="ft-cr">© 2015–2026 Cozumel Island Transfers</p>
     </div>
   </footer>
 </section>
