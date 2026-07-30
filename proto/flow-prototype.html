@@ -46,21 +46,38 @@ button{font-family:inherit}
 .brandbar .wa{font-size:12px;font-weight:700;color:var(--success-deep);text-decoration:none;
   padding:0 4px;display:inline-flex;align-items:center;min-height:46px}
 
-/* home hero — no vehicle photo (Mike: she isn't buying a van). Clean navy field;
-   the destination photography below does the selling. */
-.home-hero{position:relative;background:linear-gradient(160deg,#0F2C44,#17527A)}
+/* home hero — Tesla-configurator shape: full-bleed destination photo, minimal type,
+   and one control that starts the booking. The photo sells the day, not the vehicle.
+   Legibility comes from a gradient scrim over an un-dimmed image, plus a soft blur only
+   in the band behind the type — see hero notes. */
+.home-hero{position:relative;min-height:470px;display:flex;flex-direction:column;
+  justify-content:flex-end;overflow:hidden;background:#0B1E2E}
+.home-hero .hh-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.06);filter:blur(2px) saturate(1.05)}
+.home-hero::after{content:'';position:absolute;inset:0;z-index:1;background:
+  linear-gradient(to bottom,rgba(6,20,32,.52) 0%,rgba(6,20,32,.14) 30%,rgba(6,20,32,.90) 100%)}
 .home-hero .hh-text{position:relative;z-index:2;padding:22px 20px 22px}
-.hh-logo{font-weight:800;letter-spacing:-.02em;font-size:17px;color:#fff;margin-bottom:20px}
-.hh-logo span{color:#6FB6F5}
-.home-hero .kick{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9FCDF3}
-.home-hero h1{color:#fff;font-size:29px;line-height:1.1;margin:9px 0 10px;font-weight:800;letter-spacing:-.03em}
-.home-hero p{margin:0 0 16px;color:#D7E7F4;font-size:14.5px;max-width:26em}
-.hh-price{margin-bottom:18px}
-.hh-price b{display:block;color:#fff;font-size:20px;font-weight:800;letter-spacing:-.02em}
-.hh-price span{display:block;color:#BFD8EC;font-size:13px;margin-top:2px}
-.hh-price .hh-pp{display:inline;color:#8FE3AE;font-size:13px;font-weight:800}
-.hh-link{display:inline-flex;align-items:center;min-height:46px;margin-top:4px;color:#BFE0FF;
-  font-size:13.5px;font-weight:700;text-decoration:underline}
+.home-hero .kick{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.88);text-shadow:0 1px 12px rgba(4,16,26,.6)}
+.home-hero h1{color:#fff;font-size:31px;line-height:1.05;margin:9px 0 7px;font-weight:800;
+  letter-spacing:-.035em;text-shadow:0 2px 22px rgba(4,16,26,.5)}
+.home-hero p{margin:0 0 18px;color:rgba(255,255,255,.92);font-size:14.5px;max-width:26em;
+  text-shadow:0 1px 14px rgba(4,16,26,.55)}
+
+/* the configurator */
+.cfg{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.97);border-radius:14px;
+  padding:10px 11px;box-shadow:0 16px 38px -14px rgba(0,0,0,.65)}
+.cfg-k{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mute-2)}
+.cfg-v{font-size:21px;font-weight:800;color:var(--navy);line-height:1.05}
+.cfg-s{display:flex;gap:7px;margin-left:auto}
+.cfg-s button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;
+  font-size:22px;font-weight:700;color:var(--navy);cursor:pointer;line-height:1}
+.cfg-s button:active{background:var(--surface)}
+.cfg-go{width:auto !important;padding:0 17px;border:none !important;background:var(--accent) !important;
+  color:#fff !important;font-size:15px !important;font-weight:800;border-radius:12px !important}
+.hh-price{margin-top:14px;color:rgba(255,255,255,.92);font-size:13px;
+  text-shadow:0 1px 12px rgba(4,16,26,.6)}
+.hh-price .hh-pp{color:#8FE3AE;font-weight:800}
 
 .trustrow{flex-wrap:wrap;overflow:visible}
 .tchip{font-size:12.5px}
@@ -361,16 +378,20 @@ footer{text-align:left;background:var(--surface);padding:24px 18px 42px;font-siz
 <!-- ═══════════ HOME ═══════════ -->
 <section class="screen on" id="s-hub">
   <div class="home-hero">
+    <img class="hh-img" src="https://cozu.netlify.app/assets/dest-mr-sanchos-hero.jpg" alt="">
     <div class="hh-text">
-      <div class="kick">Cozumel cruise port transportation · since 2015</div>
-      <h1>Your own private driver.</h1>
-      <p>We meet your ship with a sign, take you where you want to go, and come back
-         at the time you chose.</p>
-      <div class="hh-price"><b>$369 flat, all-in</b>
-        <span>round-trip for the whole van · <b class="hh-pp">$46 each</b> with 8 of you ·
-          card only, never cash</span></div>
-      <button class="btn btn-primary" onclick="scrollTo_('homeDest')">See destinations &amp; prices →</button>
-      <a class="hh-link" href="#" onclick="return false">Questions? Message us on WhatsApp</a>
+      <div class="kick">Cozumel cruise port transportation</div>
+      <h1>Pick a beach.<br>We'll do the rest.</h1>
+      <p>Private van, your times, back at the pier when you say.</p>
+      <div class="cfg">
+        <div class="cfg-l"><div class="cfg-k">How many?</div><div class="cfg-v" id="cfgN">2</div></div>
+        <div class="cfg-s">
+          <button onclick="heroPax(-1)" aria-label="One fewer">−</button>
+          <button onclick="heroPax(1)" aria-label="One more">+</button>
+          <button class="cfg-go" onclick="heroGo()">Go →</button>
+        </div>
+      </div>
+      <div class="hh-price" id="heroPrice"></div>
     </div>
   </div>
 
@@ -916,11 +937,28 @@ function restart(){
   $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
   $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
   $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
+  paintHero();
   go('hub');
 }
 
 /* ── home ── */
 function scrollTo_(id){ $(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+
+/* The hero configurator answers step 1 before she has scrolled, so the wizard
+   opens on her ship instead of asking the head count again. */
+function heroPax(d){ S.pax = Math.min(40, Math.max(1, S.pax + d)); paintHero(); }
+function heroGo(){ scrollTo_('homeDest'); }
+function paintHero(){
+  const v = vehFor(S.pax), noun = v.max <= 8 ? 'van' : 'vehicle';
+  $('cfgN').textContent = S.pax;
+  // Below four the per-head figure flatters nobody ($185 each for two), and the real
+  // selling point at that size is that the price doesn't move. Say that instead.
+  $('heroPrice').innerHTML = S.pax < 4
+    ? `$${v.price} the whole ${noun} · <span class="hh-pp">same price up to ${v.max}</span> · card only`
+    : `$${v.price} the whole ${noun} · <span class="hh-pp">$${Math.round(v.price / S.pax)} each</span>
+       for ${S.pax} · card only`;
+}
+paintHero();
 
 /* Real FAQ copy, lifted from the live site so this preview isn't invented text. */
 const FAQ = [
@@ -1025,7 +1063,7 @@ function startBooking(){ paintPax(); go('pax'); }
    instead of thirty presses on the +. */
 $('quickPax').innerHTML = VEH.map(v =>
   `<button data-q="${v.max}" onclick="setPax(${v.max})">Up to ${v.max}</button>`).join('');
-function setPax(n){ S.pax = Math.min(40, Math.max(1,n)); paintPax(); }
+function setPax(n){ S.pax = Math.min(40, Math.max(1,n)); paintPax(); paintHero(); }
 function bumpPax(d){ setPax(S.pax + d); }
 function toggleAdm(){ S.adm = !S.adm; paintPax(); }
 
