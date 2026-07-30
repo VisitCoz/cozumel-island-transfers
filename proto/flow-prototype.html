@@ -350,6 +350,9 @@ footer p{margin:0;max-width:34em}
 .ft-g > a{display:flex;align-items:center;min-height:38px;text-decoration:none;margin-bottom:2px}
 .ft-tel{color:#fff !important;font-size:19px !important;letter-spacing:-.2px !important;
   font-variant-numeric:tabular-nums;white-space:nowrap}
+.ft-wa{display:inline-block;font-size:11px !important;font-weight:700 !important;
+  letter-spacing:.1em !important;text-transform:uppercase;color:#7FD4A0 !important;
+  vertical-align:middle;margin-left:8px}
 .ft-mail{color:#A4AFB8;overflow-wrap:anywhere;
   text-decoration:underline;text-decoration-color:rgba(164,175,184,.4);text-underline-offset:4px}
 
@@ -498,12 +501,10 @@ footer p{margin:0;max-width:34em}
 
   <footer>
     <div class="ft-g">
-      <a class="ft-tel" href="https://wa.me/529871146853">+52 987 114 6853</a>
-      <p>WhatsApp is the fastest way to reach us — same number to call. From the US or Canada,
-        dial it exactly as shown, the + included.</p>
-    </div>
-
-    <div class="ft-g">
+      <a class="ft-tel" href="#" onclick="return wa()">+52 987 114 6853
+        <span class="ft-wa">on WhatsApp</span></a>
+      <p>Message us on WhatsApp — it's the fastest way to reach us, and it's how we answer you
+        in English.</p>
       <a class="ft-mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
       <p>Someone answers 9 AM – 5 PM, Cozumel time (UTC−5, year round).</p>
     </div>
@@ -573,7 +574,7 @@ footer p{margin:0;max-width:34em}
 
   <div class="cta-wrap">
     <button class="btn btn-primary" onclick="startBooking()">See price &amp; book →</button>
-    <button class="btn btn-ghost" onclick="return false">Ask a question on WhatsApp</button>
+    <button class="btn btn-ghost" onclick="return waHere()">Ask a question on WhatsApp</button>
   </div>
 </section>
 
@@ -666,7 +667,7 @@ footer p{margin:0;max-width:34em}
       <p>Traveling sooner than that? Our customer service team can still get you a vehicle — message them and
          they'll confirm availability directly.</p>
     </div>
-    <div class="cta-wrap"><button class="btn btn-wa" style="margin-top:0">Message customer service on WhatsApp</button></div>
+    <div class="cta-wrap"><button class="btn btn-wa" style="margin-top:0" onclick="return waHere('I need a transfer within the next 24 hours.')">Message customer service on WhatsApp</button></div>
   </div>
 
   <div id="dayBlock">
@@ -694,7 +695,7 @@ footer p{margin:0;max-width:34em}
       <div class="wt">More than 5 hours — let us check it with you</div>
       <p>We won't sell you a return time that could cost you your ship. Message us with your ship and
          date and we'll confirm your all-aboard time, then book it for you in a minute.</p>
-      <button class="btn btn-wa" style="margin-top:12px">Have us check my all-aboard time</button>
+      <button class="btn btn-wa" style="margin-top:12px" onclick="return waHere('Could you check my ship&#39;s all-aboard time for me?')">Have us check my all-aboard time</button>
       <label class="okbox"><input type="checkbox" id="longOk" onchange="onDay()">
         <span>Or tick to continue anyway — <b>I've checked my ship's all-aboard time and I'll be back
         at the pier at least 90 minutes before it.</b></span></label>
@@ -791,7 +792,7 @@ footer p{margin:0;max-width:34em}
   <div class="cta-wrap">
     <button class="btn btn-primary" style="margin-top:0" onclick="openVoucher()">🖨 Print your voucher</button>
     <button class="btn btn-ghost" onclick="downloadICS()">📅 Add to calendar</button>
-    <button class="btn btn-wa">Message us on WhatsApp</button>
+    <button class="btn btn-wa" onclick="return waDone()">Message us on WhatsApp</button>
   </div>
   <div class="tznote" style="margin-bottom:0">
     <b>Print it or screenshot it before you sail.</b> Everything you need is on one page — your times,
@@ -929,6 +930,26 @@ function restart(){
   go('hub');
 }
 
+/* ── WhatsApp ──
+   One number serves several of Mike's sites, so every link pre-fills a message that
+   names this one — otherwise an enquiry arrives with no idea which business it's for.
+   Where we know more (which beach, which booking), we append it, so the person
+   answering opens the chat already knowing what it's about.
+   Calls are deliberately not invited: the office answers in English over text, and a
+   phone call from a US guest would land on staff who don't. */
+const WA_NUMBER = '529871146853';
+function waHref(context){
+  const msg = 'Hi, I have a question from Cozumel Island Transfers.'
+            + (context ? ' ' + context : '');
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+function wa(context){ window.open(waHref(context), '_blank', 'noopener'); return false; }
+/* The destination the guest is looking at, when there is one. */
+function waHere(extra){
+  const d = S && S.dest ? DEST[S.dest].short : null;
+  return wa([d ? `I'm looking at ${d}.` : '', extra || ''].filter(Boolean).join(' '));
+}
+
 /* ── home ── */
 function scrollTo_(id){ $(id).scrollIntoView({behavior:'smooth', block:'start'}); }
 
@@ -1025,7 +1046,7 @@ $('hubGrid').innerHTML = Object.keys(DEST).map(k => `
     <div class="poster-meta"><h3>${DEST[k].short}</h3><div class="dur">${DEST[k].drive} from the pier</div>
     <div class="go">View &amp; book →</div></div>
   </button>`).join('') + `
-  <button class="poster other" onclick="alert('Prototype: this would open a short \\'tell us where\\' form + WhatsApp.')">
+  <button class="poster other" onclick="wa('I&#39;d like to go somewhere that isn&#39;t on your list.')">
     <div class="poster-img">📍</div>
     <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Downtown, ferry, anywhere</div>
     <div class="go">Tell us where →</div></div>
@@ -1083,7 +1104,7 @@ function onShipType(){
         <div><div class="sname">${s.name}</div><div class="spier">${s.line || 'Cruise ship'}</div></div>
       </button>`).join('')
     : `<div class="hint" style="padding:12px 0">No match. Check the spelling, or tap
-       “My ship isn't listed” below — we'll sort it out on WhatsApp.</div>`;
+       “My ship isn't listed” below — or <a href="#" onclick="return waHere('My ship is not on your list.')" style="color:var(--accent);font-weight:700">message us on WhatsApp</a>.</div>`;
 }
 function pickShip(name){
   S.ship = SHIPS.find(s => s.name === name) || {name, line:null};
@@ -1325,6 +1346,11 @@ function openVoucher(){
   <script>window.onload=function(){window.print()}<\/script>
   </body></html>`);
   w.document.close();
+}
+
+/* After booking, the reference is the most useful thing we can hand the person answering. */
+function waDone(){
+  return wa(`My booking reference is ${$('doneRef').textContent}.`);
 }
 
 /* ── confirmed ── */
