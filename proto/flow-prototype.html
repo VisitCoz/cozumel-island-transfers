@@ -308,14 +308,6 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .nextlist li:last-child{border-bottom:none}
 .nextlist .e{flex:0 0 22px;font-size:16px}
 
-/* wallet-pass buttons — platform convention is a solid black pill */
-.walletrow{display:flex;gap:9px;margin-top:10px}
-.wbtn{flex:1;min-height:52px;border-radius:12px;border:none;background:#000;color:#fff;
-  font-size:13.5px;font-weight:700;letter-spacing:-.01em;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:2px}
-.wbtn:active{background:#222}
-.wbtn.wg{background:#fff;color:#3C4043;border:1.5px solid #DADCE0;font-weight:600}
-@media (max-width:339px){.walletrow{flex-direction:column}}
 
 .protonote{margin:20px 18px 8px;border:1.5px dashed #B3C4D4;border-radius:13px;padding:14px 15px;background:#F7FAFC}
 .protonote .pt{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
@@ -725,10 +717,6 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   </ul>
   <div class="cta-wrap">
     <button class="btn btn-primary" style="margin-top:0" onclick="openVoucher()">🖨 Print your voucher</button>
-    <div class="walletrow">
-      <button class="wbtn" onclick="walletNote()"> Apple Wallet</button>
-      <button class="wbtn wg" onclick="walletNote()">Google Wallet</button>
-    </div>
     <button class="btn btn-ghost" onclick="downloadICS()">📅 Add to calendar</button>
     <button class="btn btn-wa">Message us on WhatsApp</button>
   </div>
@@ -1141,17 +1129,6 @@ function downloadICS(){
   a.download = `${ref}-cozumel-transfer.ics`;
   a.click();
   URL.revokeObjectURL(a.href);
-}
-
-/* Wallet passes are real but can't be signed from a static page — see the plan. */
-function walletNote(){
-  alert("Prototype only.\n\nApple Wallet and Google Wallet passes have to be cryptographically "
-    + "signed on a server, so this button can't work from a static page.\n\nWhat it needs:\n"
-    + "• Apple — Developer Program membership ($99/yr) + a Pass Type ID certificate\n"
-    + "• Google — a Google Cloud project and a Wallet issuer account (free)\n"
-    + "• A Netlify Function to sign each pass at booking time\n\n"
-    + "The 'Add to calendar' button below works right now and gives you most of the same "
-    + "benefit: it lands on the phone with an alarm and works offline.");
 }
 
 /* ── the printable voucher ──
