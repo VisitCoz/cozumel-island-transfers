@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CIT — Three footer designs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body{margin:0;background:#DCE5ED;color:#0E0E10;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.5}
+.page{max-width:560px;margin:0 auto;padding:0 0 60px}
+
+.topnote{background:#12212F;color:#fff;padding:18px 20px}
+.topnote h1{margin:0 0 6px;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.topnote p{margin:0 0 10px;font-size:13px;color:#B7C9D8}
+.topnote ul{margin:0;padding-left:18px;font-size:12.5px;color:#9FB6C9}
+.topnote li{margin-bottom:3px}
+.topnote b{color:#fff}
+
+.cx{margin:22px 14px 0;background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 12px 30px -18px rgba(0,0,0,.5)}
+.cx-label{padding:14px 16px 12px}
+.cx-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.cx-n{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#1D7AFC;
+  background:#E8F0FB;padding:3px 8px;border-radius:5px}
+.cx-t{font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+.cx-s{font-size:12.5px;color:#6E6E73;margin-top:5px}
+.cx-why{padding:12px 16px 15px;font-size:12.5px;color:#45607C;background:#F4F8FA;border-top:1px solid #E5E5E7}
+.cx-why b{color:#0F2C44}
+.cx-why .risk{color:#8A5A00}
+
+/* ══ 0 · what's live now ══ */
+.f0{background:#F4F8FA;padding:24px 18px 42px;font-size:12.5px;line-height:1.55;color:#6E6E73}
+.f0 .l{font-size:14px;color:#33404F;padding-bottom:18px;border-bottom:1px solid #E5E5E7}
+.f0 .l b{color:#0F2C44}
+.f0 .cols{display:flex;gap:20px;padding:18px 0;border-bottom:1px solid #E5E5E7}
+.f0 .col{flex:1 1 46%;min-width:0}
+.f0 .h{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#8C9AAB;margin-bottom:9px}
+.f0 a{display:flex;align-items:center;color:#0F2C44;text-decoration:none;min-height:44px}
+.f0 .big{font-size:17px;font-weight:800}
+.f0 .mail{font-size:12px;overflow-wrap:anywhere}
+.f0 .links{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.f0 .links a{font-size:12px;white-space:nowrap}
+.f0 .pay{padding:16px 0;border-bottom:1px solid #E5E5E7}
+.f0 .cards{display:flex;gap:6px;margin-bottom:9px}
+.f0 .cards span{border:1px solid #E5E5E7;background:#fff;border-radius:5px;padding:4px 8px;
+  font-size:9px;font-weight:800;letter-spacing:.06em;color:#55606B}
+.f0 .pol{display:flex;flex-wrap:wrap;gap:8px 18px;padding:16px 0;border-bottom:1px solid #E5E5E7}
+.f0 .pol a{color:#1D7AFC;font-weight:700;display:inline-flex;min-height:44px}
+.f0 .leg{padding-top:16px;font-size:11.5px;line-height:1.7}
+.f0 .leg b{color:#0F2C44}
+.f0 .todo{background:#FFF3D6;color:#8A5A00;font-weight:700;padding:1px 6px;border-radius:4px}
+
+/* ══ A · The Quiet End ══ */
+.fa{background:#F4F8FA;padding:44px 18px 60px;text-align:left}
+.fa,.fa *{font-family:Inter;font-size:13px;line-height:20px;font-weight:400;letter-spacing:-.13px}
+.fa p{margin:0}
+.fa .t1{color:#0F2C44}
+.fa .t2{color:#4E5D6B}
+.fa .t3{color:#667380}
+.fa .band{margin-top:32px}
+.fa a{display:flex;align-items:center;min-height:44px;text-decoration:none;color:#4E5D6B}
+.fa a.tel{color:#0F62D6;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fa a.mail{overflow-wrap:anywhere}
+.fa .pol{display:flex;flex-wrap:wrap;column-gap:22px;row-gap:0}
+.fa .pol a{display:inline-flex}
+.fa .pend{border-bottom:1px dotted #667380}
+
+/* ══ B · Ledger ══ */
+.fb{background:#F4F8FA;border-top:1px solid #E5E5E7;padding:30px 18px 40px;text-align:left}
+.fb,.fb *{font-family:Inter;font-size:14px;line-height:21px;font-weight:400;letter-spacing:-.14px;
+  font-variant-numeric:tabular-nums}
+.fb p{margin:0}
+.fb .lead{color:#0F2C44;font-weight:500;margin-bottom:26px}
+.fb .grp{margin-bottom:26px}
+.fb .gh{color:#0F2C44;font-weight:500;margin-bottom:8px}
+.fb a{display:flex;align-items:center;min-height:44px;text-decoration:none;color:#0F62D6}
+.fb a.mail{color:#495D71;overflow-wrap:anywhere}
+.fb .note{color:#495D71;margin-top:4px}
+.fb .marks{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.fb .pol{display:flex;flex-wrap:wrap;column-gap:22px}
+.fb .pol a{display:inline-flex;color:#495D71}
+.fb .leg{color:#6B7885}
+.fb .pend{border-bottom:1px dotted #6B7885}
+
+/* ══ C · The Trust Cut ══ */
+.fc{background:#0F2C44;padding:32px 18px 40px;text-align:left;-webkit-font-smoothing:antialiased}
+.fc,.fc *{font-family:Inter;font-size:15px;line-height:22px;font-weight:400;letter-spacing:-.15px}
+.fc p{margin:0}
+.fc .say{color:#A4AFB8;margin-bottom:24px}
+.fc .band{margin-bottom:24px}
+.fc a{display:block;padding:11px 0;text-decoration:none;color:#A4AFB8}
+.fc a.tel{color:#fff;letter-spacing:0;font-variant-numeric:tabular-nums;padding:11px 0}
+.fc a.mail{text-decoration:underline;text-decoration-color:rgba(164,175,184,.45);text-underline-offset:4px}
+.fc .dim{color:#A4AFB8}
+.fc .white{color:#fff}
+.fc .pol{display:flex;flex-wrap:wrap;column-gap:24px;row-gap:0}
+.fc .pol a{display:inline-flex;align-items:center;min-height:44px;padding:0;
+  text-decoration:underline;text-decoration-color:rgba(164,175,184,.45);text-underline-offset:4px}
+.fc .marks{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.fc .leg{color:#7C8A96;margin-top:32px}
+.fc .pend{border-bottom:1px dotted #7C8A96}
+
+/* shared: understated monochrome card marks (placeholder for the brands' own SVGs) */
+.mk{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;line-height:1}
+.fb .mk{color:#8C9AAB}
+.fc .mk{color:#A4AFB8}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="topnote">
+  <h1>Three footers</h1>
+  <p>Built from research into how Apple, Tesla, Stripe, Linear, Booking, Airbnb, Viator and
+     GetYourGuide actually do this. All three agreed on the same four things:</p>
+  <ul>
+    <li><b>One type size, one weight.</b> Yours ships seven sizes and uses weight 800 six times. Not
+        one of the benchmark sites exceeds weight 510 or uses more than one size.</li>
+    <li><b>Cut the eight destination links.</b> A footer nav list is an SEO habit for multi-page
+        sites. You're one page — it earns nothing and repeats the photo grid. GetYourGuide, with
+        thousands of destinations, carries none.</li>
+    <li><b>Cut TripAdvisor.</b> Zero of Booking, Airbnb, Viator, GetYourGuide or Marriott put a
+        review score in the footer. Viator is <i>owned by</i> TripAdvisor and still doesn't.</li>
+    <li><b>The phone gets smaller, not bigger.</b> Emphasis moves from size to colour — and it gains
+        the dialling instruction, which is what actually makes an international number usable.</li>
+  </ul>
+</div>
+
+<!-- ═══ 0 ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">0</span><span class="cx-t">What's live now</span></div>
+    <div class="cx-s">For comparison — the one you said has good information and a terrible layout.</div></div>
+  <div class="f0">
+    <div class="l">A local company in Cozumel since 2015. <b>If anything goes wrong, this number reaches a person.</b></div>
+    <div class="cols">
+      <div class="col"><div class="h">Reach us</div>
+        <a class="big" href="#" onclick="return false">+52 987 114 6853</a>
+        <a class="mail" href="#" onclick="return false">hello@cozumelislandtransfers.com</a>
+        <div style="margin-top:6px;font-size:11.5px">Office 6 AM – 10 PM Cozumel time (UTC−5)</div>
+      </div>
+      <div class="col"><div class="h">Where we go</div>
+        <div class="links">
+          <a href="#" onclick="return false">Tierra Maya</a><a href="#" onclick="return false">KUZÁ</a>
+          <a href="#" onclick="return false">San Gervasio</a><a href="#" onclick="return false">Chankanaab</a>
+          <a href="#" onclick="return false">Buccanos</a><a href="#" onclick="return false">Paradise Beach</a>
+          <a href="#" onclick="return false">Mr. Sanchos</a><a href="#" onclick="return false">Nachi Cocom</a>
+        </div></div>
+    </div>
+    <div class="pay">
+      <div class="cards"><span>VISA</span><span>MASTERCARD</span><span>AMEX</span></div>
+      <div>Payments processed by <b style="color:#0F2C44">Stripe</b>. We never see your card number.
+        All prices in <b style="color:#0F2C44">US dollars</b>.</div>
+    </div>
+    <div class="pol">
+      <a href="#" onclick="return false">Cancellation policy</a>
+      <a href="#" onclick="return false">Terms of use</a>
+      <a href="#" onclick="return false">Privacy policy</a>
+      <a href="#" onclick="return false">4.8★ on TripAdvisor</a>
+    </div>
+    <div class="leg"><b>Cozumel Island Transfers, S. de R.L. de C.V.</b><br>
+      Persona Moral · Régimen General 601 · San Miguel de Cozumel, Quintana Roo, México<br>
+      Licensed private ground-transfer operator · <span class="todo">permit no. [pending]</span><br>
+      © 2015–2026 Cozumel Island Transfers</div>
+  </div>
+  <div class="cx-why"><b>Seven type sizes, six uses of weight 800, five divider rules, 24 links.</b>
+    Every element is shouting at the same volume, so nothing leads.</div>
+</div>
+
+<!-- ═══ A ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">A</span><span class="cx-t">The Quiet End</span></div>
+    <div class="cx-s">Apple's discipline. 13px, one weight, no rules, no headings — the surface change
+      is the only boundary.</div></div>
+  <div class="fa">
+    <p class="t1">A local company in Cozumel since 2015. If anything goes wrong, this number reaches a person.</p>
+    <p class="t2" style="margin-top:10px">Card payments are processed by Stripe; we never see your card
+      number. Prices are in US dollars, per vehicle, paid in full when you book.</p>
+
+    <div class="band">
+      <a class="tel" href="tel:+529871146853">+52 987 114 6853</a>
+      <a class="mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
+      <p class="t3" style="margin-top:6px">From the US or Canada dial 011 52 987 114 6853.
+        We answer 6 AM – 10 PM Cozumel time (UTC−5).</p>
+    </div>
+
+    <div class="band pol">
+      <a href="#" onclick="return false">Cancellation &amp; refunds</a>
+      <a href="#" onclick="return false">Terms of use</a>
+      <a href="#" onclick="return false">Privacy notice</a>
+    </div>
+
+    <div class="band">
+      <p class="t3">Cozumel Island Transfers, S. de R.L. de C.V. · San Miguel de Cozumel, Quintana Roo, México</p>
+      <p class="t3">Licensed private ground-transfer operator · permit no. <span class="pend">[pending]</span></p>
+      <p class="t3" style="margin-top:10px">© 2015–2026 Cozumel Island Transfers</p>
+    </div>
+  </div>
+  <div class="cx-why"><b>One size. One weight. Three greys. One blue thing.</b> The phone drops from
+    17px/800 to 13px/400 and becomes findable by being the only coloured element on the surface.
+    <span class="risk">Risk: at 13px it asks good eyesight of a 68-year-old, and there are no headings
+    to scan by.</span></div>
+</div>
+
+<!-- ═══ B ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">B</span><span class="cx-t">Ledger</span></div>
+    <div class="cx-s">Stripe's discipline. 14px, two weights, two plain-English headings so the eye
+      has somewhere to land.</div></div>
+  <div class="fb">
+    <p class="lead">A local company in Cozumel since 2015. If anything goes wrong on the day, the
+      number below reaches a person in our office.</p>
+
+    <div class="grp">
+      <div class="gh">Reach a person</div>
+      <a href="tel:+529871146853">+52 987 114 6853</a>
+      <p class="note">From the US or Canada dial 011 52 987 114 6853. Same number on WhatsApp.
+        Answered 6 AM – 10 PM Cozumel time (UTC−5).</p>
+      <a class="mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
+    </div>
+
+    <div class="grp">
+      <div class="gh">Paying</div>
+      <div class="marks"><span class="mk">Visa</span><span class="mk">Mastercard</span><span class="mk">Amex</span></div>
+      <p class="note">Card payments are processed by Stripe. We never see your card number. All prices
+        are in US dollars, per vehicle, paid in full when you book.</p>
+    </div>
+
+    <div class="grp pol">
+      <a href="#" onclick="return false">Cancellation &amp; refunds</a>
+      <a href="#" onclick="return false">Terms of use</a>
+      <a href="#" onclick="return false">Privacy notice</a>
+    </div>
+
+    <div class="leg">
+      <p>Cozumel Island Transfers, S. de R.L. de C.V. · San Miguel de Cozumel, Quintana Roo, México</p>
+      <p>Licensed private ground-transfer operator · permit no. <span class="pend">[pending]</span></p>
+      <p style="margin-top:10px">© 2015–2026 Cozumel Island Transfers</p>
+    </div>
+  </div>
+  <div class="cx-why"><b>14px, and two headings that answer instead of label</b> — "Reach a person",
+    not "REACH US". Same restraint as A, but a 68-year-old can scan it.
+    <span class="risk">Risk: two headings is two more things than Apple would ship.</span></div>
+</div>
+
+<!-- ═══ C ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">C</span><span class="cx-t">The Trust Cut</span></div>
+    <div class="cx-s">Navy, full-bleed. 15px. White is rationed to four strings — the company signs
+      its name in its own colour.</div></div>
+  <div class="fc">
+    <p class="say">A local company on the island since 2015. If anything goes wrong, the number below
+      reaches a person.</p>
+
+    <div class="band">
+      <a class="tel" href="tel:+529871146853">+52 987 114 6853</a>
+      <p class="dim">From the US or Canada, dial 011 52 987 114 6853.</p>
+      <a class="mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
+      <p class="dim">Someone answers 6 AM – 10 PM, Cozumel time (UTC−5, year round).</p>
+    </div>
+
+    <div class="band pol">
+      <a href="#" onclick="return false">Cancellation &amp; refunds</a>
+      <a href="#" onclick="return false">Terms of use</a>
+      <a href="#" onclick="return false">Privacy policy</a>
+    </div>
+
+    <div class="band">
+      <div class="marks"><span class="mk">Visa</span><span class="mk">Mastercard</span><span class="mk">Amex</span></div>
+      <p class="white">Your card is charged by Stripe. We never see the number.</p>
+      <p class="dim">All prices in US dollars, per vehicle, paid in full when you book.</p>
+    </div>
+
+    <div class="leg">
+      <p>Cozumel Island Transfers, S. de R.L. de C.V. · San Miguel de Cozumel, Quintana Roo, México</p>
+      <p>Licensed private ground-transfer operator · permit no. <span class="pend">[pending]</span></p>
+      <p style="margin-top:10px">© 2015–2026 Cozumel Island Transfers</p>
+    </div>
+  </div>
+  <div class="cx-why"><b>15px — the largest and most legible of the three</b>, and the navy closes the
+    page the way a colophon does. White is spent on exactly four things, so they land.
+    <span class="risk">Risk: a dark block at the end is a strong statement; it can read as heavy on a
+    page that is otherwise light and airy.</span></div>
+</div>
+
+<div class="topnote" style="margin:22px 14px 0;border-radius:16px">
+  <h1 style="font-size:15px">One thing to know before you pick</h1>
+  <p style="margin:0">The card marks are plain text placeholders here. Before launch they should be
+     the brands' own single-colour SVGs — redrawn logos look cheap, and Visa and Mastercard both
+     publish official monochrome assets for exactly this.</p>
+</div>
+
+</div>
+</body>
+</html>
