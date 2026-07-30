@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CIT — Four banners for the slot under the hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E0E10;--navy:#0F2C44;--mute:#6E6E73;--mute-2:#8C9AAB;--line:#E5E5E7;
+  --line-soft:#F1F1F4;--surface:#F4F8FA;--accent:#1D7AFC;--accent-2:#0F62D6;--green:#1F7A3F;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body{margin:0;background:#DCE5ED;color:var(--ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.5}
+.page{max-width:560px;margin:0 auto;padding:0 0 60px}
+
+.topnote{background:#12212F;color:#fff;padding:18px 20px}
+.topnote h1{margin:0 0 6px;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.topnote p{margin:0 0 8px;font-size:13px;color:#B7C9D8}
+.topnote b{color:#fff}
+
+.cx{margin:22px 14px 0;background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 12px 30px -18px rgba(0,0,0,.5)}
+.cx-label{padding:14px 16px 12px}
+.cx-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.cx-n{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+  background:#E8F0FB;padding:3px 8px;border-radius:5px}
+.cx-t{font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+.cx-s{font-size:12.5px;color:var(--mute);margin-top:5px}
+.cx-why{padding:12px 16px 15px;font-size:12.5px;color:#45607C;background:var(--surface);
+  border-top:1px solid var(--line)}
+.cx-why b{color:var(--navy)}
+.cx-why .m{color:var(--green);font-weight:700}
+
+/* ── shared context: the navy marquee above, the grid below ── */
+.mq{background:#0F2C44;padding:8px 0 11px;overflow:hidden}
+.mq-t{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.42);text-align:center;margin-bottom:7px}
+.mq-win{overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mqa 34s linear infinite}
+.mq-set{display:flex;flex:0 0 auto}
+.mq-set span{padding:0 20px;font-size:14.5px;font-weight:700;letter-spacing:.02em;
+  color:rgba(255,255,255,.62);white-space:nowrap}
+@keyframes mqa{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mq-track{animation:none}}
+
+.sechead{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);padding:20px 18px 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 16px 18px}
+.poster{display:flex;flex-direction:column}
+.poster-img{position:relative;aspect-ratio:4/3;border-radius:13px;overflow:hidden;background:#0F2C44;
+  box-shadow:0 10px 22px -13px rgba(0,0,0,.6)}
+.poster-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.poster-img .pl{position:absolute;left:7px;bottom:7px;z-index:2;font-size:9px;letter-spacing:.07em;
+  text-transform:uppercase;background:rgba(6,20,32,.62);color:#fff;padding:3px 7px;border-radius:5px;font-weight:700}
+.poster-meta{padding:9px 2px 0}
+.poster-meta h3{margin:0 0 4px;font-size:14px;line-height:1.24;color:var(--navy);font-weight:700}
+.poster-meta .dur{font-size:11.5px;color:var(--mute)}
+
+/* ══ 1 · The Promise ══ */
+.b1{background:#fff;padding:19px 22px 18px;text-align:center;border-bottom:1px solid var(--line-soft)}
+.b1 .p{font-size:20px;line-height:1.28;font-weight:700;letter-spacing:-.025em;color:var(--navy);
+  margin:0;max-width:19em;margin-inline:auto}
+.b1 .p em{font-style:normal;color:var(--green)}
+.b1 .s{margin:10px 0 0;font-size:12.5px;color:var(--mute-2);letter-spacing:.02em}
+
+/* ══ 2 · Three steps ══ */
+.b2{background:var(--surface);padding:16px 12px;border-bottom:1px solid var(--line)}
+.b2 ol{display:flex;margin:0;padding:0;list-style:none;gap:2px}
+.b2 li{flex:1;text-align:center;padding:0 6px;position:relative}
+.b2 li + li::before{content:'';position:absolute;left:-1px;top:6px;bottom:6px;width:1px;
+  background:var(--line)}
+.b2 .n{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;
+  font-weight:800;display:grid;place-items:center;margin:0 auto 7px}
+.b2 .t{font-size:12px;line-height:1.35;color:var(--navy);font-weight:600}
+
+/* ══ 3 · The quote ══ */
+.b3{background:#fff;padding:16px 22px 15px;border-bottom:1px solid var(--line-soft)}
+.b3 .st{color:#F0A500;font-size:12px;letter-spacing:.14em;margin-bottom:7px}
+.b3 blockquote{margin:0;font-family:Fraunces,Georgia,serif;font-size:18px;line-height:1.34;
+  letter-spacing:-.01em;color:var(--navy);font-weight:400}
+.b3 .who{margin-top:9px;font-size:12px;color:var(--mute-2);font-weight:600;letter-spacing:.02em}
+.b3 .who b{color:var(--mute);font-weight:700}
+
+/* ══ 4 · The stat bar ══ */
+.b4{background:#0F2C44;padding:15px 10px 16px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.b4 .row{display:flex;margin:0;padding:0;list-style:none}
+.b4 li{flex:1;text-align:center;position:relative;padding:0 4px}
+.b4 li + li::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:1px;
+  background:rgba(255,255,255,.13)}
+.b4 .v{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.1;
+  font-variant-numeric:tabular-nums}
+.b4 .v .u{font-size:12px;font-weight:700;color:#8FE3AE;margin-left:1px}
+.b4 .k{font-size:9.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="topnote">
+  <h1>Four banners for the slot under the hero</h1>
+  <p>The TripAdvisor / card-only / refund chips are gone from all four. Each is shown in place —
+     the cruise-line strip above it, the destination photos below — because the only question that
+     matters is how it sits between them.</p>
+  <p style="margin:0"><b>Height is the hidden cost.</b> The chips were 140px, which pushed the first
+     beach photo to y=743 — under the fold on a real iPhone. Each banner's height and the resulting
+     photo position are in the note underneath. <b>A fifth option is no banner at all</b> — the strip
+     runs straight into the photos and they land at y=603, well clear.</p>
+</div>
+
+<!-- ═══ 1 ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">1</span><span class="cx-t">The Promise</span></div>
+    <div class="cx-s">One sentence. The single strongest thing you can say to someone afraid of being
+      left behind.</div></div>
+  <div class="mq"><div class="mq-t">Guests we've picked up from</div><div class="mq-win"><div class="mq-track">
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+  </div></div></div>
+  <div class="b1" id="m1">
+    <p class="p">Back at the pier when you say. <em>If we're ever late, the transfer is free.</em></p>
+    <p class="s">Since 2015 · 4.8★ from 35 verified reviews</p>
+  </div>
+  <div class="sechead">Where do you need to go?</div>
+  <div class="grid">
+    <div class="poster"><div class="poster-img"><img src="https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg" alt=""><span class="pl">Mayan preserve</span></div>
+      <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div></div></div>
+    <div class="poster"><div class="poster-img"><img src="https://cozu.netlify.app/assets/dest-kuza-hero.jpg" alt=""><span class="pl">Theme park · beach</span></div>
+      <div class="poster-meta"><h3>KUZÁ</h3><div class="dur">20 min from the pier</div></div></div>
+  </div>
+  <div class="cx-why"><b>The calmest of the four, and the only one that answers the real fear in
+    words.</b> "Free" is doing the work — it's a number, not an adjective. The rating drops to a
+    quiet second line where it belongs.
+    <span class="m">Height 144px · photos at y=747 — 4px lower than the chips it replaces.</span></div>
+</div>
+
+<!-- ═══ 2 ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">2</span><span class="cx-t">Three Steps</span></div>
+    <div class="cx-s">Not claims — the process. Turns "will this work?" into "I see how this works."</div></div>
+  <div class="mq"><div class="mq-t">Guests we've picked up from</div><div class="mq-win"><div class="mq-track">
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+  </div></div></div>
+  <div class="b2" id="m2">
+    <ol>
+      <li><div class="n">1</div><div class="t">We meet you<br>with a sign</div></li>
+      <li><div class="n">2</div><div class="t">You choose<br>the times</div></li>
+      <li><div class="n">3</div><div class="t">We're back<br>when you say</div></li>
+    </ol>
+  </div>
+  <div class="sechead">Where do you need to go?</div>
+  <div class="grid">
+    <div class="poster"><div class="poster-img"><img src="https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg" alt=""><span class="pl">Mayan preserve</span></div>
+      <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div></div></div>
+    <div class="poster"><div class="poster-img"><img src="https://cozu.netlify.app/assets/dest-kuza-hero.jpg" alt=""><span class="pl">Theme park · beach</span></div>
+      <div class="poster-meta"><h3>KUZÁ</h3><div class="dur">20 min from the pier</div></div></div>
+  </div>
+  <div class="cx-why"><b>The most useful to a first-time buyer</b> — she doesn't know what a private
+    transfer even involves, and this tells her in nine words. It also lets you delete the "How it
+    works" section further down the page.
+    <span class="m">Height 94px · photos at y=697 — 46px higher than the chips.</span></div>
+</div>
+
+<!-- ═══ 3 ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">3</span><span class="cx-t">The Quote</span></div>
+    <div class="cx-s">A real guest, in her own words, instead of a score.</div></div>
+  <div class="mq"><div class="mq-t">Guests we've picked up from</div><div class="mq-win"><div class="mq-track">
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+  </div></div></div>
+  <div class="b3" id="m3">
+    <div class="st">★★★★★</div>
+    <blockquote>“We made a last-minute change to our meeting time and they accommodated.”</blockquote>
+    <div class="who">Genny · May 2026 · <b>TripAdvisor</b></div>
+  </div>
+  <div class="sechead">Where do you need to go?</div>
+  <div class="grid">
+    <div class="poster"><div class="poster-img"><img src="https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg" alt=""><span class="pl">Mayan preserve</span></div>
+      <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div></div></div>
+    <div class="poster"><div class="poster-img"><img src="https://cozu.netlify.app/assets/dest-kuza-hero.jpg" alt=""><span class="pl">Theme park · beach</span></div>
+      <div class="poster-meta"><h3>KUZÁ</h3><div class="dur">20 min from the pier</div></div></div>
+  </div>
+  <div class="cx-why"><b>The most persuasive, and the most beautiful.</b> A specific sentence from a
+    named person beats "4.8★" every time — she can picture herself in it. The serif is the only
+    place on the site a second typeface earns its keep.
+    <span class="m">Height 156px · photos at y=759 — 16px LOWER than the chips.</span> The tallest of the four, and the only one that costs you fold space rather than buying it back.</div>
+</div>
+
+<!-- ═══ 4 ═══ -->
+<div class="cx">
+  <div class="cx-label"><div class="cx-h"><span class="cx-n">4</span><span class="cx-t">The Record</span></div>
+    <div class="cx-s">Four numbers on the hero's navy, so it reads as one dark block with the strip.</div></div>
+  <div class="mq"><div class="mq-t">Guests we've picked up from</div><div class="mq-win"><div class="mq-track">
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+    <div class="mq-set"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+  </div></div></div>
+  <div class="b4" id="m4">
+    <ul class="row">
+      <li><div class="v">11</div><div class="k">Years</div></li>
+      <li><div class="v">4.8<span class="u">★</span></div><div class="k">Rating</div></li>
+      <li><div class="v">1–40</div><div class="k">Per van</div></li>
+      <li><div class="v">0</div><div class="k">Cash</div></li>
+    </ul>
+  </div>
+  <div class="sechead">Where do you need to go?</div>
+  <div class="grid">
+    <div class="poster"><div class="poster-img"><img src="https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg" alt=""><span class="pl">Mayan preserve</span></div>
+      <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div></div></div>
+    <div class="poster"><div class="poster-img"><img src="https://cozu.netlify.app/assets/dest-kuza-hero.jpg" alt=""><span class="pl">Theme park · beach</span></div>
+      <div class="poster-meta"><h3>KUZÁ</h3><div class="dur">20 min from the pier</div></div></div>
+  </div>
+  <div class="cx-why"><b>The shortest and the most confident.</b> Extends the hero's dark block
+    instead of starting a new light one, so the page reads as one thing until the photos begin.
+    <span class="m">Height 70px · photos at y=673 — 70px higher than the chips, and the only one clear of the real iPhone fold.</span>
+    Weakness: "0 cash" is clever but a nervous reader has to decode it.</div>
+</div>
+
+<div class="topnote" style="margin:22px 14px 0;border-radius:16px">
+  <h1 style="font-size:15px">My read</h1>
+  <p style="margin:0 0 8px"><b>3 for beauty, 2 for money.</b> The quote is the best-looking thing
+    on the page and the most persuasive to a nervous buyer — but I measured all four after building
+    them, and it is the only one that leaves you <i>worse off</i> than the chips: photos at y=759
+    against 743 today. The Promise is a wash at 747.</p>
+  <p style="margin:0"><b>Three Steps is the one I'd ship.</b> It buys back 46px, it teaches a
+    first-time buyer what a private transfer actually is in nine words, and it lets you delete the
+    "How it works" block further down the page — so it wins twice. Take The Record if you want the
+    photos as high as they'll go, or no banner at all for y=603.</p>
+</div>
+
+</div>
+</body>
+</html>
