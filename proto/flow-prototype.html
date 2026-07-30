@@ -308,6 +308,15 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .nextlist li:last-child{border-bottom:none}
 .nextlist .e{flex:0 0 22px;font-size:16px}
 
+/* wallet-pass buttons — platform convention is a solid black pill */
+.walletrow{display:flex;gap:9px;margin-top:10px}
+.wbtn{flex:1;min-height:52px;border-radius:12px;border:none;background:#000;color:#fff;
+  font-size:13.5px;font-weight:700;letter-spacing:-.01em;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:2px}
+.wbtn:active{background:#222}
+.wbtn.wg{background:#fff;color:#3C4043;border:1.5px solid #DADCE0;font-weight:600}
+@media (max-width:339px){.walletrow{flex-direction:column}}
+
 .protonote{margin:20px 18px 8px;border:1.5px dashed #B3C4D4;border-radius:13px;padding:14px 15px;background:#F7FAFC}
 .protonote .pt{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .protonote p{margin:6px 0 0;font-size:13px;color:#45607C}
@@ -444,7 +453,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="linewall">
     <div class="lw-t">Guests we've picked up from</div>
     <p>Carnival · Royal Caribbean · Norwegian · Celebrity · MSC · Disney · Princess ·
-       Holland America · and every other line that calls here</p>
+       Holland America · TUI Cruises</p>
   </div>
 
   <footer>
@@ -716,7 +725,11 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   </ul>
   <div class="cta-wrap">
     <button class="btn btn-primary" style="margin-top:0" onclick="openVoucher()">🖨 Print your voucher</button>
-    <button class="btn btn-ghost">Add to calendar</button>
+    <div class="walletrow">
+      <button class="wbtn" onclick="walletNote()"> Apple Wallet</button>
+      <button class="wbtn wg" onclick="walletNote()">Google Wallet</button>
+    </div>
+    <button class="btn btn-ghost" onclick="downloadICS()">📅 Add to calendar</button>
     <button class="btn btn-wa">Message us on WhatsApp</button>
   </div>
   <div class="tznote" style="margin-bottom:0">
@@ -724,11 +737,11 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
     your meeting point, your driver, and a phone number that works without WhatsApp or data.
   </div>
   <div class="protonote">
-    <div class="pt">Prototype note — still to decide</div>
-    <p>This booking would now land somewhere your team can see it: <code>Slack #bookings</code> ·
-       <code>WhatsApp group</code> · <code>email</code> · <code>Netlify Forms</code> · <code>a small CRM</code>.
-       Emma, Mario and Hilda all need to see it, and the same setup has to work for Visit Cozumel and Tierra Maya.
-       <b>That decision is still open.</b></p>
+    <div class="pt">Prototype note — where this lands</div>
+    <p>On the real site this writes one row to a <code>CIT_Bookings</code> sheet, posts to
+       <code>Slack #cit-bookings</code> with a one-tap WhatsApp link so Adela, Angel, Mario and Emma all
+       see it, and emails the guest this voucher — then a 6 AM dispatch digest and a Sunday revenue
+       summary. <b>Designed in the CRM plan, not built yet. It's the last thing blocking Stripe.</b></p>
   </div>
   <div class="cta-wrap" style="padding-top:0"><button class="btn btn-ghost" onclick="restart()">↺ Start the prototype again</button></div>
 </section>
@@ -745,39 +758,39 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
    ══════════════════════════════════════════════════════════════ */
 const IMG = 'https://cozu.netlify.app/assets/';
 const DEST = {
-  'mr-sanchos':{name:'Mr. Sanchos Beach Club',short:'Mr. Sanchos',type:'Beach Club',drive:'15–20 min',
-    dist:'7 miles south of the pier',img:IMG+'dest-mr-sanchos-hero.jpg',
-    blurb:'One of Cozumel’s best-known all-inclusive beach clubs — unlimited food and drinks, beach chairs, pool, kayaks and snorkel gear on a calm stretch of the southwest coast.',
-    admName:'Mr. Sanchos all-inclusive day pass',admAdult:65,admVerified:false},
-  'chankanaab':{name:'Chankanaab National Park',short:'Chankanaab',type:'National Marine Park',drive:'10–15 min',
-    dist:'5 miles south of the pier',img:IMG+'dest-chankanaab-hero.jpg',
-    blurb:'A protected snorkeling reef, a dolphin and sea-lion lagoon, botanical gardens, replica Mayan ruins and a small beach — all inside Cozumel’s national marine park.',
-    admName:'Chankanaab park entry',admAdult:31,admVerified:true},
-  'nachi-cocom':{name:'Nachi Cocom Beach Club',short:'Nachi Cocom',type:'Beach Club',drive:'20–25 min',
-    dist:'9 miles south of the pier',img:IMG+'dest-nachi-cocom-hero.jpg',
-    blurb:'A deliberately quiet, limited-capacity beach club — they cap the number of guests each day, so there is always a chair and never a crowd.',
-    admName:'Nachi Cocom day pass',admAdult:75,admVerified:false},
-  'paradise-beach':{name:'Paradise Beach',short:'Paradise Beach',type:'Beach Club',drive:'15 min',
-    dist:'7 miles south of the pier',img:IMG+'dest-paradise-beach-hero.jpg',
-    blurb:'The family one — inflatable water park in the sea, big pool, easy sandy entry, and a Fun Pass that covers the water toys.',
-    admName:'Paradise Beach Fun Pass',admAdult:18,admVerified:true},
-  'bucanos':{name:'Buccanos at Night · Beach Club',short:'Buccanos',type:'Beach Club · Wine Bar',drive:'10 min',
-    dist:'4 miles north of the pier',img:IMG+'dest-bucanos-hero.jpg',
-    blurb:'The grown-up option on the north shore — a quieter beach, a proper kitchen and a wine bar, closer to the pier than anywhere south.',
-    admName:'Buccanos day pass',admAdult:55,admVerified:false},
-  'san-gervasio':{name:'San Gervasio Mayan Ruins',short:'San Gervasio',type:'Archaeological Site',drive:'20–25 min',
-    dist:'9 miles inland',img:IMG+'dest-san-gervasio-hero.jpg',
-    blurb:'The island’s Mayan sanctuary to Ix Chel, goddess of fertility — shaded stone paths through the jungle, and the reason Mayan women once made the pilgrimage across the channel.',
-    admName:'San Gervasio site entry',admAdult:13,admVerified:true},
-  'kuza':{name:'KUZÁ Park',short:'KUZÁ',type:'Theme Park · Beach',drive:'20 min',
-    dist:'South of the pier',img:IMG+'dest-kuza-hero.jpg',
-    blurb:'Part beach, part theme park — ziplines, cenote swims, animal encounters and a beach club in one gated property.',
-    admName:'KUZÁ day pass',admAdult:45,admVerified:false},
   'tierra-maya':{name:'Tierra Maya',short:'Tierra Maya',type:'Mayan Preserve',drive:'15 min',
     dist:'Inland, east of San Miguel',
     img:'https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg',
     blurb:'Our own cultural preserve. Grind cacao on volcanic stone, press tortillas over fire, meet the sacred stingless bees, taste artisanal liqueurs. Guides move at your pace.',
-    admName:'Sacred Roots experience',admAdult:70,admVerified:true}
+    admName:'Sacred Roots experience',admAdult:70,admVerified:true},
+  'kuza':{name:'KUZÁ Park',short:'KUZÁ',type:'Theme Park · Beach',drive:'20 min',
+    dist:'South of the pier',img:IMG+'dest-kuza-hero.jpg',
+    blurb:'Part beach, part theme park — ziplines, cenote swims, animal encounters and a beach club in one gated property.',
+    admName:'KUZÁ day pass',admAdult:45,admVerified:false},
+  'san-gervasio':{name:'San Gervasio Mayan Ruins',short:'San Gervasio',type:'Archaeological Site',drive:'20–25 min',
+    dist:'9 miles inland',img:IMG+'dest-san-gervasio-hero.jpg',
+    blurb:'The island’s Mayan sanctuary to Ix Chel, goddess of fertility — shaded stone paths through the jungle, and the reason Mayan women once made the pilgrimage across the channel.',
+    admName:'San Gervasio site entry',admAdult:13,admVerified:true},
+  'chankanaab':{name:'Chankanaab National Park',short:'Chankanaab',type:'National Marine Park',drive:'10–15 min',
+    dist:'5 miles south of the pier',img:IMG+'dest-chankanaab-hero.jpg',
+    blurb:'A protected snorkeling reef, a dolphin and sea-lion lagoon, botanical gardens, replica Mayan ruins and a small beach — all inside Cozumel’s national marine park.',
+    admName:'Chankanaab park entry',admAdult:31,admVerified:true},
+  'bucanos':{name:'Buccanos at Night · Beach Club',short:'Buccanos',type:'Beach Club · Wine Bar',drive:'10 min',
+    dist:'4 miles north of the pier',img:IMG+'dest-bucanos-hero.jpg',
+    blurb:'The grown-up option on the north shore — a quieter beach, a proper kitchen and a wine bar, closer to the pier than anywhere south.',
+    admName:'Buccanos day pass',admAdult:55,admVerified:false},
+  'paradise-beach':{name:'Paradise Beach',short:'Paradise Beach',type:'Beach Club',drive:'15 min',
+    dist:'7 miles south of the pier',img:IMG+'dest-paradise-beach-hero.jpg',
+    blurb:'The family one — inflatable water park in the sea, big pool, easy sandy entry, and a Fun Pass that covers the water toys.',
+    admName:'Paradise Beach Fun Pass',admAdult:18,admVerified:true},
+  'mr-sanchos':{name:'Mr. Sanchos Beach Club',short:'Mr. Sanchos',type:'Beach Club',drive:'15–20 min',
+    dist:'7 miles south of the pier',img:IMG+'dest-mr-sanchos-hero.jpg',
+    blurb:'One of Cozumel’s best-known all-inclusive beach clubs — unlimited food and drinks, beach chairs, pool, kayaks and snorkel gear on a calm stretch of the southwest coast.',
+    admName:'Mr. Sanchos all-inclusive day pass',admAdult:65,admVerified:false},
+  'nachi-cocom':{name:'Nachi Cocom Beach Club',short:'Nachi Cocom',type:'Beach Club',drive:'20–25 min',
+    dist:'9 miles south of the pier',img:IMG+'dest-nachi-cocom-hero.jpg',
+    blurb:'A deliberately quiet, limited-capacity beach club — they cap the number of guests each day, so there is always a chair and never a crowd.',
+    admName:'Nachi Cocom day pass',admAdult:75,admVerified:false}
 };
 
 /* Guest-facing vehicle names — nobody has to learn the words "XL Van" or "Coach". */
@@ -1087,6 +1100,58 @@ function paintPay(){
   $('pAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('pAdmLbl').textContent = d.admName + ' × ' + S.pax; $('pAdm').textContent = money(admTotal());
   $('pAll').textContent = money(grand()); $('payBtnAmt').textContent = money(grand());
+}
+
+/* ── calendar file ──
+   Real and works today: a client-side .ics with no backend. Two events (pickup and
+   return) so the return shows up as its own alarm — that's the one they must not miss.
+   Times are written as floating local times, which is correct: the guest's phone will
+   be on Cozumel time when it fires. */
+function icsStamp(dateStr, hour){
+  const d = new Date(dateStr + 'T00:00:00');
+  const p = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(hour)}0000`;
+}
+function downloadICS(){
+  const d = DEST[S.dest], v = vehFor(S.pax), ref = $('doneRef').textContent;
+  const day = $('dateIn').value, start = +S.pick, end = start + S.dur;
+  const esc = s => String(s).replace(/([,;\\])/g,'\\$1').replace(/\n/g,'\\n');
+  const loc = 'Cozumel cruise terminal — our meeting point, just outside';
+  const notes = `Booking ${ref}. Look for a sign reading ${(S.name||'YOUR NAME').toUpperCase()}. `
+    + `${v.name} to ${d.short}. Paid in full — nothing to pay the driver. `
+    + `Call or text +52 987 114 6853 (works without WhatsApp or data).`;
+  const ev = (uid, summary, h, place, alarmMins) => [
+    'BEGIN:VEVENT', `UID:${ref}-${uid}@cozumelislandtransfers.com`,
+    `DTSTAMP:${icsStamp(day, 12)}Z`,
+    `DTSTART:${icsStamp(day, h)}`, `DTEND:${icsStamp(day, h+1)}`,
+    `SUMMARY:${esc(summary)}`, `LOCATION:${esc(place)}`, `DESCRIPTION:${esc(notes)}`,
+    'BEGIN:VALARM', `TRIGGER:-PT${alarmMins}M`, 'ACTION:DISPLAY',
+    `DESCRIPTION:${esc(summary)}`, 'END:VALARM', 'END:VEVENT'
+  ].join('\r\n');
+
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0',
+    'PRODID:-//Cozumel Island Transfers//Transfer//EN','CALSCALE:GREGORIAN',
+    ev('pickup', `Transfer to ${d.short} — look for your name on a sign`, start, loc, 30),
+    ev('return', `Your driver comes back for you at ${d.short}`, end,
+       `${d.name}, Cozumel — same spot you were dropped off`, 30),
+    'END:VCALENDAR'].join('\r\n');
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'}));
+  a.download = `${ref}-cozumel-transfer.ics`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* Wallet passes are real but can't be signed from a static page — see the plan. */
+function walletNote(){
+  alert("Prototype only.\n\nApple Wallet and Google Wallet passes have to be cryptographically "
+    + "signed on a server, so this button can't work from a static page.\n\nWhat it needs:\n"
+    + "• Apple — Developer Program membership ($99/yr) + a Pass Type ID certificate\n"
+    + "• Google — a Google Cloud project and a Wallet issuer account (free)\n"
+    + "• A Netlify Function to sign each pass at booking time\n\n"
+    + "The 'Add to calendar' button below works right now and gives you most of the same "
+    + "benefit: it lands on the phone with an alarm and works offline.");
 }
 
 /* ── the printable voucher ──
