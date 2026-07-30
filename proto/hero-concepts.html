@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CIT — Five hero concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E0E10; --navy:#0F2C44; --mute:#6E6E73; --mute-2:#8C9AAB;
+  --line:#E5E5E7; --surface:#F4F8FA; --accent:#1D7AFC; --accent-2:#0F62D6;
+  --green:#1F7A3F; --shadow:0 1px 2px rgba(14,14,16,.04), 0 8px 24px rgba(14,14,16,.06);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body{margin:0;background:#DCE5ED;color:var(--ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.5}
+.page{max-width:560px;margin:0 auto;padding:0 0 60px}
+
+.topnote{background:#12212F;color:#fff;padding:18px 20px}
+.topnote h1{margin:0 0 6px;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.topnote p{margin:0;font-size:13px;color:#B7C9D8}
+
+/* concept frame */
+.cx{margin:22px 14px 0;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px -18px rgba(0,0,0,.5)}
+.cx-label{display:flex;align-items:baseline;gap:9px;padding:14px 16px 11px;flex-wrap:wrap}
+.cx-n{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+  background:#E8F0FB;padding:3px 8px;border-radius:5px}
+.cx-t{font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+.cx-s{flex:1 1 100%;font-size:12.5px;color:var(--mute);margin-top:-2px}
+.cx-body{border-top:1px solid var(--line)}
+.cx-why{padding:12px 16px 15px;font-size:12.5px;color:#45607C;background:var(--surface);
+  border-top:1px solid var(--line)}
+.cx-why b{color:var(--navy)}
+.cx-why .risk{color:#8A5A00}
+
+/* shared hero bits */
+.kick{font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.btn{display:block;width:100%;border:none;border-radius:13px;padding:16px 18px;font-size:16px;
+  font-weight:800;cursor:pointer;text-align:center;letter-spacing:-.01em;min-height:54px}
+.btn-blue{background:var(--accent);color:#fff}
+.link{display:inline-flex;align-items:center;min-height:44px;font-size:13.5px;font-weight:700;
+  text-decoration:underline}
+
+/* ── 0 · today ── */
+.h0{background:linear-gradient(160deg,#0F2C44,#17527A);padding:22px 20px}
+.h0 .kick{color:#9FCDF3}
+.h0 h2{color:#fff;font-size:29px;line-height:1.1;margin:9px 0 10px;font-weight:800;letter-spacing:-.03em}
+.h0 p{margin:0 0 16px;color:#D7E7F4;font-size:14.5px}
+.h0 .pr b{display:block;color:#fff;font-size:20px;font-weight:800}
+.h0 .pr span{display:block;color:#BFD8EC;font-size:13px;margin:2px 0 18px}
+.h0 .pr em{color:#8FE3AE;font-style:normal;font-weight:800}
+.h0 .link{color:#BFE0FF;margin-top:4px}
+
+/* ── 1 · trim ── */
+.h1x{background:linear-gradient(160deg,#0F2C44,#17527A);padding:26px 20px 24px}
+.h1x .kick{color:#9FCDF3}
+.h1x h2{color:#fff;font-size:30px;line-height:1.08;margin:12px 0 12px;font-weight:800;letter-spacing:-.03em}
+.h1x p{margin:0 0 20px;color:#D7E7F4;font-size:15px}
+.h1x .pr{color:#fff;font-size:15px;font-weight:700;margin-bottom:18px}
+.h1x .pr em{color:#8FE3AE;font-style:normal}
+
+/* ── 2 · apple ── */
+.h2x{background:#F5F5F7;padding:46px 24px 40px;text-align:center}
+.h2x .kick{color:var(--mute);letter-spacing:.1em}
+.h2x h2{font-size:40px;line-height:1.03;margin:14px 0 16px;font-weight:800;letter-spacing:-.045em;color:#1D1D1F}
+.h2x p{margin:0 auto 26px;font-size:16px;color:#6E6E73;max-width:18em}
+.h2x .pr{font-size:14px;color:#1D1D1F;margin-bottom:26px}
+.h2x .pr b{font-weight:700}
+.h2x .cta{display:inline-block;background:var(--accent);color:#fff;border-radius:980px;
+  padding:13px 26px;font-size:15px;font-weight:600;min-height:48px;border:none;cursor:pointer}
+.h2x .alt{display:block;margin-top:18px;color:var(--accent);font-size:14.5px;min-height:44px}
+
+/* ── 3 · the sign ── */
+.h3x{background:radial-gradient(120% 90% at 50% 0%,#173D5C 0%,#0B1E2E 70%);padding:30px 20px 26px;
+  text-align:center}
+.h3x .kick{color:#8FB9DC}
+.signcard{margin:20px auto 22px;max-width:290px;background:#fff;border-radius:10px;padding:22px 18px;
+  transform:rotate(-1.6deg);box-shadow:0 22px 40px -16px rgba(0,0,0,.65)}
+.signcard .sl{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:#8C9AAB}
+.signcard .sn{font-size:27px;font-weight:900;letter-spacing:-.02em;color:#0F2C44;margin:7px 0 9px;
+  line-height:1.05}
+.signcard .sb{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#1D7AFC;font-weight:800;
+  border-top:1px solid #E5E5E7;padding-top:9px}
+.h3x h2{color:#fff;font-size:27px;line-height:1.12;margin:0 0 10px;font-weight:800;letter-spacing:-.03em}
+.h3x p{margin:0 auto 20px;color:#C7DCEC;font-size:14px;max-width:22em}
+
+/* ── 4 · tesla ── */
+.h4x{position:relative;min-height:460px;display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;background:#0B1E2E}
+.h4x img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.h4x::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(4,16,26,.42) 0%,rgba(4,16,26,.06) 34%,rgba(4,16,26,.86) 100%)}
+.h4x .t4{position:relative;z-index:2;padding:22px 20px 22px;color:#fff}
+.h4x .kick{color:rgba(255,255,255,.85)}
+.h4x h2{font-size:31px;line-height:1.05;margin:8px 0 6px;font-weight:800;letter-spacing:-.035em}
+.h4x .sub{font-size:14px;color:rgba(255,255,255,.88);margin-bottom:18px}
+.cfg{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.97);border-radius:14px;
+  padding:10px 12px;box-shadow:0 14px 34px -12px rgba(0,0,0,.6)}
+.cfg .lbl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mute-2)}
+.cfg .val{font-size:20px;font-weight:800;color:var(--navy);line-height:1}
+.cfg .stp{display:flex;gap:6px;margin-left:auto}
+.cfg button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:#fff;
+  font-size:21px;font-weight:700;color:var(--navy);cursor:pointer;line-height:1}
+.cfg .go{width:auto;padding:0 18px;border:none;background:var(--accent);color:#fff;font-size:15px;
+  font-weight:800;border-radius:12px}
+.h4x .pr4{position:relative;z-index:2;padding:0 20px 20px;color:rgba(255,255,255,.9);font-size:13px}
+.h4x .pr4 b{color:#8FE3AE}
+
+/* ── 5 · boarding pass ── */
+.h5x{background:#0B0F14;padding:24px 16px 26px}
+.h5x .kick{color:#5FD08A;font-family:"JetBrains Mono",monospace;letter-spacing:.14em}
+.pass{margin-top:14px;background:#111820;border:1px solid #22303C;border-radius:14px;overflow:hidden;
+  font-family:"JetBrains Mono",monospace;color:#DCE7F0}
+.pass .pt{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;
+  border-bottom:1px dashed #2A3B49;font-size:10px;letter-spacing:.14em;color:#7D93A6}
+.pass .rt{display:flex;align-items:center;gap:12px;padding:16px 15px 12px}
+.pass .rt .p1,.pass .rt .p2{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.pass .rt .ar{color:#5FD08A;font-size:17px}
+.pass .gr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#22303C;
+  border-top:1px dashed #2A3B49}
+.pass .gc{background:#111820;padding:11px 15px}
+.pass .gc .k{font-size:8.5px;letter-spacing:.14em;color:#7D93A6}
+.pass .gc .v{font-size:15px;font-weight:700;color:#fff;margin-top:3px}
+.pass .gc .v.g{color:#5FD08A}
+.pass .bar{display:flex;gap:2px;padding:13px 15px 14px;border-top:1px dashed #2A3B49;align-items:flex-end}
+.pass .bar i{display:block;width:2px;background:#DCE7F0;height:26px}
+.h5x h2{color:#fff;font-size:22px;line-height:1.16;margin:20px 0 8px;font-weight:800;letter-spacing:-.02em}
+.h5x p{margin:0 0 18px;color:#93A9BA;font-size:13.5px}
+.h5x .btn-blue{background:#5FD08A;color:#06131C}
+
+.pass .gc .k{white-space:nowrap}
+@media (max-width:379px){.h2x h2{font-size:34px}.pass .gc{padding:11px 10px}.pass .gc .v{font-size:14px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="topnote">
+  <h1>Five hero concepts</h1>
+  <p>Conservative at the top, wildest at the bottom. All five drop the logo line and use
+     “Cozumel cruise port transportation”. Scroll and pick one — or tell me which two to cross.</p>
+</div>
+
+<!-- ═══ 0 · TODAY ═══ -->
+<div class="cx">
+  <div class="cx-label"><span class="cx-n">0</span><span class="cx-t">What's live today</span>
+    <span class="cx-s">For comparison — this is the one you said feels crowded.</span></div>
+  <div class="cx-body">
+    <div class="h0">
+      <div class="kick">Cozumel cruise port transportation · since 2015</div>
+      <h2>Your own private driver.</h2>
+      <p>We meet your ship with a sign, take you where you want to go, and come back at the time
+         you chose.</p>
+      <div class="pr"><b>$369 flat, all-in</b>
+        <span>round-trip for the whole van · <em>$46 each</em> with 8 of you · card only, never cash</span></div>
+      <button class="btn btn-blue">See destinations &amp; prices →</button>
+      <a class="link" href="#" onclick="return false">Questions? Message us on WhatsApp</a>
+    </div>
+  </div>
+  <div class="cx-why"><b>36 words.</b> Everything is true and nothing is wasted — but there are six
+    things asking for attention before she sees a single beach.</div>
+</div>
+
+<!-- ═══ 1 · TRIM ═══ -->
+<div class="cx">
+  <div class="cx-label"><span class="cx-n">1</span><span class="cx-t">Trim</span>
+    <span class="cx-s">Same hero, 40% fewer words. The safe move.</span></div>
+  <div class="cx-body">
+    <div class="h1x">
+      <div class="kick">Cozumel cruise port transportation</div>
+      <h2>Your own private driver.</h2>
+      <p>We meet your ship with a sign and bring you back at your time.</p>
+      <div class="pr">$369 the whole van · <em>$46 each with 8</em></div>
+      <button class="btn btn-blue">See destinations &amp; prices →</button>
+    </div>
+  </div>
+  <div class="cx-why"><b>21 words.</b> Cuts the sub-line in half and drops the WhatsApp link to
+    further down the page. Nothing to relearn, nothing to risk.
+    <span class="risk">Risk: still looks like every other transfer site.</span></div>
+</div>
+
+<!-- ═══ 2 · APPLE ═══ -->
+<div class="cx">
+  <div class="cx-label"><span class="cx-n">2</span><span class="cx-t">Apple</span>
+    <span class="cx-s">Light, enormous type, almost nothing on screen.</span></div>
+  <div class="cx-body">
+    <div class="h2x">
+      <div class="kick">Cozumel cruise port transportation</div>
+      <h2>Your driver is<br>already waiting.</h2>
+      <p>Booked before you sail. Holding a sign with your name.</p>
+      <div class="pr"><b>From $369</b> the whole van — about $46 each.</div>
+      <button class="cta">Choose your destination</button>
+      <a class="alt" href="#" onclick="return false">See how it works ›</a>
+    </div>
+  </div>
+  <div class="cx-why"><b>18 words.</b> Restraint <i>is</i> the message — a page this calm reads as a
+    company that isn't worried. The light background is also the most legible option for older eyes.
+    <span class="risk">Risk: it's a bigger departure from your navy, and it wants excellent
+    photography right below the fold to carry it.</span></div>
+</div>
+
+<!-- ═══ 3 · THE SIGN ═══ -->
+<div class="cx">
+  <div class="cx-label"><span class="cx-n">3</span><span class="cx-t">The Sign</span>
+    <span class="cx-s">The hero IS the product. My pick.</span></div>
+  <div class="cx-body">
+    <div class="h3x">
+      <div class="kick">Cozumel cruise port transportation</div>
+      <div class="signcard">
+        <div class="sl">Waiting for</div>
+        <div class="sn">MARGARET<br>JOHNSON</div>
+        <div class="sb">Cozumel Island Transfers</div>
+      </div>
+      <h2>Look for this at the pier.</h2>
+      <p>Your name, in our rep's hands, a few steps outside the terminal. $369 the whole van —
+         about $46 each.</p>
+      <button class="btn btn-blue">See destinations &amp; prices →</button>
+    </div>
+  </div>
+  <div class="cx-why"><b>14 words.</b> Her deepest fear is stepping off a ship in a foreign country
+    and not knowing who to trust. This answers it with a picture instead of a promise — before she has
+    read a word. It's also the only concept here that <b>no competitor can copy without copying you</b>.
+    <span class="risk">Risk: no beach on screen. Pair it with the destination grid immediately below.</span></div>
+</div>
+
+<!-- ═══ 4 · TESLA ═══ -->
+<div class="cx">
+  <div class="cx-label"><span class="cx-n">4</span><span class="cx-t">Tesla configurator</span>
+    <span class="cx-s">Full-bleed photo. The hero is step one of the booking.</span></div>
+  <div class="cx-body">
+    <div class="h4x">
+      <img src="https://cozu.netlify.app/assets/dest-mr-sanchos-hero.jpg" alt="">
+      <div class="t4">
+        <div class="kick">Cozumel cruise port transportation</div>
+        <h2>Pick a beach.<br>We'll do the rest.</h2>
+        <div class="sub">Private van, your times, back at the pier when you say.</div>
+        <div class="cfg">
+          <div><div class="lbl">How many?</div><div class="val" id="cfgN">2</div></div>
+          <div class="stp">
+            <button onclick="bump(-1)">−</button>
+            <button onclick="bump(1)">+</button>
+            <button class="go">Go →</button>
+          </div>
+        </div>
+      </div>
+      <div class="pr4">$369 the whole van · <b>$46 each with 8</b> · card only</div>
+    </div>
+  </div>
+  <div class="cx-why"><b>12 words.</b> Sells the day, not the vehicle — and it removes a whole screen
+    from the funnel, because she's answered question one before she's scrolled.
+    <span class="risk">Risk: a control in the hero can read as "work" to someone who wanted to
+    browse first.</span></div>
+</div>
+
+<!-- ═══ 5 · BOARDING PASS ═══ -->
+<div class="cx">
+  <div class="cx-label"><span class="cx-n">5</span><span class="cx-t">Boarding pass</span>
+    <span class="cx-s">The wild one. Travel-native, almost no prose.</span></div>
+  <div class="cx-body">
+    <div class="h5x">
+      <div class="kick">COZUMEL CRUISE PORT TRANSPORTATION</div>
+      <div class="pass">
+        <div class="pt"><span>PRIVATE TRANSFER</span><span>CIT · SINCE 2015</span></div>
+        <div class="rt"><span class="p1">PIER</span><span class="ar">→</span><span class="p2">BEACH</span></div>
+        <div class="gr">
+          <div class="gc"><div class="k">PICKUP</div><div class="v">09:00</div></div>
+          <div class="gc"><div class="k">BACK</div><div class="v">14:20</div></div>
+          <div class="gc"><div class="k">PER PERSON</div><div class="v g">$46</div></div>
+        </div>
+        <div class="bar" id="bars"></div>
+      </div>
+      <h2>Your ride is already booked. You just haven't picked the beach yet.</h2>
+      <p>Private van · 1–40 people · one flat price anywhere on the island</p>
+      <button class="btn btn-blue">Pick your beach →</button>
+    </div>
+  </div>
+  <div class="cx-why"><b>10 words above the button.</b> Speaks the language she's already in — she has
+    a boarding card in her bag right now. Extremely legible, and the most memorable of the five.
+    <span class="risk">Risk: the most likely to read as "an app" rather than "a careful local company"
+    — which is the exact opposite of what a nervous 68-year-old wants.</span></div>
+</div>
+
+</div>
+<script>
+  // concept 4 — the configurator counter
+  let n = 2;
+  function bump(d){ n = Math.min(40, Math.max(1, n + d)); document.getElementById('cfgN').textContent = n; }
+  // concept 5 — barcode
+  document.getElementById('bars').innerHTML =
+    Array.from({length: 46}, (_, i) =>
+      `<i style="width:${(i * 7) % 3 + 1}px;height:${18 + ((i * 13) % 12)}px"></i>`).join('');
+</script>
+</body>
+</html>

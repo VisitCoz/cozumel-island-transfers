@@ -317,6 +317,35 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 footer{padding:22px 20px 40px;text-align:center;color:var(--mute);font-size:11.5px;border-top:1px solid var(--line);
   margin-top:20px}
 footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
+
+/* full footer */
+footer{text-align:left;background:var(--surface);padding:24px 18px 42px;font-size:12.5px;line-height:1.55}
+.ft-lead{font-size:14px;color:#33404F;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.ft-lead b{color:var(--navy)}
+.ft-cols{display:flex;gap:20px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--line)}
+.ft-col{flex:1 1 46%;min-width:150px;min-width:0}
+.ft-col a{overflow-wrap:anywhere}
+.ft-mail{font-size:12px}
+.ft-h{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--mute-2);
+  margin-bottom:9px}
+.ft-col a{display:flex;align-items:center;color:var(--navy);text-decoration:none;min-height:44px}
+.ft-col a:hover{color:var(--accent)}
+.ft-col .ft-big{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.ft-note{color:var(--mute);margin-top:6px;font-size:11.5px}
+/* two columns so eight 44px links don't make the footer a mile long */
+.ft-links{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.ft-links a{font-size:12px;white-space:nowrap;line-height:1.2}
+.ft-pay{padding:16px 0;border-bottom:1px solid var(--line);color:var(--mute)}
+.ft-pay b{color:var(--navy)}
+.ft-cards{display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap}
+.ft-cards span{border:1px solid var(--line);background:#fff;border-radius:5px;padding:4px 8px;
+  font-size:9px;font-weight:800;letter-spacing:.06em;color:#55606B}
+.ft-policy{display:flex;flex-wrap:wrap;gap:8px 18px;padding:16px 0;border-bottom:1px solid var(--line)}
+.ft-policy a{color:var(--accent);font-weight:700;text-decoration:none;
+  display:inline-flex;align-items:center;min-height:44px}
+.ft-legal{padding-top:16px;font-size:11.5px;color:var(--mute);line-height:1.7}
+.ft-legal b{color:var(--navy)}
+.ft-todo{background:#FFF3D6;color:#8A5A00;font-weight:700;padding:1px 6px;border-radius:4px}
 .screen{display:none}
 .screen.on{display:block;animation:fade .18s ease}
 @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
@@ -333,8 +362,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
 <section class="screen on" id="s-hub">
   <div class="home-hero">
     <div class="hh-text">
-      <div class="hh-logo">cozumel<span>·</span>transfers</div>
-      <div class="kick">Cozumel cruise port · since 2015</div>
+      <div class="kick">Cozumel cruise port transportation · since 2015</div>
       <h1>Your own private driver.</h1>
       <p>We meet your ship with a sign, take you where you want to go, and come back
          at the time you chose.</p>
@@ -397,7 +425,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   <div class="sechead">What guests say</div>
   <p class="blurb" style="padding-top:0">🏆 Travelers' Choice on TripAdvisor. <b>4.8★ from 35
      verified reviews</b> · since 2015.
-     <a href="https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
+     <a href="https://www.tripadvisor.es/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
         target="_blank" rel="noopener"
         style="color:var(--accent);font-weight:700;display:inline-block;padding:11px 0">Read all 35 on
         TripAdvisor →</a></p>
@@ -449,9 +477,45 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
   </div>
 
   <footer>
-    <div class="fb">COZUMEL ISLAND TRANSFERS</div>
-    San Miguel de Cozumel, Quintana Roo, México · +52 987 114 6853<br>
-    Licensed private ground-transfer operator · since 2015
+    <div class="ft-lead">
+      A local company in Cozumel since 2015. <b>If anything goes wrong, this number reaches a
+      person.</b>
+    </div>
+
+    <div class="ft-cols">
+      <div class="ft-col">
+        <div class="ft-h">Reach us</div>
+        <a class="ft-big" href="tel:+529871146853">+52 987 114 6853</a>
+        <a class="ft-mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
+        <div class="ft-note">Office 6 AM – 10 PM Cozumel time (UTC−5)</div>
+      </div>
+      <div class="ft-col">
+        <div class="ft-h">Where we go</div>
+        <div class="ft-links" id="ftDest"></div>
+      </div>
+    </div>
+
+    <div class="ft-pay">
+      <div class="ft-cards"><span>VISA</span><span>MASTERCARD</span><span>AMEX</span></div>
+      <div>Payments processed by <b>Stripe</b>. We never see your card number.
+        All prices in <b>US dollars</b>.</div>
+    </div>
+
+    <div class="ft-policy">
+      <a href="#" onclick="return false">Cancellation policy</a>
+      <a href="#" onclick="return false">Terms of use</a>
+      <a href="#" onclick="return false">Privacy policy</a>
+      <a href="https://www.tripadvisor.es/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
+         target="_blank" rel="noopener">4.8★ on TripAdvisor</a>
+    </div>
+
+    <div class="ft-legal">
+      <b>Cozumel Island Transfers, S. de R.L. de C.V.</b><br>
+      Persona Moral · Régimen General 601 · San Miguel de Cozumel, Quintana Roo, México<br>
+      Licensed private ground-transfer operator ·
+      <span class="ft-todo">permit no. [pending — Mike to supply]</span><br>
+      © 2015–2026 Cozumel Island Transfers
+    </div>
   </footer>
 </section>
 
@@ -887,8 +951,24 @@ const FAQ = [
   ["Should I tip the driver?",
    "Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way."]
 ];
-$('faqList').innerHTML = FAQ.map(([q,a]) => `
-  <details class="faq"><summary>${q}<span class="fa">+</span></summary><p>${a}</p></details>`).join('');
+/* Show the five that actually block a booking; the rest open in place on one tap.
+   Deliberately NOT grouped into sub-accordions — a second level of tapping and a guess
+   about which bucket their question lives in is where this persona gives up. */
+const FAQ_LEAD = ['What do you guarantee?', 'Will the ship wait for me?', 'What if I need to cancel?',
+                  'How do I pay?', 'What happens on the day?'];
+const faqRow = ([q,a]) =>
+  `<details class="faq"><summary>${q}<span class="fa">+</span></summary><p>${a}</p></details>`;
+const lead = FAQ_LEAD.map(t => FAQ.find(([q]) => q === t)).filter(Boolean);
+const rest = FAQ.filter(([q]) => !FAQ_LEAD.includes(q));
+$('faqList').innerHTML = lead.map(faqRow).join('')
+  + `<div id="faqRest" hidden>${rest.map(faqRow).join('')}</div>`
+  + `<div class="cta-wrap" style="padding:14px 18px 4px">
+       <button class="btn btn-ghost" style="margin-top:0" id="faqMore" onclick="showAllFaq()">
+         See all ${FAQ.length} questions</button></div>`;
+function showAllFaq(){
+  $('faqRest').hidden = false;
+  $('faqMore').closest('.cta-wrap').remove();
+}
 
 /* Placeholder tiles double as Angel's shot list — each caption is the photo we need. */
 const GUEST_SHOTS = [
@@ -911,6 +991,9 @@ $('priceList').innerHTML = VEH.map(v => `
       ${v.max===14?'<span class="tag">Most booked</span>':''}</div>
     <div class="pv">$${v.price}<span class="ppp">$${Math.round(v.price/v.max)} each with ${v.max}</span></div>
   </div>`).join('');
+
+$('ftDest').innerHTML = Object.keys(DEST)
+  .map(k => `<a href="#" onclick="openDest('${k}');return false">${DEST[k].short}</a>`).join('');
 
 $('hubGrid').innerHTML = Object.keys(DEST).map(k => `
   <button class="poster" onclick="openDest('${k}')">
