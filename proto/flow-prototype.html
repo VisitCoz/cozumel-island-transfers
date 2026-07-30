@@ -79,15 +79,33 @@ button{font-family:inherit}
   text-shadow:0 1px 12px rgba(4,16,26,.6)}
 .hh-price .hh-pp{color:#8FE3AE;font-weight:800}
 
-.trustrow{flex-wrap:wrap;overflow:visible}
+.trustrow{flex-wrap:wrap;overflow:visible;padding:10px 14px;gap:6px}
 .tchip{font-size:12.5px}
 
 .shipsbar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#0F2C44;color:#CFE4F5;
   font-size:12.5px}
 .shipsbar b{color:#fff}
-.linewall{padding:16px 18px 4px;text-align:center;border-bottom:1px solid var(--line-soft)}
-.linewall .lw-t{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute-2)}
-.linewall p{margin:6px 0 14px;font-size:12.5px;color:var(--mute);line-height:1.5}
+/* scrolling brand strip — sits on the hero's own navy so it reads as the base of the
+   hero, not a fourth band. Two identical tracks translated -50% means the loop never
+   shows a seam. Names set in type, deliberately not logos: a logo row is the grammar of
+   partnership, and these lines' guests are our customers, not the lines themselves. */
+.marquee{background:#0F2C44;padding:8px 0 11px;overflow:hidden}
+.mq-t{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.42);text-align:center;margin-bottom:7px}
+.mq-win{overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mq 34s linear infinite}
+.mq-win:hover .mq-track,.mq-win:focus-within .mq-track{animation-play-state:paused}
+.mq-set{display:flex;flex:0 0 auto}
+.mq-set span{padding:0 20px;font-size:14.5px;font-weight:700;letter-spacing:.02em;
+  color:rgba(255,255,255,.62);white-space:nowrap}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .mq-track{animation:none}
+  .mq-win{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scrollbar-width:none}
+  .mq-win::-webkit-scrollbar{display:none}
+}
 
 /* pricing list */
 .pricelist{margin:6px 18px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -397,6 +415,16 @@ footer p{margin:0;max-width:34em}
     </div>
   </div>
 
+  <div class="marquee" aria-label="Guests we've picked up from Carnival, Royal Caribbean, Norwegian, Celebrity, MSC, Disney, Princess, Holland America, TUI Cruises, Virgin Voyages">
+    <div class="mq-t">Guests we've picked up from</div>
+    <div class="mq-win">
+      <div class="mq-track">
+        <div class="mq-set" aria-hidden="false"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+        <div class="mq-set" aria-hidden="true"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="trustrow">
     <div class="tchip">🏆 <b>4.8★</b> TripAdvisor · since <b>2015</b></div>
     <div class="tchip">Card only — <b>never cash</b></div>
@@ -492,12 +520,6 @@ footer p{margin:0;max-width:34em}
   <!-- FAQ -->
   <div class="sechead">The things people always ask</div>
   <div id="faqList"></div>
-
-  <div class="linewall">
-    <div class="lw-t">Guests we've picked up from</div>
-    <p>Carnival · Royal Caribbean · Norwegian · Celebrity · MSC · Disney · Princess ·
-       Holland America · TUI Cruises</p>
-  </div>
 
   <footer>
     <div class="ft-g">
@@ -1235,7 +1257,7 @@ function downloadICS(){
   const loc = 'Cozumel cruise terminal — our meeting point, just outside';
   const notes = `Booking ${ref}. Look for a sign reading ${(S.name||'YOUR NAME').toUpperCase()}. `
     + `${v.name} to ${d.short}. Paid in full — nothing to pay the driver. `
-    + `Call or text +52 987 114 6853 (works without WhatsApp or data).`;
+    + `Message us on WhatsApp: wa.me/${WA_NUMBER} (+52 987 114 6853). We answer in English.`;
   const ev = (uid, summary, h, place, alarmMins) => [
     'BEGIN:VEVENT', `UID:${ref}-${uid}@cozumelislandtransfers.com`,
     `DTSTAMP:${icsStamp(day, 12)}Z`,
@@ -1288,7 +1310,8 @@ function openVoucher(){
   .call{margin-top:16px;border:2px solid #0F2C44;border-radius:9px;padding:14px 16px;text-align:center}
   .call .l{font-size:11px;color:#6E6E73}
   .call .p{font-size:23px;font-weight:800;letter-spacing:-.01em}
-  .call .n{font-size:11.5px;color:#6E6E73;margin-top:3px}
+  .call .w{font-size:14px;font-weight:700;color:#1F7A3F;margin-top:2px}
+  .call .n{font-size:11.5px;color:#6E6E73;margin-top:6px}
   .es{margin-top:18px;border:1px solid #E5E5E7;border-radius:9px;padding:14px 16px;background:#FAFBFC}
   .es .t{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6E6E73;margin-bottom:8px}
   .es p{margin:7px 0;font-size:14px}
@@ -1323,9 +1346,10 @@ function openVoucher(){
       once the port publishes the schedule for your date.</p>
 
     <h2>If anything goes wrong</h2>
-    <div class="call"><div class="l">Call or text — a person answers in English</div>
+    <div class="call"><div class="l">Message us on WhatsApp — we answer in English</div>
       <div class="p">+52 987 114 6853</div>
-      <div class="n">Works as a normal phone call. You do not need WhatsApp or mobile data.</div></div>
+      <div class="w">wa.me/${WA_NUMBER}</div>
+      <div class="n">No WhatsApp or no signal? The same number takes a normal phone call.</div></div>
 
     <h2>Point at these if you need to tell your driver something</h2>
     <div class="es"><div class="t">Español</div>
