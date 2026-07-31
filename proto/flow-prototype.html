@@ -64,10 +64,20 @@ button{font-family:inherit}
 .home-hero p{margin:0 0 18px;color:rgba(255,255,255,.92);font-size:14.5px;max-width:26em;
   text-shadow:0 1px 14px rgba(4,16,26,.55)}
 
-/* the configurator */
-.cfg{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.97);border-radius:14px;
-  padding:10px 11px;box-shadow:0 16px 38px -14px rgba(0,0,0,.65)}
-.cfg-k{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mute-2)}
+/* the configurator — two rows: where, then how many. A native <select> on purpose:
+   on iPhone it opens the full-screen wheel picker, the largest and easiest control iOS
+   has, and this buyer is 60+. Custom chips would look sharper and be worse to use. */
+.cfg{background:rgba(255,255,255,.97);border-radius:14px;
+  padding:8px 11px 9px;box-shadow:0 16px 38px -14px rgba(0,0,0,.65)}
+.cfg-row{display:flex;align-items:center;gap:10px}
+.cfg-row + .cfg-row{margin-top:7px;padding-top:8px;border-top:1px solid var(--line)}
+.cfg-k{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mute-2);white-space:nowrap}
+.cfg-row select{flex:1;min-width:0;min-height:44px;border:none;background:transparent;
+  font-family:inherit;font-size:16px;font-weight:700;color:var(--navy);letter-spacing:-.01em;
+  padding:0 22px 0 0;-webkit-appearance:none;appearance:none;text-align:right;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F2C44' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right center;background-size:17px}
 .cfg-v{font-size:21px;font-weight:800;color:var(--navy);line-height:1.05}
 .cfg-s{display:flex;gap:7px;margin-left:auto}
 .cfg-s button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;
@@ -404,11 +414,17 @@ footer p{margin:0;max-width:34em}
       <h1>Pick a beach.<br>We'll do the rest.</h1>
       <p>Private van, your times, back at the pier when you say.</p>
       <div class="cfg">
-        <div class="cfg-l"><div class="cfg-k">How many?</div><div class="cfg-v" id="cfgN">2</div></div>
-        <div class="cfg-s">
-          <button onclick="heroPax(-1)" aria-label="One fewer">−</button>
-          <button onclick="heroPax(1)" aria-label="One more">+</button>
-          <button class="cfg-go" onclick="heroGo()">Go →</button>
+        <div class="cfg-row">
+          <label class="cfg-k" for="heroDest">Where to?</label>
+          <select id="heroDest" onchange="paintHero()"></select>
+        </div>
+        <div class="cfg-row">
+          <div class="cfg-k">How many?</div><div class="cfg-v" id="cfgN">2</div>
+          <div class="cfg-s">
+            <button onclick="heroPax(-1)" aria-label="One fewer">−</button>
+            <button onclick="heroPax(1)" aria-label="One more">+</button>
+            <button class="cfg-go" onclick="heroGo()">Go →</button>
+          </div>
         </div>
       </div>
       <div class="hh-price" id="heroPrice"></div>
@@ -944,11 +960,11 @@ function go(id){
 function restart(){
   // date defaults to the earliest bookable day, matching what the date input shows
   S = {dest:null,pax:2,adm:false,ship:null,notCruise:false,date:pretty(md),
-       pick:'',dur:null,durMode:null,name:''};
+       pick:'',dur:5,durMode:'5',name:''};  // 5h is the safe default; keep it after a restart too
   $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
   $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
   $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
-  paintHero();
+  $('heroDest').value=''; paintHero();
   go('hub');
 }
 
@@ -978,16 +994,31 @@ function scrollTo_(id){ $(id).scrollIntoView({behavior:'smooth', block:'start'})
 /* The hero configurator answers step 1 before she has scrolled, so the wizard
    opens on her ship instead of asking the head count again. */
 function heroPax(d){ S.pax = Math.min(40, Math.max(1, S.pax + d)); paintHero(); }
-function heroGo(){ scrollTo_('homeDest'); }
+
+/* Go is the point of the card. Name a beach and it takes you there with the head
+   count already carried; name nothing and it falls back to what it did before —
+   scrolling to the photo grid, which is still the door for anyone still deciding. */
+function heroGo(){
+  const v = $('heroDest').value;
+  if (v === 'other') return wa("I'd like to go somewhere that isn't on your list.");
+  if (v) return openDest(v);
+  scrollTo_('homeDest');
+}
+$('heroDest').innerHTML = '<option value="">Pick a beach…</option>'
+  + Object.keys(DEST).map(k => `<option value="${k}">${DEST[k].short}</option>`).join('')
+  + '<option value="other">Somewhere else — tell us</option>';
+
 function paintHero(){
   const v = vehFor(S.pax), noun = v.max <= 8 ? 'van' : 'vehicle';
+  const sel = $('heroDest').value;
+  const named = sel && sel !== 'other' ? DEST[sel].short : null;
   $('cfgN').textContent = S.pax;
   // Below four the per-head figure flatters nobody ($185 each for two), and the real
   // selling point at that size is that the price doesn't move. Say that instead.
-  $('heroPrice').innerHTML = S.pax < 4
-    ? `$${v.price} the whole ${noun} · <span class="hh-pp">same price up to ${v.max}</span> · card only`
-    : `$${v.price} the whole ${noun} · <span class="hh-pp">$${Math.round(v.price / S.pax)} each</span>
-       for ${S.pax} · card only`;
+  const price = S.pax < 4
+    ? `$${v.price} the whole ${noun} · <span class="hh-pp">same price up to ${v.max}</span>`
+    : `$${v.price} the whole ${noun} · <span class="hh-pp">$${Math.round(v.price / S.pax)} each</span> for ${S.pax}`;
+  $('heroPrice').innerHTML = named ? `${price} · to ${named}` : `${price} · card only`;
 }
 paintHero();
 
