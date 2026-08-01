@@ -86,6 +86,16 @@ exports.handler = async (event) => {
     admission_prepaid: b.admissionPrepaid ? 'true' : 'false',
   };
 
+  // TEMPORARY LIVE-TEST OVERRIDE.
+  // Set TEST_PRICE_USD=5 in Netlify to charge $5 instead of the real price, so
+  // the first end-to-end run on a live key costs $5 rather than $369. Only Mike
+  // can set it (it's an environment variable, not anything a guest can send).
+  // DELETE THE VARIABLE the moment the test passes — while it is set, every
+  // booking on the site charges $5.
+  const testPrice = Number(process.env.TEST_PRICE_USD) || 0;
+  const chargeUsd = testPrice > 0 ? testPrice : vehicle.usd;
+  if (testPrice > 0) console.warn(`TEST_PRICE_USD is set — charging $${testPrice} instead of $${vehicle.usd}`);
+
   const params = {
     mode: 'payment',
     customer_email: b.email,
@@ -94,7 +104,7 @@ exports.handler = async (event) => {
     cancel_url: `${origin}?cancelled=1`,
     'line_items[0][quantity]': '1',
     'line_items[0][price_data][currency]': CURRENCY,
-    'line_items[0][price_data][unit_amount]': String(vehicle.usd * 100),
+    'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * 100)),
     'line_items[0][price_data][product_data][name]': `${vehicle.name} to ${destName}`,
     'line_items[0][price_data][product_data][description]':
       `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`,
