@@ -316,13 +316,11 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
   margin-bottom:5px}
 
 /* pay */
-.paycard{margin:16px 18px 0;border:1.5px solid var(--line);border-radius:14px;padding:16px}
-.paycard .row2{display:flex;gap:10px}
-.paycard .row2>*{flex:1}
-.paycard input{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:14px;font-size:16px;
-  font-family:inherit;margin-top:8px;min-height:52px}
-.securenote{display:flex;align-items:center;gap:8px;justify-content:center;font-size:12px;color:var(--mute);
-  padding:12px 18px 0}
+.handoff{margin:16px 18px 0;background:var(--card-blue);border:1px solid #C7DAF5;
+  border-radius:14px;padding:14px 16px}
+.handoff .ho-t{font-size:14px;font-weight:800;color:var(--accent-pressed)}
+.handoff p{margin:5px 0 0;font-size:13px;color:#1D3B57}
+.handoff b{color:var(--navy)}
 .nocash{margin:12px 18px 0;text-align:center;font-size:13px;font-weight:700;color:var(--success-deep)}
 
 /* confirmation */
@@ -393,7 +391,7 @@ footer p{margin:0;max-width:34em}
 </head>
 <body>
 
-<div class="proto-bar">Prototype — <b>nothing is charged</b>, all data is fake</div>
+<div class="proto-bar">Preview — <b>payments are live</b>. “Somewhere else” charges MX$100 for real.</div>
 
 <div class="wrap">
 
@@ -769,19 +767,18 @@ footer p{margin:0;max-width:34em}
     <div class="tr" id="pAdmRow" style="display:none"><span id="pAdmLbl"></span><span id="pAdm"></span></div>
     <div class="tr big"><span>Charged today</span><span id="pAll"></span></div>
   </div>
-  <div class="paycard">
-    <label style="font-size:12.5px;font-weight:700;color:var(--navy)">Card number</label>
-    <input placeholder="1234 1234 1234 1234" inputmode="numeric">
-    <div class="row2">
-      <div><input placeholder="MM / YY" inputmode="numeric"></div>
-      <div><input placeholder="CVC" inputmode="numeric"></div>
-    </div>
-    <input placeholder="ZIP / Postal code">
+  <!-- No card fields here on purpose. The card is entered on Stripe's own page,
+       which is the whole reason we chose Checkout: it keeps card data off this
+       site entirely, and the guest sees stripe.com in the address bar at the
+       moment she is deciding whether to trust us. -->
+  <div class="handoff">
+    <div class="ho-t">🔒 You'll pay on Stripe's secure page</div>
+    <p>Tap below and we'll take you to <b>stripe.com</b> to enter your card. Your card details
+      never touch this website. You'll come straight back here once it's done.</p>
   </div>
   <div class="nocash">Nothing to pay the driver — we don't accept cash.</div>
-  <div class="securenote">🔒 Prototype only — this card box does nothing</div>
   <div class="cta-wrap">
-    <button class="btn btn-primary" id="payBtn" onclick="payNow()">Pay <span id="payBtnAmt"></span> and confirm</button>
+    <button class="btn btn-primary" id="payBtn" onclick="payNow()">Pay <span id="payBtnAmt"></span> on Stripe →</button>
     <p class="hint" id="payErr" style="display:none;padding:12px 0 0"></p>
   </div>
 </section>
@@ -1449,7 +1446,7 @@ async function payNow(){
     err.textContent = "We couldn't reach the payment system. Please try again, or message us on WhatsApp.";
     err.style.display = 'block';
   }
-  btn.disabled = false; btn.textContent = 'Pay ' + moneyOf(grand()) + ' and confirm';
+  btn.disabled = false; btn.innerHTML = 'Pay ' + moneyOf(grand()) + ' on Stripe →';
 }
 
 /* Coming back from Stripe. Without this the guest lands on the homepage and has
