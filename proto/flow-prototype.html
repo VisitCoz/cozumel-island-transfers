@@ -780,7 +780,10 @@ footer p{margin:0;max-width:34em}
   </div>
   <div class="nocash">Nothing to pay the driver — we don't accept cash.</div>
   <div class="securenote">🔒 Prototype only — this card box does nothing</div>
-  <div class="cta-wrap"><button class="btn btn-primary" onclick="go('done')">Pay <span id="payBtnAmt"></span> and confirm</button></div>
+  <div class="cta-wrap">
+    <button class="btn btn-primary" id="payBtn" onclick="payNow()">Pay <span id="payBtnAmt"></span> and confirm</button>
+    <p class="hint" id="payErr" style="display:none;padding:12px 0 0"></p>
+  </div>
 </section>
 
 <!-- ═══════════ CONFIRMED ═══════════ -->
@@ -910,7 +913,7 @@ const DRIVE_MIN = 20;
 
 /* ── state ── */
 let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'',
-         pick:'', dur:null, durMode:null, name:''};
+         pick:'', dur:null, durMode:null, name:'', ref:null};
 
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
@@ -947,7 +950,7 @@ function go(id){
 function restart(){
   // date defaults to the earliest bookable day, matching what the date input shows
   S = {dest:null,pax:2,adm:false,ship:null,notCruise:false,date:pretty(md),
-       pick:'',dur:5,durMode:'5',name:''};  // 5h is the safe default; keep it after a restart too
+       pick:'',dur:5,durMode:'5',name:'',ref:null};  // 5h is the safe default; keep it after a restart too
   $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
   $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
   $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
@@ -1395,11 +1398,81 @@ function waDone(){
   return wa(`My booking reference is ${$('doneRef').textContent}.`);
 }
 
+/* ── paying for real ──
+   The prototype's fake card box is gone. This hands the booking to our Netlify
+   function, which validates it server-side and opens Stripe Checkout.
+   We stash the booking first, because after the redirect the page reloads with
+   nothing but ?paid=1&ref= in the URL — Stripe doesn't hand the details back. */
+async function payNow(){
+  const btn = $('payBtn'), err = $('payErr'), d = DEST[S.dest], v = vehFor(S.pax);
+  btn.disabled = true; btn.textContent = 'Opening secure payment…'; err.style.display = 'none';
+
+  const booking = {
+    destination: S.dest, date: $('dateIn').value, dateLabel: S.date,
+    pickupHour: Number(S.pick), durationHours: Number(S.dur),
+    pax: S.pax, name: S.name, email: $('mailIn').value.trim(),
+    whatsapp: $('waIn').value.trim(), ship: S.ship ? S.ship.name : 'Not on a cruise',
+    admissionPrepaid: S.adm, admissionUsd: d.admAdult,
+    returnUrl: location.origin + location.pathname
+  };
+  sessionStorage.setItem('cit_pending', JSON.stringify({
+    ...booking, destName: d.short, vehicleName: v.name, total: grand()
+  }));
+
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(booking)
+    });
+    const out = await res.json();
+    if (out.url) { location.href = out.url; return; }        // off to Stripe
+    // Every refusal from the server is written for a guest, not a developer,
+    // and the ones we can't fix on the page route to a human.
+    err.innerHTML = out.error + (out.useWhatsApp
+      ? ' <a href="#" onclick="return waHere()" style="color:var(--accent);font-weight:700">Message us on WhatsApp →</a>' : '');
+    err.style.display = 'block';
+  } catch (e) {
+    err.textContent = "We couldn't reach the payment system. Please try again, or message us on WhatsApp.";
+    err.style.display = 'block';
+  }
+  btn.disabled = false; btn.textContent = 'Pay ' + money(grand()) + ' and confirm';
+}
+
+/* Coming back from Stripe. Without this the guest lands on the homepage and has
+   no idea whether they just paid — which is exactly what happened on the test. */
+(function handleReturnFromStripe(){
+  const q = new URLSearchParams(location.search);
+  if (q.get('cancelled')) { history.replaceState({}, '', location.pathname); return; }
+  if (!q.get('paid')) return;
+
+  const saved = sessionStorage.getItem('cit_pending');
+  if (saved) {
+    const b = JSON.parse(saved);
+    S.dest = b.destination; S.pax = b.pax; S.name = b.name; S.adm = b.admissionPrepaid;
+    S.date = b.dateLabel; S.pick = String(b.pickupHour); S.dur = b.durationHours;
+    S.ship = b.ship && b.ship !== 'Not on a cruise' ? { name: b.ship } : null;
+    S.notCruise = !S.ship;
+    $('nameIn').value = b.name || '';
+    sessionStorage.removeItem('cit_pending');
+  }
+  S.ref = q.get('ref') || null;
+  paintDone();
+  // Paid on one device, opened the link on another — we still confirm the payment
+  // rather than showing a blank screen to someone whose card has just been charged.
+  if (!S.dest) {
+    $('doneLine').textContent = 'Your payment went through. Your receipt is on its way by email.';
+  }
+  history.replaceState({}, '', location.pathname);   // so a refresh doesn't re-fire
+  go('done');
+})();
+
 /* ── confirmed ── */
 function paintDone(){
   if (!S.dest) return;
   $('doneLine').textContent = tripLine() + ' · ' + money(grand()) + ' charged';
-  $('doneRef').textContent = 'CIT-' + String(Math.floor(100000 + Math.random()*899999));
+  // Stripe's reference wins when we have one; the invented one is only for the demo.
+  S.ref = S.ref || 'CIT-' + String(Math.floor(100000 + Math.random()*899999));
+  $('doneRef').textContent = S.ref;
   $('donePier').innerHTML = S.notCruise
     ? `We'll confirm your meeting point by WhatsApp.`
     : `We'll message you <b>which terminal ${S.ship ? S.ship.name : 'your ship'} docks at</b> and our
