@@ -6,8 +6,8 @@
 // this is the version that a stale tab or an open dev-tools console cannot get past.
 
 const {
-  DESTINATIONS, CURRENCY, MIN_NOTICE_HOURS, FLEET_RUNS_PER_DAY,
-  COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, bookings,
+  DESTINATIONS, CURRENCY, MIN_NOTICE_HOURS,
+  COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 
 const pad = (n) => String(n).padStart(2, '0');
@@ -48,21 +48,32 @@ exports.handler = async (event) => {
   }
 
   // ---- the fleet allotment ----
-  // Asking the Sheet, because the Sheet is the only thing that knows what's sold.
-  try {
-    const { runs } = await bookings('countRuns', { date: b.date });
-    if (Number(runs) >= FLEET_RUNS_PER_DAY) {
-      return json(409, {
-        error: 'We are fully booked that day. Message us — we sometimes free a vehicle up.',
+  // OFF by default. Set FLEET_RUNS_PER_DAY in Netlify to switch it on — at launch
+  // volume the guard is theatre, and every extra moving part is a thing that can
+  // break at 7am. When it IS set, the count comes from Stripe itself (search on
+  // the date we wrote into metadata), so there is still no database to run.
+  //
+  // Stripe's search index lags new objects by up to a minute. That is fine for a
+  // ceiling of 100 runs; it is not fine if you ever set this to something tight.
+  const fleetCap = Number(process.env.FLEET_RUNS_PER_DAY) || 0;
+  if (fleetCap > 0) {
+    try {
+      const q = encodeURIComponent(`metadata['date']:'${b.date}' AND status:'succeeded'`);
+      const found = await stripe(`payment_intents/search?query=${q}&limit=100`, null, 'GET');
+      if ((found.data || []).length >= fleetCap) {
+        return json(409, {
+          error: 'We are fully booked that day. Message us — we sometimes free a vehicle up.',
+          useWhatsApp: true,
+        });
+      }
+    } catch (err) {
+      // Fail closed. Selling a van we cannot confirm is worse than losing a booking.
+      console.error('allotment check failed', err);
+      return json(503, {
+        error: "We couldn't confirm availability just now. Message us and we'll book you by hand.",
         useWhatsApp: true,
       });
     }
-  } catch (err) {
-    // Fail closed. Selling a van we may not have is worse than losing one booking.
-    return json(503, {
-      error: "We couldn't confirm availability just now. Message us and we'll book you by hand.",
-      useWhatsApp: true,
-    });
   }
 
   // ---- build the session ----

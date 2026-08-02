@@ -15,6 +15,17 @@ const { json, verifyStripeSignature, bookings } = require('./_cit');
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'POST only' });
 
+  // PHASE ONE: Stripe is the booking list. There is no sheet yet, so there is
+  // nothing for this to record — acknowledge and stay quiet. Returning 200 keeps
+  // the Stripe dashboard green; a 4xx here would light up the error rate on an
+  // endpoint that is working exactly as intended.
+  //
+  // The moment BOOKINGS_URL and STRIPE_WEBHOOK_SECRET are set, everything below
+  // switches on by itself and starts writing rows. No code change needed.
+  if (!process.env.BOOKINGS_URL || !process.env.STRIPE_WEBHOOK_SECRET) {
+    return json(200, { received: true, recording: false });
+  }
+
   // The signature is computed over the EXACT bytes Stripe sent. Do not parse,
   // re-encode or trim before verifying.
   const raw = event.isBase64Encoded
