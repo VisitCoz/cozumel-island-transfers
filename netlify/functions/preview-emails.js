@@ -87,7 +87,8 @@ const page = (notice) => `<!doctype html>
   .subj { padding:10px 18px; background:#F4F8FA; border-top:1px solid #E5E9ED;
           border-bottom:1px solid #E5E9ED; font-size:13px; color:#5B6874 }
   .subj b { color:#0F2C44 }
-  iframe { display:block; width:100%; border:0; background:#fff }
+  .frame { overflow:hidden; background:#fff }
+  iframe { display:block; border:0; background:#fff; transform-origin:0 0 }
   footer { margin-top:26px; font-size:13px; color:#5B6874; text-align:center }
   code { background:#E2E8ED; padding:1px 5px; border-radius:4px; font-size:12.5px }
 </style></head><body>
@@ -103,11 +104,33 @@ const page = (notice) => `<!doctype html>
     <h2>${e.goesTo}</h2>
     <div class="meta">${e.when}</div>
     <div class="subj">Subject: <b>${e.subject.replace(/</g, '&lt;')}</b></div>
-    <iframe title="${e.key}" srcdoc="${e.html.replace(/"/g, '&quot;')}"
-            onload="this.style.height=(this.contentDocument.body.scrollHeight+32)+'px'"></iframe>
+    <div class="frame"><iframe title="${e.key}" srcdoc="${e.html.replace(/"/g, '&quot;')}"></iframe></div>
   </div>`).join('')}
   <footer>Add <code>?send=1&amp;token=…</code> to mail all three to the team for real.</footer>
-</div></body></html>`;
+</div>
+<script>
+// Render each email at its natural width, then shrink it to fit — which is what
+// Gmail does on a phone. Without this the 600px manifest is simply clipped, and
+// the preview would look broken for a reason the real inbox does not have.
+function fit() {
+  document.querySelectorAll('.frame').forEach(box => {
+    const f = box.querySelector('iframe'), d = f.contentDocument;
+    if (!d || !d.body) return;
+    f.style.width = '100%'; f.style.transform = '';
+    const natural = Math.max(d.body.scrollWidth, 380);
+    const avail = box.clientWidth;
+    const scale = Math.min(1, avail / natural);
+    f.style.width = natural + 'px';
+    f.style.height = (d.body.scrollHeight + 28) + 'px';
+    f.style.transform = 'scale(' + scale + ')';
+    box.style.height = (d.body.scrollHeight + 28) * scale + 'px';
+  });
+}
+addEventListener('load', fit);
+addEventListener('resize', fit);
+setTimeout(fit, 120);
+</script>
+</body></html>`;
 
 exports.handler = async (event) => {
   const q = event.queryStringParameters || {};

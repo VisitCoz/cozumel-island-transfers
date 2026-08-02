@@ -36,7 +36,7 @@ function bookingEmail(m, amount, currency, email) {
         ${row('WhatsApp', m.whatsapp)}
         ${row('Ship', m.ship)}
         ${row('Vehicle', m.vehicle_name || m.vehicle)}
-        ${row('Paid', `${currency}$${amount.toFixed(2)}`)}
+        ${row('Paid', `$${amount.toFixed(2)} ${currency}`)}
         ${row('Admission prepaid', m.admission_prepaid === 'true' ? 'Yes' : 'No')}
         ${row('Reference', m.booking_ref)}
       </table>
