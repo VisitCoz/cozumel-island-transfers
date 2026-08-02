@@ -105,7 +105,20 @@ exports.handler = async (event) => {
   // booking on the site charges $5.
   const testPrice = Number(process.env.TEST_PRICE_USD) || 0;
   const chargeUsd = testPrice > 0 ? testPrice : vehicle.usd;
-  if (testPrice > 0) console.warn(`TEST_PRICE_USD is set — charging $${testPrice} instead of $${vehicle.usd}`);
+  if (testPrice > 0) console.warn(`TEST_PRICE_USD is set — charging ${testPrice} instead of ${vehicle.usd}`);
+
+  // TEMPORARY CURRENCY OVERRIDE, for testing only.
+  // Mexican-issued cards are frequently blocked by their own issuer from foreign
+  // currency charges ("Your card doesn't support this currency"), so Mike cannot
+  // test a USD charge with his own card. Setting TEST_CURRENCY=mxn lets him prove
+  // the chain works using pesos.
+  //
+  // GUESTS MUST STAY IN USD. Charging pesos to a US card means her bank converts
+  // at its own rate plus a foreign-transaction fee, so her statement never matches
+  // the price she agreed to on the page — the exact surprise charge this site
+  // exists to avoid. DELETE THIS VARIABLE AFTER THE TEST.
+  const currency = (process.env.TEST_CURRENCY || CURRENCY).toLowerCase();
+  if (currency !== CURRENCY) console.warn(`TEST_CURRENCY is set — charging ${currency}, not ${CURRENCY}`);
 
   const params = {
     mode: 'payment',
@@ -114,7 +127,7 @@ exports.handler = async (event) => {
     success_url: `${origin}?paid=1&ref=${ref}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}?cancelled=1`,
     'line_items[0][quantity]': '1',
-    'line_items[0][price_data][currency]': CURRENCY,
+    'line_items[0][price_data][currency]': currency,
     'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * 100)),
     'line_items[0][price_data][product_data][name]': `${vehicle.name} to ${destName}`,
     'line_items[0][price_data][product_data][description]':
@@ -125,7 +138,7 @@ exports.handler = async (event) => {
   const admission = Number(b.admissionUsd) || 0;
   if (b.admissionPrepaid && admission > 0) {
     params['line_items[1][quantity]'] = String(pax);
-    params['line_items[1][price_data][currency]'] = CURRENCY;
+    params['line_items[1][price_data][currency]'] = currency;
     params['line_items[1][price_data][unit_amount]'] = String(Math.round(admission * 100));
     params['line_items[1][price_data][product_data][name]'] = `${destName} admission`;
     params['line_items[1][price_data][product_data][description]'] = 'Paid now — nothing at the gate';
