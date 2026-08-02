@@ -127,7 +127,74 @@ async function bookings(action, payload = {}) {
   catch { throw new Error(`Bookings endpoint returned non-JSON: ${text.slice(0, 200)}`); }
 }
 
+
+// ---------- Email ----------
+// Netlify functions cannot send mail on their own, so this goes through Resend.
+// Team and guests only ever receive email — nobody needs a login anywhere.
+async function sendEmail({ to, subject, html, replyTo }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error('RESEND_API_KEY is not set');
+  const from = process.env.MAIL_FROM || 'Cozumel Island Transfers <onboarding@resend.dev>';
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      html,
+      ...(replyTo ? { reply_to: replyTo } : {}),
+    }),
+  });
+  const out = await res.json();
+  if (!res.ok) throw new Error(`Resend: ${out.message || JSON.stringify(out)}`);
+  return out;
+}
+
+const teamEmails = () =>
+  (process.env.TEAM_EMAILS || '').split(',').map(e => e.trim()).filter(Boolean);
+
+// ---------- Reading bookings back out of Stripe ----------
+// There is no database. Every booking carries its date in metadata, so Stripe's
+// own search is the query layer. Note Stripe's search index lags new objects by
+// up to a minute — irrelevant for a job that runs the evening before.
+async function bookingsOn(dateIso) {
+  const q = encodeURIComponent(`metadata['date']:'${dateIso}' AND status:'succeeded'`);
+  const out = await stripe(`payment_intents/search?query=${q}&limit=100`, null, 'GET');
+  return (out.data || []).map(pi => ({
+    ref: pi.metadata.booking_ref || '',
+    date: pi.metadata.date || '',
+    pickup: pi.metadata.pickup || '',
+    ret: pi.metadata.ret || '',
+    destination: pi.metadata.destination_name || pi.metadata.destination || '',
+    pax: Number(pi.metadata.pax) || 0,
+    vehicle: pi.metadata.vehicle_name || pi.metadata.vehicle || '',
+    ship: pi.metadata.ship || '',
+    guest: pi.metadata.guest || '',
+    whatsapp: pi.metadata.whatsapp || '',
+    email: pi.receipt_email || '',
+    amount: (pi.amount || 0) / 100,
+    currency: (pi.currency || '').toUpperCase(),
+  }));
+}
+
+/* Tomorrow, in Cozumel time (UTC-5, no daylight saving). */
+function tomorrowInCozumel() {
+  const now = new Date(Date.now() - 5 * 3600 * 1000);   // shift to Cozumel local
+  now.setUTCDate(now.getUTCDate() + 1);
+  return now.toISOString().slice(0, 10);
+}
+
+/* Sort "9:00 AM" style times chronologically. */
+const minutesOf = (t) => {
+  const m = String(t).match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!m) return 0;
+  return ((+m[1] % 12) + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + (+m[2]);
+};
+
 module.exports = {
   VEHICLES, DESTINATIONS, FIXED_PRICE, CURRENCY, MIN_NOTICE_HOURS, FLEET_RUNS_PER_DAY,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, verifyStripeSignature, bookings,
+  sendEmail, teamEmails, bookingsOn, tomorrowInCozumel, minutesOf,
 };

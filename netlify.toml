@@ -2,6 +2,11 @@
   publish = "."
   functions = "netlify/functions"
 
+# The day-before job. 23:00 UTC = 6 PM Cozumel (UTC-5, no daylight saving), so
+# guests get their meeting point the evening before, not at midnight.
+[functions."daily-manifest"]
+  schedule = "0 23 * * *"
+
 # Security headers — defaults that any production site should have
 [[headers]]
   for = "/*"
