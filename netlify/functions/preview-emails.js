@@ -126,9 +126,14 @@ function fit() {
     box.style.height = (d.body.scrollHeight + 28) * scale + 'px';
   });
 }
-addEventListener('load', fit);
 addEventListener('resize', fit);
-setTimeout(fit, 120);
+// Each srcdoc frame finishes on its own schedule, and a frame measured before
+// its fonts land comes out short. Re-measure whenever one settles.
+document.querySelectorAll('.frame iframe').forEach(f => {
+  f.addEventListener('load', fit);
+  try { new ResizeObserver(fit).observe(f.contentDocument.documentElement); } catch (e) {}
+});
+fit();
 </script>
 </body></html>`;
 
