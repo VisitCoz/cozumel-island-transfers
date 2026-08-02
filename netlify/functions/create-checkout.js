@@ -6,7 +6,7 @@
 // this is the version that a stale tab or an open dev-tools console cannot get past.
 
 const {
-  DESTINATIONS, CURRENCY, MIN_NOTICE_HOURS,
+  DESTINATIONS, FIXED_PRICE, CURRENCY, MIN_NOTICE_HOURS,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 
@@ -120,6 +120,9 @@ exports.handler = async (event) => {
   const currency = (process.env.TEST_CURRENCY || CURRENCY).toLowerCase();
   if (currency !== CURRENCY) console.warn(`TEST_CURRENCY is set — charging ${currency}, not ${CURRENCY}`);
 
+  // A fixed-price destination overrides both the vehicle price and the currency.
+  const fixed = FIXED_PRICE[b.destination] || null;
+
   const params = {
     mode: 'payment',
     customer_email: b.email,
@@ -127,16 +130,19 @@ exports.handler = async (event) => {
     success_url: `${origin}?paid=1&ref=${ref}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}?cancelled=1`,
     'line_items[0][quantity]': '1',
-    'line_items[0][price_data][currency]': currency,
-    'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * 100)),
-    'line_items[0][price_data][product_data][name]': `${vehicle.name} to ${destName}`,
+    'line_items[0][price_data][currency]': fixed ? fixed.currency : currency,
+    'line_items[0][price_data][unit_amount]':
+      String(Math.round((fixed ? fixed.amount : chargeUsd) * 100)),
+    'line_items[0][price_data][product_data][name]':
+      fixed ? fixed.name : `${vehicle.name} to ${destName}`,
     'line_items[0][price_data][product_data][description]':
-      `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`,
+      `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`
+      + (fixed ? ` — ${fixed.blurb}` : ''),
   };
 
   // Optional prepaid venue admission, per person.
   const admission = Number(b.admissionUsd) || 0;
-  if (b.admissionPrepaid && admission > 0) {
+  if (!fixed && b.admissionPrepaid && admission > 0) {
     params['line_items[1][quantity]'] = String(pax);
     params['line_items[1][price_data][currency]'] = currency;
     params['line_items[1][price_data][unit_amount]'] = String(Math.round(admission * 100));

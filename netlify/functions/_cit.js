@@ -25,6 +25,25 @@ const DESTINATIONS = {
   'paradise-beach': 'Paradise Beach',
   'mr-sanchos':     'Mr. Sanchos',
   'nachi-cocom':    'Nachi Cocom',
+  'somewhere-else': 'Somewhere else on the island',
+};
+
+// Destinations that ignore the vehicle price list and charge a fixed amount.
+//
+// 'somewhere-else' is deliberately MX$100. It is a real, bookable item — not a
+// test mode, not a fake card — so Mike can run the whole chain end to end with
+// real money whenever he wants, for about six dollars. It also happens to be a
+// genuine product: someone wanting a destination we don't list pays a holding
+// amount and we agree the rest on WhatsApp.
+//
+// Reprice or remove this before the site takes real traffic.
+const FIXED_PRICE = {
+  'somewhere-else': {
+    amount: 100,
+    currency: 'mxn',
+    name: 'Private transfer — destination to be confirmed',
+    blurb: 'We will agree the destination and the final price with you on WhatsApp.',
+  },
 };
 
 const CURRENCY = 'usd';
@@ -109,6 +128,6 @@ async function bookings(action, payload = {}) {
 }
 
 module.exports = {
-  VEHICLES, DESTINATIONS, CURRENCY, MIN_NOTICE_HOURS, FLEET_RUNS_PER_DAY,
+  VEHICLES, DESTINATIONS, FIXED_PRICE, CURRENCY, MIN_NOTICE_HOURS, FLEET_RUNS_PER_DAY,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, verifyStripeSignature, bookings,
 };

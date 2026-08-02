@@ -880,7 +880,15 @@ const DEST = {
   'nachi-cocom':{name:'Nachi Cocom Beach Club',short:'Nachi Cocom',type:'Beach Club',drive:'20–25 min',
     dist:'9 miles south of the pier',img:IMG+'dest-nachi-cocom-hero.jpg',
     blurb:'A deliberately quiet, limited-capacity beach club — they cap the number of guests each day, so there is always a chair and never a crowd.',
-    admName:'Nachi Cocom day pass',admAdult:75,admVerified:false}
+    admName:'Nachi Cocom day pass',admAdult:75,admVerified:false},
+  'somewhere-else':{name:'Somewhere else on the island',short:'Somewhere else',
+    type:'Tell us where',drive:'Varies',dist:'Anywhere on Cozumel',
+    img:'https://cozu.netlify.app/assets/dest-paradise-beach-hero.jpg',
+    blurb:'Downtown, the ferry, a restaurant, a hotel — anywhere on the island. Book this and we agree the destination and the final price with you on WhatsApp.',
+    admName:'',admAdult:0,admVerified:true,
+    // Fixed MX$100 holding amount. Mirrors FIXED_PRICE in netlify/functions/_cit.js —
+    // change one and you must change the other.
+    fixed:{amount:100,currency:'MXN'}}
 };
 
 /* Guest-facing vehicle names — nobody has to learn the words "XL Van" or "Coach". */
@@ -918,9 +926,14 @@ let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'',
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
 const money = n => '$' + n.toLocaleString('en-US') + ' USD';
+/* Fixed-price destinations quote their own amount and currency. */
+const fixedOf = () => (S.dest && DEST[S.dest].fixed) || null;
+const priceOf = () => { const f = fixedOf(); return f ? f.amount : vehFor(S.pax).price; };
+const moneyOf = n => { const f = fixedOf();
+  return f ? `${f.currency}$${n.toLocaleString('en-US')}` : money(n); };
 const vehFor = p => VEH.find(v => p <= v.max) || VEH[VEH.length-1];
-function admTotal(){ return S.adm ? DEST[S.dest].admAdult * S.pax : 0; }
-function grand(){ return vehFor(S.pax).price + admTotal(); }
+function admTotal(){ return (S.adm && !fixedOf()) ? DEST[S.dest].admAdult * S.pax : 0; }
+function grand(){ const f = fixedOf(); return f ? f.amount : vehFor(S.pax).price + admTotal(); }
 
 /* Earliest bookable day = 24h from now. If that lands mid-day, roll to the next
    morning, because pickups start at 6 AM. */
@@ -1089,11 +1102,7 @@ $('hubGrid').innerHTML = Object.keys(DEST).map(k => `
     <div class="poster-meta"><h3>${DEST[k].short}</h3><div class="dur">${DEST[k].drive} from the pier</div>
     <div class="go">View &amp; book →</div></div>
   </button>`).join('') + `
-  <button class="poster other" onclick="wa('I&#39;d like to go somewhere that isn&#39;t on your list.')">
-    <div class="poster-img">📍</div>
-    <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Downtown, ferry, anywhere</div>
-    <div class="go">Tell us where →</div></div>
-  </button>`;
+`;
 
 /* ── 2 · destination ── */
 function openDest(k){
@@ -1123,17 +1132,21 @@ function paintPax(){
   $('paxN').textContent = S.pax; $('paxL').textContent = S.pax===1 ? 'person' : 'people';
   document.querySelectorAll('#quickPax button').forEach(b => b.classList.toggle('on', +b.dataset.q === S.pax));
   $('vehName').textContent = v.name; $('vehSub').textContent = v.sub;
-  $('vehPrice').innerHTML = money(v.price) + ' <small>round-trip, whole vehicle</small>';
+  $('vehPrice').innerHTML = moneyOf(priceOf()) + (fixedOf()
+    ? ' <small>to hold your booking — final price agreed on WhatsApp</small>'
+    : ' <small>round-trip, whole vehicle</small>');
   $('admTitle').textContent = 'Add ' + d.admName;
   $('admDesc').innerHTML = `$${d.admAdult} per person × ${S.pax} — pay nothing at the gate.
     ${d.admVerified?'':'<span class="est">‹placeholder rate›</span>'}`;
   $('admPrice').textContent = '+$' + (d.admAdult*S.pax).toLocaleString('en-US');
+  $('admAddon').style.display = fixedOf() ? 'none' : 'flex';
   $('admAddon').classList.toggle('on', S.adm);
-  $('totVehLbl').textContent = v.name; $('totVeh').textContent = money(v.price);
+  $('totVehLbl').textContent = fixedOf() ? 'Holding amount' : v.name;
+  $('totVeh').textContent = moneyOf(priceOf());
   $('totAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('totAdmLbl').textContent = d.admName + ' × ' + S.pax;
   $('totAdm').textContent = money(admTotal());
-  $('totAll').textContent = money(grand());
+  $('totAll').textContent = moneyOf(grand());
 }
 
 /* ── 2 · the ship — type-ahead over the name list, no dates involved ── */
@@ -1255,10 +1268,11 @@ function paintPay(){
   if (!S.dest) return;
   const d = DEST[S.dest], v = vehFor(S.pax);
   $('paySummary').textContent = tripLine();
-  $('pVehLbl').textContent = v.name + ' — round trip'; $('pVeh').textContent = money(v.price);
+  $('pVehLbl').textContent = fixedOf() ? 'Holding amount — destination to confirm' : v.name + ' — round trip';
+  $('pVeh').textContent = moneyOf(priceOf());
   $('pAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('pAdmLbl').textContent = d.admName + ' × ' + S.pax; $('pAdm').textContent = money(admTotal());
-  $('pAll').textContent = money(grand()); $('payBtnAmt').textContent = money(grand());
+  $('pAll').textContent = moneyOf(grand()); $('payBtnAmt').textContent = moneyOf(grand());
 }
 
 /* ── calendar file ──
@@ -1435,7 +1449,7 @@ async function payNow(){
     err.textContent = "We couldn't reach the payment system. Please try again, or message us on WhatsApp.";
     err.style.display = 'block';
   }
-  btn.disabled = false; btn.textContent = 'Pay ' + money(grand()) + ' and confirm';
+  btn.disabled = false; btn.textContent = 'Pay ' + moneyOf(grand()) + ' and confirm';
 }
 
 /* Coming back from Stripe. Without this the guest lands on the homepage and has
@@ -1469,7 +1483,7 @@ async function payNow(){
 /* ── confirmed ── */
 function paintDone(){
   if (!S.dest) return;
-  $('doneLine').textContent = tripLine() + ' · ' + money(grand()) + ' charged';
+  $('doneLine').textContent = tripLine() + ' · ' + moneyOf(grand()) + ' charged';
   // Stripe's reference wins when we have one; the invented one is only for the demo.
   S.ref = S.ref || 'CIT-' + String(Math.floor(100000 + Math.random()*899999));
   $('doneRef').textContent = S.ref;
