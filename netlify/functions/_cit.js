@@ -173,7 +173,7 @@ async function bookingsOn(dateIso) {
     ship: pi.metadata.ship || '',
     guest: pi.metadata.guest || '',
     whatsapp: pi.metadata.whatsapp || '',
-    email: pi.receipt_email || '',
+    email: pi.metadata.email || pi.receipt_email || '',
     amount: (pi.amount || 0) / 100,
     currency: (pi.currency || '').toUpperCase(),
   }));

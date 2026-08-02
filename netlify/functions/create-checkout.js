@@ -93,6 +93,11 @@ exports.handler = async (event) => {
     vehicle_name: vehicle.name,
     ship: b.ship || 'Not on a cruise',
     guest: b.name || '',
+    // The guest's address goes in metadata on purpose. Reading it back off the
+    // PaymentIntent's receipt_email depends on Stripe's own receipt settings,
+    // and if it ever comes back empty the day-before email silently goes to
+    // nobody. Metadata is ours and always there.
+    email: b.email,
     whatsapp: b.whatsapp || '',
     admission_prepaid: b.admissionPrepaid ? 'true' : 'false',
   };
