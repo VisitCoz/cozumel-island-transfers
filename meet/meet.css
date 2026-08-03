@@ -72,25 +72,31 @@ ol.steps li::before{content:counter(s); position:absolute; left:0; top:0;
 .btn-wa{background:var(--success-deep); color:#fff}
 .btn-map{background:#fff; color:var(--navy); border:1.5px solid var(--line)}
 
-/* ---- terminal cards on the hub ---- */
-.terminals{display:grid; gap:12px}
-.tcard{display:block; text-decoration:none; color:inherit; background:#fff;
-  border:1.5px solid var(--line); border-radius:14px; padding:16px 18px; min-height:44px}
-.tcard .tn{font-size:18px; font-weight:800; color:var(--navy)}
-.tcard .tl{font-size:15px; color:var(--mute); margin-top:2px}
+/* ---- terminal blocks on the hub: card on top, its ships underneath ---- */
+.terminals{display:grid; gap:18px}
+.tblock{border:1.5px solid var(--line); border-radius:14px; overflow:hidden; background:#fff}
+.tcard{display:block; text-decoration:none; color:inherit; padding:16px 18px 14px; min-height:44px}
+.tcard .tn{font-size:19px; font-weight:800; color:var(--navy); letter-spacing:-.01em}
+.tcard .tl{font-size:15px; color:var(--accent); font-weight:600; margin-top:3px}
 .tcard .tp{font-size:13px; color:var(--mute-2); margin-top:6px}
 
-/* ---- live ships widget ---- */
-.ships-note{font-size:14px; color:var(--mute); margin:0 0 14px}
-.ships-day h3{margin:0 0 10px; font-size:13px; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--mute-2); font-weight:700}
-.ships-day + .ships-day{margin-top:18px}
-.ships-list{display:grid; gap:10px}
-.ship-card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
-.ship-name{font-size:16px; font-weight:700; color:var(--ink)}
-.ship-port{font-size:15px; font-weight:800; color:var(--accent); margin-top:2px}
-.ship-times{font-size:13px; color:var(--mute); margin-top:2px}
-.ships-empty,.ships-loading{font-size:15px; color:var(--mute); margin:0}
+.tships{border-top:1px solid var(--line); background:var(--surface)}
+.tships:empty{display:none}
+.tday{padding:12px 18px}
+.tday + .tday{border-top:1px solid var(--line)}
+.tday-label{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--mute-2); font-weight:700; margin-bottom:6px}
+.s-row{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:3px 0}
+.s-name{font-size:16px; font-weight:700; color:var(--ink)}
+.s-times{font-size:13px; color:var(--mute); white-space:nowrap}
+.tnone{padding:12px 18px; font-size:14px; color:var(--mute-2)}
+
+.ships-note{font-size:14px; color:var(--mute); margin:0 0 18px}
+
+/* ---- the overview graphic ---- */
+.overview{margin:0; padding:0}
+.overview img{width:100%; border-radius:12px; border:1px solid var(--line)}
+.overview figcaption{margin-top:8px; font-size:14px; color:var(--mute)}
 
 footer{padding:22px 20px 40px; background:var(--navy); color:#fff; font-size:15px; line-height:23px}
 footer a{color:#fff}

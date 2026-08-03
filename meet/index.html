@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Where to meet us — Cozumel Island Transfers</title>
-<meta name="description" content="Find your Cozumel cruise terminal and the exact spot where our representative will be waiting with a sign showing your name.">
+<meta name="description" content="Cozumel's three cruise terminals — Puerta Maya, SSA Mexico and Punta Langosta — with the exact spot our representative waits, and which ships are in port today.">
 <link rel="stylesheet" href="meet.css">
 </head>
 <body>
@@ -13,36 +13,47 @@
   <div class="top">
     <div class="kicker">Cozumel Island Transfers</div>
     <h1>Where to meet us</h1>
-    <p>Cozumel has three cruise terminals. Find yours below — each one has its own
-       meeting point and its own landmark.</p>
+    <p>Cozumel has three cruise terminals. Find the one your ship is docked at —
+       each has its own meeting point.</p>
   </div>
 
   <section>
-    <h2>Which terminal is mine?</h2>
-    <p class="ships-note">Ships in port <b>today and tomorrow</b>, straight from the Cozumel port
-       authority. Sailing later than that? Your cruise line's app or daily programme names your
-       terminal.</p>
-    <div id="ships-widget"><p class="ships-loading">Loading the port schedule&hellip;</p></div>
-  </section>
+    <p class="ships-note" id="ships-note">Ships in port <b>today and tomorrow</b> are listed under
+      their terminal, straight from the Cozumel port authority. Sailing later than that? Your cruise
+      line's app or daily programme names your terminal.</p>
 
-  <section>
-    <h2>The three terminals</h2>
+    <!-- One block per terminal, ships nested underneath. A guest recognises their ship
+         long before they recognise a terminal name, so the ship is what leads them to
+         the right page. Order is by traffic: Puerta Maya is the busiest. -->
     <div class="terminals">
-      <a class="tcard" href="punta-langosta.html">
-        <div class="tn">Punta Langosta</div>
-        <div class="tl">The white lighthouse, between Hooters and Starbucks</div>
-        <div class="tp">Downtown San Miguel</div>
-      </a>
-      <a class="tcard" href="puerta-maya.html">
-        <div class="tn">Puerta Maya</div>
-        <div class="tl">Meeting point details below</div>
-        <div class="tp">South of downtown &middot; Cozumel's busiest terminal</div>
-      </a>
-      <a class="tcard" href="ssa-mexico.html">
-        <div class="tn">SSA Mexico &middot; International Pier</div>
-        <div class="tl">Meeting point details below</div>
-        <div class="tp">South of downtown, beside Puerta Maya</div>
-      </a>
+
+      <div class="tblock" data-port="PUERTA MAYA">
+        <a class="tcard" href="puerta-maya.html">
+          <div class="tn">Terminal Puerta Maya</div>
+          <div class="tl">Meeting point &amp; directions &rarr;</div>
+          <div class="tp">South of downtown &middot; Cozumel's busiest terminal</div>
+        </a>
+        <div class="tships"></div>
+      </div>
+
+      <div class="tblock" data-port="SSA MEXICO">
+        <a class="tcard" href="ssa-mexico.html">
+          <div class="tn">Terminal SSA Mexico</div>
+          <div class="tl">Meeting point &amp; directions &rarr;</div>
+          <div class="tp">Also called the International Pier &middot; beside Puerta Maya</div>
+        </a>
+        <div class="tships"></div>
+      </div>
+
+      <div class="tblock" data-port="PUNTA LANGOSTA">
+        <a class="tcard" href="punta-langosta.html">
+          <div class="tn">Terminal Punta Langosta</div>
+          <div class="tl">The white lighthouse, between Hooters and Starbucks &rarr;</div>
+          <div class="tp">Downtown San Miguel</div>
+        </a>
+        <div class="tships"></div>
+      </div>
+
     </div>
   </section>
 
@@ -62,12 +73,9 @@
 
 <script>
 (function(){
-  var WA = '5219871146853';
   document.getElementById('waGeneral').href =
-    'https://wa.me/' + WA + '?text=' +
+    'https://wa.me/5219871146853?text=' +
     encodeURIComponent("Hi, I have a question from Cozumel Island Transfers. I'm looking for the meeting point.");
-
-  var widget = document.getElementById('ships-widget');
 
   fetch('/.netlify/functions/ships-today')
     .then(function(r){ return r.json(); })
@@ -75,35 +83,37 @@
     .catch(fallback);
 
   function render(d){
-    var any = (d.today && d.today.ships.length) || (d.tomorrow && d.tomorrow.ships.length);
-    if (!any) { widget.innerHTML = '<p class="ships-empty">No ships scheduled in the next two days.</p>'; return; }
-    var html = '';
-    if (d.today && d.today.ships.length)    html += dayBlock('Today',    d.today);
-    if (d.tomorrow && d.tomorrow.ships.length) html += dayBlock('Tomorrow', d.tomorrow);
-    widget.innerHTML = html;
+    var days = [['Today', d.today], ['Tomorrow', d.tomorrow]].filter(function(x){
+      return x[1] && x[1].ships && x[1].ships.length;
+    });
+    if (!days.length) return fallback('No ships scheduled in the next two days.');
+
+    document.querySelectorAll('.tblock').forEach(function(block){
+      var port = block.getAttribute('data-port');
+      var html = '';
+      days.forEach(function(pair){
+        var mine = pair[1].ships.filter(function(s){ return norm(s.port) === port; });
+        if (!mine.length) return;
+        html += '<div class="tday"><span class="tday-label">' + pair[0] + '</span>' +
+                mine.map(shipRow).join('') + '</div>';
+      });
+      block.querySelector('.tships').innerHTML = html ||
+        '<div class="tnone">No ship at this terminal today or tomorrow.</div>';
+    });
   }
 
-  function dayBlock(label, day){
-    return '<div class="ships-day"><h3>' + label + ' &middot; ' + fmtDate(day.date) + '</h3>' +
-           '<div class="ships-list">' + day.ships.map(card).join('') + '</div></div>';
+  function shipRow(s){
+    var t = (s.eta || s.etd)
+      ? '<span class="s-times">' + esc(s.eta) + '&ndash;' + esc(s.etd) + '</span>' : '';
+    return '<div class="s-row"><span class="s-name">' + esc(clean(s.ship)) + '</span>' + t + '</div>';
   }
 
-  // Ship name first, then the terminal in accent blue — the terminal is the answer
-  // to the question the guest actually came here with.
-  function card(s){
-    var t = (s.eta || s.etd) ? '<div class="ship-times">In ' + esc(s.eta) + ' &middot; out ' + esc(s.etd) + '</div>' : '';
-    return '<div class="ship-card">' +
-      '<div class="ship-name">' + esc(clean(s.ship)) + '</div>' +
-      '<div class="ship-port">' + esc(s.port) + '</div>' + t + '</div>';
-  }
+  /* APIQROO writes "TERMINAL PUERTA MAYA" in history and "PUERTA MAYA" live,
+     so compare on the part that never changes. */
+  function norm(p){ return String(p || '').toUpperCase().replace(/^TERMINAL\s+/, '').trim(); }
 
-  /* APIQROO prefixes most ships "M/S". Guests don't call it that. */
+  /* Ships come through as "M/S CARNIVAL BREEZE". Nobody calls it that. */
   function clean(n){ return String(n || '').replace(/^M\/?S\.?\s+/i, ''); }
-
-  function fmtDate(iso){
-    return new Date(iso + 'T12:00:00').toLocaleDateString('en-US',
-      { weekday:'long', month:'long', day:'numeric' });
-  }
 
   function esc(s){
     return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
@@ -111,10 +121,13 @@
     });
   }
 
-  function fallback(){
-    widget.innerHTML = '<p class="ships-empty">The live schedule is unavailable right now. ' +
+  /* If the port feed is down the terminals still work — only the ship lists go quiet. */
+  function fallback(msg){
+    document.getElementById('ships-note').innerHTML = msg ||
+      'The live port schedule is unavailable right now. ' +
       '<a href="https://servicios.apiqroo.com.mx/programacion/" target="_blank" rel="noopener">' +
-      'Check the port authority directly &rarr;</a></p>';
+      'Check the port authority directly &rarr;</a>';
+    document.querySelectorAll('.tships').forEach(function(el){ el.remove(); });
   }
 })();
 </script>
