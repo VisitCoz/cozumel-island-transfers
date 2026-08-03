@@ -6,7 +6,7 @@
 // this is the version that a stale tab or an open dev-tools console cannot get past.
 
 const {
-  DESTINATIONS, FIXED_PRICE, CURRENCY, MIN_NOTICE_HOURS,
+  DESTINATIONS, FIXED_PRICE, CURRENCY, BOOKING_CUTOFF_HOUR,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 
@@ -36,13 +36,16 @@ exports.handler = async (event) => {
   if (!(pickupHour >= 6 && pickupHour <= 20)) return json(400, { error: 'Pick a pickup time.' });
   if (!(durationHours >= 1 && durationHours <= 12)) return json(400, { error: 'Pick how long you want to stay.' });
 
-  // ---- the 24-hour rule, in Cozumel time ----
-  const pickupAt = new Date(`${b.date}T${pad(pickupHour)}:00:00${COZUMEL_UTC_OFFSET}`);
-  if (isNaN(pickupAt)) return json(400, { error: 'That date did not read correctly.' });
-  const hoursAway = (pickupAt - Date.now()) / 36e5;
-  if (hoursAway < MIN_NOTICE_HOURS) {
+  // ---- the cutoff: 9 AM Cozumel the day before ----
+  // Not a rolling 24 hours. The day gets planned when the manifest goes out at
+  // 9 AM, so a booking that arrives after that is a van nobody has allocated.
+  // Those guests are worth more on WhatsApp than in the database.
+  const cutoff = new Date(`${b.date}T${pad(BOOKING_CUTOFF_HOUR)}:00:00${COZUMEL_UTC_OFFSET}`);
+  if (isNaN(cutoff)) return json(400, { error: 'That date did not read correctly.' });
+  cutoff.setUTCDate(cutoff.getUTCDate() - 1);
+  if (Date.now() >= cutoff.getTime()) {
     return json(409, {
-      error: `We need ${MIN_NOTICE_HOURS} hours' notice to book online. Message customer service and we'll confirm a vehicle for you.`,
+      error: "Online booking for that day has closed — we plan the vans the morning before. Message us and we'll arrange it for you directly.",
       useWhatsApp: true,
     });
   }

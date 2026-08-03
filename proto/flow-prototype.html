@@ -686,11 +686,11 @@ footer p{margin:0;max-width:34em}
   <button class="demolink" onclick="demoTooSoon()">▸ Prototype: show me what happens if they pick today</button>
   <div id="tooSoon" style="display:none">
     <div class="warnbox">
-      <div class="wt">We need 24 hours' notice to book online</div>
-      <p>Traveling sooner than that? Our customer service team can still get you a vehicle — message them and
-         they'll confirm availability directly.</p>
+      <div class="wt">Online booking for that day has closed</div>
+      <p>We plan the vans the morning before, so the website stops taking that day. We can still get you a
+         vehicle — message our team and they'll confirm one for you directly.</p>
     </div>
-    <div class="cta-wrap"><button class="btn btn-wa" style="margin-top:0" onclick="return waHere('I need a transfer within the next 24 hours.')">Message customer service on WhatsApp</button></div>
+    <div class="cta-wrap"><button class="btn btn-wa" style="margin-top:0" onclick="return waHere('I need a transfer sooner than the website allows.')">Message customer service on WhatsApp</button></div>
   </div>
 
   <div id="dayBlock">
@@ -932,13 +932,17 @@ const vehFor = p => VEH.find(v => p <= v.max) || VEH[VEH.length-1];
 function admTotal(){ return (S.adm && !fixedOf()) ? DEST[S.dest].admAdult * S.pax : 0; }
 function grand(){ const f = fixedOf(); return f ? f.amount : vehFor(S.pax).price + admTotal(); }
 
-/* Earliest bookable day = 24h from now. If that lands mid-day, roll to the next
-   morning, because pickups start at 6 AM. */
+/* Online booking for a day closes at 9 AM Cozumel the day before — the moment the
+   manifest goes out and the vans are assigned. So before 9 AM you can still book
+   tomorrow; after 9 AM the earliest is the day after.
+
+   Computed in Cozumel time, not the guest's. She may be booking from California
+   at 7 AM her time, which is already 9 AM here. The server enforces the same rule,
+   so this is only about not letting her fill in a whole form she can't submit. */
 function minDate(){
-  const d = new Date(Date.now() + 24*3600*1000);
-  if (d.getHours() >= 6) d.setDate(d.getDate() + 1);
-  d.setHours(0,0,0,0);
-  return d;
+  const cz = new Date(Date.now() - 5*3600*1000);         // now, shifted to Cozumel
+  const days = cz.getUTCHours() >= 9 ? 2 : 1;
+  return new Date(cz.getUTCFullYear(), cz.getUTCMonth(), cz.getUTCDate() + days);
 }
 const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const pretty = d => d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
@@ -1180,7 +1184,7 @@ function toggleNoShip(){
 /* ── 3 · the day — date, pickup time, how long ── */
 const md = minDate();
 $('dateIn').min = iso(md); $('dateIn').value = iso(md);
-$('dateHint').textContent = 'Earliest online booking: ' + pretty(md) + ' — we need 24 hours’ notice.';
+$('dateHint').textContent = 'Earliest online booking: ' + pretty(md) + '. Travelling sooner? Message us and we’ll arrange it.';
 S.date = pretty(md);
 /* 5 hours is the safe default for a cruise guest — it lands them back at the pier with
    roughly 90 minutes of slack. Anything longer routes to customer service (see onDay). */

@@ -47,7 +47,15 @@ const FIXED_PRICE = {
 };
 
 const CURRENCY = 'usd';
-const MIN_NOTICE_HOURS = 24;
+
+// Online booking for a given day closes at 9 AM Cozumel time the day before —
+// the same moment the manifest goes out and the vans get assigned.
+//
+// This used to be a rolling 24 hours, which let a booking land after the day was
+// already planned. Mike's call: anything inside the window is arranged by hand,
+// because a van that appears on the schedule after the schedule was made is how
+// two guests end up promised the same vehicle.
+const BOOKING_CUTOFF_HOUR = 9;
 const FLEET_RUNS_PER_DAY = 100;   // 20 vans x up to 5 runs
 const COZUMEL_UTC_OFFSET = '-05:00';   // no daylight saving, year round
 
@@ -194,7 +202,7 @@ const minutesOf = (t) => {
 };
 
 module.exports = {
-  VEHICLES, DESTINATIONS, FIXED_PRICE, CURRENCY, MIN_NOTICE_HOURS, FLEET_RUNS_PER_DAY,
+  VEHICLES, DESTINATIONS, FIXED_PRICE, CURRENCY, BOOKING_CUTOFF_HOUR, FLEET_RUNS_PER_DAY,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, verifyStripeSignature, bookings,
   sendEmail, teamEmails, bookingsOn, tomorrowInCozumel, minutesOf,
 };
