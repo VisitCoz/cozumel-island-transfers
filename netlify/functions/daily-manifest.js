@@ -1,4 +1,4 @@
-// Scheduled daily — see netlify.toml. Runs at 23:00 UTC = 6 PM Cozumel time.
+// Scheduled daily — see netlify.toml. Runs at 14:00 UTC = 9 AM Cozumel time.
 //
 // Two jobs, both built from tomorrow's bookings:
 //   1. A manifest to the team — the whole day on one screen, sorted by pickup.

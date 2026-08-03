@@ -2,10 +2,13 @@
   publish = "."
   functions = "netlify/functions"
 
-# The day-before job. 23:00 UTC = 6 PM Cozumel (UTC-5, no daylight saving), so
-# guests get their meeting point the evening before, not at midnight.
+# The day-before job. 14:00 UTC = 9 AM Cozumel (UTC-5, no daylight saving).
+#
+# It ran at 6 PM until Mike pointed out the obvious: a manifest that lands after
+# the office has gone home leaves nobody time to fix a day that doesn't add up.
+# 9 AM gives a full working day to find a driver, split a run, or call a guest.
 [functions."daily-manifest"]
-  schedule = "0 23 * * *"
+  schedule = "0 14 * * *"
 
 # Security headers — defaults that any production site should have
 [[headers]]
