@@ -9,8 +9,30 @@ const WHATSAPP = '+52 987 114 6853';
 
 const esc = (s) => String(s ?? '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
 
-const prettyDate = (iso) => new Date(iso + 'T12:00:00Z')
-  .toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
+// Noon UTC, so the date never slips a day when the formatter shifts timezone.
+// A date we can't read falls back to the raw string: a subject line reading
+// "CIT Booking · Mr. Sanchos · Invalid Date · 6 pax" is worse than a plain ISO one.
+const fmtDate = (iso, opts) => {
+  const d = new Date(iso + 'T12:00:00Z');
+  return isNaN(d) ? String(iso ?? '')
+                  : d.toLocaleDateString('en-US', { timeZone: 'UTC', ...opts });
+};
+const prettyDate     = (iso) => fmtDate(iso, { weekday:'long', day:'numeric', month:'long' });
+const prettyDateFull = (iso) => fmtDate(iso, { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+// A preheader is the grey line a mail client shows after the subject. Without one
+// it scrapes whatever text comes first and you get "Tomorrow in Cozumel Where to
+// find us Hello Linda…" — the design read aloud.
+//
+// The padding is the part people get wrong. Those three characters are a figure
+// space, a zero-width no-break space and a combining grapheme joiner: invisible
+// everywhere, but they fill the snippet so the client stops before it reaches the
+// visible copy.
+const preheader = (text) => `
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;mso-hide:all;
+              font-size:1px;line-height:1px;color:transparent">
+    ${esc(text)}${'&#8199;&#65279;&#847; '.repeat(60)}
+  </div>`;
 
 // ---------- 1. A booking just came in → the team ----------
 function bookingEmail(m, amount, currency, email) {
@@ -49,7 +71,7 @@ function bookingEmail(m, amount, currency, email) {
 }
 
 const bookingSubject = (m) =>
-  `Booking · ${m.destination_name || m.destination} · ${m.date} · ${m.pax} pax`;
+  `CIT Booking · ${m.destination_name || m.destination} · ${prettyDateFull(m.date)} · ${m.pax} pax`;
 
 // ---------- 2. The evening before → the team ----------
 function manifestEmail(date, runs) {
@@ -94,6 +116,7 @@ const manifestSubject = (date, runs) =>
 // nothing has to be assigned a day ahead just to send this.
 function guestEmail(r) {
   return `
+  ${preheader(`Look for our representative just outside the terminal at ${r.pickup}, holding a sign with your name.`)}
   <div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:520px;
               margin:0 auto;color:#0E0E10;line-height:1.55">
     <div style="background:#0F2C44;color:#fff;padding:20px;border-radius:12px 12px 0 0">
@@ -131,10 +154,10 @@ function guestEmail(r) {
   </div>`;
 }
 
-const guestSubject = (r) => `Tomorrow: your transfer to ${r.destination} — where to find us`;
+const guestSubject = (r) => `Tomorrow: Cozumel transfer to ${r.destination}`;
 
 module.exports = {
-  WHATSAPP, esc, prettyDate,
+  WHATSAPP, esc, prettyDate, prettyDateFull, preheader,
   bookingEmail, bookingSubject,
   manifestEmail, manifestSubject,
   guestEmail, guestSubject,
