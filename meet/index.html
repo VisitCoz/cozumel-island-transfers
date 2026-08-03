@@ -10,50 +10,65 @@
 <body>
 <div class="wrap">
 
-  <div class="top">
-    <div class="kicker">Cozumel Island Transfers</div>
-    <h1 class="lead">Where to meet us</h1>
-    <p>Cozumel has three cruise terminals. Find the one your ship is docked at —
-       each has its own meeting point.</p>
+  <div class="hubtop">
+    <p class="k">Cozumel Island Transfers</p>
+    <h1>Where to meet us</h1>
+    <p>Three cruise terminals. Find the one your ship is docked at &mdash; each has its
+       own meeting point.</p>
+  </div>
+
+  <!-- One card per terminal, its ships underneath. A guest recognises her ship long
+       before she recognises a terminal name, so the ship is what leads her to the right
+       page. Order is by traffic: Puerta Maya is the busiest.
+       Card photos fall back to flat navy until Angel's shots land. -->
+  <div class="terminals">
+
+    <div class="tblock" data-port="PUERTA MAYA">
+      <a class="tcard" href="puerta-maya.html">
+        <div class="shot">
+          <img src="/assets/meet/south-2.jpg" alt="The meeting point near Puerta Maya" onerror="this.remove()">
+          <div class="lab">
+            <div class="tn">Puerta Maya</div>
+            <div class="tl">South of downtown &middot; Cozumel's busiest terminal</div>
+          </div>
+        </div>
+        <div class="go">Meeting point &amp; directions &rarr;</div>
+      </a>
+      <div class="tships"></div>
+    </div>
+
+    <div class="tblock" data-port="SSA MEXICO">
+      <a class="tcard" href="ssa-mexico.html">
+        <div class="shot">
+          <img src="/assets/meet/south-2.jpg" alt="The meeting point near SSA Mexico" onerror="this.remove()">
+          <div class="lab">
+            <div class="tn">SSA Mexico</div>
+            <div class="tl">The International Pier &middot; beside Puerta Maya</div>
+          </div>
+        </div>
+        <div class="go">Meeting point &amp; directions &rarr;</div>
+      </a>
+      <div class="tships"></div>
+    </div>
+
+    <div class="tblock" data-port="PUNTA LANGOSTA">
+      <a class="tcard" href="punta-langosta.html">
+        <div class="shot">
+          <img src="/assets/meet/langosta-2.jpg" alt="The white lighthouse at Punta Langosta" onerror="this.remove()">
+          <div class="lab">
+            <div class="tn">Punta Langosta</div>
+            <div class="tl">The white lighthouse, between Hooters and Starbucks</div>
+          </div>
+        </div>
+        <div class="go">Meeting point &amp; directions &rarr;</div>
+      </a>
+      <div class="tships"></div>
+    </div>
+
   </div>
 
   <section>
-    <!-- One block per terminal, ships nested underneath. A guest recognises her ship
-         long before she recognises a terminal name, so the ship is what leads her to
-         the right page. Order is by traffic: Puerta Maya is the busiest. -->
-    <div class="terminals">
-
-      <div class="tblock" data-port="PUERTA MAYA">
-        <a class="tcard" href="puerta-maya.html">
-          <div class="tn">Terminal Puerta Maya</div>
-          <div class="tp">South of downtown &middot; Cozumel's busiest terminal</div>
-          <div class="tl">Meeting point &amp; directions &rarr;</div>
-        </a>
-        <div class="tships"></div>
-      </div>
-
-      <div class="tblock" data-port="SSA MEXICO">
-        <a class="tcard" href="ssa-mexico.html">
-          <div class="tn">Terminal SSA Mexico</div>
-          <div class="tp">Also called the International Pier &middot; beside Puerta Maya</div>
-          <div class="tl">Meeting point &amp; directions &rarr;</div>
-        </a>
-        <div class="tships"></div>
-      </div>
-
-      <div class="tblock" data-port="PUNTA LANGOSTA">
-        <a class="tcard" href="punta-langosta.html">
-          <div class="tn">Terminal Punta Langosta</div>
-          <div class="tp">Downtown San Miguel</div>
-          <div class="tl">The white lighthouse, between Hooters and Starbucks &rarr;</div>
-        </a>
-        <div class="tships"></div>
-      </div>
-
-    </div>
-
-    <!-- Provenance, not instruction — it belongs after she has found her ship,
-         not in front of it. The fallback message lands here too. -->
+    <!-- Provenance, not instruction — it belongs after she has found her ship. -->
     <p class="ships-note" id="ships-note">Ships in port <b>today and tomorrow</b> are listed under
       their terminal, straight from the Cozumel port authority. Sailing later than that? Your cruise
       line's app or daily programme names your terminal.</p>
@@ -62,8 +77,11 @@
   <section>
     <h2>Can't find us?</h2>
     <p>Message us on WhatsApp and tell us where you're standing. We answer in English.</p>
-    <a class="btn btn-wa" id="waGeneral" href="#">Message us on WhatsApp</a>
   </section>
+
+  <div class="acts one">
+    <a class="p" id="waGeneral" href="#">WhatsApp</a>
+  </div>
 
   <footer>
     <p class="f-white">Cozumel Island Transfers</p>
@@ -82,10 +100,9 @@
   /* Two requests, in parallel, with very different stakes.
 
      The port feed IS the ship list — if it fails, the ship lists go away.
-     The fleet file only adds the cruise line under a ship's name ("Royal
-     Caribbean"), so it fails silently: bad JSON, a 404 or a slow ship's-wifi
-     connection just means the line is omitted. It never delays or breaks the
-     page, and it never guesses — a ship we can't match shows no line at all. */
+     The fleet file only adds the cruise line under a ship's name, so it fails
+     silently: bad JSON, a 404 or slow ship's wifi just means the line is
+     omitted. It never delays the page and never guesses. */
   var fleet = withTimeout(
     fetch('/data/cozumel-ships.json')
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -107,8 +124,6 @@
     })]);
   }
 
-  /* Uppercased name -> { name, line }. The file's own spelling is what we show,
-     which is also how the SHOUTING name from the port feed gets fixed. */
   function indexFleet(d){
     if (!d || !d.ships) return null;
     var m = {};
@@ -158,8 +173,8 @@
   /* Ships come through as "M/S CARNIVAL BREEZE". Nobody calls it that. */
   function clean(n){ return String(n || '').replace(/^M\/?S\.?\s+/i, ''); }
 
-  /* Only for a ship the fleet file has never seen. Capitals are the one thing
-     these pages don't do, so a new ship gets cased rather than left shouting. */
+  /* Only for a ship the fleet file has never seen — so a new ship gets cased
+     rather than left shouting. */
   var KEEP  = {MSC:1, AIDA:1, TUI:1, 'P&O':1, II:1, III:1, IV:1};
   var SMALL = {of:1, the:1, and:1, at:1, de:1, del:1, la:1, los:1, von:1};
   function titleCase(n){
