@@ -115,3 +115,18 @@ footer p + p{margin-top:6px}
 .hubtop .k{font-size:14px; opacity:.7}
 .hubtop h1{margin:8px 0 0; font-size:34px; line-height:1.08; font-weight:500; letter-spacing:-.03em}
 .hubtop p{margin:12px 0 0; font-size:16px; line-height:1.45; opacity:.82; max-width:24em}
+
+/* ---------- the no-photo state ----------
+   Tesla's whole grammar is type sitting on a photograph. With no photograph it
+   is a large empty rectangle, so until Angel's files land the hero collapses to
+   a compact block with the same type in the same order. Nothing else changes,
+   and the moment the image loads it becomes the full-bleed hero it was designed
+   to be. Set by the img's own onerror — no extra request, no flash. */
+.hero.no-photo{height:auto; min-height:0; padding:6px 0 0}
+.hero.no-photo::after{display:none}
+.hero.no-photo .back{position:static; margin-left:10px}
+.hero.no-photo .over{position:static; padding:10px 24px 30px}
+
+.tcard .shot.no-photo{height:auto; padding:26px 0 6px}
+.tcard .shot.no-photo::after{display:none}
+.tcard .shot.no-photo .lab{position:static; padding:0 24px}
