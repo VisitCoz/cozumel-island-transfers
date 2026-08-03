@@ -10,21 +10,22 @@
 <body>
 <div class="wrap">
 
+  <!-- She already knows which terminal she is at — she just tapped it. So the
+       terminal name is the quiet line and the landmark is the headline. -->
   <div class="top">
     <a class="back" href="./">&larr; All terminals</a>
-    <div class="kicker">Meeting point</div>
-    <h1>Punta Langosta</h1>
-    <p>Downtown San Miguel. This is the terminal in the middle of town, with the
-       pedestrian bridge over the main road.</p>
+    <h1 class="kicker">Punta Langosta &middot; meeting point</h1>
   </div>
 
-  <!-- The landmark comes first and biggest. It is the only thing that works
-       with no phone signal, and it is the thing a guest repeats to a stranger. -->
+  <!-- The landmark comes first and biggest, with nothing drawn around it.
+       It is the only thing that works with no phone signal, and it is the
+       thing a guest repeats out loud to a stranger. -->
   <div class="landmark">
-    <div class="lm-label">Look for</div>
     <p class="lm-main">The white lighthouse</p>
     <p class="lm-sub">It stands between <b>Hooters</b> and <b>Starbucks</b>, right on the seafront.
        Our representative is underneath it, holding a sign with your name on it.</p>
+    <p class="lm-where">Downtown San Miguel. This is the terminal in the middle of town, with the
+       pedestrian bridge over the main road.</p>
   </div>
 
   <section>
@@ -82,13 +83,12 @@
     <a class="btn btn-wa" id="wa" href="#">Message us on WhatsApp</a>
     <a class="btn btn-map" href="https://maps.app.goo.gl/ssKKRTSdRHMSQrTy6"
        target="_blank" rel="noopener">Open the lighthouse in Google Maps</a>
-    <p style="font-size:14px;color:var(--mute);margin-top:12px">
-      The map needs an internet connection. The lighthouse doesn't.</p>
+    <p class="caveat">The map needs an internet connection. The lighthouse doesn't.</p>
   </section>
 
   <footer>
-    <div><b>Cozumel Island Transfers</b></div>
-    <div class="f-mute">Nothing to pay the driver. Your transfer is already paid in full.</div>
+    <p class="f-white">Cozumel Island Transfers</p>
+    <p>Nothing to pay the driver. Your transfer is already paid in full.</p>
   </footer>
 
 </div>
@@ -99,14 +99,26 @@
     encodeURIComponent("Hi, I have a question from Cozumel Island Transfers. I'm at Punta Langosta.");
 
   /* Hide any shot that hasn't been photographed yet, and drop the whole section
-     if none of them exist. A guest should never see an empty frame. */
+     if none of them exist. A guest should never see an empty frame.
+
+     The `complete && !naturalWidth` check is not belt-and-braces: an image that
+     404s from cache, or off a fast connection, finishes failing before this
+     script at the end of <body> ever runs, so its error event is never heard
+     and its broken frame stays on the page. That is the one thing this code
+     exists to prevent. */
   var figs = document.querySelectorAll('#shots-section figure');
   var left = figs.length;
   figs.forEach(function(f){
-    f.querySelector('img').addEventListener('error', function(){
+    var img = f.querySelector('img');
+    function drop(){
       f.remove();
-      if (--left === 0) document.getElementById('shots-section').remove();
-    });
+      if (--left === 0) {
+        var s = document.getElementById('shots-section');
+        if (s) s.remove();
+      }
+    }
+    if (img.complete && !img.naturalWidth) drop();
+    else img.addEventListener('error', drop);
   });
 })();
 </script>

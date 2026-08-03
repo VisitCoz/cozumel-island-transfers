@@ -12,9 +12,7 @@
 
   <div class="top">
     <a class="back" href="./">&larr; All terminals</a>
-    <div class="kicker">Meeting point</div>
-    <h1>Puerta Maya</h1>
-    <p>South of downtown San Miguel, about 4 km from the town centre. Cozumel's busiest cruise terminal, with the shopping village at the end of the pier.</p>
+    <h1 class="kicker">Puerta Maya &middot; meeting point</h1>
   </div>
 
   <!-- ⚠️ MIKE: the landmark line below is a placeholder.
@@ -23,10 +21,11 @@
        page. Do NOT let anyone invent one: a guessed landmark sends a guest to the wrong
        place, which is the exact failure these pages exist to prevent. -->
   <div class="landmark">
-    <div class="lm-label">Look for</div>
     <p class="lm-main">Our representative with your name on a sign</p>
     <p class="lm-sub">We message you the exact spot the day before you sail, once the port
        confirms which berth your ship is using.</p>
+    <p class="lm-where">South of downtown San Miguel, about 4 km from the town centre. Cozumel's
+       busiest cruise terminal, with the shopping village at the end of the pier.</p>
   </div>
 
   <section>
@@ -62,8 +61,8 @@
   </section>
 
   <footer>
-    <div><b>Cozumel Island Transfers</b></div>
-    <div class="f-mute">Nothing to pay the driver. Your transfer is already paid in full.</div>
+    <p class="f-white">Cozumel Island Transfers</p>
+    <p>Nothing to pay the driver. Your transfer is already paid in full.</p>
   </footer>
 
 </div>
@@ -73,13 +72,22 @@
   document.getElementById('wa').href = 'https://wa.me/5219871146853?text=' +
     encodeURIComponent("Hi, I have a question from Cozumel Island Transfers. I'm at Puerta Maya.");
 
+  /* An image that 404s from cache, or off a fast connection, finishes failing
+     before this script runs — so check for that as well as listening. Otherwise
+     the first frame stays on the page broken, which is the one thing this is for. */
   var figs = document.querySelectorAll('#shots-section figure');
   var left = figs.length;
   figs.forEach(function(f){
-    f.querySelector('img').addEventListener('error', function(){
+    var img = f.querySelector('img');
+    function drop(){
       f.remove();
-      if (--left === 0) document.getElementById('shots-section').remove();
-    });
+      if (--left === 0) {
+        var s = document.getElementById('shots-section');
+        if (s) s.remove();
+      }
+    }
+    if (img.complete && !img.naturalWidth) drop();
+    else img.addEventListener('error', drop);
   });
 })();
 </script>

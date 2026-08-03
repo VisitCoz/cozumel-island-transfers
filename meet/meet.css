@@ -1,5 +1,19 @@
 /* Meeting point pages — shared styles.
-   Same tokens as proto/flow-prototype.html so these don't read as a different site. */
+
+   THE CUT (same reasoning that was approved for the site footer):
+   two type sizes on any page, three weights, and NOTHING set in capitals.
+   Hierarchy is carried by COLOUR and SPACE, never by size and weight.
+
+     ink   (#0E0E10)  what she has to read
+     mute  (#6E6E73)  detail she may skip
+     accent(#0F62D6)  what she taps
+
+   One element per page is allowed to be big: the landmark on a terminal page,
+   the title on the hub. Everything else is 17px. Capitals are gone because a
+   70-year-old reading a phone in bright sunlight navigates by word shape, and
+   capitals flatten every word into the same rectangle.
+
+   --accent must stay #0F62D6. The brighter #1D7AFC fails AA on --surface. */
 
 :root{
   --bg:#FFFFFF; --ink:#0E0E10; --navy:#0F2C44; --mute:#6E6E73; --mute-2:#8C9AAB;
@@ -7,6 +21,9 @@
   --accent:#0F62D6;            /* the pressed blue — #1D7AFC fails AA on --surface */
   --success-deep:#1F7A3F;
   --shadow:0 1px 2px rgba(14,14,16,.04), 0 8px 24px rgba(14,14,16,.06);
+
+  --size-lead:26px;   /* exactly one element per page wears this */
+  --size-text:17px;   /* literally everything else */
 }
 
 *{box-sizing:border-box}
@@ -14,90 +31,104 @@ html{-webkit-text-size-adjust:100%}
 body{
   margin:0; background:var(--surface); color:var(--ink);
   font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-  font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  font-size:var(--size-text); line-height:1.55; font-weight:400;
+  -webkit-font-smoothing:antialiased;
 }
 img{max-width:100%; height:auto; display:block}
 a{color:var(--accent)}
+h1,h2{font-size:var(--size-text); font-weight:400; margin:0}
+p{margin:0}
+
+/* Emphasis is a colour change with a hair of weight — never a jump in size. */
+b,strong{font-weight:500; color:var(--navy)}
 
 .wrap{max-width:560px; margin:0 auto; background:var(--bg); min-height:100vh; box-shadow:var(--shadow)}
 
-/* ---- header ---- */
-.top{background:var(--navy); color:#fff; padding:18px 20px 22px}
-.top a.back{color:rgba(255,255,255,.75); text-decoration:none; font-size:14px;
-  display:inline-block; min-height:44px; line-height:44px}
-.kicker{font-size:11px; letter-spacing:.14em; text-transform:uppercase; opacity:.7}
-.top h1{margin:4px 0 0; font-size:26px; line-height:1.15; font-weight:800; letter-spacing:-.02em}
-.top p{margin:8px 0 0; opacity:.85; font-size:15px}
+/* ---- top of page: brand line, then straight into the answer ---- */
+.top{padding:6px 20px 0}
+/* Grey, not blue. The landmark below has to be the first thing the eye lands on,
+   and blue is the only colour on the page — spending it on "back" would steal it. */
+.top a.back{display:inline-flex; align-items:center; min-height:44px;
+  color:var(--mute); text-decoration:none}
+.kicker{color:var(--mute); padding-top:20px}
+.top a.back + .kicker{padding-top:2px}
 
-/* ---- the landmark: the most important thing on the page ---- */
-.landmark{margin:0; padding:22px 20px; background:#FFF8E6; border-bottom:1px solid var(--line)}
-.landmark .lm-label{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8A6D1F}
-.landmark .lm-main{margin:6px 0 0; font-size:24px; line-height:1.2; font-weight:800;
-  color:var(--navy); letter-spacing:-.02em}
-.landmark .lm-sub{margin:8px 0 0; font-size:16px; color:var(--ink)}
-.landmark .lm-pending{margin:6px 0 0; font-size:18px; font-weight:700; color:#B4531A}
+/* The hub's title is its one big thing. */
+.top h1.lead{margin:4px 0 0; font-size:var(--size-lead); line-height:1.22;
+  font-weight:600; letter-spacing:-.02em; color:var(--ink)}
+.top p{margin:14px 0 0; color:var(--mute)}
 
-section{padding:22px 20px; border-bottom:1px solid var(--line)}
-section:last-of-type{border-bottom:0}
-h2{margin:0 0 12px; font-size:19px; font-weight:800; color:var(--navy); letter-spacing:-.01em}
-p{margin:0 0 12px}
-p:last-child{margin-bottom:0}
+/* ---- the landmark: the first and largest thing on a terminal page ----
+   No box, no yellow, no label. It is big and it is first — that is the
+   emphasis. A coloured box would only add a second thing to look at. */
+.landmark{padding:4px 20px 0}
+.landmark .lm-main{margin:0; font-size:var(--size-lead); line-height:1.22;
+  font-weight:600; letter-spacing:-.02em; color:var(--ink)}
+.landmark .lm-sub{margin:14px 0 0; color:var(--ink)}
+.landmark .lm-where{margin:14px 0 0; color:var(--mute)}
+
+section{padding:34px 20px 0}
+section:last-of-type{padding-bottom:36px}
+/* A section label is grey and quiet. The content under it is black. */
+h2{margin:0 0 16px; color:var(--mute)}
+section p + p{margin-top:14px}
 
 /* ---- offline note ---- */
-.offline{background:var(--surface); border:1px solid var(--line); border-radius:12px;
-  padding:14px 16px; font-size:15px}
-.offline b{color:var(--navy)}
+.offline{background:var(--surface); border-radius:14px; padding:18px}
 
 /* ---- photo sequence (figures self-remove if the image isn't shot yet) ---- */
-.shots{display:grid; gap:16px}
+.shots{display:grid; gap:26px}
 .shots figure{margin:0}
-.shots img{border-radius:12px; border:1px solid var(--line); width:100%}
-.shots figcaption{margin-top:8px; font-size:15px; color:var(--ink)}
-.shots .n{display:inline-flex; align-items:center; justify-content:center;
-  width:22px; height:22px; border-radius:50%; background:var(--navy); color:#fff;
-  font-size:12px; font-weight:800; margin-right:8px; vertical-align:1px}
+.shots img{border-radius:12px; width:100%}
+.shots figcaption{margin-top:10px; color:var(--mute)}
+.shots .n{color:var(--mute); margin-right:10px}
 
-/* ---- directions ---- */
+/* ---- directions: numerals, not badges ---- */
 ol.steps{margin:0; padding:0; list-style:none; counter-reset:s}
-ol.steps li{counter-increment:s; position:relative; padding:0 0 16px 40px; font-size:16px}
+ol.steps li{counter-increment:s; position:relative; padding:0 0 18px 34px}
 ol.steps li:last-child{padding-bottom:0}
-ol.steps li::before{content:counter(s); position:absolute; left:0; top:0;
-  width:26px; height:26px; border-radius:50%; background:var(--navy); color:#fff;
-  font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center}
+ol.steps li::before{content:counter(s); position:absolute; left:0; top:0; color:var(--mute)}
 
-/* ---- buttons ---- */
+/* ---- buttons: the green one is the action, the grey one is the alternative ---- */
 .btn{display:flex; align-items:center; justify-content:center; gap:8px;
   min-height:54px; padding:0 18px; border-radius:12px; text-decoration:none;
-  font-size:17px; font-weight:700; margin-top:12px}
+  font-weight:500; margin-top:14px}
 .btn-wa{background:var(--success-deep); color:#fff}
-.btn-map{background:#fff; color:var(--navy); border:1.5px solid var(--line)}
+.btn-map{background:var(--surface); color:var(--accent)}
+.caveat{margin-top:14px; color:var(--mute)}
 
-/* ---- terminal blocks on the hub: card on top, its ships underneath ---- */
-.terminals{display:grid; gap:18px}
-.tblock{border:1.5px solid var(--line); border-radius:14px; overflow:hidden; background:#fff}
-.tcard{display:block; text-decoration:none; color:inherit; padding:16px 18px 14px; min-height:44px}
-.tcard .tn{font-size:19px; font-weight:800; color:var(--navy); letter-spacing:-.01em}
-.tcard .tl{font-size:15px; color:var(--accent); font-weight:600; margin-top:3px}
-.tcard .tp{font-size:13px; color:var(--mute-2); margin-top:6px}
+/* ---- hub: one block per terminal, its ships underneath ----
+   Separated by a single hairline, because ships have to belong visibly to
+   the terminal above them. Everything else is separated by space. */
+.terminals{margin-top:6px}
+.tblock{padding:26px 0}
+.tblock:first-child{padding-top:0}
+.tblock + .tblock{border-top:1px solid var(--line)}
+.tcard{display:block; text-decoration:none; color:inherit; min-height:44px}
+.tcard .tn{color:var(--ink); font-weight:500}
+.tcard .tp{color:var(--mute)}
+.tcard .tl{color:var(--accent); margin-top:6px}
 
-.tships{border-top:1px solid var(--line); background:var(--surface)}
 .tships:empty{display:none}
-.tday{padding:12px 18px}
-.tday + .tday{border-top:1px solid var(--line)}
-.tday-label{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
-  color:var(--mute-2); font-weight:700; margin-bottom:6px}
-.s-row{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:3px 0}
-.s-name{font-size:16px; font-weight:700; color:var(--ink)}
-.s-times{font-size:13px; color:var(--mute); white-space:nowrap}
-.tnone{padding:12px 18px; font-size:14px; color:var(--mute-2)}
+.tday{margin-top:20px}
+.tday-label{display:block; color:var(--mute)}
+.s-row{margin-top:8px}
+.s-name{font-weight:500}
+.s-meta{color:var(--mute)}
+.tnone{margin-top:20px; color:var(--mute)}
 
-.ships-note{font-size:14px; color:var(--mute); margin:0 0 18px}
+.ships-note{color:var(--mute); margin:28px 0 0}
+/* The fallback drops a link in here; it still has to be tappable. */
+.notelink{display:flex; align-items:center; min-height:44px;
+  color:var(--accent); text-decoration:none}
 
 /* ---- the overview graphic ---- */
-.overview{margin:0; padding:0}
-.overview img{width:100%; border-radius:12px; border:1px solid var(--line)}
-.overview figcaption{margin-top:8px; font-size:14px; color:var(--mute)}
+.overview{margin:0}
+.overview img{width:100%; border-radius:12px}
+.overview figcaption{margin-top:10px; color:var(--mute)}
 
-footer{padding:22px 20px 40px; background:var(--navy); color:#fff; font-size:15px; line-height:23px}
+/* ---- footer: navy, one size, one weight, white rationed to one line ---- */
+footer{background:var(--navy); color:var(--mute-2); padding:32px 20px 42px; margin-top:36px}
 footer a{color:#fff}
-footer .f-mute{color:rgba(255,255,255,.7)}
+footer .f-white{color:#fff}
+footer p + p{margin-top:6px}
