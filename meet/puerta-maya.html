@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puerta Maya meeting point — Cozumel Island Transfers</title>
+<meta name="description" content="Puerta Maya cruise terminal, Cozumel: where to meet your Cozumel Island Transfers representative. We hold a sign with your name.">
+<link rel="stylesheet" href="meet.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a class="back" href="./">&larr; All terminals</a>
+    <div class="kicker">Meeting point</div>
+    <h1>Puerta Maya</h1>
+    <p>South of downtown San Miguel, about 4 km from the town centre. Cozumel's busiest cruise terminal, with the shopping village at the end of the pier.</p>
+  </div>
+
+  <!-- ⚠️ MIKE: the landmark line below is a placeholder.
+       Tell me the landmark your rep actually stands at — the way "the white lighthouse,
+       between Hooters and Starbucks" works for Punta Langosta — and this becomes a real
+       page. Do NOT let anyone invent one: a guessed landmark sends a guest to the wrong
+       place, which is the exact failure these pages exist to prevent. -->
+  <div class="landmark">
+    <div class="lm-label">Look for</div>
+    <p class="lm-main">Our representative with your name on a sign</p>
+    <p class="lm-sub">We message you the exact spot the day before you sail, once the port
+       confirms which berth your ship is using.</p>
+  </div>
+
+  <section>
+    <div class="offline">
+      <b>No signal when you step off?</b> Most phones have no data in Cozumel until you buy a
+      plan. Screenshot the message we send you while you still have the ship's wifi.
+    </div>
+  </section>
+
+  <section id="shots-section">
+    <h2>What you'll see</h2>
+    <div class="shots">
+      <figure>
+        <img src="/assets/meet/puerta-maya-1.jpg" alt="Walking out of the Puerta Maya terminal">
+        <figcaption><span class="n">1</span>Coming out of the terminal.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/meet/puerta-maya-2.jpg" alt="The landmark at Puerta Maya">
+        <figcaption><span class="n">2</span>The landmark you're walking toward.</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/meet/puerta-maya-3.jpg" alt="Our representative waiting with a name sign">
+        <figcaption><span class="n">3</span>This is where we stand. Look for the sign with your name.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>If you need us</h2>
+    <p>Message us on WhatsApp and tell us where you're standing. We answer in English, and
+       someone is on the pier the whole time your ship is in port.</p>
+    <a class="btn btn-wa" id="wa" href="#">Message us on WhatsApp</a>
+  </section>
+
+  <footer>
+    <div><b>Cozumel Island Transfers</b></div>
+    <div class="f-mute">Nothing to pay the driver. Your transfer is already paid in full.</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  document.getElementById('wa').href = 'https://wa.me/5219871146853?text=' +
+    encodeURIComponent("Hi, I have a question from Cozumel Island Transfers. I'm at Puerta Maya.");
+
+  var figs = document.querySelectorAll('#shots-section figure');
+  var left = figs.length;
+  figs.forEach(function(f){
+    f.querySelector('img').addEventListener('error', function(){
+      f.remove();
+      if (--left === 0) document.getElementById('shots-section').remove();
+    });
+  });
+})();
+</script>
+</body>
+</html>

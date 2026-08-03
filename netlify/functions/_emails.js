@@ -7,6 +7,21 @@
 
 const WHATSAPP = '+52 987 114 6853';
 
+// Where the meeting-point pages live. Change this one line at the DNS cutover.
+const SITE = process.env.SITE_URL || 'https://cozu.netlify.app';
+
+// All three go in the email. Mike's call: "I want us to have the same information…
+// so there's no complication." We do not guess the terminal from the ship, even
+// though the port schedule would allow it — a wrong guess is worse than a short list.
+const MEETING_POINTS = [
+  { slug: 'punta-langosta', name: 'Punta Langosta',
+    hint: 'Downtown &middot; the white lighthouse, between Hooters and Starbucks' },
+  { slug: 'puerta-maya',    name: 'Puerta Maya',
+    hint: 'South of downtown &middot; the busiest terminal' },
+  { slug: 'ssa-mexico',     name: 'SSA Mexico / International Pier',
+    hint: 'South of downtown, beside Puerta Maya' },
+];
+
 const esc = (s) => String(s ?? '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
 
 // Noon UTC, so the date never slips a day when the formatter shifts timezone.
@@ -132,8 +147,14 @@ function guestEmail(r) {
 
       <div style="background:#F4F8FA;border:1px solid #E5E5E7;border-radius:10px;padding:14px 16px">
         <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8C9AAB">Where</div>
-        <p style="margin:5px 0 0">Walk out of the cruise terminal. Our representative is at our marked
-          meeting point <b>a few steps outside</b>, holding a sign with your name on it.</p>
+        <p style="margin:5px 0 10px">Cozumel has three cruise terminals. Open the one your ship
+          docks at — each has photos and a landmark you can find without a phone signal.</p>
+        ${MEETING_POINTS.map(t => `
+        <div style="border-top:1px solid #E5E5E7;padding:9px 0 0;margin-top:9px">
+          <a href="${SITE}/meet/${t.slug}.html"
+             style="color:#0F62D6;font-weight:700;text-decoration:none;font-size:16px">${t.name} &rarr;</a>
+          <div style="font-size:13.5px;color:#6E6E73;margin-top:1px">${t.hint}</div>
+        </div>`).join('')}
       </div>
 
       <table style="width:100%;border-collapse:collapse;font-size:15px;margin-top:16px">
