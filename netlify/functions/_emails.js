@@ -47,7 +47,9 @@ function bookingEmail(m, amount, currency, email) {
     <div style="background:#0F2C44;color:#fff;padding:18px 20px;border-radius:12px 12px 0 0">
       <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.7">New booking</div>
       <div style="font-size:21px;font-weight:800;margin-top:4px">
-        ${esc(m.destination_name || m.destination)} · ${esc(m.date)}</div>
+        ${esc(m.destination_name || m.destination)}</div>
+      <div style="font-size:15px;font-weight:600;margin-top:3px">
+        ${esc(prettyDateFull(m.date))}</div>
       <div style="opacity:.8;font-size:14px;margin-top:2px">
         ${esc(m.pickup)} – ${esc(m.ret)} · ${esc(m.pax)} people</div>
     </div>
