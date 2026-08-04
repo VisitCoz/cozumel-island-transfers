@@ -164,3 +164,7 @@ footer p + p{margin-top:6px}
 /* The one that stops her panicking. Not a warning — a reassurance, so it is
    grey and calm rather than red and loud. */
 .walk .st.note .say{background:var(--surface); border-radius:12px; padding:16px 18px}
+
+/* Running time on each step — how far she has left to walk. This was the
+   Trail layout's one real advantage; it costs the Filmstrip nothing. */
+.walk .meta{display:block; font-size:13.5px; color:var(--mute-2); margin-top:4px}
