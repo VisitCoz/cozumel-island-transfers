@@ -239,18 +239,21 @@
   prev.addEventListener('click', function(){ go(i - 1); });
   next.addEventListener('click', function(){ go(i + 1); });
 
-  /* Keep the dots honest when she swipes rather than taps. */
+  /* Keep the dots honest when she swipes rather than taps.
+     Measured against the rail's own rect, not offsetLeft — the rail is padded,
+     so offsetLeft is off by that padding and the counter lands a card behind. */
   var t;
   rail.addEventListener('scroll', function(){
     clearTimeout(t);
     t = setTimeout(function(){
-      var mid = rail.scrollLeft + rail.clientWidth / 2, best = 0, gap = 1e9;
+      var r = rail.getBoundingClientRect(), mid = r.left + r.width / 2, best = 0, gap = 1e9;
       cards.forEach(function(c, n){
-        var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+        var b = c.getBoundingClientRect();
+        var d = Math.abs(b.left + b.width / 2 - mid);
         if (d < gap) { gap = d; best = n; }
       });
       i = best; paint();
-    }, 90);
+    }, 120);
   });
 
   paint();
