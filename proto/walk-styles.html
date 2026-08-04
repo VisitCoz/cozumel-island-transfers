@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Puerta Maya walkthrough — three layouts</title>
+<style>
+  :root{
+    --navy:#0F2C44; --ink:#0B0B0C; --mute:#6E6E73; --mute-2:#8C9AAB;
+    --line:#E5E5E7; --surface:#F5F5F7; --accent:#0F62D6; --green:#1F7A3F;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:#DEE3E8; color:var(--ink); font-size:17px; line-height:1.55;
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  a{text-decoration:none}
+
+  /* ---- chrome ---- */
+  .intro{max-width:520px; margin:0 auto; padding:26px 20px 4px; color:#2A3440}
+  .intro h1{margin:0; font-size:21px; font-weight:700; letter-spacing:-.02em}
+  .intro p{margin:10px 0 0; font-size:15px; color:#4A5663}
+  .tag{max-width:520px; margin:34px auto 0; padding:0 20px}
+  .tag .t{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#5C6B7A; font-weight:700}
+  .tag .n{margin:6px 0 0; font-size:20px; font-weight:700; letter-spacing:-.02em; color:#16202B}
+  .tag .d{margin:6px 0 14px; font-size:14.5px; line-height:1.5; color:#4A5663}
+  .phone{max-width:520px; margin:0 auto; background:#fff; border-radius:18px; overflow:hidden;
+    box-shadow:0 2px 4px rgba(0,0,0,.06), 0 18px 46px rgba(0,0,0,.14)}
+  .end{max-width:520px; margin:0 auto; padding:38px 20px 70px; font-size:14.5px; color:#4A5663}
+
+  /* ---- shared inside the mockups ---- */
+  .head{padding:26px 22px 4px}
+  .head .k{font-size:15px; color:var(--mute); margin:0}
+  .head h2{margin:6px 0 0; font-size:26px; line-height:1.15; font-weight:600; letter-spacing:-.025em}
+  .head p{margin:12px 0 0; font-size:16px; color:var(--mute)}
+  .sec{padding:26px 22px 30px}
+  .sec > h3{margin:0 0 18px; font-size:17px; font-weight:400; color:var(--mute)}
+
+  /* a labelled stand-in for a photo Mike has not sent yet */
+  .ph{position:relative; aspect-ratio:16/9; background:var(--surface); border-radius:12px;
+    display:flex; align-items:center; justify-content:center; text-align:center; padding:14px;
+    border:1px dashed #C7D0D8}
+  .ph span{font-size:12.5px; line-height:1.45; color:#7C8A97}
+  .ph b{display:block; color:#5C6B7A; font-weight:600; margin-bottom:3px}
+
+  /* ===================== 1 · THE FILMSTRIP ===================== */
+  .fs .step{padding-bottom:30px}
+  .fs .step:last-child{padding-bottom:0}
+  .fs .ph{margin-bottom:12px}
+  .fs .txt{display:flex; gap:14px; align-items:baseline}
+  .fs .num{color:var(--mute); min-width:16px; font-variant-numeric:tabular-nums}
+  .fs .say{flex:1}
+  .fs .say b{color:var(--navy)}
+  .fs .arrive .say{background:#EAF3EA; border-radius:12px; padding:15px 17px}
+
+  /* ===================== 2 · THE TRAIL ===================== */
+  .tr .row{position:relative; display:grid; grid-template-columns:26px 96px 1fr; gap:14px;
+    padding:0 0 22px}
+  .tr .row:last-child{padding-bottom:0}
+  /* the connector: a line from this dot to the next */
+  .tr .row::before{content:""; position:absolute; left:12px; top:22px; bottom:0; width:2px;
+    background:var(--line)}
+  .tr .row:last-child::before{display:none}
+  .tr .dot{width:26px; height:26px; border-radius:50%; background:var(--surface);
+    border:2px solid var(--line); display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--mute); z-index:1; font-variant-numeric:tabular-nums}
+  .tr .row.arrive .dot{background:var(--green); border-color:var(--green); color:#fff}
+  .tr .ph{aspect-ratio:1; border-radius:10px}
+  .tr .ph span{font-size:10.5px}
+  .tr .ph b{font-size:11px}
+  .tr .say{font-size:16px; line-height:1.45; padding-top:1px}
+  .tr .say b{color:var(--navy)}
+  .tr .meta{display:block; font-size:13.5px; color:var(--mute-2); margin-top:3px}
+
+  /* ===================== 3 · THE SWIPE ===================== */
+  .sw .rail{display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch; padding:0 22px 6px; scrollbar-width:none}
+  .sw .rail::-webkit-scrollbar{display:none}
+  .sw .card{flex:0 0 82%; scroll-snap-align:center}
+  .sw .card .ph{aspect-ratio:4/5; border-radius:14px}
+  .sw .card .cap{margin-top:12px; font-size:16px; line-height:1.45; min-height:5.2em}
+  .sw .card .cap .n{color:var(--mute); margin-right:8px; font-variant-numeric:tabular-nums}
+  .sw .card .cap b{color:var(--navy)}
+  /* Arrows are real buttons, not a gesture — a 70-year-old will not discover a swipe. */
+  .sw .ctrl{display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:16px 22px 4px}
+  .sw .ctrl button{width:52px; height:52px; border-radius:50%; border:1.5px solid var(--line);
+    background:#fff; font-size:20px; color:var(--navy); line-height:1; cursor:pointer}
+  .sw .ctrl button:disabled{opacity:.3}
+  .sw .dots{display:flex; gap:7px}
+  .sw .dots i{width:7px; height:7px; border-radius:50%; background:var(--line)}
+  .sw .dots i.on{background:var(--navy)}
+  .sw .hint{padding:10px 22px 0; font-size:14px; color:var(--mute-2); text-align:center}
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Puerta Maya — three walkthrough layouts</h1>
+  <p>Same six steps, same words, three ways of showing them. Nothing on the live site has
+     changed. The grey frames are where your Street View screenshots go — each one is
+     labelled with the shot it holds.</p>
+</div>
+
+<!-- ============================ 1 ============================ -->
+<div class="tag">
+  <div class="t">Layout 1</div>
+  <div class="n">The Filmstrip</div>
+  <div class="d">Scroll down. One big photo, one instruction, six times. No interaction to
+    learn and nothing hidden — the safest of the three for a nervous 70-year-old. Longest page.</div>
+</div>
+<div class="phone">
+  <div class="head">
+    <p class="k">Puerta Maya Cruise Terminal</p>
+    <h2>Across from Royal Village Mall</h2>
+    <p>Turn left out of the terminal and stay on the ocean side. Two minutes, no crossing.</p>
+  </div>
+  <div class="sec fs">
+    <h3>Getting there</h3>
+    <div class="step"><div class="ph"><span><b>south-1.jpg</b>Out of the terminal, already turned left</span></div>
+      <div class="txt"><span class="num">1</span><span class="say">Walk out of the terminal and <b>turn left</b>.</span></div></div>
+    <div class="step"><div class="ph"><span><b>south-2.jpg</b>The sidewalk on the ocean side</span></div>
+      <div class="txt"><span class="num">2</span><span class="say"><b>Do not cross the street.</b> Stay on the sidewalk on the ocean side.</span></div></div>
+    <div class="step"><div class="ph"><span><b>south-3.jpg</b>The stretch with vendors and taxis</span></div>
+      <div class="txt"><span class="num">3</span><span class="say">You will pass vendors, taxis and people selling tours. <b>This is normal.</b> None of them is your driver.</span></div></div>
+    <div class="step"><div class="ph"><span><b>south-4.jpg</b>The Pemex station</span></div>
+      <div class="txt"><span class="num">4</span><span class="say">You will see a <b>Pemex</b> petrol station. That means you are going the right way &mdash; keep going.</span></div></div>
+    <div class="step"><div class="ph"><span><b>south-5.jpg</b>Royal Village Mall across the road</span></div>
+      <div class="txt"><span class="num">5</span><span class="say">When <b>Royal Village Mall</b> appears across the road &mdash; the yellow building with the arches &mdash; you have arrived.</span></div></div>
+    <div class="step arrive"><div class="ph"><span><b>south-6.jpg</b>The spot, someone holding a sign</span></div>
+      <div class="txt"><span class="num">6</span><span class="say"><b>Stay on your side.</b> We are here with a sign showing your name.</span></div></div>
+  </div>
+</div>
+
+<!-- ============================ 2 ============================ -->
+<div class="tag">
+  <div class="t">Layout 2</div>
+  <div class="n">The Trail</div>
+  <div class="d">The grammar of walking directions — a line down the left connecting numbered
+    dots, a thumbnail beside each. She can see the whole route at once and judge how far it is
+    before setting off. Photos get small, and Street View detail is the first thing lost.</div>
+</div>
+<div class="phone">
+  <div class="head">
+    <p class="k">Puerta Maya Cruise Terminal</p>
+    <h2>Across from Royal Village Mall</h2>
+    <p>Turn left out of the terminal and stay on the ocean side. Two minutes, no crossing.</p>
+  </div>
+  <div class="sec tr">
+    <h3>Getting there &middot; about 2 minutes</h3>
+    <div class="row"><div class="dot">1</div><div class="ph"><span><b>1</b>out, turned left</span></div>
+      <div class="say">Out of the terminal, <b>turn left</b>.<span class="meta">0 min</span></div></div>
+    <div class="row"><div class="dot">2</div><div class="ph"><span><b>2</b>ocean-side path</span></div>
+      <div class="say"><b>Do not cross.</b> Sidewalk on the ocean side.<span class="meta">30 sec</span></div></div>
+    <div class="row"><div class="dot">3</div><div class="ph"><span><b>3</b>vendors</span></div>
+      <div class="say">Vendors and taxis. <b>Normal</b> &mdash; keep going.<span class="meta">1 min</span></div></div>
+    <div class="row"><div class="dot">4</div><div class="ph"><span><b>4</b>Pemex</span></div>
+      <div class="say">Past the <b>Pemex</b> station. Right way.<span class="meta">1 min 30</span></div></div>
+    <div class="row"><div class="dot">5</div><div class="ph"><span><b>5</b>Royal Village</span></div>
+      <div class="say"><b>Royal Village Mall</b> appears across the road.<span class="meta">2 min</span></div></div>
+    <div class="row arrive"><div class="dot">&#10003;</div><div class="ph"><span><b>6</b>the sign</span></div>
+      <div class="say">We are on <b>your side</b>, with your name on a sign.<span class="meta">You&rsquo;re here</span></div></div>
+  </div>
+</div>
+
+<!-- ============================ 3 ============================ -->
+<div class="tag">
+  <div class="t">Layout 3</div>
+  <div class="n">The Swipe</div>
+  <div class="d">One step fills the phone; swipe or tap the arrows for the next. The best-looking
+    of the three and the most Tesla. Also the riskiest &mdash; a guest who never swipes sees step
+    one and nothing else, which is why the arrows are real buttons and not just a gesture.</div>
+</div>
+<div class="phone">
+  <div class="head">
+    <p class="k">Puerta Maya Cruise Terminal</p>
+    <h2>Across from Royal Village Mall</h2>
+    <p>Turn left out of the terminal and stay on the ocean side. Two minutes, no crossing.</p>
+  </div>
+  <div class="sec sw" style="padding-left:0; padding-right:0">
+    <h3 style="padding:0 22px">Getting there</h3>
+    <div class="rail" id="rail">
+      <div class="card"><div class="ph"><span><b>south-1.jpg</b>Out of the terminal, turned left</span></div>
+        <p class="cap"><span class="n">1</span>Walk out of the terminal and <b>turn left</b>.</p></div>
+      <div class="card"><div class="ph"><span><b>south-2.jpg</b>Sidewalk, ocean side</span></div>
+        <p class="cap"><span class="n">2</span><b>Do not cross the street.</b> Stay on the sidewalk on the ocean side.</p></div>
+      <div class="card"><div class="ph"><span><b>south-3.jpg</b>Vendors and taxis</span></div>
+        <p class="cap"><span class="n">3</span>Vendors, taxis, people selling tours. <b>This is normal.</b> None of them is your driver.</p></div>
+      <div class="card"><div class="ph"><span><b>south-4.jpg</b>The Pemex station</span></div>
+        <p class="cap"><span class="n">4</span>A <b>Pemex</b> station means you are going the right way. Keep going.</p></div>
+      <div class="card"><div class="ph"><span><b>south-5.jpg</b>Royal Village across the road</span></div>
+        <p class="cap"><span class="n">5</span><b>Royal Village Mall</b> across the road &mdash; you have arrived.</p></div>
+      <div class="card"><div class="ph"><span><b>south-6.jpg</b>The spot, with a sign</span></div>
+        <p class="cap"><span class="n">6</span><b>Stay on your side.</b> We are here with your name on a sign.</p></div>
+    </div>
+    <div class="ctrl">
+      <button id="prev" aria-label="Previous step">&larr;</button>
+      <div class="dots" id="dots"></div>
+      <button id="next" aria-label="Next step">&rarr;</button>
+    </div>
+    <p class="hint">Step <span id="pos">1</span> of 6</p>
+  </div>
+</div>
+
+<div class="end">
+  <b>Reply with a number</b> — or a mix. Then send me the six screenshots named
+  <code>south-1.jpg</code> through <code>south-6.jpg</code> and they drop straight in.
+</div>
+
+<script>
+(function(){
+  var rail = document.getElementById('rail');
+  if (!rail) return;
+  var cards = rail.querySelectorAll('.card');
+  var dots  = document.getElementById('dots');
+  var pos   = document.getElementById('pos');
+  var prev  = document.getElementById('prev');
+  var next  = document.getElementById('next');
+  var i = 0;
+
+  cards.forEach(function(_, n){
+    var d = document.createElement('i');
+    if (!n) d.className = 'on';
+    dots.appendChild(d);
+  });
+
+  function go(n){
+    i = Math.max(0, Math.min(cards.length - 1, n));
+    cards[i].scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+    paint();
+  }
+  function paint(){
+    dots.querySelectorAll('i').forEach(function(d, n){ d.className = n === i ? 'on' : ''; });
+    pos.textContent = i + 1;
+    prev.disabled = i === 0;
+    next.disabled = i === cards.length - 1;
+  }
+  prev.addEventListener('click', function(){ go(i - 1); });
+  next.addEventListener('click', function(){ go(i + 1); });
+
+  /* Keep the dots honest when she swipes rather than taps. */
+  var t;
+  rail.addEventListener('scroll', function(){
+    clearTimeout(t);
+    t = setTimeout(function(){
+      var mid = rail.scrollLeft + rail.clientWidth / 2, best = 0, gap = 1e9;
+      cards.forEach(function(c, n){
+        var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+        if (d < gap) { gap = d; best = n; }
+      });
+      i = best; paint();
+    }, 90);
+  });
+
+  paint();
+})();
+</script>
+</body>
+</html>
