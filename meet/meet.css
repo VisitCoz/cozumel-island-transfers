@@ -144,3 +144,23 @@ footer p + p{margin-top:6px}
 /* ---------- the terminal's own name, full width ---------- */
 .tcard .lab .tn{font-size:26px; font-weight:500; letter-spacing:-.025em; line-height:1.12}
 .hero .over .k{font-size:15px}
+
+/* ---------- the walkthrough ----------
+   One step, one photograph, one instruction. Merges what used to be a numbered
+   list and a separate photo strip: a guest walking a route wants the picture
+   and the sentence together, not in two places.
+
+   Any step whose photo is missing keeps its text and loses the frame, so the
+   page is complete before a single screenshot arrives and improves silently
+   as they land. */
+.walk{display:grid; gap:34px}
+.walk .st{display:grid; gap:12px}
+.walk .st img{width:100%; border-radius:12px}
+.walk .st .txt{display:flex; gap:14px; align-items:baseline}
+.walk .st .num{color:var(--mute); min-width:16px; font-variant-numeric:tabular-nums}
+.walk .st .say{flex:1}
+.walk .st .say b{color:var(--navy)}
+
+/* The one that stops her panicking. Not a warning — a reassurance, so it is
+   grey and calm rather than red and loud. */
+.walk .st.note .say{background:var(--surface); border-radius:12px; padding:16px 18px}
