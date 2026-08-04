@@ -37,11 +37,16 @@
   .sec{padding:26px 22px 30px}
   .sec > h3{margin:0 0 18px; font-size:17px; font-weight:400; color:var(--mute)}
 
-  /* a labelled stand-in for a photo Mike has not sent yet */
+  /* A real photo when the file exists, its own label when it does not.
+     The img marks its parent on error, so a missing frame degrades to the
+     placeholder instead of showing a broken icon. */
   .ph{position:relative; aspect-ratio:16/9; background:var(--surface); border-radius:12px;
-    display:flex; align-items:center; justify-content:center; text-align:center; padding:14px;
-    border:1px dashed #C7D0D8}
-  .ph span{font-size:12.5px; line-height:1.45; color:#7C8A97}
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    overflow:hidden}
+  .ph img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
+  .ph > span{display:none; font-size:12.5px; line-height:1.45; color:#7C8A97; padding:14px}
+  .ph.empty{border:1px dashed #C7D0D8}
+  .ph.empty > span{display:block}
   .ph b{display:block; color:#5C6B7A; font-weight:600; margin-bottom:3px}
 
   /* ===================== 1 · THE FILMSTRIP ===================== */
@@ -118,17 +123,17 @@
   </div>
   <div class="sec fs">
     <h3>Getting there</h3>
-    <div class="step"><div class="ph"><span><b>south-1.jpg</b>Out of the terminal, already turned left</span></div>
+    <div class="step"><div class="ph"><img src="/assets/meet/south-1.jpg" alt="south-1.jpg Out of the terminal, already turned left" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-1.jpg</b>Out of the terminal, already turned left</span></div>
       <div class="txt"><span class="num">1</span><span class="say">Walk out of the terminal and <b>turn left</b>.</span></div></div>
-    <div class="step"><div class="ph"><span><b>south-2.jpg</b>The sidewalk on the ocean side</span></div>
+    <div class="step"><div class="ph"><img src="/assets/meet/south-2.jpg" alt="south-2.jpg The sidewalk on the ocean side" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-2.jpg</b>The sidewalk on the ocean side</span></div>
       <div class="txt"><span class="num">2</span><span class="say"><b>Do not cross the street.</b> Stay on the sidewalk on the ocean side.</span></div></div>
-    <div class="step"><div class="ph"><span><b>south-3.jpg</b>The stretch with vendors and taxis</span></div>
+    <div class="step"><div class="ph"><img src="/assets/meet/south-3.jpg" alt="south-3.jpg The stretch with vendors and taxis" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-3.jpg</b>The stretch with vendors and taxis</span></div>
       <div class="txt"><span class="num">3</span><span class="say">You will pass vendors, taxis and people selling tours. <b>This is normal.</b> None of them is your driver.</span></div></div>
-    <div class="step"><div class="ph"><span><b>south-4.jpg</b>The Pemex station</span></div>
+    <div class="step"><div class="ph"><img src="/assets/meet/south-4.jpg" alt="south-4.jpg The Pemex station" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-4.jpg</b>The Pemex station</span></div>
       <div class="txt"><span class="num">4</span><span class="say">You will see a <b>Pemex</b> petrol station. That means you are going the right way &mdash; keep going.</span></div></div>
-    <div class="step"><div class="ph"><span><b>south-5.jpg</b>Royal Village Mall across the road</span></div>
+    <div class="step"><div class="ph"><img src="/assets/meet/south-5.jpg" alt="south-5.jpg Royal Village Mall across the road" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-5.jpg</b>Royal Village Mall across the road</span></div>
       <div class="txt"><span class="num">5</span><span class="say">When <b>Royal Village Mall</b> appears across the road &mdash; the yellow building with the arches &mdash; you have arrived.</span></div></div>
-    <div class="step arrive"><div class="ph"><span><b>south-6.jpg</b>The spot, someone holding a sign</span></div>
+    <div class="step arrive"><div class="ph"><img src="/assets/meet/south-6.jpg" alt="south-6.jpg The spot, someone holding a sign" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-6.jpg</b>The spot, someone holding a sign</span></div>
       <div class="txt"><span class="num">6</span><span class="say"><b>Stay on your side.</b> We are here with a sign showing your name.</span></div></div>
   </div>
 </div>
@@ -149,17 +154,17 @@
   </div>
   <div class="sec tr">
     <h3>Getting there &middot; about 2 minutes</h3>
-    <div class="row"><div class="dot">1</div><div class="ph"><span><b>1</b>out, turned left</span></div>
+    <div class="row"><div class="dot">1</div><div class="ph"><img src="/assets/meet/south-1.jpg" alt="1 out, turned left" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>1</b>out, turned left</span></div>
       <div class="say">Out of the terminal, <b>turn left</b>.<span class="meta">0 min</span></div></div>
-    <div class="row"><div class="dot">2</div><div class="ph"><span><b>2</b>ocean-side path</span></div>
+    <div class="row"><div class="dot">2</div><div class="ph"><img src="/assets/meet/south-2.jpg" alt="2 ocean-side path" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>2</b>ocean-side path</span></div>
       <div class="say"><b>Do not cross.</b> Sidewalk on the ocean side.<span class="meta">30 sec</span></div></div>
-    <div class="row"><div class="dot">3</div><div class="ph"><span><b>3</b>vendors</span></div>
+    <div class="row"><div class="dot">3</div><div class="ph"><img src="/assets/meet/south-3.jpg" alt="3 vendors" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>3</b>vendors</span></div>
       <div class="say">Vendors and taxis. <b>Normal</b> &mdash; keep going.<span class="meta">1 min</span></div></div>
-    <div class="row"><div class="dot">4</div><div class="ph"><span><b>4</b>Pemex</span></div>
+    <div class="row"><div class="dot">4</div><div class="ph"><img src="/assets/meet/south-4.jpg" alt="4 Pemex" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>4</b>Pemex</span></div>
       <div class="say">Past the <b>Pemex</b> station. Right way.<span class="meta">1 min 30</span></div></div>
-    <div class="row"><div class="dot">5</div><div class="ph"><span><b>5</b>Royal Village</span></div>
+    <div class="row"><div class="dot">5</div><div class="ph"><img src="/assets/meet/south-5.jpg" alt="5 Royal Village" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>5</b>Royal Village</span></div>
       <div class="say"><b>Royal Village Mall</b> appears across the road.<span class="meta">2 min</span></div></div>
-    <div class="row arrive"><div class="dot">&#10003;</div><div class="ph"><span><b>6</b>the sign</span></div>
+    <div class="row arrive"><div class="dot">&#10003;</div><div class="ph"><img src="/assets/meet/south-6.jpg" alt="6 the sign" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>6</b>the sign</span></div>
       <div class="say">We are on <b>your side</b>, with your name on a sign.<span class="meta">You&rsquo;re here</span></div></div>
   </div>
 </div>
@@ -181,17 +186,17 @@
   <div class="sec sw" style="padding-left:0; padding-right:0">
     <h3 style="padding:0 22px">Getting there</h3>
     <div class="rail" id="rail">
-      <div class="card"><div class="ph"><span><b>south-1.jpg</b>Out of the terminal, turned left</span></div>
+      <div class="card"><div class="ph"><img src="/assets/meet/south-1.jpg" alt="south-1.jpg Out of the terminal, turned left" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-1.jpg</b>Out of the terminal, turned left</span></div>
         <p class="cap"><span class="n">1</span>Walk out of the terminal and <b>turn left</b>.</p></div>
-      <div class="card"><div class="ph"><span><b>south-2.jpg</b>Sidewalk, ocean side</span></div>
+      <div class="card"><div class="ph"><img src="/assets/meet/south-2.jpg" alt="south-2.jpg Sidewalk, ocean side" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-2.jpg</b>Sidewalk, ocean side</span></div>
         <p class="cap"><span class="n">2</span><b>Do not cross the street.</b> Stay on the sidewalk on the ocean side.</p></div>
-      <div class="card"><div class="ph"><span><b>south-3.jpg</b>Vendors and taxis</span></div>
+      <div class="card"><div class="ph"><img src="/assets/meet/south-3.jpg" alt="south-3.jpg Vendors and taxis" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-3.jpg</b>Vendors and taxis</span></div>
         <p class="cap"><span class="n">3</span>Vendors, taxis, people selling tours. <b>This is normal.</b> None of them is your driver.</p></div>
-      <div class="card"><div class="ph"><span><b>south-4.jpg</b>The Pemex station</span></div>
+      <div class="card"><div class="ph"><img src="/assets/meet/south-4.jpg" alt="south-4.jpg The Pemex station" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-4.jpg</b>The Pemex station</span></div>
         <p class="cap"><span class="n">4</span>A <b>Pemex</b> station means you are going the right way. Keep going.</p></div>
-      <div class="card"><div class="ph"><span><b>south-5.jpg</b>Royal Village across the road</span></div>
+      <div class="card"><div class="ph"><img src="/assets/meet/south-5.jpg" alt="south-5.jpg Royal Village across the road" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-5.jpg</b>Royal Village across the road</span></div>
         <p class="cap"><span class="n">5</span><b>Royal Village Mall</b> across the road &mdash; you have arrived.</p></div>
-      <div class="card"><div class="ph"><span><b>south-6.jpg</b>The spot, with a sign</span></div>
+      <div class="card"><div class="ph"><img src="/assets/meet/south-6.jpg" alt="south-6.jpg The spot, with a sign" onerror="this.parentNode.classList.add('empty');this.remove()"><span><b>south-6.jpg</b>The spot, with a sign</span></div>
         <p class="cap"><span class="n">6</span><b>Stay on your side.</b> We are here with your name on a sign.</p></div>
     </div>
     <div class="ctrl">
