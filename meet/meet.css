@@ -130,3 +130,17 @@ footer p + p{margin-top:6px}
 .tcard .shot.no-photo{height:auto; padding:26px 0 6px}
 .tcard .shot.no-photo::after{display:none}
 .tcard .shot.no-photo .lab{position:static; padding:0 24px}
+
+/* ---------- embedded map ----------
+   Keyless Google embed (`output=embed`), so there is no API key to leak, no
+   billing account to attach and nothing to expire. The guest can drag it and
+   switch to Street View herself, which a screenshot could never let her do.
+   loading="lazy" keeps it off the critical path — this page gets opened on
+   ship wifi. */
+.mapwrap{position:relative; padding-top:75%; border-radius:12px; overflow:hidden;
+  background:var(--surface)}
+.mapwrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+
+/* ---------- the terminal's own name, full width ---------- */
+.tcard .lab .tn{font-size:26px; font-weight:500; letter-spacing:-.025em; line-height:1.12}
+.hero .over .k{font-size:15px}

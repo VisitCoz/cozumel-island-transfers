@@ -28,7 +28,7 @@
         <div class="shot">
           <img src="/assets/meet/south-2.jpg" alt="The meeting point near Puerta Maya" onerror="this.parentNode.classList.add(&#39;no-photo&#39;); this.remove()">
           <div class="lab">
-            <div class="tn">Puerta Maya</div>
+            <div class="tn">Puerta Maya<br>Cruise Terminal</div>
             <div class="tl">South of downtown &middot; Cozumel's busiest terminal</div>
           </div>
         </div>
@@ -42,7 +42,7 @@
         <div class="shot">
           <img src="/assets/meet/south-2.jpg" alt="The meeting point near SSA Mexico" onerror="this.parentNode.classList.add(&#39;no-photo&#39;); this.remove()">
           <div class="lab">
-            <div class="tn">SSA Mexico</div>
+            <div class="tn">SSA International Pier<br>Cruise Terminal</div>
             <div class="tl">The International Pier &middot; beside Puerta Maya</div>
           </div>
         </div>
@@ -56,7 +56,7 @@
         <div class="shot">
           <img src="/assets/meet/langosta-2.jpg" alt="The white lighthouse at Punta Langosta" onerror="this.parentNode.classList.add(&#39;no-photo&#39;); this.remove()">
           <div class="lab">
-            <div class="tn">Punta Langosta</div>
+            <div class="tn">Punta Langosta<br>Cruise Terminal</div>
             <div class="tl">The white lighthouse, between Hooters and Starbucks</div>
           </div>
         </div>
@@ -143,7 +143,9 @@
       days.forEach(function(pair){
         var mine = pair[1].ships.filter(function(s){ return norm(s.port) === port; });
         if (!mine.length) return;
-        html += '<div class="tday"><span class="tday-label">' + pair[0] + '</span>' +
+        html += '<div class="tday"><span class="tday-label">' +
+                  pair[0] + ' &middot; ' + fullDate(pair[1].date) +
+                '</span>' +
                 mine.map(function(s){ return shipRow(s, fleet); }).join('') + '</div>';
       });
       block.querySelector('.tships').innerHTML = html ||
@@ -164,6 +166,16 @@
              '<div class="s-name">' + esc(hit ? hit.name : titleCase(name)) + '</div>' +
              (meta.length ? '<div class="s-meta">' + meta.join(' &middot; ') + '</div>' : '') +
            '</div>';
+  }
+
+
+  /* Day, date, month, year in full. Noon keeps the date from slipping a day
+     when the formatter shifts timezone. */
+  function fullDate(iso){
+    var d = new Date(iso + 'T12:00:00');
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString('en-GB',
+      { weekday:'long', day:'numeric', month:'long', year:'numeric' });
   }
 
   /* APIQROO writes "TERMINAL PUERTA MAYA" in history and "PUERTA MAYA" live,
