@@ -30,6 +30,14 @@
 
 
   <section>
+    <h2>What you see from the ship</h2>
+    <figure class="overview">
+      <img src="/assets/meet/punta-langosta/7.jpg" width="1200" height="675" loading="lazy"
+           alt="Punta Langosta terminal seen from the ship, with the white lighthouse marked">
+    </figure>
+  </section>
+
+  <section>
     <h2>The exact spot</h2>
     <div class="mapwrap">
       <iframe src="https://maps.google.com/maps?q=20.50737,-86.95524&amp;z=18&amp;t=k&amp;output=embed"
@@ -41,34 +49,32 @@
   </section>
 
   <section>
-    <h2>Getting there</h2>
+    <h2>Getting there &middot; 3 to 5 minutes</h2>
     <div class="walk">
       <div class="st">
-        <img src="/assets/meet/punta-langosta/1.jpg" alt="Step 1"
-             onerror="this.remove()">
-        <div class="txt"><span class="num">1</span><span class="say">Walk off the ship and straight out through the terminal shops.</span></div>
+        <img src="/assets/meet/punta-langosta/8.jpg" alt="Walk off the ship" onerror="this.remove()">
+        <div class="txt"><span class="num">1</span><span class="say"><b>Walk off the ship</b> and
+          straight ahead into the terminal.<span class="meta">Start</span></span></div>
       </div>
       <div class="st">
-        <img src="/assets/meet/punta-langosta/2.jpg" alt="Step 2"
-             onerror="this.remove()">
-        <div class="txt"><span class="num">2</span><span class="say">Cross the road on the pedestrian bridge.</span></div>
+        <img src="/assets/meet/punta-langosta/9.jpg" alt="Take the stairs down at the far end" onerror="this.remove()">
+        <div class="txt"><span class="num">2</span><span class="say">Cross on the walkway and
+          <b>take the stairs down at the far end</b>.<span class="meta">2 min</span></span></div>
       </div>
-      <div class="st">
-        <img src="/assets/meet/punta-langosta/3.jpg" alt="Step 3"
-             onerror="this.remove()">
-        <div class="txt"><span class="num">3</span><span class="say">Take the stairs down at the far end.</span></div>
-      </div>
-      <div class="st">
-        <img src="/assets/meet/punta-langosta/4.jpg" alt="Step 4"
-             onerror="this.remove()">
-        <div class="txt"><span class="num">4</span><span class="say">Walk toward the white lighthouse &mdash; next to <b>Starbucks</b>.</span></div>
-      </div>
-      <div class="st">
-        <img src="/assets/meet/punta-langosta/5.jpg" alt="Step 5"
-             onerror="this.remove()">
-        <div class="txt"><span class="num">5</span><span class="say">We are waiting there with a sign showing your name.</span></div>
+      <div class="st arrive">
+        <img src="/assets/meet/punta-langosta/10.jpg" alt="The white lighthouse, next to Starbucks" onerror="this.remove()">
+        <div class="txt"><span class="num">3</span><span class="say">The <b>white lighthouse</b>, right
+          next to <b>Starbucks</b>. We are waiting underneath it in your van or bus, with a sign
+          holding your name.<span class="meta">You&rsquo;re here</span></span></div>
       </div>
     </div>
+  </section>
+
+  <!-- Same answer as Puerta Maya: she never walks back. -->
+  <section>
+    <h2>Coming back</h2>
+    <p><b>You don't walk back.</b> Your driver collects you from the beach club at the time you
+       chose &mdash; you never need to find this corner again.</p>
   </section>
 
   <section>
@@ -79,6 +85,10 @@
   </section>
 
 
+  <div class="acts one">
+    <a class="p" id="wa2" href="#">WhatsApp</a>
+  </div>
+
   <footer>
     <p class="f-white">Cozumel Island Transfers</p>
     <p>Nothing to pay the driver. Your transfer is already paid in full.</p>
@@ -88,8 +98,10 @@
 
 <script>
 (function(){
-  document.getElementById('wa').href = 'https://wa.me/5219871146853?text=' +
+  var waHref = 'https://wa.me/5219871146853?text=' +
     encodeURIComponent("Hi, I have a question from Cozumel Island Transfers. I'm at Punta Langosta.");
+  document.getElementById('wa').href  = waHref;
+  document.getElementById('wa2').href = waHref;
 
 })();
 </script>
