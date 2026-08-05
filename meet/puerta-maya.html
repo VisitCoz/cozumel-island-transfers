@@ -32,6 +32,17 @@
 
   <section>
     <h2>Getting there &middot; 5 to 7 minutes</h2>
+
+    <!-- Both facts belong before the first photograph, because both are decisions
+         she makes before she starts walking. Underneath the steps they arrive too
+         late to be of any use. -->
+    <div class="offline" style="margin-bottom:26px">
+      <p>Aim to be with us <b>15 minutes before your pickup time</b> &mdash; so leave the ship
+         about 25 minutes before.</p>
+      <p style="margin-top:12px">The whole route is <b>flat and paved</b>, with a sidewalk the
+         entire way. No steps and no hills.</p>
+    </div>
+
     <div class="walk">
       <div class="st">
         <img src="/assets/meet/puerta-maya/1.jpg" alt="Do not cross the street" onerror="this.remove()">
@@ -61,9 +72,17 @@
       <div class="st arrive">
         <img src="/assets/meet/puerta-maya/6.jpg" alt="We are here" onerror="this.remove()">
         <div class="txt"><span class="num">6</span><span class="say">Once you cross, <b>we are here</b>
-          &mdash; waiting in your van, with a sign holding your name.<span class="meta">You&rsquo;re here</span></span></div>
+          &mdash; waiting in your van or bus, with a sign holding your name.<span class="meta">You&rsquo;re here</span></span></div>
       </div>
     </div>
+  </section>
+
+  <!-- The question that forms the moment she arrives. Answering it here means she
+       is not carrying it around a beach club all afternoon. -->
+  <section>
+    <h2>Coming back</h2>
+    <p><b>You don't walk back.</b> Your driver collects you from the beach club at the time you
+       chose &mdash; you never need to find this corner again.</p>
   </section>
 
   <section>
@@ -89,6 +108,13 @@
     </div>
   </section>
 
+  <!-- Someone who has scrolled this whole page has probably done it because she is
+       confused. Reaching the end with nothing to tap is the worst place to leave her,
+       and the button at the top is long since off screen. -->
+  <div class="acts one">
+    <a class="p" id="wa2" href="#">WhatsApp</a>
+  </div>
+
   <footer>
     <p class="f-white">Cozumel Island Transfers</p>
     <p>Nothing to pay the driver. Your transfer is already paid in full.</p>
@@ -97,8 +123,10 @@
 </div>
 
 <script>
-document.getElementById('wa').href = 'https://wa.me/5219871146853?text=' +
+var waHref = 'https://wa.me/5219871146853?text=' +
   encodeURIComponent("Hi, I have a question from Cozumel Island Transfers. I'm at Puerta Maya.");
+document.getElementById('wa').href  = waHref;
+document.getElementById('wa2').href = waHref;
 </script>
 </body>
 </html>
