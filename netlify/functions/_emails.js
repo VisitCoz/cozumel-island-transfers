@@ -15,7 +15,7 @@ const SITE = process.env.SITE_URL || 'https://cozu.netlify.app';
 // though the port schedule would allow it — a wrong guess is worse than a short list.
 const MEETING_POINTS = [
   { slug: 'punta-langosta', name: 'Punta Langosta',
-    hint: 'Downtown &middot; the white lighthouse, between Hooters and Starbucks' },
+    hint: 'Downtown &middot; the white lighthouse, next to Starbucks' },
   { slug: 'puerta-maya',    name: 'Puerta Maya',
     hint: 'South of downtown &middot; the busiest terminal' },
   { slug: 'ssa-mexico',     name: 'SSA Mexico / International Pier',
