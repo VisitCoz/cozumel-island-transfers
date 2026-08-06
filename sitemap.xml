@@ -5,43 +5,43 @@
      scratch — it is kept out of here and disallowed in robots.txt on purpose. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cozu.netlify.app/</loc>
+    <loc>https://www.cozumelislandtransfers.com/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://cozu.netlify.app/meet/</loc>
+    <loc>https://www.cozumelislandtransfers.com/meet/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cozu.netlify.app/meet/puerta-maya.html</loc>
+    <loc>https://www.cozumelislandtransfers.com/meet/puerta-maya.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozu.netlify.app/meet/ssa-mexico.html</loc>
+    <loc>https://www.cozumelislandtransfers.com/meet/ssa-mexico.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozu.netlify.app/meet/punta-langosta.html</loc>
+    <loc>https://www.cozumelislandtransfers.com/meet/punta-langosta.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozu.netlify.app/terms.html</loc>
+    <loc>https://www.cozumelislandtransfers.com/terms.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://cozu.netlify.app/privacy.html</loc>
+    <loc>https://www.cozumelislandtransfers.com/privacy.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
