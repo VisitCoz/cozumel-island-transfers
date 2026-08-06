@@ -18,10 +18,13 @@
 # NOT the redirect map for the domain cutover. When cozumelislandtransfers.com finally
 # points here, the 29 live Squarespace URLs need their own entries — different paths
 # (/czm, /shared, /onewayservice, /ssa, /maya …) and that is a separate job.
+# force, because Netlify serves a matching static file before it consults the rules —
+# without it /index.html and / are two URLs showing the same page.
 [[redirects]]
   from = "/index.html"
   to = "/"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/cruise-transfers.html"
