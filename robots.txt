@@ -8,4 +8,4 @@ Disallow: /.netlify/images?
 # Design scratch — half-finished style studies, not pages anyone should land on.
 Disallow: /proto/
 
-Sitemap: https://www.cozumelislandtransfers.com/sitemap.xml
+Sitemap: https://cozumelislandtransfers.com/sitemap.xml
