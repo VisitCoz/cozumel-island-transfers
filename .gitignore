@@ -27,3 +27,6 @@ node_modules/
 *-desktop.yml
 *-mobile.yml
 home-mobile-hero.png
+
+# Local Netlify folder
+.netlify
