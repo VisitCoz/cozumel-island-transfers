@@ -22,13 +22,26 @@ auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
 
 - Repo root: `~/code/cozumel-island-transfers` · remote `VisitCoz/cozumel-island-transfers`
 - `netlify.toml` — `publish = "."`, `functions = "netlify/functions"`
-- 13 static pages, `assets/`, `data/beach-clubs.json`, `scripts/build.js`, `llms.txt`, `sitemap.xml`
+- **One page.** `index.html` (the booking flow) + `terms.html`, `privacy.html`, `404.html`, `meet/`.
+  `assets/`, `llms.txt`, `sitemap.xml`. `proto/` is design scratch, disallowed in robots.txt.
+- The eight destination pages, `cruise-transfers.html` and `airport-transfers.html` were retired
+  2026-08-06; `netlify.toml` 301s their paths to `/`. They are in git history if ever wanted back.
+- `data/beach-clubs.json` and `scripts/build.js` went with them. The JSON held the old four-tier
+  $269–$518 list and the build wrote it into the visible prices — a rebuild would have cut every
+  advertised price ~27% silently. That gun is now unloaded; don't reintroduce it.
 
 **The booking system (built 2026-08-01/02 — this takes real money):**
 
-- `proto/flow-prototype.html` — the actual product. Hero → poster grid → 5-step wizard → Stripe.
-  Despite the folder name it is no longer a throwaway; `index.html` is the OLD site.
-- `netlify/functions/_cit.js` — catalogue, Stripe over `fetch`, webhook signature check, Resend email
+- `index.html` — the product and the whole site. Hero → poster grid → 5-step wizard → Stripe.
+  It was `proto/flow-prototype.html` until 2026-08-06.
+- `netlify/functions/_cit.js` — catalogue, **`ADMISSION` gate prices**, Stripe over `fetch`,
+  webhook signature check, Resend email
+- 🔒 **Prices and the return URL are server-side, and must stay there.** The admission amount and
+  `returnUrl` both used to come from the request body: anyone could prepay a $65 day pass for $1,
+  or mint a real Checkout session on this account that redirected the buyer to their own site.
+  Prepay is refused wherever `ADMISSION[dest].verified` is false — and `index.html` hides the
+  option in exactly those cases, so the two sides must be changed together or a guest ticks a box
+  she is never charged for.
 - `netlify/functions/create-checkout.js` — server-side validation, then a Stripe Checkout Session
 - `netlify/functions/stripe-webhook.js` — **this is where a booking becomes real**; emails the team
 - `netlify/functions/daily-manifest.js` — scheduled 23:00 UTC (6 PM Cozumel) in `netlify.toml`
@@ -86,9 +99,12 @@ The Netlify deploy is wired to GitHub. Pushing to main = deploying. That is the 
   changing either — it's a fiscal question, not a copy question.
 - **🔴 DNS cutover to `cozumelislandtransfers.com` is NOT done.** The real domain still points at the
   old Squarespace + FareHarbor setup. Customers are not seeing this site.
+  When it happens: **28 of the 29 live Squarespace URLs have no counterpart here** and will 404.
+  `netlify.toml`'s redirects cover the retired *Netlify* pages only — the Squarespace paths
+  (`/czm`, `/shared`, `/private`, `/onewayservice`, `/ssa`, `/maya`, `/about`, `/contact-us` …)
+  still need their own map. Do that in a different week from any payment change, or you won't know
+  which one broke bookings.
 - `booking-script-CIT.js` is a dead Tierra Maya fork, wired to nothing and superseded. Safe to delete.
-- `data/beach-clubs.json` still holds the stale 4-tier $269–$518 pricing, and `scripts/build.js`
-  regenerates the destination pages from it — **a rebuild would silently cut prices ~27%.**
 - The stack is **Apps Script + AI + Stripe**. FareHarbor is being replaced, not integrated.
 
 ## Doctrine refs
