@@ -15,9 +15,7 @@
 # and anything that linked to them would otherwise land on a 404 instead of a page
 # that can take the booking. 301, because the move is permanent.
 #
-# NOT the redirect map for the domain cutover. When cozumelislandtransfers.com finally
-# points here, the 29 live Squarespace URLs need their own entries — different paths
-# (/czm, /shared, /onewayservice, /ssa, /maya …) and that is a separate job.
+# The Squarespace map is further down, under "THE OLD SQUARESPACE SITE".
 # force, because Netlify serves a matching static file before it consults the rules —
 # without it /index.html and / are two URLs showing the same page.
 [[redirects]]
@@ -92,3 +90,172 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# THE OLD SQUARESPACE SITE
+#
+# Every path that is live on www.cozumelislandtransfers.com today, taken from its
+# own sitemap on 2026-08-06. The day DNS points here, anything not listed 404s —
+# and some of these are printed on booking confirmations guests are still holding.
+#
+# Three of them are the meeting-point pages, and they are the reason this map is
+# worth doing properly rather than sweeping everything to the homepage: a guest who
+# saved /maya before she sailed is standing on a pier looking for directions, not
+# shopping. She gets directions.
+#
+# Note: the old site's canonical host is www. The apex already 301s to www there,
+# and Netlify should keep serving www as primary so the thousands of printed and
+# emailed links keep resolving without an extra hop.
+# ══════════════════════════════════════════════════════════════════════════════
+
+# --- the meeting points: the three that actually matter ---
+[[redirects]]
+  from = "/maya"
+  to = "/meet/puerta-maya.html"
+  status = 301
+
+[[redirects]]
+  from = "/ssa"
+  to = "/meet/ssa-mexico.html"
+  status = 301
+
+[[redirects]]
+  from = "/langosta"
+  to = "/meet/punta-langosta.html"
+  status = 301
+
+# --- legal: real equivalents exist ---
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 301
+
+[[redirects]]
+  from = "/terms-of-use"
+  to = "/terms.html"
+  status = 301
+
+# --- the airport pages. The product was retired 2026-07-29; there is nothing to
+#     send them to but the homepage, which at least says what we do sell. ---
+[[redirects]]
+  from = "/czm"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/czm/*"
+  to = "/"
+  status = 301
+
+# --- service and marketing pages, all superseded by the one page ---
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/about-1"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/contact-us"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/customers"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/arrival"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/confirmation"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/shared"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/private"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/privatecar"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/privateround"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/privatevan"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/privateroundtrip"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/cozumelroundtrip"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/onewayservice"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/cozumel-snorkel"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/cozumel-travel-guide"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/lets-work-together"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/partnership-opportunities"
+  to = "/"
+  status = 301
+
+# Squarespace commerce paths. There is no cart on the new site — a stale cart link
+# landing on a 404 reads as "they went out of business", not "that page moved".
+[[redirects]]
+  from = "/cart"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/checkout"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/shop/*"
+  to = "/"
+  status = 301
