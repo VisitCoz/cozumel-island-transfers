@@ -28,23 +28,18 @@ const DESTINATIONS = {
   'somewhere-else': 'Somewhere else on the island',
 };
 
-// Destinations that ignore the vehicle price list and charge a fixed amount.
+// There used to be a FIXED_PRICE table here that sold 'somewhere-else' for a flat
+// MX$100 "holding amount". It was built as a cheap way to run the live chain end to
+// end, and on 2026-08-06 a travel agency used it to book an 8-passenger transfer off
+// the Disney Treasure for about five dollars — booking CIT-M6G0PQ.
 //
-// 'somewhere-else' is deliberately MX$100. It is a real, bookable item — not a
-// test mode, not a fake card — so Mike can run the whole chain end to end with
-// real money whenever he wants, for about six dollars. It also happens to be a
-// genuine product: someone wanting a destination we don't list pays a holding
-// amount and we agree the rest on WhatsApp.
+// It is gone, and there is no replacement, because the price list is already flat and
+// per-vehicle for anywhere on the island. A custom destination is the same van for the
+// same day, so it costs the same; only the address needs agreeing. Cheap live testing
+// is the CITFLOW90R4K promotion code now, which is better anyway — the real price stays
+// on the page and the discount reads as a discount.
 //
-// Reprice or remove this before the site takes real traffic.
-const FIXED_PRICE = {
-  'somewhere-else': {
-    amount: 100,
-    currency: 'mxn',
-    name: 'Private transfer — destination to be confirmed',
-    blurb: 'We will agree the destination and the final price with you on WhatsApp.',
-  },
-};
+// Do not reintroduce a per-destination price override without a server-side floor.
 
 // ---------- Venue admission ----------
 // The gate price per adult, charged as a second line item when a guest chooses to
@@ -226,7 +221,7 @@ const minutesOf = (t) => {
 };
 
 module.exports = {
-  VEHICLES, DESTINATIONS, FIXED_PRICE, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR, FLEET_RUNS_PER_DAY,
+  VEHICLES, DESTINATIONS, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR, FLEET_RUNS_PER_DAY,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, verifyStripeSignature, bookings,
   sendEmail, teamEmails, bookingsOn, tomorrowInCozumel, minutesOf,
 };

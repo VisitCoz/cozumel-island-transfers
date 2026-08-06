@@ -6,7 +6,7 @@
 // this is the version that a stale tab or an open dev-tools console cannot get past.
 
 const {
-  DESTINATIONS, FIXED_PRICE, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR,
+  DESTINATIONS, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 
@@ -135,9 +135,9 @@ exports.handler = async (event) => {
   const currency = (process.env.TEST_CURRENCY || CURRENCY).toLowerCase();
   if (currency !== CURRENCY) console.warn(`TEST_CURRENCY is set — charging ${currency}, not ${CURRENCY}`);
 
-  // A fixed-price destination overrides both the vehicle price and the currency.
-  const fixed = FIXED_PRICE[b.destination] || null;
-
+  // Every destination prices the same way: by vehicle, from the one list. The
+  // per-destination override that used to sit here sold an 8-pax transfer for MX$100
+  // to a real agency — see the note where FIXED_PRICE used to live in _cit.js.
   const params = {
     mode: 'payment',
     customer_email: b.email,
@@ -145,21 +145,18 @@ exports.handler = async (event) => {
     success_url: `${origin}?paid=1&ref=${ref}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}?cancelled=1`,
     'line_items[0][quantity]': '1',
-    'line_items[0][price_data][currency]': fixed ? fixed.currency : currency,
-    'line_items[0][price_data][unit_amount]':
-      String(Math.round((fixed ? fixed.amount : chargeUsd) * 100)),
-    'line_items[0][price_data][product_data][name]':
-      fixed ? fixed.name : `${vehicle.name} to ${destName}`,
+    'line_items[0][price_data][currency]': currency,
+    'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * 100)),
+    'line_items[0][price_data][product_data][name]': `${vehicle.name} to ${destName}`,
     'line_items[0][price_data][product_data][description]':
-      `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`
-      + (fixed ? ` — ${fixed.blurb}` : ''),
+      `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`,
   };
 
   // Optional prepaid venue admission, per person. The price comes from ADMISSION in
   // _cit.js, never from the request — `b.admissionUsd` is ignored on purpose.
   // Unverified rates cannot be prepaid at all; see the note beside the table.
   const adm = ADMISSION[b.destination];
-  if (!fixed && b.admissionPrepaid && adm && adm.verified && adm.usd > 0) {
+  if (b.admissionPrepaid && adm && adm.verified && adm.usd > 0) {
     params['line_items[1][quantity]'] = String(pax);
     params['line_items[1][price_data][currency]'] = currency;
     params['line_items[1][price_data][unit_amount]'] = String(Math.round(adm.usd * 100));

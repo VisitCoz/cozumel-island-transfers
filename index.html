@@ -928,11 +928,8 @@ const DEST = {
   'somewhere-else':{name:'Somewhere else on the island',short:'Somewhere else',
     type:'Tell us where',drive:'Varies',dist:'Anywhere on Cozumel',
     img:'https://cozumelislandtransfers.com/assets/dest-paradise-beach-hero.jpg',
-    blurb:'Downtown, the ferry, a restaurant, a hotel — anywhere on the island. Book this and we agree the destination and the final price with you on WhatsApp.',
-    admName:'',admAdult:0,admVerified:true,
-    // Fixed MX$100 holding amount. Mirrors FIXED_PRICE in netlify/functions/_cit.js —
-    // change one and you must change the other.
-    fixed:{amount:100,currency:'MXN'}}
+    blurb:'Downtown, the ferry, a restaurant, a hotel — anywhere on the island. Same flat price as anywhere else; we confirm the exact address with you on WhatsApp.',
+    admName:'',admAdult:0,admVerified:true}
 };
 
 /* Guest-facing vehicle names — nobody has to learn the words "XL Van" or "Coach". */
@@ -970,14 +967,15 @@ let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'',
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
 const money = n => '$' + n.toLocaleString('en-US') + ' USD';
-/* Fixed-price destinations quote their own amount and currency. */
-const fixedOf = () => (S.dest && DEST[S.dest].fixed) || null;
-const priceOf = () => { const f = fixedOf(); return f ? f.amount : vehFor(S.pax).price; };
-const moneyOf = n => { const f = fixedOf();
-  return f ? `${f.currency}$${n.toLocaleString('en-US')}` : money(n); };
+/* One price list, every destination. There used to be a fixed-price escape hatch here
+   that quoted its own amount and currency; it sold an 8-passenger transfer for MX$100
+   to a real agency on 2026-08-06. The price is per vehicle and flat across the island,
+   so there is nothing left for a destination to override. */
+const moneyOf = n => money(n);
 const vehFor = p => VEH.find(v => p <= v.max) || VEH[VEH.length-1];
-function admTotal(){ return (S.adm && !fixedOf()) ? DEST[S.dest].admAdult * S.pax : 0; }
-function grand(){ const f = fixedOf(); return f ? f.amount : vehFor(S.pax).price + admTotal(); }
+const priceOf = () => vehFor(S.pax).price;
+function admTotal(){ return S.adm ? DEST[S.dest].admAdult * S.pax : 0; }
+function grand(){ return vehFor(S.pax).price + admTotal(); }
 
 /* Online booking for a day closes at 9 AM Cozumel the day before — the moment the
    manifest goes out and the vans are assigned. So before 9 AM you can still book
@@ -1051,18 +1049,20 @@ function heroPax(d){ S.pax = Math.min(40, Math.max(1, S.pax + d)); paintHero(); 
    scrolling to the photo grid, which is still the door for anyone still deciding. */
 function heroGo(){
   const v = $('heroDest').value;
-  if (v === 'other') return wa("I'd like to go somewhere that isn't on your list.");
   if (v) return openDest(v);
   scrollTo_('homeDest');
 }
+// 'Somewhere else' is a real destination in DEST at the normal price, so it comes out of
+// the loop like the rest. There used to be a second, near-identical "Somewhere else —
+// tell us" option bolted on the end that opened WhatsApp instead of booking; two entries
+// reading almost the same and doing different things.
 $('heroDest').innerHTML = '<option value="">Pick a beach…</option>'
-  + Object.keys(DEST).map(k => `<option value="${k}">${DEST[k].short}</option>`).join('')
-  + '<option value="other">Somewhere else — tell us</option>';
+  + Object.keys(DEST).map(k => `<option value="${k}">${DEST[k].short}</option>`).join('');
 
 function paintHero(){
   const v = vehFor(S.pax), noun = v.max <= 8 ? 'van' : 'vehicle';
   const sel = $('heroDest').value;
-  const named = sel && sel !== 'other' ? DEST[sel].short : null;
+  const named = sel ? DEST[sel].short : null;
   $('cfgN').textContent = S.pax;
   // Below four the per-head figure flatters nobody ($185 each for two), and the real
   // selling point at that size is that the price doesn't move. Say that instead.
@@ -1192,9 +1192,7 @@ function paintPax(){
   $('paxN').textContent = S.pax; $('paxL').textContent = S.pax===1 ? 'person' : 'people';
   document.querySelectorAll('#quickPax button').forEach(b => b.classList.toggle('on', +b.dataset.q === S.pax));
   $('vehName').textContent = v.name; $('vehSub').textContent = v.sub;
-  $('vehPrice').innerHTML = moneyOf(priceOf()) + (fixedOf()
-    ? ' <small>to hold your booking — final price agreed on WhatsApp</small>'
-    : ' <small>round-trip, whole vehicle</small>');
+  $('vehPrice').innerHTML = moneyOf(priceOf()) + ' <small>round-trip, whole vehicle</small>';
   $('admTitle').textContent = 'Add ' + d.admName;
   $('admDesc').innerHTML = `$${d.admAdult} per person × ${S.pax} — pay nothing at the gate.`;
   $('admPrice').textContent = '+$' + (d.admAdult*S.pax).toLocaleString('en-US');
@@ -1202,9 +1200,11 @@ function paintPax(){
   // refuses the rest (see ADMISSION in netlify/functions/_cit.js), so showing the
   // option here would let her tick a box, see it in her total, and arrive at the gate
   // having never been charged for it. Keep the two sides in step.
-  $('admAddon').style.display = (fixedOf() || !d.admVerified) ? 'none' : 'flex';
+  // ...and only where there IS a gate fee. 'Somewhere else' has none, so offering to
+  // prepay $0 per person would be nonsense.
+  $('admAddon').style.display = (!d.admAdult || !d.admVerified) ? 'none' : 'flex';
   $('admAddon').classList.toggle('on', S.adm);
-  $('totVehLbl').textContent = fixedOf() ? 'Holding amount' : v.name;
+  $('totVehLbl').textContent = v.name;
   $('totVeh').textContent = moneyOf(priceOf());
   $('totAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('totAdmLbl').textContent = d.admName + ' × ' + S.pax;
@@ -1352,7 +1352,7 @@ function paintPay(){
   if (!S.dest) return;
   const d = DEST[S.dest], v = vehFor(S.pax);
   $('paySummary').textContent = tripLine();
-  $('pVehLbl').textContent = fixedOf() ? 'Holding amount — destination to confirm' : v.name + ' — round trip';
+  $('pVehLbl').textContent = v.name + ' — round trip';
   $('pVeh').textContent = moneyOf(priceOf());
   $('pAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('pAdmLbl').textContent = d.admName + ' × ' + S.pax; $('pAdm').textContent = money(admTotal());
