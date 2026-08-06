@@ -6,7 +6,7 @@
 // this is the version that a stale tab or an open dev-tools console cannot get past.
 
 const {
-  DESTINATIONS, FIXED_PRICE, CURRENCY, BOOKING_CUTOFF_HOUR,
+  DESTINATIONS, FIXED_PRICE, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 
@@ -29,6 +29,9 @@ exports.handler = async (event) => {
   if (!vehicle)         return json(400, { error: 'Groups over 40 are arranged by hand.', useWhatsApp: true });
   if (!destName)        return json(400, { error: 'Pick a destination.' });
   if (!b.email)         return json(400, { error: 'We need an email for your confirmation.' });
+  // The rep meets her holding a sign with this on it. A booking without a name is a
+  // van arriving at a pier to look for nobody.
+  if (!String(b.name || '').trim()) return json(400, { error: 'We need the name that goes on the sign.' });
   if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date || '')) return json(400, { error: 'Pick a date.' });
 
   const pickupHour = Number(b.pickupHour);
@@ -82,7 +85,11 @@ exports.handler = async (event) => {
   // ---- build the session ----
   const ref = 'CIT-' + Math.random().toString(36).slice(2, 8).toUpperCase();
   const returnHour = pickupHour + durationHours;
-  const origin = b.returnUrl || `https://${event.headers.host}`;
+  // Where Stripe sends the guest afterwards. Built from OUR host, never from the
+  // request. It used to read `b.returnUrl`, which meant anyone could POST a booking
+  // with someone else's address and get a genuine Stripe Checkout page, on this
+  // account, that handed the buyer off to their site the moment she paid.
+  const origin = `https://${event.headers.host}`;
 
   const meta = {
     booking_ref: ref,
@@ -148,12 +155,14 @@ exports.handler = async (event) => {
       + (fixed ? ` — ${fixed.blurb}` : ''),
   };
 
-  // Optional prepaid venue admission, per person.
-  const admission = Number(b.admissionUsd) || 0;
-  if (!fixed && b.admissionPrepaid && admission > 0) {
+  // Optional prepaid venue admission, per person. The price comes from ADMISSION in
+  // _cit.js, never from the request — `b.admissionUsd` is ignored on purpose.
+  // Unverified rates cannot be prepaid at all; see the note beside the table.
+  const adm = ADMISSION[b.destination];
+  if (!fixed && b.admissionPrepaid && adm && adm.verified && adm.usd > 0) {
     params['line_items[1][quantity]'] = String(pax);
     params['line_items[1][price_data][currency]'] = currency;
-    params['line_items[1][price_data][unit_amount]'] = String(Math.round(admission * 100));
+    params['line_items[1][price_data][unit_amount]'] = String(Math.round(adm.usd * 100));
     params['line_items[1][price_data][product_data][name]'] = `${destName} admission`;
     params['line_items[1][price_data][product_data][description]'] = 'Paid now — nothing at the gate';
   }

@@ -10,6 +10,76 @@
 [functions."daily-manifest"]
   schedule = "0 14 * * *"
 
+# The eleven pages the booking flow replaced on 2026-08-06. They are gone from the
+# build but they are not gone from the internet — they sat in the sitemap for months
+# and anything that linked to them would otherwise land on a 404 instead of a page
+# that can take the booking. 301, because the move is permanent.
+#
+# NOT the redirect map for the domain cutover. When cozumelislandtransfers.com finally
+# points here, the 29 live Squarespace URLs need their own entries — different paths
+# (/czm, /shared, /onewayservice, /ssa, /maya …) and that is a separate job.
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/cruise-transfers.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/airport-transfers.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/tierra-maya.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/kuza.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/san-gervasio.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/chankanaab.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/bucanos.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/paradise-beach.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/mr-sanchos.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/nachi-cocom.html"
+  to = "/"
+  status = 301
+
+# The booking page lived here while it was being built, and the URL is in Mike's
+# notes, in chat history and in at least one Stripe session. Send it home.
+[[redirects]]
+  from = "/proto/flow-prototype.html"
+  to = "/"
+  status = 301
+
 # Security headers — defaults that any production site should have
 [[headers]]
   for = "/*"

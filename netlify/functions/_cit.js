@@ -46,6 +46,30 @@ const FIXED_PRICE = {
   },
 };
 
+// ---------- Venue admission ----------
+// The gate price per adult, charged as a second line item when a guest chooses to
+// prepay it. These live here, not in the browser. The page used to send the amount
+// along with the booking, which meant anyone could post `admissionUsd: 1` and prepay
+// a $65 day pass for a dollar. The page still displays these numbers; this file is
+// what charges them.
+//
+// `verified` means the rate is confirmed with the venue in writing. Prepay is
+// REFUSED for anything unverified — if the real gate price turns out to be higher we
+// eat the difference in person, in front of the guest, which is the one place this
+// business cannot afford to look wrong. Pax is collecting the signed B2B rate cards;
+// flip these to true as they land. Until then those destinations still sell the
+// transfer, the guest simply pays her own admission at the gate.
+const ADMISSION = {
+  'tierra-maya':    { usd: 70, verified: true,  name: 'Sacred Roots experience' },
+  'kuza':           { usd: 45, verified: false, name: 'KUZÁ day pass' },
+  'san-gervasio':   { usd: 13, verified: true,  name: 'San Gervasio site entry' },
+  'chankanaab':     { usd: 31, verified: true,  name: 'Chankanaab park entry' },
+  'bucanos':        { usd: 55, verified: false, name: 'Buccanos day pass' },
+  'paradise-beach': { usd: 18, verified: true,  name: 'Paradise Beach Fun Pass' },
+  'mr-sanchos':     { usd: 65, verified: false, name: 'Mr. Sanchos all-inclusive day pass' },
+  'nachi-cocom':    { usd: 75, verified: false, name: 'Nachi Cocom day pass' },
+};
+
 const CURRENCY = 'usd';
 
 // Online booking for a given day closes at 9 AM Cozumel time the day before —
@@ -202,7 +226,7 @@ const minutesOf = (t) => {
 };
 
 module.exports = {
-  VEHICLES, DESTINATIONS, FIXED_PRICE, CURRENCY, BOOKING_CUTOFF_HOUR, FLEET_RUNS_PER_DAY,
+  VEHICLES, DESTINATIONS, FIXED_PRICE, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR, FLEET_RUNS_PER_DAY,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, verifyStripeSignature, bookings,
   sendEmail, teamEmails, bookingsOn, tomorrowInCozumel, minutesOf,
 };
