@@ -867,7 +867,11 @@ footer p{margin:0;max-width:34em}
     <li><span class="e">📧</span><div>Your <b>card receipt</b> by email, straight away.</div></li>
     <li><span class="e">⚓</span><div>Your <b>terminal, meeting point and times</b> by email the day before — and
       you can <a href="/meet/" style="color:var(--accent-pressed);font-weight:600">see the walk from each pier now</a>.</div></li>
-    <li><span class="e">🚢</span><div>We watch your ship. If it's late, your driver waits. If it skips Cozumel, <b>you're refunded automatically</b>.</div></li>
+    <!-- "refunded automatically" was the wording here until 2026-08-07. Nothing in the
+         functions issues a refund and nothing compares bookings against arrivals — a
+         person does it in Stripe. The promise is kept either way; "automatically" was
+         the one word that wasn't true, and it is the word a guest would quote back. -->
+    <li><span class="e">🚢</span><div>We watch your ship. If it's late, your driver waits. If it skips Cozumel, <b>we refund you in full — you don't have to ask</b>.</div></li>
     <li><span class="e">📅</span><div>Add to your calendar so it's on your phone offline.</div></li>
   </ul>
   <div class="cta-wrap">
@@ -1088,7 +1092,7 @@ const FAQ = [
   ["What if my ship is delayed?",
    "No problem. We pull every Cozumel arrival from the port authority's feed, and one of our team checks yours again before your pickup — so we adjust instead of losing you. No rescheduling fees, no missed-pickup penalties. Same for early arrivals."],
   ["What if I need to cancel?",
-   "Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, the refund is automatic: you don't have to ask us for it."],
+   "Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, we refund you in full without you having to ask."],
   ["Can I come back earlier than I booked?",
    "Yes. If your plans change, message us on WhatsApp with about 30 to 60 minutes' notice and we'll come for you sooner. One thing to know: the return trip runs once, so the whole group comes back together — we can't do one run for part of the group and a second run for the rest."],
   ["How do I pay?",
@@ -1482,7 +1486,7 @@ function openVoucher(){
       <b>Coming back early?</b> Message us 30–60 minutes ahead and we'll come sooner. The return runs
       once, so the whole group travels back together.<br>
       <b>Cancelling?</b> Free up to 24 hours before pickup — 100% back to the same card within five
-      business days. If your ship never docks in Cozumel the refund is automatic; you don't have to ask.<br>
+      business days. If your ship never docks in Cozumel we refund you in full; you don't have to ask.<br>
       Cozumel Island Transfers · San Miguel de Cozumel, Quintana Roo, México · since 2015
     </div>
   </div></div>
