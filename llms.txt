@@ -1,6 +1,16 @@
 # Cozumel Island Transfers
 
-> Licensed private ground-transfer operator in Cozumel, Mexico. Family-run since 2015. Serves all three Cozumel cruise piers (Puerta Maya, SSA International Pier, Punta Langosta). Cruise port only — we no longer sell airport transfers. All-inclusive fixed prices in USD, booked and paid online. No hidden fees. Free cancellation up to 24h before pickup.
+> Licensed private ground-transfer operator in Cozumel, Mexico. Family-run since 2015. Serves all three Cozumel cruise piers (Puerta Maya, SSA International Pier, Punta Langosta). **Cruise port only** — airport transfers were discontinued 2026-07-29. Flat per-vehicle prices in USD, booked and paid online by card. Free cancellation up to 24h before pickup.
+
+## Pages
+
+- [Home and booking](https://cozumelislandtransfers.com/) — prices, destinations, FAQ, and the booking flow
+- [Where to meet us](https://cozumelislandtransfers.com/meet/) — which terminal, and today's ships
+- [Puerta Maya meeting point](https://cozumelislandtransfers.com/meet/puerta-maya.html) — photographed walking directions
+- [SSA International Pier meeting point](https://cozumelislandtransfers.com/meet/ssa-mexico.html)
+- [Punta Langosta meeting point](https://cozumelislandtransfers.com/meet/punta-langosta.html)
+- [Terms of use](https://cozumelislandtransfers.com/terms.html) — the authoritative cancellation and liability text
+- [Privacy policy](https://cozumelislandtransfers.com/privacy.html)
 
 ## Company
 
@@ -8,11 +18,12 @@
 - **Régimen:** Persona Moral · Régimen General 601
 - **Location:** Cozumel, Quintana Roo, México
 - **Founded:** 2015
-- **Fleet:** Private vans, Sprinters and Transit vans (1–40 passenger capacity), dispatched through our local fleet network. We do not own the vehicles.
+- **Transport permit:** 483290
+- **Fleet:** Private vans, mini coaches and buses, 1–40 passenger capacity, dispatched through our local fleet network. We do not own the vehicles.
 - **Representative:** Our English-speaking representative meets you at the pier. Drivers are licensed and local; we do not claim they speak English.
 - **Contact:** WhatsApp +52 987 114 6853 · hello@cozumelislandtransfers.com
-- **Hours:** Office 9 AM – 5 PM Cozumel time · WhatsApp +52 987 114 6853
-- **Reviews:** 🏆 Travelers' Choice on TripAdvisor, 4.8★ from 35 verified reviews
+- **Hours:** Office 9 AM – 5 PM Cozumel time (UTC−5, year round). WhatsApp is the fastest channel.
+- **Reviews:** Travelers' Choice on TripAdvisor, 4.8★ from 35 verified reviews
 
 ## Audience
 
@@ -20,11 +31,13 @@ Cruise passengers disembarking at Cozumel's three cruise piers. We serve guests 
 
 ## Services
 
-1. **Cruise port transfers** (round-trip): from the cruise pier to your destination of choice. We follow the port authority's arrival feed and check it again before every pickup, so a late dock moves your pickup instead of costing you the transfer. Return-on-time guarantee — refund if we make you late.
+**Cruise port transfers, round trip.** From your cruise pier to the destination you choose and back at the time you choose. We follow the port authority's arrival feed and check it again before every pickup, so a late dock moves your pickup instead of costing you the transfer. Return-on-time guarantee — we refund the transfer if we make you late.
 
-Cruise port only. Airport transfers were discontinued in 2026.
+Cruise port only. Airport transfers were discontinued on 2026-07-29.
 
-## Vehicles & pricing (all-inclusive, round-trip)
+## Vehicles & pricing
+
+Prices are **per vehicle, not per person**, round trip, in USD, and the same flat rate to anywhere on the island.
 
 | Tier | Capacity | Round-trip USD |
 |------|----------|----------------|
@@ -34,49 +47,75 @@ Cruise port only. Airport transfers were discontinued in 2026.
 | Mini coach | 19–20 passengers | $609 |
 | Private bus | 21–40 passengers | $899 |
 
-All prices are per vehicle (not per person), final, USD, include all taxes and fees. Same flat rate anywhere on the island.
+**What the price covers:** the round-trip transfer, a private air-conditioned vehicle for your group only, bottled water, and an English-speaking representative who meets you at the pier. It includes Mexican taxes on the transfer. There is nothing to pay the driver — we do not accept cash.
 
-## Destinations served
+**What it does not cover: the venue's own admission.** Beach clubs, parks and archaeological sites charge their own entry, paid by you. See the table below.
 
-- **Tierra Maya** (Mayan cultural preserve, our own venue — cacao/honey/tortilla/mezcal experiences) — 15 min from cruise port
-- **Mr. Sancho's Beach Club** — all-inclusive food/drinks/beach, 15 min south
-- **Chankanaab National Park** — snorkel reef, dolphin lagoon, botanical garden, 10 min south
-- **Nachi Cocom Beach Club** — exclusive 130-guest cap, 20 min south
-- **Paradise Beach Cozumel** — inflatable aqua park, 15 min south
-- **Buccanos at Vista del Mar** — quieter north-side beach club, 10 min from port
-- **San Gervasio Mayan Ruins** — Cozumel's largest archaeological site, 20 min inland
-- **KUZA Beach & Adventure Park** — Cozumel's first theme park
-- Custom destinations (hotel, Airbnb, ferry to Playa del Carmen, anywhere on the island)
+## Destination admission (paid to the venue, not to us)
+
+| Destination | Drive from the pier | Adult admission | Can be prepaid with your booking? |
+|---|---|---|---|
+| Tierra Maya (Mayan cultural preserve, our own venue) | 15 min | $70 | Yes |
+| Mr. Sanchos Beach Club | 15–20 min | $65 | No — pay at the gate |
+| Chankanaab National Park | 10–15 min | $31 | Yes |
+| Nachi Cocom Beach Club | 20–25 min | $75 | No — pay at the gate |
+| Paradise Beach | 15 min | $18 | Yes |
+| Buccanos at Night · Beach Club | 10 min | $55 | No — pay at the gate |
+| San Gervasio Mayan Ruins | 20–25 min | $13 | Yes |
+| KUZÁ Park | 20 min | $45 | No — pay at the gate |
+| Somewhere else on the island | varies | — | n/a |
+
+The four marked "pay at the gate" are the venue's published rate as we understand it, and are not confirmed with the venue in writing, so we do not take money for them in advance. Custom destinations — a hotel, an Airbnb, the Playa del Carmen ferry, any address on the island — cost the same flat vehicle price; we confirm the exact address with you on WhatsApp.
+
+## Booking
+
+- **Direct:** https://cozumelislandtransfers.com/#book or WhatsApp +52 987 114 6853
+- **Payment:** card only, through Stripe Checkout, paid in full at booking. We do not accept cash.
+- **Booking cutoff:** online booking for a given day closes at **9 AM Cozumel time the day before**, because that is when the vans are assigned. Inside that window, message us on WhatsApp and we arrange it by hand.
+- **Viator:** also listed there. Booking direct is about 20% cheaper.
 
 ## Cancellation & refund policy
 
-- Free cancellation up to 24 hours before pickup
-- Cruise reroute or port skip: full refund, no questions, no fees
-- We monitor your ship's itinerary daily
+- Free cancellation up to 24 hours before pickup — 100% back to the same card within five business days
+- Cruise reroute or port skip: full refund, no questions, no fees. You do not have to ask.
+- We monitor cruise itineraries daily
+- Full terms: https://cozumelislandtransfers.com/terms.html
 
-## Cruise piers served
+## Cruise piers served, and the walk
 
-- Puerta Maya (Carnival, Princess, Holland America)
-- Punta Langosta (smaller ships, downtown San Miguel)
-- International Pier (Royal Caribbean, Norwegian, MSC, Celebrity)
+Berth assignment changes daily and is set by the port, not by us, so we do not publish a
+fixed cruise-line-to-pier mapping. We confirm your terminal by email the day before, and
+your cruise line's app or daily programme names it too.
 
-## Bookings
+| Pier | Walk to our meeting point | Terrain |
+|---|---|---|
+| Puerta Maya | 5–7 minutes | flat and paved |
+| SSA International Pier | about 7 minutes | flat and paved |
+| Punta Langosta | 3–5 minutes | **has stairs** down to street level |
 
-- **Direct:** https://cozumelislandtransfers.com/#book or WhatsApp +52 987 114 6853
-- **Viator:** Listed (booking direct saves ~25% vs Viator's price)
+Puerta Maya and the SSA International Pier share one meeting point. Punta Langosta is a
+separate downtown location. Be at the meeting point 15 minutes before your pickup time, so
+leave the ship about 20 minutes before. Photographed step-by-step directions for each pier
+are linked at the top of this file.
+
+## Accessibility
+
+Folded walkers and collapsible wheelchairs travel free. Mobility scooters need a message
+before booking so we can send a suitable vehicle. We do not provide child or car seats —
+bring your own and it travels free. Note that Punta Langosta's route includes stairs.
 
 ## Why book direct
 
-- Lower price than Viator / cruise-line excursions (~25% cheaper)
-- Real human answers WhatsApp during office hours
-- Real-time ship & flight tracking
+- Lower price than Viator or a cruise-line excursion — about 20% cheaper than Viator
+- A real person answers WhatsApp during office hours
+- Ship tracking: we follow the port authority's arrival feed, so a late dock moves your pickup
 - Return-on-time refund guarantee
-- 4.8★ Travelers' Choice on TripAdvisor since 2015
-- Same vans, same drivers as third-party listings, lower price
+- 4.8★ Travelers' Choice on TripAdvisor
+- Same vehicles and same drivers as the third-party listings, at a lower price
 
 ## Languages
 
-English (primary), Spanish
+English (primary), Spanish. The website is in English.
 
 ## Service area
 

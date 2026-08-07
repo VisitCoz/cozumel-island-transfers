@@ -586,7 +586,11 @@ footer p{margin:0;max-width:34em}
   </div>
 
 
-  <!-- Destinations — first thing the buyer can actually act on, kept above the fold -->
+  <!-- Destinations — first thing the buyer can actually act on, kept above the fold.
+       id="book" is here because llms.txt sends AI assistants to /#book, and until
+       2026-08-07 no such anchor existed, so every AI-sourced booking link dumped the
+       guest at the top of the page instead of at the thing she came to use. -->
+  <div id="book"></div>
   <div class="sechead" id="homeDest">Where do you need to go?</div>
     <div class="grid" id="hubGrid">
     <button class="poster" onclick="openDest('tierra-maya')">
