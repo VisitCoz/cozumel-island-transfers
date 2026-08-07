@@ -1170,6 +1170,7 @@ const DEST = {
     type:'Tell us where',drive:'Varies',dist:'Anywhere on Cozumel',
     img:'https://cozumelislandtransfers.com/assets/dest-paradise-beach-hero.jpg',
     blurb:'Downtown, the ferry, a restaurant, a hotel — anywhere on the island. Same flat price as anywhere else; we confirm the exact address with you on WhatsApp.',
+    inline:'the address you give us',
     admName:'',admAdult:0,admVerified:true}
 };
 
@@ -1359,7 +1360,10 @@ function openDest(k){
   S.dest = k; const d = DEST[k];
   $('dHero').src = d.img; $('dName').textContent = d.name; $('dType').textContent = d.type;
   $('dDrive').textContent = d.drive; $('dDist').textContent = d.dist; $('dBlurb').textContent = d.blurb;
-  document.querySelectorAll('.dNameInline').forEach(e => e.textContent = d.short);
+  // `inline` is an optional override for destinations whose short name doesn't read
+  // inside a sentence — "You're dropped at Somewhere else" is not English. Every named
+  // place omits it and falls back to `short`.
+  document.querySelectorAll('.dNameInline').forEach(e => e.textContent = d.inline || d.short);
   // Where we have the rate in writing we offer to prepay it. Where we don't, we quote
   // it as "about" and she pays at the gate — we do not take money for a number nobody
   // has confirmed, and "‹placeholder rate›" was internal shorthand leaking to guests.
@@ -1367,6 +1371,9 @@ function openDest(k){
     ${d.short}, not to us. ` + (d.admVerified
       ? 'You can pay at the gate, or add it to this booking and walk straight in.'
       : 'You pay it at the gate on the day.'));
+  // Blanking the text left the row and its "!" behind, so a destination with no gate fee
+  // showed a bare exclamation bullet with nothing next to it. Hide the whole row.
+  $('admRow').style.display = d.admAdult === 0 ? 'none' : 'flex';
   go('dest');
 }
 function startBooking(){ paintPax(); go('pax'); }
