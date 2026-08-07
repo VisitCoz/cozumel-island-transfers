@@ -1137,11 +1137,11 @@ const DEST = {
     dist:'Inland, east of San Miguel',
     img:'https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg',
     blurb:'Our own cultural preserve. Grind cacao on volcanic stone, press tortillas over fire, meet the sacred stingless bees, taste artisanal liqueurs. Guides move at your pace.',
-    admName:'Sacred Roots experience',admAdult:70,admVerified:true},
+    admName:'Sacred Roots experience',admAdult:0,admAtGate:true,admVerified:false},
   'kuza':{name:'KUZÁ Park',short:'KUZÁ',type:'Theme Park · Beach',drive:'20 min',
     dist:'South of the pier',img:IMG+'dest-kuza-hero.jpg',
     blurb:'Part beach, part theme park — ziplines, cenote swims, animal encounters and a beach club in one gated property.',
-    admName:'KUZÁ day pass',admAdult:45,admVerified:false},
+    admName:'KUZÁ day pass',admAdult:0,admAtGate:true,admVerified:false},
   'san-gervasio':{name:'San Gervasio Mayan Ruins',short:'San Gervasio',type:'Archaeological Site',drive:'20–25 min',
     dist:'9 miles inland',img:IMG+'dest-san-gervasio-hero.jpg',
     blurb:'The island’s Mayan sanctuary to Ix Chel, goddess of fertility — shaded stone paths through the jungle, and the reason Mayan women once made the pilgrimage across the channel.',
@@ -1153,19 +1153,19 @@ const DEST = {
   'bucanos':{name:'Buccanos at Night · Beach Club',short:'Buccanos',type:'Beach Club · Wine Bar',drive:'10 min',
     dist:'4 miles north of the pier',img:IMG+'dest-bucanos-hero.jpg',
     blurb:'The grown-up option on the north shore — a quieter beach, a proper kitchen and a wine bar, closer to the pier than anywhere south.',
-    admName:'Buccanos day pass',admAdult:55,admVerified:false},
+    admName:'Buccanos day pass',admAdult:0,admAtGate:true,admVerified:false},
   'paradise-beach':{name:'Paradise Beach',short:'Paradise Beach',type:'Beach Club',drive:'15 min',
     dist:'7 miles south of the pier',img:IMG+'dest-paradise-beach-hero.jpg',
     blurb:'The family one — inflatable water park in the sea, big pool, easy sandy entry, and a Fun Pass that covers the water toys.',
-    admName:'Paradise Beach Fun Pass',admAdult:18,admVerified:true},
+    admName:'Paradise Beach Fun Pass',admAdult:0,admAtGate:true,admVerified:false},
   'mr-sanchos':{name:'Mr. Sanchos Beach Club',short:'Mr. Sanchos',type:'Beach Club',drive:'15–20 min',
     dist:'7 miles south of the pier',img:IMG+'dest-mr-sanchos-hero.jpg',
     blurb:'One of Cozumel’s best-known all-inclusive beach clubs — unlimited food and drinks, beach chairs, pool, kayaks and snorkel gear on a calm stretch of the southwest coast.',
-    admName:'Mr. Sanchos all-inclusive day pass',admAdult:65,admVerified:false},
+    admName:'Mr. Sanchos all-inclusive day pass',admAdult:0,admAtGate:true,admVerified:false},
   'nachi-cocom':{name:'Nachi Cocom Beach Club',short:'Nachi Cocom',type:'Beach Club',drive:'20–25 min',
     dist:'9 miles south of the pier',img:IMG+'dest-nachi-cocom-hero.jpg',
     blurb:'A deliberately quiet, limited-capacity beach club — they cap the number of guests each day, so there is always a chair and never a crowd.',
-    admName:'Nachi Cocom day pass',admAdult:75,admVerified:false},
+    admName:'Nachi Cocom day pass',admAdult:0,admAtGate:true,admVerified:false},
   'somewhere-else':{name:'Somewhere else on the island',short:'Somewhere else',
     type:'Tell us where',drive:'Varies',dist:'Anywhere on Cozumel',
     img:'https://cozumelislandtransfers.com/assets/dest-paradise-beach-hero.jpg',
@@ -1367,13 +1367,19 @@ function openDest(k){
   // Where we have the rate in writing we offer to prepay it. Where we don't, we quote
   // it as "about" and she pays at the gate — we do not take money for a number nobody
   // has confirmed, and "‹placeholder rate›" was internal shorthand leaking to guests.
-  $('admText').innerHTML = d.admAdult === 0 ? '' : (`<b>${d.admName}</b> — about $${d.admAdult} per person. That money goes to
-    ${d.short}, not to us. ` + (d.admVerified
-      ? 'You can pay at the gate, or add it to this booking and walk straight in.'
-      : 'You pay it at the gate on the day.'));
-  // Blanking the text left the row and its "!" behind, so a destination with no gate fee
-  // showed a bare exclamation bullet with nothing next to it. Hide the whole row.
-  $('admRow').style.display = d.admAdult === 0 ? 'none' : 'flex';
+  // Three states, by Mike's decision on 2026-08-07:
+  //   admAdult > 0   → we have the rate in writing. Show it and offer to prepay.
+  //                    Only San Gervasio and Chankanaab.
+  //   admAtGate      → there IS a fee but we do not publish a number we cannot stand
+  //                    behind. Name it, say she pays at the gate, quote nothing.
+  //   neither        → no fee at all (the marina, somewhere else). Hide the row.
+  $('admText').innerHTML =
+      d.admAdult > 0 ? `<b>${d.admName}</b> — $${d.admAdult} per person. That money goes to
+        ${d.short}, not to us. You can pay at the gate, or add it to this booking and walk straight in.`
+    : d.admAtGate  ? `<b>${d.admName}</b> is paid at the gate on the day, directly to ${d.short}.
+        It is not included in the transfer price.`
+    : '';
+  $('admRow').style.display = (d.admAdult > 0 || d.admAtGate) ? 'flex' : 'none';
   go('dest');
 }
 function startBooking(){ paintPax(); go('pax'); }

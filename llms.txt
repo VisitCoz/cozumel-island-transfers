@@ -55,17 +55,17 @@ Prices are **per vehicle, not per person**, round trip, in USD, and the same fla
 
 | Destination | Drive from the pier | Adult admission | Can be prepaid with your booking? |
 |---|---|---|---|
-| Tierra Maya (Mayan cultural preserve, our own venue) | 15 min | $70 | Yes |
-| Mr. Sanchos Beach Club | 15–20 min | $65 | No — pay at the gate |
-| Chankanaab National Park | 10–15 min | $31 | Yes |
-| Nachi Cocom Beach Club | 20–25 min | $75 | No — pay at the gate |
-| Paradise Beach | 15 min | $18 | Yes |
-| Buccanos at Night · Beach Club | 10 min | $55 | No — pay at the gate |
-| San Gervasio Mayan Ruins | 20–25 min | $13 | Yes |
-| KUZÁ Park | 20 min | $45 | No — pay at the gate |
-| Somewhere else on the island | varies | — | n/a |
+| San Gervasio Mayan Ruins | 20–25 min | $13 | Yes — prepay with your booking |
+| Chankanaab National Park | 10–15 min | $31 | Yes — prepay with your booking |
+| Tierra Maya (Mayan cultural preserve, our own venue) | 15 min | paid at the gate | No |
+| Mr. Sanchos Beach Club | 15–20 min | paid at the gate | No |
+| Nachi Cocom Beach Club | 20–25 min | paid at the gate | No |
+| Paradise Beach | 15 min | paid at the gate | No |
+| Buccanos at Night · Beach Club | 10 min | paid at the gate | No |
+| KUZÁ Park | 20 min | paid at the gate | No |
+| Somewhere else on the island | varies | none | n/a |
 
-The four marked "pay at the gate" are the venue's published rate as we understand it, and are not confirmed with the venue in writing, so we do not take money for them in advance. Custom destinations — a hotel, an Airbnb, the Playa del Carmen ferry, any address on the island — cost the same flat vehicle price; we confirm the exact address with you on WhatsApp.
+We publish an admission price, and take money for it, only where the rate is confirmed with the venue in writing — currently San Gervasio and Chankanaab. Everywhere else the venue charges its own entry, paid at the gate on the day, and we do not quote a figure we cannot stand behind. Ask the venue, or ask us on WhatsApp and we will find out. Custom destinations — a hotel, an Airbnb, the Playa del Carmen ferry, any address on the island — cost the same flat vehicle price; we confirm the exact address with you on WhatsApp.
 
 ## Booking
 
