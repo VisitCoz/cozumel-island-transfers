@@ -174,19 +174,19 @@ exports.handler = async (event) => {
     params['line_items[1][price_data][product_data][description]'] = 'Paid now — nothing at the gate';
   }
 
-  // No promotion-code box. `allow_promotion_codes` used to be set here, which put an
-  // "Add promotion code" link on Checkout for every buyer. That was acceptable only
-  // while this flow was unreachable from the public site — the comment here said so,
-  // and said to remove it before the flow became the homepage. It became the homepage
-  // on 2026-08-06 and this was missed until the SEO pass the next day.
+  // The "Add promotion code" box on Stripe Checkout. ON permanently, by Mike's decision
+  // on 2026-08-07: he runs discounts through the season and wants a code to work at every
+  // checkout, all year.
   //
-  // An empty promo box on a $369 purchase sends a nervous buyer off to hunt for a code
-  // she will never find, and she may not come back. It existed so the live chain could
-  // be tested cheaply; booking CIT-M6G0PQ has since proven the whole chain with a real
-  // customer's money, so the need is gone.
+  // I removed this earlier the same day on the argument that an empty promo box sends a
+  // nervous buyer off to hunt for a code she'll never find. That argument only holds when
+  // there IS no code. Mike's answer: there will always be a live one, advertised on the
+  // site, so she isn't hunting — she already has it. That is the right call and it makes
+  // the box an asset rather than a leak.
   //
-  // To run a discounted booking again, either re-add this line temporarily or apply the
-  // coupon to the payment in the Stripe dashboard afterwards. Do not leave it on.
+  // The condition attached to it: a code must always be live and advertised. If you ever
+  // retire every coupon, take this line out the same day.
+  params.allow_promotion_codes = 'true';
 
   // Metadata on the session AND the payment, so it survives on the charge too.
   // This is what makes the Stripe dashboard readable as a reservation list.
