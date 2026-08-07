@@ -1015,6 +1015,15 @@ footer p{margin:0;max-width:34em}
   <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i></div>
   <div class="qhead"><div class="qk">Step 4 of 5</div><h2>Who should we look for?</h2>
     <p>This is the name we'll write on the sign.</p></div>
+  <!-- Only for "Somewhere else on the island". Until 2026-08-07 that destination took
+       $369+ and never asked where she was going — the team received the literal string
+       "Somewhere else on the island" and had to chase her on WhatsApp. It lives on this
+       screen rather than the destination screen so it is validated in toPay() beside the
+       name and email, with one error line instead of three. -->
+  <div class="field" id="dropoffBlock" style="display:none">
+    <label for="dropoffIn">Where are you going?</label>
+    <input type="text" id="dropoffIn" placeholder="Hotel name, address, or the ferry terminal">
+    <div class="hint">The exact address, so your driver takes you to the right door.</div></div>
   <div class="field"><label for="nameIn">Full name</label>
     <input type="text" id="nameIn" placeholder="Margaret Johnson" oninput="onName()"></div>
   <div class="field"><label for="waIn">WhatsApp or mobile</label>
@@ -1235,6 +1244,8 @@ function go(id){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
   $('s-'+id).classList.add('on');
   window.scrollTo(0,0);
+  // "Where are you going?" only makes sense for the destination that doesn't name itself.
+  if (id==='who') $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
   if (id==='pay') paintPay();
   if (id==='done') paintDone();
 }
@@ -1245,6 +1256,10 @@ function restart(){
   $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
   $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
   $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
+  // These two now travel with the booking, so a value left over from a previous run
+  // would follow the next guest to Stripe and into the team's email. While they were
+  // dead inputs it did not matter; now it does.
+  $('dropoffIn').value=''; $('pickupOther').value='';
   $('heroDest').value=''; paintHero();
   go('hub');
 }
@@ -1509,11 +1524,18 @@ function onName(){
 function toPay(){
   onName();
   const email = $('mailIn').value.trim();
-  const bad = !S.name ? 'nameIn' : (!/^\S+@\S+\.\S+$/.test(email) ? 'mailIn' : null);
+  // A "somewhere else" booking with no address is a van with nowhere to go. The server
+  // rejects it too — this is the courteous half, so she finds out here, not on Stripe.
+  const needsDropoff = S.dest === 'somewhere-else' && !$('dropoffIn').value.trim();
+  const bad = !S.name ? 'nameIn'
+            : (!/^\S+@\S+\.\S+$/.test(email) ? 'mailIn'
+            : (needsDropoff ? 'dropoffIn' : null));
   if (bad) {
     $('whoErr').textContent = bad === 'nameIn'
       ? 'We need the name that goes on the sign.'
-      : 'We need an email address for your confirmation.';
+      : bad === 'mailIn'
+      ? 'We need an email address for your confirmation.'
+      : 'Tell us where you’re going — a hotel, an address, or the ferry terminal.';
     $('whoErr').style.display = 'block';
     $(bad).focus();
     return;
@@ -1694,7 +1716,14 @@ async function payNow(){
     // No admissionUsd and no returnUrl: the server owns both now. It reads the gate
     // price from its own table and builds the return address from its own host, so
     // neither can be bent by anything sent from this page.
-    admissionPrepaid: S.adm
+    admissionPrepaid: S.adm,
+    // Two free-text fields that must actually reach a human.
+    // dropoff: required when the destination is "somewhere else" — without it the team
+    // gets the string "Somewhere else on the island" and has to chase her on WhatsApp.
+    // pickup: shown to guests not on a cruise since the wizard was built, and read
+    // nowhere until today — she typed her hotel and it was discarded at submit.
+    dropoff: $('dropoffIn').value.trim(),
+    pickup:  $('pickupOther').value.trim()
   };
   sessionStorage.setItem('cit_pending', JSON.stringify({
     ...booking, destName: d.short, vehicleName: v.name, total: grand()

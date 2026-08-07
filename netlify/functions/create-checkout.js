@@ -32,6 +32,11 @@ exports.handler = async (event) => {
   // The rep meets her holding a sign with this on it. A booking without a name is a
   // van arriving at a pier to look for nobody.
   if (!String(b.name || '').trim()) return json(400, { error: 'We need the name that goes on the sign.' });
+  // "Somewhere else on the island" is the one destination that doesn't say where it is.
+  // The page asks for an address; this is the half a stale tab cannot walk past.
+  if (b.destination === 'somewhere-else' && !String(b.dropoff || '').trim()) {
+    return json(400, { error: 'Tell us where you’re going — a hotel, an address, or the ferry terminal.' });
+  }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date || '')) return json(400, { error: 'Pick a date.' });
 
   const pickupHour = Number(b.pickupHour);
@@ -110,6 +115,11 @@ exports.handler = async (event) => {
     email: b.email,
     whatsapp: b.whatsapp || '',
     admission_prepaid: b.admissionPrepaid ? 'true' : 'false',
+    // Free text, so it is trimmed to fit. Stripe caps a metadata value at 500 characters
+    // and rejects the whole session if one is over, which would turn a typed paragraph
+    // into a failed checkout.
+    dropoff: String(b.dropoff || '').trim().slice(0, 400),
+    pickup:  String(b.pickup  || '').trim().slice(0, 400),
   };
 
   // TEMPORARY LIVE-TEST OVERRIDE.

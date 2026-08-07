@@ -74,6 +74,13 @@ function bookingEmail(m, amount, currency, email) {
         ${row('Email', email)}
         ${row('WhatsApp', m.whatsapp)}
         ${row('Ship', m.ship)}
+        ${/* row() renders nothing when the value is empty, so these two only appear when
+              they exist: the drop-off address for a "somewhere else" booking, and the
+              pickup address for a guest who is not on a cruise. Before 2026-08-07 both
+              were either never asked for or thrown away, and the team found out by
+              messaging the guest. */''}
+        ${row('Going to', m.dropoff)}
+        ${row('Pick up at', m.pickup)}
         ${row('Vehicle', m.vehicle_name || m.vehicle)}
         ${row('Paid', `$${amount.toFixed(2)} ${currency}`)}
         ${row('Admission prepaid', m.admission_prepaid === 'true' ? 'Yes' : 'No')}
