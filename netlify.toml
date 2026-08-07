@@ -10,12 +10,58 @@
 [functions."daily-manifest"]
   schedule = "0 14 * * *"
 
-# ── www → apex, and it must be the FIRST rule ────────────────────────────────
+# ── Source files that must not be served ─────────────────────────────────────
+# `publish = "."` means the whole repo is a web root, so every one of these was
+# reachable and returning 200 to anyone who guessed the path. Verified 2026-08-07.
+#
+# Nothing here contained a live key — checked for sk_live / rk_live / pk_live /
+# whsec_ / re_ / AIza and found none. What it did contain was worse in a different
+# way: CLAUDE.md publishing an out-of-date claim that the payment system charges
+# MX$100 by mistake, five staff addresses in booking-script-CIT.js ready to be
+# phished, and a discount code. Dotfiles and netlify.toml were already blocked by
+# Netlify itself; .git is not exposed.
+#
+# 404 rather than 403 — a 403 confirms the file is there.
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/booking-script-CIT.js"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/apps_script/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# ── www → apex, and it must come BEFORE every path rule below ────────────────
 # One canonical address. Every page's canonical tag says the bare domain, so this
 # makes the redirect agree with what we already tell Google, and stops a visit to
 # www and a visit to the apex counting as two different pages.
 #
-# It sits first on purpose: every other rule below matches on path only, so they
+# The 404 blocks above are the only rules allowed to precede it, and they are
+# harmless here: a request for www/CLAUDE.md should 404 outright rather than take
+# a redirect to the apex first.
+#
+# It sits ahead of the rest on purpose: every other rule below matches on path only, so they
 # apply to www as well. If /maya were matched first, a www visitor would be sent to
 # www/meet/puerta-maya.html and stay on www forever. Sending the host to the apex
 # before anything else means the path rules then run exactly once, on one hostname.
