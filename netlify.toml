@@ -10,6 +10,28 @@
 [functions."daily-manifest"]
   schedule = "0 14 * * *"
 
+# ── www → apex, and it must be the FIRST rule ────────────────────────────────
+# One canonical address. Every page's canonical tag says the bare domain, so this
+# makes the redirect agree with what we already tell Google, and stops a visit to
+# www and a visit to the apex counting as two different pages.
+#
+# It sits first on purpose: every other rule below matches on path only, so they
+# apply to www as well. If /maya were matched first, a www visitor would be sent to
+# www/meet/puerta-maya.html and stay on www forever. Sending the host to the apex
+# before anything else means the path rules then run exactly once, on one hostname.
+#
+# :splat carries the rest of the path and the query string, so
+# www.…/meet/puerta-maya.html lands on her walking directions, not the homepage.
+#
+# This lives here rather than in a Cloudflare redirect rule because Cloudflare passes
+# the original Host through to Netlify, so Netlify can answer it — and a rule in the
+# repo is reviewable and revertable, which a click in a dashboard is not.
+[[redirects]]
+  from = "https://www.cozumelislandtransfers.com/*"
+  to = "https://cozumelislandtransfers.com/:splat"
+  status = 301
+  force = true
+
 # The eleven pages the booking flow replaced on 2026-08-06. They are gone from the
 # build but they are not gone from the internet — they sat in the sitemap for months
 # and anything that linked to them would otherwise land on a 404 instead of a page
