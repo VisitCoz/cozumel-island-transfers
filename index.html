@@ -494,8 +494,14 @@ footer p{margin:0;max-width:34em}
   <div class="sechead">How it works</div>
   <ol class="steps" style="padding-bottom:6px">
     <li><b>Book online.</b> Pick your destination, group size, and times. Pay by card — that's it.</li>
-    <li><b>We meet you at the pier.</b> Our representative is at our meeting point right outside the
-        terminal, a few steps from all three piers, holding a sign with your name.</li>
+    <!-- "a few steps from all three piers" was the wording until 2026-08-07. The walking
+         pages say 5-7 min at Puerta Maya, ~7 at the International Pier and 3-5 at Punta
+         Langosta, past vendors and across a street. Same site, two stories, and the one
+         a 70-year-old discovers is false while standing in the heat. The homepage now
+         quotes the longer end and the meet pages carry the per-pier detail. -->
+    <li><b>We meet you at the pier.</b> Our representative is at our meeting point, a
+        <b>5–7 minute walk</b> from the terminal, holding a sign with your name.
+        <a href="/meet/" style="color:var(--accent-pressed);font-weight:600">See the walk from your pier →</a></li>
     <li><b>We come back at your time.</b> Your driver returns to the same spot you were dropped at.</li>
   </ol>
   <div class="tznote" style="margin-bottom:6px">
@@ -606,8 +612,8 @@ footer p{margin:0;max-width:34em}
   <div class="sechead">What happens, step by step</div>
   <ol class="steps">
     <li>You walk off the ship at your own pace. <b>No rush — we track your ship.</b></li>
-    <li>A few steps outside the terminal, <b>our English-speaking representative is holding a sign
-        with your name on it.</b> They get you settled and answer anything you need.</li>
+    <li>A <b>5–7 minute walk</b> from the terminal, <b>our English-speaking representative is holding
+        a sign with your name on it.</b> They get you settled and answer anything you need.</li>
     <li>You ride in a <b>private, air-conditioned vehicle</b> — just your group, and bottled water.</li>
     <li>You're dropped at <b><span class="dNameInline"></span></b> and you enjoy your day.</li>
     <li>At the time <em>you</em> chose, <b>your driver is waiting at the same spot</b> to bring you back.</li>
@@ -617,8 +623,8 @@ footer p{margin:0;max-width:34em}
 
   <div class="signbox">
     <div class="st">How you'll find us</div>
-    <p>Our <b>English-speaking representative</b> waits at our marked meeting point right outside the terminal — a few steps from all three
-       piers — holding a sign with your name.
+    <p>Our <b>English-speaking representative</b> waits at our marked meeting point just outside the terminal — a <b>5–7 minute walk</b>,
+       flat and paved from the two southern piers — holding a sign with your name.
        <a href="/meet/" style="color:var(--accent-pressed);font-weight:600">See the walk from your pier →</a></p>
     <div class="signcard">
       <div class="sl">Your sign will read</div>
@@ -853,7 +859,7 @@ footer p{margin:0;max-width:34em}
   </div>
   <div class="signbox">
     <div class="st">How you'll find him</div>
-    <p>Right outside the terminal, a few steps from the pier, holding a sign that reads:</p>
+    <p>A <b>5–7 minute walk</b> from the terminal, holding a sign that reads:</p>
     <div class="signcard"><div class="sl">Look for this sign</div><div class="sn" id="signName3">YOUR NAME</div></div>
     <p id="donePier" style="margin-top:11px"></p>
   </div>
@@ -1086,7 +1092,7 @@ const FAQ = [
   ["What do you guarantee?",
    "Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print."],
   ["What happens on the day?",
-   "The day before, we email you your terminal, your meeting point and your times. When you disembark, look for our English-speaking representative holding a sign with your name — the meeting point is a few steps outside the terminal, and you can see the walk from each pier on this site before you sail. Your driver takes you to your destination and comes back at the time you chose."],
+   "The day before, we email you your terminal, your meeting point and your times. When you disembark, look for our English-speaking representative holding a sign with your name — the meeting point is a 5–7 minute walk from the terminal, and you can see the walk from each pier on this site before you sail. Your driver takes you to your destination and comes back at the time you chose."],
   ["Will the ship wait for me?",
    "No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full."],
   ["What if my ship is delayed?",
@@ -1461,8 +1467,8 @@ function openVoucher(){
       (UTC−5)</b> — not your ship's onboard clock.</p>
 
     <h2>Where to meet us</h2>
-    <p style="margin:0">Our English-speaking representative is at our marked meeting point right
-      outside the terminal, a few steps from all three piers.</p>
+    <p style="margin:0">Our English-speaking representative is at our marked meeting point just
+      outside the terminal — a 5–7 minute walk from the pier.</p>
     <div class="sign"><div class="l">Look for this sign</div>
       <div class="n">${(S.name||'YOUR NAME').toUpperCase()}</div></div>
     <p style="font-size:12.5px;color:#6E6E73;margin:10px 0 0">We'll message you your exact terminal
