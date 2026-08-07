@@ -1,9 +1,9 @@
 User-agent: *
 Allow: /
-Disallow: /.netlify/
-
-# Block crawl of CDN transform endpoint — serve cacheable images directly
-Disallow: /.netlify/images?
+# Functions are endpoints, not pages. The image CDN under /.netlify/images IS how
+# every image on the site is served — blocking it would hide them all from Google,
+# including the LCP image.
+Disallow: /.netlify/functions/
 
 # Design scratch — half-finished style studies, not pages anyone should land on.
 Disallow: /proto/
