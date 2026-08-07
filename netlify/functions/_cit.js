@@ -51,7 +51,11 @@ const DESTINATIONS = {
 // A destination absent from this table can never have an admission line added to its
 // Stripe session, whatever the browser sends. That is the point of the table.
 const ADMISSION = {
-  'san-gervasio':   { usd: 13, verified: true, name: 'San Gervasio site entry' },
+  // $23 confirmed by Mike 2026-08-07. It was $13, which matched neither published
+  // source — INAH lists MX$105 for the ruins and Cozumel Parks lists $14.50 for the
+  // parador, and the two authorities charge separately. Every prepaid San Gervasio
+  // booking before this date under-collected by $10 a head.
+  'san-gervasio':   { usd: 23, verified: true, name: 'San Gervasio site entry' },
   'chankanaab':     { usd: 31, verified: true, name: 'Chankanaab park entry' },
 };
 
