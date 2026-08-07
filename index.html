@@ -266,6 +266,18 @@ button{font-family:inherit}
 .shipsbar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#0F2C44;color:#CFE4F5;
   font-size:12.5px}
 .shipsbar b{color:#fff}
+/* Season discount strip. Green rather than the brand navy so it reads as a saving and not
+   as another piece of chrome, but muted enough that it doesn't shout at a nervous buyer.
+   Sits directly under the hero, above the cruise-line marquee. */
+.promo{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;
+  padding:11px 18px;background:#E7F4EC;color:#14532D;font-size:13.5px;text-align:center;
+  border-bottom:1px solid #C6E4D2}
+.promo b{font-weight:800}
+.promo-code{display:inline-block;background:#14532D;color:#fff;font-weight:800;letter-spacing:.06em;
+  padding:3px 9px;border-radius:6px;font-size:12.5px;user-select:all}
+/* Keeps the code and "at checkout" together, so a narrow phone breaks the line before the
+   code rather than stranding "at checkout" on a line of its own. */
+.promo-nb{white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 /* scrolling brand strip — sits on the hero's own navy so it reads as the base of the
    hero, not a fourth band. Two identical tracks translated -50% means the loop never
    shows a seam. Names set in type, deliberately not logos: a logo row is the grammar of
@@ -573,6 +585,17 @@ footer p{margin:0;max-width:34em}
       </div>
       <div class="hh-price" id="heroPrice"></div>
     </div>
+  </div>
+
+  <!-- The season discount. This is what makes the "Add promotion code" box on Stripe an
+       asset rather than a leak: she arrives at checkout already holding the code, so the
+       box is a reason to book instead of a reason to leave and go hunting.
+       ⚠️ The code here must match a LIVE coupon in Stripe. If the coupon is retired or
+       renamed, change it here the same day — an advertised code that fails at checkout
+       costs more than no discount at all. -->
+  <div class="promo">
+    <b>Save 10%</b> — enter code
+    <span class="promo-nb"><span class="promo-code">COZUMEL10</span> at checkout</span>
   </div>
 
   <div class="marquee" aria-label="Guests we've picked up from Carnival, Royal Caribbean, Norwegian, Celebrity, MSC, Disney, Princess, Holland America, TUI Cruises, Virgin Voyages">
