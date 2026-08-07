@@ -472,13 +472,89 @@ footer p{margin:0;max-width:34em}
 
   <!-- Destinations — first thing the buyer can actually act on, kept above the fold -->
   <div class="sechead" id="homeDest">Where do you need to go?</div>
-  <div class="grid" id="hubGrid"></div>
+    <div class="grid" id="hubGrid">
+    <button class="poster" onclick="openDest('tierra-maya')">
+      <div class="poster-img"><img src="https://images.squarespace-cdn.com/content/696eda251c95af1834475713/88493922-2bf3-4dce-b1a5-d408ed7cfc74/imgi_51_caption.jpg" alt="Tierra Maya, Cozumel" loading="lazy"><span class="pl">Mayan Preserve</span></div>
+      <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('kuza')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-kuza-hero.jpg" alt="KUZÁ Park, Cozumel" loading="lazy"><span class="pl">Theme Park · Beach</span></div>
+      <div class="poster-meta"><h3>KUZÁ</h3><div class="dur">20 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('san-gervasio')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-san-gervasio-hero.jpg" alt="San Gervasio Mayan Ruins, Cozumel" loading="lazy"><span class="pl">Archaeological Site</span></div>
+      <div class="poster-meta"><h3>San Gervasio</h3><div class="dur">20–25 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('chankanaab')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-chankanaab-hero.jpg" alt="Chankanaab National Park, Cozumel" loading="lazy"><span class="pl">National Marine Park</span></div>
+      <div class="poster-meta"><h3>Chankanaab</h3><div class="dur">10–15 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('bucanos')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-bucanos-hero.jpg" alt="Buccanos at Night · Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club · Wine Bar</span></div>
+      <div class="poster-meta"><h3>Buccanos</h3><div class="dur">10 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('paradise-beach')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-paradise-beach-hero.jpg" alt="Paradise Beach, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
+      <div class="poster-meta"><h3>Paradise Beach</h3><div class="dur">15 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('mr-sanchos')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-mr-sanchos-hero.jpg" alt="Mr. Sanchos Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
+      <div class="poster-meta"><h3>Mr. Sanchos</h3><div class="dur">15–20 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('nachi-cocom')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-nachi-cocom-hero.jpg" alt="Nachi Cocom Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
+      <div class="poster-meta"><h3>Nachi Cocom</h3><div class="dur">20–25 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+    <button class="poster" onclick="openDest('somewhere-else')">
+      <div class="poster-img"><img src="https://cozumelislandtransfers.com/assets/dest-paradise-beach-hero.jpg" alt="Somewhere else on the island, Cozumel" loading="lazy"><span class="pl">Tell us where</span></div>
+      <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Varies from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
+  </div>
 
   <!-- Pricing -->
   <div class="sechead" id="homePrice">One price, by vehicle</div>
   <p class="blurb" style="padding-top:0">Not per person. Not by distance. The same flat rate to
      anywhere on the island — and you pay it once, online.</p>
-  <div class="pricelist" id="priceList"></div>
+  <!-- ⚠️ SERVER-RENDERED ON PURPOSE, AND DUPLICATED. This markup used to be built by
+     JavaScript into an empty div, which meant Google and ChatGPT could not see a
+     single destination name or four of the five prices. It is written out here so
+     it survives being read without scripts.
+     The trade is real: these values now exist in TWO places. If you change a price
+     or a destination you must change BOTH — the list below, and the VEH / DEST
+     data further down this file. Prices also appear in the Offer schema in <head>
+     and in netlify/functions/_cit.js, which is what actually charges the card. -->
+  <div class="pricelist" id="priceList">
+    <div class="prow">
+      <div><div class="pn">Private van</div><div class="pp">up to 8 people</div></div>
+      <div class="pv">$369<span class="ppp">$46 each with 8</span></div>
+    </div>
+    <div class="prow pop">
+      <div><div class="pn">Large private van</div><div class="pp">up to 14 people</div>
+        <span class="tag">Most booked</span></div>
+      <div class="pv">$425<span class="ppp">$30 each with 14</span></div>
+    </div>
+    <div class="prow">
+      <div><div class="pn">Extra-large van</div><div class="pp">up to 18 people</div></div>
+      <div class="pv">$549<span class="ppp">$31 each with 18</span></div>
+    </div>
+    <div class="prow">
+      <div><div class="pn">Mini coach</div><div class="pp">up to 20 people</div></div>
+      <div class="pv">$609<span class="ppp">$30 each with 20</span></div>
+    </div>
+    <div class="prow">
+      <div><div class="pn">Private bus</div><div class="pp">up to 40 people</div></div>
+      <div class="pv">$899<span class="ppp">$22 each with 40</span></div>
+    </div>
+  </div>
   <div class="vsbox">
     <div class="vs-t">Your three options for getting there</div>
     <div class="vs-row vs-us"><span><b>Our van, booked direct</b><br><span class="vs-n">Your group only. You pick the times.</span></span><b class="vs-us">$46 each<br><span class="vs-n">8 people · $369 the van</span></b></div>
@@ -1139,21 +1215,9 @@ fetch('/.netlify/functions/ships-today')
 
 /* Per-person figure = whole-vehicle price ÷ its capacity. This is the number the guest
    compares against the ship's tour, which is quoted per person. */
-$('priceList').innerHTML = VEH.map(v => `
-  <div class="prow${v.max===14?' pop':''}">
-    <div><div class="pn">${v.name}</div><div class="pp">${v.sub}</div>
-      ${v.max===14?'<span class="tag">Most booked</span>':''}</div>
-    <div class="pv">$${v.price}<span class="ppp">$${Math.round(v.price/v.max)} each with ${v.max}</span></div>
-  </div>`).join('');
-
-
-$('hubGrid').innerHTML = Object.keys(DEST).map(k => `
-  <button class="poster" onclick="openDest('${k}')">
-    <div class="poster-img"><img src="${DEST[k].img}" alt="" loading="lazy"><span class="pl">${DEST[k].type}</span></div>
-    <div class="poster-meta"><h3>${DEST[k].short}</h3><div class="dur">${DEST[k].drive} from the pier</div>
-    <div class="go">View &amp; book →</div></div>
-  </button>`).join('') + `
-`;
+/* The price list and destination grid are server-rendered in the HTML above — see the
+   note beside #priceList. The renderers that used to sit here are gone; VEH and DEST
+   remain because the booking wizard reads them. Keep the markup and the data in step. */
 
 /* ── 2 · destination ── */
 function openDest(k){
