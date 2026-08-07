@@ -566,7 +566,33 @@ footer p{margin:0;max-width:34em}
 
   <!-- FAQ -->
   <div class="sechead">The things people always ask</div>
-  <div id="faqList"></div>
+  <!-- The FAQ lives here, in the HTML, on purpose. It used to be a JavaScript array
+     rendered into an empty div, which meant none of these thirteen answers existed
+     for Google, ChatGPT or anyone reading the page without running scripts — the
+     most quotable content on the site was invisible to the things that quote it.
+     This is now the ONLY copy. There is no JS array to keep in sync; edit the text
+     right here. Keep the <details>/<summary> shape — the FAQPage structured data
+     and the "See all" button both depend on it. -->
+  <div id="faqList">
+  <details class="faq"><summary>What do you guarantee?<span class="fa">+</span></summary><p>Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print.</p></details>
+  <details class="faq"><summary>Will the ship wait for me?<span class="fa">+</span></summary><p>No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full.</p></details>
+  <details class="faq"><summary>What if I need to cancel?<span class="fa">+</span></summary><p>Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, we refund you in full without you having to ask.</p></details>
+  <details class="faq"><summary>How do I pay?<span class="fa">+</span></summary><p>Credit card, always — secure online payment at booking. No cash to the driver, no deposits, no surprise fees at the curb.</p></details>
+  <details class="faq"><summary>What happens on the day?<span class="fa">+</span></summary><p>The day before, we email you your terminal, your meeting point and your times. When you disembark, look for our English-speaking representative holding a sign with your name — the meeting point is a 5–7 minute walk from the terminal, and you can see the walk from each pier on this site before you sail. Your driver takes you to your destination and comes back at the time you chose.</p></details>
+  <div id="faqRest" hidden>
+  <details class="faq"><summary>What's included in my transfer?<span class="fa">+</span></summary><p>Round-trip private transfer in an air-conditioned private vehicle, and bottled water. Our English-speaking representative waits at our meeting point with your name on a sign and gets you settled; your driver takes you there and comes back at the time you chose. Your pickup and return times are confirmed in writing before you ride, so nothing important depends on a conversation in the van.</p></details>
+  <details class="faq"><summary>Where can you take me?<span class="fa">+</span></summary><p>Anywhere on the island: beach clubs, Mayan ruins, downtown San Miguel, the Playa del Carmen ferry terminal, or any address you have. If you don't see your destination listed, just message us on WhatsApp.</p></details>
+  <details class="faq"><summary>What if my ship is delayed?<span class="fa">+</span></summary><p>No problem. We pull every Cozumel arrival from the port authority's feed, and one of our team checks yours again before your pickup — so we adjust instead of losing you. No rescheduling fees, no missed-pickup penalties. Same for early arrivals.</p></details>
+  <details class="faq"><summary>Can I come back earlier than I booked?<span class="fa">+</span></summary><p>Yes. If your plans change, message us on WhatsApp with about 30 to 60 minutes' notice and we'll come for you sooner. One thing to know: the return trip runs once, so the whole group comes back together — we can't do one run for part of the group and a second run for the rest.</p></details>
+  <details class="faq"><summary>Traveling with a large group?<span class="fa">+</span></summary><p>Up to 40 passengers in one vehicle. Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing together. Message us with group size, destination and date.</p></details>
+  <details class="faq"><summary>Do you provide child or car seats?<span class="fa">+</span></summary><p>No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle.</p></details>
+  <details class="faq"><summary>Is the van easy to get in and out of?<span class="fa">+</span></summary><p>Our vans have a standard step up — most guests manage it easily, and our representative will steady an arm if you'd like. Folded walkers and collapsible wheelchairs travel with you at no charge. If anyone in your group uses a mobility scooter or needs a low step, message us before you book and we'll tell you honestly whether we can carry it.</p></details>
+  <details class="faq"><summary>Should I tip the driver?<span class="fa">+</span></summary><p>Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way.</p></details>
+  </div>
+  <div class="cta-wrap" style="padding:14px 18px 4px">
+    <button class="btn btn-ghost" style="margin-top:0" id="faqMore" onclick="showAllFaq()">See all 13 questions</button>
+  </div>
+  </div>
 
   <footer>
     <div class="ft-g">
@@ -1083,49 +1109,10 @@ function paintHero(){
 }
 paintHero();
 
-/* Real FAQ copy, lifted from the live site so this preview isn't invented text. */
-const FAQ = [
-  ["What's included in my transfer?",
-   "Round-trip private transfer in an air-conditioned private vehicle, and bottled water. Our English-speaking representative waits at our meeting point with your name on a sign and gets you settled; your driver takes you there and comes back at the time you chose. Your pickup and return times are confirmed in writing before you ride, so nothing important depends on a conversation in the van."],
-  ["Where can you take me?",
-   "Anywhere on the island: beach clubs, Mayan ruins, downtown San Miguel, the Playa del Carmen ferry terminal, or any address you have. If you don't see your destination listed, just message us on WhatsApp."],
-  ["What do you guarantee?",
-   "Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print."],
-  ["What happens on the day?",
-   "The day before, we email you your terminal, your meeting point and your times. When you disembark, look for our English-speaking representative holding a sign with your name — the meeting point is a 5–7 minute walk from the terminal, and you can see the walk from each pier on this site before you sail. Your driver takes you to your destination and comes back at the time you chose."],
-  ["Will the ship wait for me?",
-   "No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full."],
-  ["What if my ship is delayed?",
-   "No problem. We pull every Cozumel arrival from the port authority's feed, and one of our team checks yours again before your pickup — so we adjust instead of losing you. No rescheduling fees, no missed-pickup penalties. Same for early arrivals."],
-  ["What if I need to cancel?",
-   "Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, we refund you in full without you having to ask."],
-  ["Can I come back earlier than I booked?",
-   "Yes. If your plans change, message us on WhatsApp with about 30 to 60 minutes' notice and we'll come for you sooner. One thing to know: the return trip runs once, so the whole group comes back together — we can't do one run for part of the group and a second run for the rest."],
-  ["How do I pay?",
-   "Credit card, always — secure online payment at booking. No cash to the driver, no deposits, no surprise fees at the curb."],
-  ["Traveling with a large group?",
-   "Up to 40 passengers in one vehicle. Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing together. Message us with group size, destination and date."],
-  ["Do you provide child or car seats?",
-   "No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle."],
-  ["Is the van easy to get in and out of?",
-   "Our vans have a standard step up — most guests manage it easily, and our representative will steady an arm if you'd like. Folded walkers and collapsible wheelchairs travel with you at no charge. If anyone in your group uses a mobility scooter or needs a low step, message us before you book and we'll tell you honestly whether we can carry it."],
-  ["Should I tip the driver?",
-   "Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way."]
-];
-/* Show the five that actually block a booking; the rest open in place on one tap.
-   Deliberately NOT grouped into sub-accordions — a second level of tapping and a guess
-   about which bucket their question lives in is where this persona gives up. */
-const FAQ_LEAD = ['What do you guarantee?', 'Will the ship wait for me?', 'What if I need to cancel?',
-                  'How do I pay?', 'What happens on the day?'];
-const faqRow = ([q,a]) =>
-  `<details class="faq"><summary>${q}<span class="fa">+</span></summary><p>${a}</p></details>`;
-const lead = FAQ_LEAD.map(t => FAQ.find(([q]) => q === t)).filter(Boolean);
-const rest = FAQ.filter(([q]) => !FAQ_LEAD.includes(q));
-$('faqList').innerHTML = lead.map(faqRow).join('')
-  + `<div id="faqRest" hidden>${rest.map(faqRow).join('')}</div>`
-  + `<div class="cta-wrap" style="padding:14px 18px 4px">
-       <button class="btn btn-ghost" style="margin-top:0" id="faqMore" onclick="showAllFaq()">
-         See all ${FAQ.length} questions</button></div>`;
+/* The FAQ is server-rendered in the HTML — see the note beside #faqList. The array
+   and renderer that used to live here are gone on purpose: two copies of thirteen
+   answers is two copies to keep in step, and the JS one was invisible to crawlers.
+   showAllFaq() below still reveals the hidden remainder. */
 function showAllFaq(){
   $('faqRest').hidden = false;
   $('faqMore').closest('.cta-wrap').remove();
