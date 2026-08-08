@@ -119,7 +119,12 @@ exports.handler = async (event) => {
     // and rejects the whole session if one is over, which would turn a typed paragraph
     // into a failed checkout.
     dropoff: String(b.dropoff || '').trim().slice(0, 400),
-    pickup:  String(b.pickup  || '').trim().slice(0, 400),
+    // NOT `pickup`. That key is already taken above by the pickup TIME, and a JS object
+    // literal keeps only the last of a duplicated key — so from 2026-08-07 to 2026-08-08
+    // this line silently overwrote the time with a box that is empty for every cruise
+    // guest. The manifest lost its sort, and guests were emailed "We pick you up:" with
+    // nothing after it. Renaming is the whole fix; the time was never the problem.
+    pickup_addr: String(b.pickup || '').trim().slice(0, 400),
   };
 
   // TEMPORARY LIVE-TEST OVERRIDE.

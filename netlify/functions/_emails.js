@@ -80,7 +80,7 @@ function bookingEmail(m, amount, currency, email) {
               were either never asked for or thrown away, and the team found out by
               messaging the guest. */''}
         ${row('Going to', m.dropoff)}
-        ${row('Pick up at', m.pickup)}
+        ${row('Pick up at', m.pickup_addr)}
         ${row('Vehicle', m.vehicle_name || m.vehicle)}
         ${row('Paid', `$${amount.toFixed(2)} ${currency}`)}
         ${row('Admission prepaid', m.admission_prepaid === 'true' ? 'Yes' : 'No')}
