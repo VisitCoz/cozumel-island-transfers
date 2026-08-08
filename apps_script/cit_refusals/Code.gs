@@ -16,17 +16,25 @@
  *      and it should not sit behind the same credential as anything that isn't.
  *
  * ── SETUP (about ten minutes, once) ───────────────────────────────────
+ * ⚠️ Sign in as contabilidad@visitcozumel.com.mx and NOTHING ELSE. Use an
+ *    Incognito window if your normal Chrome is signed into several accounts.
+ *    A multi-account session makes Google run the authorization as the wrong
+ *    user and fail with "Error 401: invalid_client — the OAuth client is not
+ *    fully created yet", which looks like a broken script and is not one.
+ *    The Sheet must be OWNED by contabilidad@; that account runs the web app.
+ *
  * 1. Create a Google Sheet called "CIT Lost Demand".
  * 2. Extensions → Apps Script → paste this file → Save.
- * 3. Run makeToken() once from the editor (▶). Approve the permission prompt.
- *    Copy the token it logs (View → Logs).
- * 4. Project Settings ⚙ → Script Properties → Add:
- *      CIT_REFUSALS_TOKEN   = the token you just copied
- * 5. Deploy → New deployment → type "Web app"
+ * 3. Project Settings ⚙ → Script Properties → Add:
+ *      CIT_REFUSALS_TOKEN   = any long random string
+ *    Generate one on the Mac, so it never travels through a chat window:
+ *      python3 -c "import secrets;print(secrets.token_urlsafe(32))"
+ * 4. Deploy → New deployment → type "Web app"
  *      Execute as: Me      Who has access: Anyone
- *    Copy the /exec URL.
- * 6. Send Claude the /exec URL and the token, and they get set in Netlify as
- *    REFUSALS_URL and REFUSALS_TOKEN. Nothing else changes.
+ *    Approve the prompt — "Google hasn't verified this app" → Advanced →
+ *    Go to (unsafe) is expected for your own script. Copy the /exec URL.
+ * 5. Give Claude the /exec URL; they set REFUSALS_URL and REFUSALS_TOKEN in
+ *    Netlify. Nothing else changes.
  *
  * The token only works for this one script. It cannot read your Drive, your mail,
  * or anything else.
@@ -48,7 +56,11 @@ var REASON_LABEL = {
   payment_open_failed:  'Payment page failed to open'
 };
 
-/** Run this once from the editor, then paste the result into Script Properties. */
+/**
+ * Optional. Generating the token on the Mac is better — running anything from this
+ * editor triggers an authorization round you do not otherwise need, and that round
+ * is where the wrong-account failure happens.
+ */
 function makeToken() {
   Logger.log(Utilities.getUuid() + Utilities.getUuid().replace(/-/g, ''));
 }
