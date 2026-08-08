@@ -1,8 +1,0 @@
-{
-  "name": "cozumel-island-transfers",
-  "private": true,
-  "description": "Netlify functions for cozumelislandtransfers.com. There is no build step — netlify.toml publishes the repo root as-is. This file exists only so Netlify installs the one dependency the refusal log needs.",
-  "dependencies": {
-    "@netlify/blobs": "^8.1.0"
-  }
-}

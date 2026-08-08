@@ -12,22 +12,23 @@
 // are recorded — the ones that route a real, willing buyer to WhatsApp.
 //
 // NO PERSONAL DATA. No name, no email, no phone, no card. Just the shape of the business we
-// turned down. Nothing here needs protecting, which is why it can be read by a weekly agent
-// without anyone thinking hard about it.
+// turned down. Nothing here needs protecting, which is why it can be read casually.
+//
+// WHERE IT GOES, AND WHY NOT NETLIFY BLOBS
+// Blobs was built first and abandoned on 2026-08-08. This site's runtime does not inject
+// NETLIFY_BLOBS_CONTEXT — verified by reading the function's own environment — and the
+// internal NETLIFY_FUNCTIONS_TOKEN returns 401 against the Blobs API. The only way through
+// was a Netlify personal access token, which cannot be scoped: it would have put full
+// account access into a public-facing function to store data that isn't even sensitive.
+// A Google Sheet behind its own single-purpose token is the better trade, and it has the
+// side benefit that Mike and Iris can just open it and look.
+//
+// DELIBERATELY its own URL and token, not BOOKINGS_URL/BOOKINGS_TOKEN: those switch on the
+// bookings spreadsheet, which Mike explicitly did not want. Turning on the refusal log must
+// not silently turn that on too.
 
-const { getStore } = require('@netlify/blobs');
-
-const STORE = 'refusals';
-
-// This site's runtime does NOT inject NETLIFY_BLOBS_CONTEXT — verified 2026-08-08 by reading
-// the function's own environment. SITE_ID is there, so only a token is missing. Try the
-// credentials Netlify already provides before asking anyone to mint a personal access token,
-// which would carry full account access into a public-facing function.
-function store() {
-  const siteID = process.env.SITE_ID;
-  const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_FUNCTIONS_TOKEN;
-  return (siteID && token) ? getStore({ name: STORE, siteID, token }) : getStore(STORE);
-}
+const REFUSALS_URL = () => process.env.REFUSALS_URL;
+const REFUSALS_TOKEN = () => process.env.REFUSALS_TOKEN;
 
 // Best-effort value of what walked away, using our own list price. For a group too big for
 // any single vehicle, assume the buses it would have taken — a 60-person group is two runs.
@@ -43,51 +44,62 @@ function monthKey(d = new Date()) {
   return new Date(d.getTime() - 5 * 3600 * 1000).toISOString().slice(0, 7);
 }
 
+async function call(action, payload, timeoutMs = 4000) {
+  const url = REFUSALS_URL(), token = REFUSALS_TOKEN();
+  if (!url || !token) throw new Error('REFUSALS_URL / REFUSALS_TOKEN not set');
+  // Apps Script can be slow to wake. A guest is already being refused, so never make her
+  // wait on our bookkeeping — give up and move on.
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, action, ...payload }),
+      signal: ctl.signal,
+      redirect: 'follow',              // Apps Script /exec always 302s to its runtime host
+    });
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch { throw new Error(`Refusal log returned non-JSON: ${text.slice(0, 160)}`); }
+  } finally { clearTimeout(t); }
+}
+
 /**
  * Record one refusal. Never throws, never blocks the guest's response on a storage problem —
  * losing a log line is annoying, failing her checkout over it is not acceptable.
  */
 async function logRefusal(r) {
+  const refusal = {
+    at: new Date().toISOString(),
+    reason: r.reason,                       // past_cutoff | over_40 | fleet_full | availability_unknown | payment_open_failed
+    wantedDate: r.wantedDate || null,
+    destination: r.destination || null,
+    destinationName: r.destinationName || null,
+    pax: Number(r.pax) || null,
+    ship: r.ship || null,
+    pickupHour: r.pickupHour ?? null,
+    durationHours: r.durationHours ?? null,
+    wouldHavePaidUsd: estimateUsd(r.pax, r.vehicleUsd),
+  };
   try {
-    const now = new Date();
-    const rec = {
-      at: now.toISOString(),
-      reason: r.reason,                       // past_cutoff | over_40 | fleet_full | availability_unknown | payment_open_failed
-      wantedDate: r.wantedDate || null,       // the day she asked for
-      destination: r.destination || null,
-      destinationName: r.destinationName || null,
-      pax: Number(r.pax) || null,
-      ship: r.ship || null,
-      pickupHour: r.pickupHour ?? null,
-      durationHours: r.durationHours ?? null,
-      wouldHavePaidUsd: estimateUsd(r.pax, r.vehicleUsd),
-    };
-    // One blob per refusal. Appending to a shared array would lose writes whenever two
-    // guests are refused in the same second, which is exactly when a busy day refuses people.
-    const key = `${monthKey(now)}/${now.toISOString()}-${Math.random().toString(36).slice(2, 8)}`;
-    await store().setJSON(key, rec);
+    const out = await call('record', { refusal });
+    if (!out || out.ok !== true) throw new Error(out && out.error ? out.error : 'unknown');
     return true;
   } catch (err) {
-    console.error('refusal log failed (booking flow unaffected)', r && r.reason, err);
+    // Loud in the logs, invisible to the guest.
+    console.error('refusal log failed (booking flow unaffected)', refusal.reason, err && err.message);
     return false;
   }
 }
 
 /** Read a month back out. `month` is 'YYYY-MM'; defaults to the current Cozumel month. */
 async function listRefusals(month) {
-  const prefix = `${month || monthKey()}/`;
-  const st = store();
-  const { blobs } = await st.list({ prefix });
-  const out = await Promise.all(
-    blobs.map(b => st.get(b.key, { type: 'json' }).catch(() => null))
-  );
-  return out.filter(Boolean).sort((a, b) => (a.at < b.at ? 1 : -1));
+  const out = await call('list', { month: month || monthKey() }, 10000);
+  if (!out || out.ok !== true) throw new Error(out && out.error ? out.error : 'list failed');
+  return out;
 }
 
-/** Which months have anything in them — so a dashboard can offer a real month picker. */
-async function refusalMonths() {
-  const { directories } = await store().list({ prefix: '', directories: true });
-  return (directories || []).sort().reverse();
-}
+const isConfigured = () => !!(REFUSALS_URL() && REFUSALS_TOKEN());
 
-module.exports = { logRefusal, listRefusals, refusalMonths, monthKey };
+module.exports = { logRefusal, listRefusals, monthKey, isConfigured };
