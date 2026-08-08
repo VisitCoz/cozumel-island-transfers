@@ -9,6 +9,7 @@ const {
   DESTINATIONS, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
+const { logRefusal } = require('./_refusals');
 
 const pad = (n) => String(n).padStart(2, '0');
 const hour12 = (h) => `${h % 12 === 0 ? 12 : h % 12}:00 ${h >= 12 ? 'PM' : 'AM'}`;
@@ -25,8 +26,20 @@ exports.handler = async (event) => {
   const vehicle = vehicleFor(pax);
   const destName = DESTINATIONS[b.destination];
 
+  // A refusal is logged ONLY where a business rule turns a willing buyer away — the five
+  // paths below. The other 400s here are form validation: a missing name is a stale tab,
+  // not lost demand, and logging those would bury the signal under noise.
+  const refusal = (reason, extra) => logRefusal({
+    reason, wantedDate: b.date, destination: b.destination, destinationName: destName,
+    pax, ship: b.ship, pickupHour: b.pickupHour, durationHours: b.durationHours,
+    vehicleUsd: vehicle && vehicle.usd, ...extra,
+  });
+
   if (!pax || pax < 1)  return json(400, { error: 'Tell us how many people are travelling.' });
-  if (!vehicle)         return json(400, { error: 'Groups over 40 are arranged by hand.', useWhatsApp: true });
+  if (!vehicle) {
+    await refusal('over_40');
+    return json(400, { error: 'Groups over 40 are arranged by hand.', useWhatsApp: true });
+  }
   if (!destName)        return json(400, { error: 'Pick a destination.' });
   if (!b.email)         return json(400, { error: 'We need an email for your confirmation.' });
   // The rep meets her holding a sign with this on it. A booking without a name is a
@@ -59,6 +72,9 @@ exports.handler = async (event) => {
   if (isNaN(cutoff)) return json(400, { error: 'That date did not read correctly.' });
   cutoff.setUTCDate(cutoff.getUTCDate() - 1);
   if (Date.now() >= cutoff.getTime()) {
+    // The single most valuable row in the log: she wanted to pay, on a real date, for a
+    // real destination, and the clock is the only thing that stopped her.
+    await refusal('past_cutoff');
     return json(409, {
       error: "Online booking for that day has closed — we plan the vans the morning before. Message us and we'll arrange it for you directly.",
       useWhatsApp: true,
@@ -79,6 +95,7 @@ exports.handler = async (event) => {
       const q = encodeURIComponent(`metadata['date']:'${b.date}' AND status:'succeeded'`);
       const found = await stripe(`payment_intents/search?query=${q}&limit=100`, null, 'GET');
       if ((found.data || []).length >= fleetCap) {
+        await refusal('fleet_full');
         return json(409, {
           error: 'We are fully booked that day. Message us — we sometimes free a vehicle up.',
           useWhatsApp: true,
@@ -87,6 +104,7 @@ exports.handler = async (event) => {
     } catch (err) {
       // Fail closed. Selling a van we cannot confirm is worse than losing a booking.
       console.error('allotment check failed', err);
+      await refusal('availability_unknown');
       return json(503, {
         error: "We couldn't confirm availability just now. Message us and we'll book you by hand.",
         useWhatsApp: true,
@@ -212,6 +230,9 @@ exports.handler = async (event) => {
     return json(200, { url: session.url, ref });
   } catch (err) {
     console.error('create-checkout', err);
+    // She got all the way to the price screen and Stripe would not open. Worth knowing how
+    // often, because unlike the other four this one is not a rule we chose.
+    await refusal('payment_open_failed');
     return json(502, { error: "We couldn't open the payment page. Message us and we'll sort it out.", useWhatsApp: true });
   }
 };
