@@ -110,7 +110,24 @@ function sheet() {
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
     sh.setFrozenRows(1);
   }
+  // Column A must stay PLAIN TEXT. Left alone, Sheets helpfully parses "2026-08-08 03:57"
+  // into a date value, and reading it back yields "Sat Aug 08 2026 03:57:00 GMT-0500" —
+  // whose first seven characters are "Sat Aug", so every month filter matched nothing and
+  // the dashboard showed zero rows while the sheet was filling up. 2026-08-08.
+  sh.getRange('A:A').setNumberFormat('@');
   return sh;
+}
+
+/**
+ * Read a timestamp cell back as 'YYYY-MM-DD HH:mm' no matter what Sheets turned it into.
+ * Rows written before the column was pinned to text come back as Date objects; formatting
+ * them in the SPREADSHEET's own timezone reproduces the wall clock that was written.
+ */
+function stampOf(v, ss) {
+  if (Object.prototype.toString.call(v) === '[object Date]') {
+    return Utilities.formatDate(v, ss.getSpreadsheetTimeZone(), 'yyyy-MM-dd HH:mm');
+  }
+  return String(v);
 }
 
 /* Cozumel is UTC-5 all year. Written as a plain string so the sheet never
@@ -173,12 +190,13 @@ function list(month) {
   var last = sh.getLastRow();
   if (last < 2) return { ok: true, month: month || null, records: [] };
 
+  var ss = spreadsheet();
   var vals = sh.getRange(2, 1, last - 1, HEADERS.length).getValues();
   var recs = [];
   var byReason = {};
   for (var i = 0; i < vals.length; i++) {
     var v = vals[i];
-    var stamp = String(v[0]);
+    var stamp = stampOf(v[0], ss);
     if (month && stamp.slice(0, 7) !== month) continue;
     var rec = {
       at: stamp, reasonLabel: String(v[1]), wantedDate: String(v[2]),
@@ -192,7 +210,7 @@ function list(month) {
   }
   recs.reverse();
   var months = {};
-  for (var j = 0; j < vals.length; j++) months[String(vals[j][0]).slice(0, 7)] = 1;
+  for (var j = 0; j < vals.length; j++) months[stampOf(vals[j][0], ss).slice(0, 7)] = 1;
   return {
     ok: true, month: month || null, months: Object.keys(months).sort().reverse(),
     count: recs.length,
