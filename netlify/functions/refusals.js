@@ -34,7 +34,10 @@ function summarise(rows) {
   // handing it to Date() would drag it back through the server's timezone.
   const heat = Array.from({ length: 7 }, () => Array(8).fill(0));
   rows.forEach(r => {
-    const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):/.exec(r.at || '');
+    // Hour may be one or two digits — a cell that Sheets round-tripped through a date
+    // format comes back as "2026-08-08 3:57", not "03:57", and a \d{2} here silently
+    // dropped every row out of the heatmap while the totals above looked perfect.
+    const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{1,2}):/.exec(r.at || '');
     if (!m) return;
     const dow = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])).getUTCDay();
     heat[dow][Math.floor(+m[4] / 3)]++;
