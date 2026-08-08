@@ -48,6 +48,17 @@ exports.handler = async (event) => {
     return { statusCode: 401, headers: { 'Content-Type': 'text/plain' }, body: 'Add ?token=…' };
   }
 
+  // ?diag=1 — names only, never values. Temporary: answering whether this runtime injects
+  // the Blobs credentials by itself, or whether they have to be supplied.
+  if (q.diag === '1') {
+    return { statusCode: 200, headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        blobsContext: !!process.env.NETLIFY_BLOBS_CONTEXT,
+        siteIdVars: Object.keys(process.env).filter(k => /SITE_ID|SITE_NAME|DEPLOY_ID|NETLIFY/i.test(k)).sort(),
+        nodeVersion: process.version,
+      }, null, 2) };
+  }
+
   const month = /^\d{4}-\d{2}$/.test(q.month || '') ? q.month : monthKey();
   let rows = [], months = [];
   try {
