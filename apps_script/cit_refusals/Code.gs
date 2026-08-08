@@ -75,8 +75,34 @@ function out(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+/**
+ * Find the spreadsheet, whichever way this script was created.
+ *
+ * A script made from Extensions → Apps Script is BOUND to its sheet and
+ * getActiveSpreadsheet() works. A script made at script.google.com is STANDALONE and
+ * that call returns null — doPost then threw, and Apps Script answered with a Google
+ * "Drive: page not found" page rather than anything that explained itself. Cost an hour
+ * on 2026-08-08.
+ *
+ * So: use the bound sheet if there is one, otherwise the one whose id we remembered,
+ * otherwise create it and remember it. No configuration required in any of the cases.
+ */
+function spreadsheet() {
+  var ss = null;
+  try { ss = SpreadsheetApp.getActiveSpreadsheet(); } catch (e) { ss = null; }
+  if (ss) return ss;
+
+  var id = prop('CIT_SHEET_ID');
+  if (id) {
+    try { return SpreadsheetApp.openById(id); } catch (e) { /* fall through and remake */ }
+  }
+  ss = SpreadsheetApp.create('CIT Lost Demand');
+  PropertiesService.getScriptProperties().setProperty('CIT_SHEET_ID', ss.getId());
+  return ss;
+}
+
 function sheet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = spreadsheet();
   var sh = ss.getSheetByName(SHEET);
   if (!sh) {
     sh = ss.insertSheet(SHEET);
@@ -94,17 +120,34 @@ function cozumelStamp(iso) {
   return Utilities.formatDate(d, 'America/Cancun', 'yyyy-MM-dd HH:mm');
 }
 
+/**
+ * Everything is wrapped. An uncaught throw in here does not produce an error message —
+ * Apps Script serves a generic Google "page not found" HTML page, which tells the caller
+ * nothing and looks like a deployment problem. Returning the message as JSON instead means
+ * the next failure explains itself in one request.
+ */
 function doPost(e) {
-  var body;
-  try { body = JSON.parse(e.postData.contents); }
-  catch (err) { return out({ ok: false, error: 'bad json' }); }
+  try {
+    var body;
+    try { body = JSON.parse(e.postData.contents); }
+    catch (err) { return out({ ok: false, error: 'bad json' }); }
 
-  var want = prop('CIT_REFUSALS_TOKEN');
-  if (!want || body.token !== want) return out({ ok: false, error: 'unauthorized' });
+    var want = prop('CIT_REFUSALS_TOKEN');
+    if (!want) return out({ ok: false, error: 'CIT_REFUSALS_TOKEN is not set in Script Properties' });
+    if (body.token !== want) return out({ ok: false, error: 'unauthorized' });
 
-  if (body.action === 'record')  return out(record(body.refusal || {}));
-  if (body.action === 'list')    return out(list(body.month));
-  return out({ ok: false, error: 'unknown action' });
+    if (body.action === 'record')  return out(record(body.refusal || {}));
+    if (body.action === 'list')    return out(list(body.month));
+    if (body.action === 'ping')    return out({ ok: true, sheet: spreadsheet().getUrl() });
+    return out({ ok: false, error: 'unknown action' });
+  } catch (err) {
+    return out({ ok: false, error: String(err && err.message ? err.message : err) });
+  }
+}
+
+/** So a browser hitting the URL gets something honest instead of a red Apps Script error. */
+function doGet() {
+  return out({ ok: true, note: 'CIT refusal log. POST only.' });
 }
 
 /** Append one refusal. */
