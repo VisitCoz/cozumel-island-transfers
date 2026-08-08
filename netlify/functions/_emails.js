@@ -186,9 +186,109 @@ function guestEmail(r) {
 
 const guestSubject = (r) => `Tomorrow: Cozumel transfer to ${r.destination}`;
 
+// ---------- 4. The moment she pays → her ----------
+// The confirmation screen promises "your receipt is on its way by email" and until
+// 2026-08-08 nothing sent one. Stripe's own receipt depends on a dashboard toggle this
+// code neither controls nor checks, so a guest could pay and receive literally nothing.
+//
+// She may book three weeks before she sails. This is the only thing she has in that gap —
+// the message she forwards to her husband and screenshots before the ship loses signal.
+//
+// Deliberately NOT in here: which terminal she docks at. The site promises elsewhere that
+// we will message her once the port publishes, and no code sends that. Repeating the
+// promise here would amplify it. What this says instead is true: all three meeting points
+// now, and the day-before email that daily-manifest.js really does send.
+function confirmationEmail(m, amount, currency, email) {
+  const first = m.guest ? esc(String(m.guest).split(' ')[0]) : '';
+  const paid = `$${Number(amount).toFixed(2)} ${esc(currency || 'USD')}`;
+  const adm = m.admission_prepaid === 'true';
+  return `
+  ${preheader(`You're booked for ${prettyDateFull(m.date)}. Your reference is ${m.booking_ref}.`)}
+  <div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:520px;
+              margin:0 auto;color:#0E0E10;line-height:1.55">
+    <div style="background:#0F2C44;color:#fff;padding:20px;border-radius:12px 12px 0 0">
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.7">You're booked</div>
+      <div style="font-size:21px;font-weight:800;margin-top:4px">${esc(m.destination_name || m.destination)}</div>
+      <div style="font-size:15px;font-weight:600;margin-top:3px;opacity:.9">${esc(prettyDateFull(m.date))}</div>
+    </div>
+    <div style="border:1px solid #E5E5E7;border-top:none;border-radius:0 0 12px 12px;padding:20px">
+      <p style="margin:0 0 16px">Hello${first ? ' ' + first : ''}, thank you — your transfer is
+        confirmed and paid in full.</p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:15px">
+        <tr><td style="padding:8px 0;color:#6E6E73">Reference</td>
+            <td style="padding:8px 0;text-align:right;font-weight:800;color:#0F2C44">${esc(m.booking_ref)}</td></tr>
+        <tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">We pick you up</td>
+            <td style="padding:8px 0;text-align:right;font-weight:800;color:#0F2C44">${esc(m.pickup)}</td></tr>
+        <tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">We come back for you</td>
+            <td style="padding:8px 0;text-align:right;font-weight:800;color:#0F2C44">${esc(m.ret)}</td></tr>
+        <tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Travelling</td>
+            <td style="padding:8px 0;text-align:right">${esc(m.pax)} people · ${esc(m.vehicle_name || m.vehicle)}</td></tr>
+        ${m.ship && m.ship !== 'Not on a cruise'
+          ? `<tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Your ship</td>
+             <td style="padding:8px 0;text-align:right">${esc(m.ship)}</td></tr>` : ''}
+        ${m.dropoff ? `<tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Going to</td>
+             <td style="padding:8px 0;text-align:right">${esc(m.dropoff)}</td></tr>` : ''}
+        ${m.pickup_addr ? `<tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Collecting you from</td>
+             <td style="padding:8px 0;text-align:right">${esc(m.pickup_addr)}</td></tr>` : ''}
+        <tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Paid</td>
+            <td style="padding:8px 0;text-align:right;font-weight:800;color:#0F2C44">${paid}</td></tr>
+      </table>
+      <p style="font-size:12.5px;color:#6E6E73;margin:6px 0 0">
+        Both times are <b>Cozumel local time</b> (UTC&minus;5) — not your ship's onboard clock.
+        Many ships run an hour ahead.</p>
+
+      <div style="background:#F4F8FA;border:1px solid #E5E5E7;border-radius:10px;padding:14px 16px;margin-top:18px">
+        <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8C9AAB">What happens next</div>
+        <p style="margin:7px 0 0">The day before you travel we'll email you your meeting point with
+          photographs, so you can find us without a phone signal. Cozumel has three cruise
+          terminals — you can look at all three now:</p>
+        ${MEETING_POINTS.map(t => `
+        <div style="border-top:1px solid #E5E5E7;padding:9px 0 0;margin-top:9px">
+          <a href="${SITE}/meet/${t.slug}.html"
+             style="color:#0F62D6;font-weight:700;text-decoration:none;font-size:15px">${t.name} &rarr;</a>
+          <div style="font-size:13px;color:#6E6E73;margin-top:1px">${t.hint}</div>
+        </div>`).join('')}
+      </div>
+
+      <div style="margin-top:18px">
+        <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8C9AAB">On the day</div>
+        <p style="margin:7px 0 0">Our English-speaking representative will be waiting for you at the
+          meeting point holding a sign with your name. Please be there 15 minutes before your
+          pickup time. <b>Nothing is owed to the driver</b> — your transfer is paid in full.${
+          adm ? ' Your admission is prepaid too.' : ''}</p>
+        <p style="margin:10px 0 0">Your vehicle is private to your group, and it comes back for you
+          at the time above. Heading back early? Message us on WhatsApp 30–60 minutes ahead and
+          we'll move it — the whole group travels back together on one run.</p>
+      </div>
+
+      <div style="margin-top:18px">
+        <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8C9AAB">If plans change</div>
+        <p style="margin:7px 0 0">Cancel free up to 24 hours before your pickup time and we return
+          100% to the same card within five business days. If your ship never docks in Cozumel,
+          you get everything back — you don't have to ask.</p>
+      </div>
+
+      <div style="margin-top:18px;padding-top:16px;border-top:1px solid #E5E5E7">
+        <p style="margin:0 0 4px">Any question at all, message us on WhatsApp — we answer in English.</p>
+        <div style="font-size:19px;font-weight:800;color:#0F2C44">${WHATSAPP}</div>
+        <p style="font-size:12.5px;color:#6E6E73;margin:4px 0 0">
+          From the US or Canada, dial <b>011 52 987 114 6853</b>. Our office is open
+          9 AM – 5 PM Cozumel time.</p>
+        <p style="font-size:12px;color:#8C9AAB;margin:12px 0 0">
+          Cozumel Island Transfers · transport permit no. 483290 · ${esc(email || '')}</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+const confirmationSubject = (m) =>
+  `You're booked · Cozumel transfer to ${m.destination_name || m.destination} · ${prettyDateFull(m.date)}`;
+
 module.exports = {
   WHATSAPP, esc, prettyDate, prettyDateFull, preheader,
   bookingEmail, bookingSubject,
   manifestEmail, manifestSubject,
   guestEmail, guestSubject,
+  confirmationEmail, confirmationSubject,
 };

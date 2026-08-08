@@ -1064,7 +1064,8 @@ footer p{margin:0;max-width:34em}
     <input type="text" id="nameIn" placeholder="Margaret Johnson" oninput="onName()"></div>
   <div class="field"><label for="waIn">WhatsApp or mobile</label>
     <input type="tel" id="waIn" placeholder="+1 555 123 4567">
-    <div class="hint">So we can reach you on the day if your ship docks late.</div></div>
+    <div class="hint">Include your country code. It is the only way we can reach you on the day
+      if your ship docks late.</div></div>
   <div class="field"><label for="mailIn">Email</label>
     <input type="email" id="mailIn" placeholder="you@email.com">
     <div class="hint">Your receipt and confirmation go here.</div></div>
@@ -1599,12 +1600,21 @@ function toPay(){
   // A "somewhere else" booking with no address is a van with nowhere to go. The server
   // rejects it too — this is the courteous half, so she finds out here, not on Stripe.
   const needsDropoff = S.dest === 'somewhere-else' && !$('dropoffIn').value.trim();
+  // The phone is required from 2026-08-08. It sat on this form optional and unchecked, so a
+  // guest could pay $369 with it blank — and on a morning her ship docks two hours late,
+  // email is useless to someone at sea. 8–15 digits is the international range (E.164);
+  // anything shorter is a typo, anything longer cannot be dialled.
+  const waDigits = $('waIn').value.replace(/\D/g, '');
+  const badPhone = waDigits.length < 8 || waDigits.length > 15;
   const bad = !S.name ? 'nameIn'
+            : (badPhone ? 'waIn'
             : (!/^\S+@\S+\.\S+$/.test(email) ? 'mailIn'
-            : (needsDropoff ? 'dropoffIn' : null));
+            : (needsDropoff ? 'dropoffIn' : null)));
   if (bad) {
     $('whoErr').textContent = bad === 'nameIn'
       ? 'We need the name that goes on the sign.'
+      : bad === 'waIn'
+      ? 'We need a phone number with your country code — it is how we reach you if your ship docks late.'
       : bad === 'mailIn'
       ? 'We need an email address for your confirmation.'
       : 'Tell us where you’re going — a hotel, an address, or the ferry terminal.';

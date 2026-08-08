@@ -11,7 +11,7 @@
 // be safe to run more than once.
 
 const { json, verifyStripeSignature, sendEmail, teamEmails, bookings } = require('./_cit');
-const { bookingEmail, bookingSubject } = require('./_emails');
+const { bookingEmail, bookingSubject, confirmationEmail, confirmationSubject } = require('./_emails');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'POST only' });
@@ -45,21 +45,53 @@ exports.handler = async (event) => {
   const currency = (s.currency || '').toUpperCase();
   const email = s.customer_details?.email || s.customer_email || '';
   const done = {};
+  const failures = [];
+
+  // Every send below carries an Idempotency-Key built from the Checkout session id. That is
+  // what makes the retries this function now ASKS for safe: Stripe re-delivers, Resend sees
+  // the same key and drops the duplicate, and nobody gets five copies of one booking.
+  //
+  // Without a mail key nothing can be announced at all. That used to return 200 and the
+  // booking disappeared in silence with the dashboard still green. Fail loudly instead — a
+  // 500 both retries and turns the webhook red, which is the only signal anyone would see.
+  if (!process.env.RESEND_API_KEY) {
+    console.error('RESEND_API_KEY missing — cannot announce paid booking', m.booking_ref);
+    return json(500, { error: 'mail is not configured; refusing to lose this booking quietly' });
+  }
 
   // Tell the team. Reply-to is the guest, so hitting reply in Gmail reaches them.
   const team = teamEmails();
-  if (process.env.RESEND_API_KEY && team.length) {
+  if (team.length) {
     try {
       await sendEmail({
         to: team,
         replyTo: email || undefined,
         subject: bookingSubject(m),
         html: bookingEmail(m, amount, currency, email),
+        idempotencyKey: `team-${s.id}`,
       });
       done.teamEmailed = team.length;
     } catch (err) {
+      // No longer swallowed. See the failures check at the end.
       console.error('team email failed', m.booking_ref, err);
-      done.teamEmailed = false;
+      failures.push('team');
+    }
+  }
+
+  // Tell HER. She may have booked three weeks before she sails; until 2026-08-08 this did
+  // not exist and her first word from us was the day-before email.
+  if (email) {
+    try {
+      await sendEmail({
+        to: email,
+        subject: confirmationSubject(m),
+        html: confirmationEmail(m, amount, currency, email),
+        idempotencyKey: `guest-${s.id}`,
+      });
+      done.guestEmailed = true;
+    } catch (err) {
+      console.error('guest confirmation failed', m.booking_ref, err);
+      failures.push('guest');
     }
   }
 
@@ -80,6 +112,13 @@ exports.handler = async (event) => {
       // 500 makes Stripe retry, which is what we want — the money is already taken.
       return json(500, { error: 'could not record booking' });
     }
+  }
+
+  // A notification that did not go out is a booking nobody knows about. 500 tells Stripe to
+  // try again — it will, repeatedly, for up to three days — and the idempotency keys above
+  // mean the sends that already worked are not repeated.
+  if (failures.length) {
+    return json(500, { error: 'notification failed', failed: failures, ...done });
   }
 
   return json(200, { received: true, ...done });

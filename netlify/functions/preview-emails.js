@@ -13,6 +13,7 @@ const {
   bookingEmail, bookingSubject,
   manifestEmail, manifestSubject,
   guestEmail, guestSubject,
+  confirmationEmail, confirmationSubject,
 } = require('./_emails');
 
 // A believable booking. Not a real guest.
@@ -48,6 +49,11 @@ const RUNS = [
 ];
 
 const EMAILS = [
+  { key: 'confirmation',
+    goesTo: 'The guest, the moment her card clears',
+    when: 'Sent by stripe-webhook.js. She may book three weeks before she sails — until 2026-08-08 this did not exist and her first word from us was the day-before email.',
+    subject: confirmationSubject(META),
+    html: confirmationEmail(META, 369, 'USD', META.email) },
   { key: 'booking',
     goesTo: 'The team, the moment a card clears',
     when: 'Sent by stripe-webhook.js. Reply-to is the guest, so hitting Reply in Gmail reaches them.',

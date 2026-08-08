@@ -152,14 +152,25 @@ async function bookings(action, payload = {}) {
 // ---------- Email ----------
 // Netlify functions cannot send mail on their own, so this goes through Resend.
 // Team and guests only ever receive email — nobody needs a login anywhere.
-async function sendEmail({ to, subject, html, replyTo }) {
+// `idempotencyKey` is what makes the webhook safe to retry. Stripe re-delivers a failed
+// event for up to three days, and without a key a retry would mail the same booking again.
+// Resend remembers a key for 24 hours and silently drops the duplicate.
+//
+// ⚠️ Resend's memory is 24 h; Stripe's retries run to 72 h. A retry that finally succeeds on
+// day two or three CAN duplicate. That is the correct trade: a second copy of a booking two
+// days late is recoverable, a booking nobody ever heard about is not.
+async function sendEmail({ to, subject, html, replyTo, idempotencyKey }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error('RESEND_API_KEY is not set');
   const from = process.env.MAIL_FROM || 'Cozumel Island Transfers <onboarding@resend.dev>';
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    headers: {
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+      ...(idempotencyKey ? { 'Idempotency-Key': String(idempotencyKey).slice(0, 256) } : {}),
+    },
     body: JSON.stringify({
       from,
       to: Array.isArray(to) ? to : [to],

@@ -32,6 +32,13 @@ exports.handler = async (event) => {
   // The rep meets her holding a sign with this on it. A booking without a name is a
   // van arriving at a pier to look for nobody.
   if (!String(b.name || '').trim()) return json(400, { error: 'We need the name that goes on the sign.' });
+  // Required from 2026-08-08. It was on the form, never required and never checked, so a
+  // booking could be paid in full carrying a blank number — and email reaches nobody who is
+  // at sea. 8–15 digits is the E.164 range: shorter is a typo, longer cannot be dialled.
+  const waDigits = String(b.whatsapp || '').replace(/\D/g, '');
+  if (waDigits.length < 8 || waDigits.length > 15) {
+    return json(400, { error: 'We need a phone number with your country code — it is how we reach you if your ship docks late.' });
+  }
   // "Somewhere else on the island" is the one destination that doesn't say where it is.
   // The page asks for an address; this is the half a stale tab cannot walk past.
   if (b.destination === 'somewhere-else' && !String(b.dropoff || '').trim()) {
