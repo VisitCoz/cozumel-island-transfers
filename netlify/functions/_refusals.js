@@ -19,6 +19,16 @@ const { getStore } = require('@netlify/blobs');
 
 const STORE = 'refusals';
 
+// This site's runtime does NOT inject NETLIFY_BLOBS_CONTEXT — verified 2026-08-08 by reading
+// the function's own environment. SITE_ID is there, so only a token is missing. Try the
+// credentials Netlify already provides before asking anyone to mint a personal access token,
+// which would carry full account access into a public-facing function.
+function store() {
+  const siteID = process.env.SITE_ID;
+  const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_FUNCTIONS_TOKEN;
+  return (siteID && token) ? getStore({ name: STORE, siteID, token }) : getStore(STORE);
+}
+
 // Best-effort value of what walked away, using our own list price. For a group too big for
 // any single vehicle, assume the buses it would have taken — a 60-person group is two runs.
 const BUS_MAX = 40, BUS_USD = 899;
@@ -55,7 +65,7 @@ async function logRefusal(r) {
     // One blob per refusal. Appending to a shared array would lose writes whenever two
     // guests are refused in the same second, which is exactly when a busy day refuses people.
     const key = `${monthKey(now)}/${now.toISOString()}-${Math.random().toString(36).slice(2, 8)}`;
-    await getStore(STORE).setJSON(key, rec);
+    await store().setJSON(key, rec);
     return true;
   } catch (err) {
     console.error('refusal log failed (booking flow unaffected)', r && r.reason, err);
@@ -66,17 +76,17 @@ async function logRefusal(r) {
 /** Read a month back out. `month` is 'YYYY-MM'; defaults to the current Cozumel month. */
 async function listRefusals(month) {
   const prefix = `${month || monthKey()}/`;
-  const store = getStore(STORE);
-  const { blobs } = await store.list({ prefix });
+  const st = store();
+  const { blobs } = await st.list({ prefix });
   const out = await Promise.all(
-    blobs.map(b => store.get(b.key, { type: 'json' }).catch(() => null))
+    blobs.map(b => st.get(b.key, { type: 'json' }).catch(() => null))
   );
   return out.filter(Boolean).sort((a, b) => (a.at < b.at ? 1 : -1));
 }
 
 /** Which months have anything in them — so a dashboard can offer a real month picker. */
 async function refusalMonths() {
-  const { directories } = await getStore(STORE).list({ prefix: '', directories: true });
+  const { directories } = await store().list({ prefix: '', directories: true });
   return (directories || []).sort().reverse();
 }
 
