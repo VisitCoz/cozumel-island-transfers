@@ -10,8 +10,10 @@
 // but it means the same event can arrive twice. Everything here must therefore
 // be safe to run more than once.
 
-const { json, verifyStripeSignature, sendEmail, teamEmails, bookings } = require('./_cit');
+const { json, verifyStripeSignature, sendEmail, teamEmails, bookings,
+        calendar, calendarConfigured } = require('./_cit');
 const { bookingEmail, bookingSubject, confirmationEmail, confirmationSubject } = require('./_emails');
+const { icsAttachment } = require('./_ics');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'POST only' });
@@ -59,6 +61,44 @@ exports.handler = async (event) => {
     return json(500, { error: 'mail is not configured; refusing to lose this booking quietly' });
   }
 
+  // The .ics both emails carry. It is a nicety and the email is the booking, so building
+  // it is never allowed to throw its way past the announcements — a paid guest nobody
+  // hears about is the one outcome this whole function exists to prevent.
+  let ics = null;
+  try { ics = icsAttachment(m); }
+  catch (err) { console.error('ics build failed, mailing without it', m.booking_ref, err); }
+  const withIcs = ics ? [ics] : undefined;
+
+  // Put it on the shared calendar FIRST, before anything is mailed.
+  //
+  // The order is the whole design. A calendar failure has to be retryable, and it can only
+  // be retried for free while no mail has gone out yet — Stripe re-delivers for three days,
+  // Resend's idempotency memory is 24 hours, so a retry on day two duplicates the emails.
+  // Doing the calendar first means the common failure costs nothing. Apps Script dedupes on
+  // the event UID, so the retry itself is harmless.
+  //
+  // It must NOT be able to block the emails, though: an unreachable Apps Script deployment
+  // would otherwise silence every booking notification in the business. So it is caught,
+  // recorded, and the mail runs regardless — the 500 at the bottom is what asks for a retry.
+  if (calendarConfigured()) {
+    try {
+      const r = await calendar('upsertBooking', { booking: {
+        sessionId: s.id, ref: m.booking_ref || s.client_reference_id || '',
+        date: m.date || '', pickup: m.pickup || '', ret: m.ret || '',
+        destination: m.destination_name || m.destination || '',
+        pax: Number(m.pax) || 0, vehicle: m.vehicle_name || m.vehicle || '',
+        ship: m.ship || '', guest: m.guest || '', email, whatsapp: m.whatsapp || '',
+        pickupAddr: m.pickup_addr || '', dropoff: m.dropoff || '',
+        amountUsd: amount, currency,
+        admissionPrepaid: m.admission_prepaid === 'true',
+      }});
+      done.calendared = r.duplicate ? 'already there' : true;
+    } catch (err) {
+      console.error('calendar write failed', m.booking_ref, err);
+      failures.push('calendar');
+    }
+  }
+
   // Tell the team. Reply-to is the guest, so hitting reply in Gmail reaches them.
   const team = teamEmails();
   if (team.length) {
@@ -68,6 +108,7 @@ exports.handler = async (event) => {
         replyTo: email || undefined,
         subject: bookingSubject(m),
         html: bookingEmail(m, amount, currency, email),
+        attachments: withIcs,
         idempotencyKey: `team-${s.id}`,
       });
       done.teamEmailed = team.length;
@@ -86,6 +127,7 @@ exports.handler = async (event) => {
         to: email,
         subject: confirmationSubject(m),
         html: confirmationEmail(m, amount, currency, email),
+        attachments: withIcs,
         idempotencyKey: `guest-${s.id}`,
       });
       done.guestEmailed = true;

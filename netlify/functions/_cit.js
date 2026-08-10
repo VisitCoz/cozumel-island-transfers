@@ -148,6 +148,39 @@ async function bookings(action, payload = {}) {
   catch { throw new Error(`Bookings endpoint returned non-JSON: ${text.slice(0, 200)}`); }
 }
 
+// ---------- Talking to the shared calendar ----------
+// Same shape as bookings() above, DELIBERATELY on its own pair of variables.
+//
+// 🚨 Do not fold this into BOOKINGS_URL / BOOKINGS_TOKEN. That pair switches on
+// apps_script/cit_bookings, which writes the Google Sheet Mike rejected and sends its
+// own team email and Slack post — a second copy of the booking mail this system already
+// sends through Resend. Two endpoints, two tokens, two jobs.
+//
+// Apps Script owns the calendar write because it runs AS contabilidad@, so there is no
+// service-account key and no Google Cloud project anywhere in this repo — only a URL and
+// a shared secret.
+async function calendar(action, payload = {}) {
+  const url = process.env.CALENDAR_URL;
+  const token = process.env.CALENDAR_TOKEN;
+  if (!url || !token) throw new Error('CALENDAR_URL / CALENDAR_TOKEN are not set');
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, action, ...payload }),
+  });
+  const text = await res.text();
+  let out;
+  try { out = JSON.parse(text); }
+  catch { throw new Error(`Calendar endpoint returned non-JSON: ${text.slice(0, 200)}`); }
+  // Apps Script answers 200 with an {error} body rather than an HTTP error code, so a
+  // failure here looks like success unless it is checked explicitly.
+  if (out.error) throw new Error(`Calendar endpoint: ${out.error}`);
+  return out;
+}
+
+const calendarConfigured = () => Boolean(process.env.CALENDAR_URL && process.env.CALENDAR_TOKEN);
+
 
 // ---------- Email ----------
 // Netlify functions cannot send mail on their own, so this goes through Resend.
@@ -159,7 +192,7 @@ async function bookings(action, payload = {}) {
 // ⚠️ Resend's memory is 24 h; Stripe's retries run to 72 h. A retry that finally succeeds on
 // day two or three CAN duplicate. That is the correct trade: a second copy of a booking two
 // days late is recoverable, a booking nobody ever heard about is not.
-async function sendEmail({ to, subject, html, replyTo, idempotencyKey }) {
+async function sendEmail({ to, subject, html, replyTo, idempotencyKey, attachments }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error('RESEND_API_KEY is not set');
   const from = process.env.MAIL_FROM || 'Cozumel Island Transfers <onboarding@resend.dev>';
@@ -177,6 +210,8 @@ async function sendEmail({ to, subject, html, replyTo, idempotencyKey }) {
       subject,
       html,
       ...(replyTo ? { reply_to: replyTo } : {}),
+      // Base64 content, per Resend. Used for the .ics calendar file — see _ics.js.
+      ...(attachments && attachments.length ? { attachments } : {}),
     }),
   });
   const out = await res.json();
@@ -228,5 +263,6 @@ const minutesOf = (t) => {
 module.exports = {
   VEHICLES, DESTINATIONS, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR, FLEET_RUNS_PER_DAY,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, verifyStripeSignature, bookings,
+  calendar, calendarConfigured,
   sendEmail, teamEmails, bookingsOn, tomorrowInCozumel, minutesOf,
 };

@@ -15,6 +15,7 @@ const {
   guestEmail, guestSubject,
   confirmationEmail, confirmationSubject,
 } = require('./_emails');
+const { icsAttachment } = require('./_ics');
 
 // A believable booking. Not a real guest.
 const DATE = '2026-11-14';
@@ -53,12 +54,17 @@ const EMAILS = [
     goesTo: 'The guest, the moment her card clears',
     when: 'Sent by stripe-webhook.js. She may book three weeks before she sails — until 2026-08-08 this did not exist and her first word from us was the day-before email.',
     subject: confirmationSubject(META),
-    html: confirmationEmail(META, 369, 'USD', META.email) },
+    html: confirmationEmail(META, 369, 'USD', META.email),
+    // The two webhook emails really do carry the calendar file, so the rehearsal has to
+    // as well — an "Add to calendar" card that only appears in production is exactly the
+    // drift this whole file exists to prevent.
+    attachments: [icsAttachment(META)] },
   { key: 'booking',
     goesTo: 'The team, the moment a card clears',
     when: 'Sent by stripe-webhook.js. Reply-to is the guest, so hitting Reply in Gmail reaches them.',
     subject: bookingSubject(META),
-    html: bookingEmail(META, 369, 'USD', META.email) },
+    html: bookingEmail(META, 369, 'USD', META.email),
+    attachments: [icsAttachment(META)] },
   { key: 'manifest',
     goesTo: 'The team, 9 AM Cozumel time, the day before',
     when: 'Sent by daily-manifest.js. Nothing is sent at all on a day with no bookings.',
@@ -169,7 +175,8 @@ exports.handler = async (event) => {
   const sent = [], failed = [];
   for (const e of EMAILS) {
     try {
-      await sendEmail({ to: team, subject: `[PREVIEW] ${e.subject}`, html: e.html });
+      await sendEmail({ to: team, subject: `[PREVIEW] ${e.subject}`, html: e.html,
+                        attachments: e.attachments });
       sent.push(e.key);
     } catch (err) {
       failed.push(`${e.key}: ${err.message}`);
