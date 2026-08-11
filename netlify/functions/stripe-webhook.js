@@ -61,16 +61,17 @@ exports.handler = async (event) => {
     return json(500, { error: 'mail is not configured; refusing to lose this booking quietly' });
   }
 
-  // The .ics both emails carry. It is a nicety and the email is the booking, so building
-  // it is never allowed to throw its way past the announcements — a paid guest nobody
-  // hears about is the one outcome this whole function exists to prevent.
+  // The .ics, built once for whichever emails end up needing it. It is a nicety and the
+  // email is the booking, so building it is never allowed to throw its way past the
+  // announcements — a paid guest nobody hears about is the one outcome this whole function
+  // exists to prevent.
   let ics = null;
   try { ics = icsAttachment(m); }
   catch (err) { console.error('ics build failed, mailing without it', m.booking_ref, err); }
-  const withIcs = ics ? [ics] : undefined;
 
-  // Whether the shared calendar accepted this booking. It decides whether the GUEST also
-  // gets the .ics — see the note above her email. The team's copy is unconditional.
+  // Whether the shared calendar accepted this booking. When it did, the calendar IS the
+  // calendar entry for everyone — the guest by invitation, the team by subscription — and
+  // nobody gets the file. When it did not, the file is the fallback for both.
   let calendarOk = false;
 
   // Put it on the shared calendar FIRST, before anything is mailed.
@@ -104,6 +105,9 @@ exports.handler = async (event) => {
     }
   }
 
+  // One rule, both audiences: the file only when the calendar did not take the booking.
+  const fallbackIcs = (calendarOk || !ics) ? undefined : [ics];
+
   // Tell the team. Reply-to is the guest, so hitting reply in Gmail reaches them.
   const team = teamEmails();
   if (team.length) {
@@ -113,7 +117,12 @@ exports.handler = async (event) => {
         replyTo: email || undefined,
         subject: bookingSubject(m),
         html: bookingEmail(m, amount, currency, email),
-        attachments: withIcs,
+        // Same rule as the guest's copy: only when the calendar did not take it.
+        // Once the shared calendar has the booking the team is already covered, and the
+        // attachment actively hurts — Gmail turns it into an "Add to calendar" card, checks
+        // it against the calendar, finds the event the script just made, and reports the
+        // booking as clashing with itself. Five people, every booking.
+        attachments: fallbackIcs,
         idempotencyKey: `team-${s.id}`,
       });
       done.teamEmailed = team.length;
@@ -127,22 +136,21 @@ exports.handler = async (event) => {
   // Tell HER. She may have booked three weeks before she sails; until 2026-08-08 this did
   // not exist and her first word from us was the day-before email.
   //
-  // 🚨 She gets the .ics ONLY when the calendar did not take the booking. If the Google
-  // invitation went out, that IS her calendar entry, and attaching the file as well would
-  // put the same pickup on her phone twice.
+  // 🚨 She gets the .ics ONLY when the calendar did not take the booking — see fallbackIcs
+  // above. If the Google invitation went out, that IS her calendar entry, and attaching the
+  // file as well would put the same pickup on her phone twice.
   //
   // The original design claimed a shared UID would make the two merge. It cannot: the
   // invitation has to be created with events.insert to send at all, insert does not accept
   // an iCalUID, and Google assigns its own — so the two objects can never carry the same
   // identifier. One or the other, never both. See eventIdFor() in cit_calendar/Code.gs.
-  const guestIcs = calendarOk ? undefined : withIcs;
   if (email) {
     try {
       await sendEmail({
         to: email,
         subject: confirmationSubject(m),
         html: confirmationEmail(m, amount, currency, email),
-        attachments: guestIcs,
+        attachments: fallbackIcs,
         idempotencyKey: `guest-${s.id}`,
       });
       done.guestEmailed = true;

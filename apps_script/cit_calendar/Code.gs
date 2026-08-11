@@ -296,6 +296,31 @@ function cancelBooking(b) {
   return out({ cancelled: removed });
 }
 
+/**
+ * Read back what Google actually stored, for one booking. Diagnostic only — it changes
+ * nothing and sends nothing. It exists because the two things that decide whether the
+ * guest is really invited (the organizer address, and whether the attendee is attached
+ * with what responseStatus) are invisible from the outside once the event is created.
+ */
+function inspectBooking(b) {
+  if (!b || !b.ref) return out({ error: 'no booking ref' });
+  var legs = {};
+  ['pickup', 'return'].forEach(function (leg) {
+    try {
+      var ev = Calendar.Events.get(calendarId(), eventIdFor(b.ref, leg));
+      legs[leg] = {
+        id: ev.id, iCalUID: ev.iCalUID, status: ev.status,
+        organizer: ev.organizer, creator: ev.creator,
+        attendees: ev.attendees || [],
+        start: ev.start, reminders: ev.reminders
+      };
+    } catch (err) {
+      legs[leg] = { error: String((err && err.message) || err) };
+    }
+  });
+  return out(legs);
+}
+
 function doPost(e) {
   try {
     var body = JSON.parse(e.postData.contents);
@@ -307,6 +332,7 @@ function doPost(e) {
 
     if (body.action === 'upsertBooking') return upsertBooking(body.booking);
     if (body.action === 'cancelBooking') return cancelBooking(body.booking);
+    if (body.action === 'inspectBooking') return inspectBooking(body.booking);
     return out({ error: 'unknown action' });
   } catch (err) {
     return out({ error: String(err) });

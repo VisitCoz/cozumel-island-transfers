@@ -25,6 +25,7 @@ const DESTINATIONS = {
   'paradise-beach': 'Paradise Beach',
   'mr-sanchos':     'Mr. Sanchos',
   'nachi-cocom':    'Nachi Cocom',
+  'marina':         'Marina Cozumel',
   'somewhere-else': 'Somewhere else on the island',
 };
 

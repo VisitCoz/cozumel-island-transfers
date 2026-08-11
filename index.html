@@ -687,6 +687,13 @@ footer p{margin:0;max-width:34em}
       <div class="poster-meta"><h3>Nachi Cocom</h3><div class="dur">20–25 min from the pier</div>
       <div class="go">View &amp; book →</div></div>
     </button>
+    <!-- ⚠️ PLACEHOLDER PHOTO — our own van, not the marina. Swap both this and IMG() in
+         DEST when a real photo lands. No distance on any card, so nothing to strip here. -->
+    <button class="poster" onclick="openDest('marina')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/hero-vans.png&amp;w=560&amp;fm=webp&amp;q=72" alt="Marina Cozumel ASIPONA" loading="lazy"><span class="pl">Marina</span></div>
+      <div class="poster-meta"><h3>Marina Cozumel</h3><div class="dur">15 min from the pier</div>
+      <div class="go">View &amp; book →</div></div>
+    </button>
     <button class="poster" onclick="openDest('somewhere-else')">
       <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-paradise-beach-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Somewhere else on the island, Cozumel" loading="lazy"><span class="pl">Tell us where</span></div>
       <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Varies from the pier</div>
@@ -881,7 +888,12 @@ footer p{margin:0;max-width:34em}
   <div class="hero"><img id="dHero" alt=""><div class="ht"><div class="k" id="dType"></div><h1 id="dName"></h1></div></div>
   <div class="metarow">
     <div class="mpill">🚐 <span id="dDrive"></span> from the pier</div>
-    <div class="mpill">📍 <span id="dDist"></span></div>
+    <!-- The distance pill is OPTIONAL and hidden when a destination has no `dist`.
+         Marina Cozumel omits it on purpose (Mike, 2026-08-11): it is close enough to the
+         pier that publishing the distance beside a flat $369 makes the price read as
+         steep. The flat rate is the product — "not by distance" is already the line in
+         the pricing section. Blank the string and the whole pill goes, not just the 📍. -->
+    <div class="mpill" id="dDistPill">📍 <span id="dDist"></span></div>
   </div>
   <p class="blurb" id="dBlurb"></p>
   <!-- The map pin and the venue's own site. Mike's reasoning: a guest who can see the
@@ -1253,6 +1265,15 @@ const DEST = {
     maps:'https://www.google.com/maps/place/Nachi+Cocom+Cozumel+Beach+Club+%26+Water+Sport+Center/@20.384789,-87.021742,17z/data=!3m1!4b1!4m6!3m5!1s0x8f4e53ccb8bd7c95:0xb4325f28bbaee4eb!8m2!3d20.384789!4d-87.021742!16s%2Fg%2F1tq4s3xd',
     site:'https://cozumelnachicocom.com/',
     admName:'Nachi Cocom day pass',admAdult:0,admAtGate:true,admVerified:false},
+  // No `dist` — deliberate, see the note on #dDistPill. No `site` either: the marina has
+  // no official page we have verified, and openDest() drops the link when it is absent.
+  // ⚠️ PLACEHOLDER PHOTO. `hero-vans.png` is our own van, chosen because it promises the
+  // guest nothing about the venue; swap it for a real marina shot when Mike sends one.
+  'marina':{name:'Marina Cozumel ASIPONA',short:'Marina Cozumel',type:'Marina',drive:'15 min',
+    img:IMG('hero-vans.png'),
+    blurb:'Cozumel’s marina. We drop you right at the dock and come back at the time you choose — tell us your boat or slip name on WhatsApp and we’ll get you to the right one.',
+    maps:'https://maps.app.goo.gl/JBxtQ5yyseyANtk7A',
+    admName:'',admAdult:0,admVerified:true},
   'somewhere-else':{name:'Somewhere else on the island',short:'Somewhere else',
     type:'Tell us where',drive:'Varies',dist:'Anywhere on Cozumel',
     img:IMG('dest-paradise-beach-hero.jpg'),
@@ -1446,7 +1467,11 @@ fetch('/.netlify/functions/ships-today')
 function openDest(k){
   S.dest = k; const d = DEST[k];
   $('dHero').src = d.img; $('dName').textContent = d.name; $('dType').textContent = d.type;
-  $('dDrive').textContent = d.drive; $('dDist').textContent = d.dist; $('dBlurb').textContent = d.blurb;
+  $('dDrive').textContent = d.drive; $('dBlurb').textContent = d.blurb;
+  // `dist` is optional — see the note on #dDistPill. Hide the pill rather than blanking
+  // the span, or the guest is left looking at a lone 📍 in an empty box.
+  $('dDist').textContent = d.dist || '';
+  $('dDistPill').style.display = d.dist ? '' : 'none';
   // `inline` is an optional override for destinations whose short name doesn't read
   // inside a sentence — "You're dropped at Somewhere else" is not English. Every named
   // place omits it and falls back to `short`.
