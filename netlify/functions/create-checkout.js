@@ -45,13 +45,21 @@ exports.handler = async (event) => {
   // The rep meets her holding a sign with this on it. A booking without a name is a
   // van arriving at a pier to look for nobody.
   if (!String(b.name || '').trim()) return json(400, { error: 'We need the name that goes on the sign.' });
-  // Required from 2026-08-08. It was on the form, never required and never checked, so a
-  // booking could be paid in full carrying a blank number — and email reaches nobody who is
-  // at sea. 8–15 digits is the E.164 range: shorter is a typo, longer cannot be dialled.
-  const waDigits = String(b.whatsapp || '').replace(/\D/g, '');
-  if (waDigits.length < 8 || waDigits.length > 15) {
-    return json(400, { error: 'We need a phone number with your country code — it is how we reach you if your ship docks late.' });
+  // Required from 2026-08-08, and stored in E.164 from 2026-08-10.
+  //
+  // It was on the form unchecked, so a booking could be paid in full with a blank number. Then
+  // it was required but stored exactly as typed — and "407 555 0142" is not dialable by any SMS
+  // or WhatsApp API, because nothing says which country it belongs to.
+  //
+  // The browser now sends "+<country><number>". A stale tab might send bare digits, and that is
+  // REFUSED rather than guessed: assuming +1 for ten digits would eventually text a stranger in
+  // another country. Losing one booking to a clear error beats messaging the wrong person.
+  const wa = String(b.whatsapp || '').trim();
+  const waDigits = wa.replace(/\D/g, '');
+  if (!wa.startsWith('+') || waDigits.length < 8 || waDigits.length > 15) {
+    return json(400, { error: 'We need your phone number with its country code. Reload the page and pick your country from the list beside the number.' });
   }
+  const waE164 = '+' + waDigits;
   // "Somewhere else on the island" is the one destination that doesn't say where it is.
   // The page asks for an address; this is the half a stale tab cannot walk past.
   if (b.destination === 'somewhere-else' && !String(b.dropoff || '').trim()) {
@@ -138,7 +146,8 @@ exports.handler = async (event) => {
     // and if it ever comes back empty the day-before email silently goes to
     // nobody. Metadata is ours and always there.
     email: b.email,
-    whatsapp: b.whatsapp || '',
+    // Normalized, not as typed — this is the value any messaging API would have to dial.
+    whatsapp: waE164,
     admission_prepaid: b.admissionPrepaid ? 'true' : 'false',
     // Free text, so it is trimmed to fit. Stripe caps a metadata value at 500 characters
     // and rejects the whole session if one is over, which would turn a typed paragraph

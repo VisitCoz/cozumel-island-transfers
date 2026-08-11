@@ -481,6 +481,16 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .field input,.field select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:15px 14px;
   font-size:16px;font-family:inherit;color:var(--ink);background:#fff;min-height:54px}
 .field input:focus,.field select:focus{outline:none;border-color:var(--accent)}
+.phone-row{display:flex;gap:8px;align-items:stretch}
+.phone-row select{flex:0 0 auto;width:auto;min-width:118px}
+.phone-row input{flex:1;min-width:0}
+/* Side by side, the country names make the select ~209px of a 339px row on a 375px phone and
+   squeeze the number box she is actually typing into down to 123px. Stack them instead —
+   vertical space is cheap on a phone, a cramped field is not. */
+@media (max-width:430px){
+  .phone-row{flex-direction:column}
+  .phone-row select,.phone-row input{width:100%;flex:1 1 auto}
+}
 .field .hint{font-size:12px;color:var(--mute);margin-top:5px}
 
 .tznote{margin:12px 18px 0;background:var(--card-blue);border:1px solid #C7DAF5;border-radius:13px;
@@ -1075,10 +1085,17 @@ footer p{margin:0;max-width:34em}
     <div class="hint">The exact address, so your driver takes you to the right door.</div></div>
   <div class="field"><label for="nameIn">Full name</label>
     <input type="text" id="nameIn" placeholder="Margaret Johnson" oninput="onName()"></div>
+  <!-- The country code is a picker, not something she has to remember to type. Until 2026-08-10
+       this was one free-text box: "407 555 0142" passed validation and was stored exactly as
+       typed, which no SMS or WhatsApp API can dial. Guessing the country from bare digits is how
+       you message a stranger, so the form asks instead. -->
   <div class="field"><label for="waIn">WhatsApp or mobile</label>
-    <input type="tel" id="waIn" placeholder="+1 555 123 4567">
-    <div class="hint">Include your country code. It is the only way we can reach you on the day
-      if your ship docks late.</div></div>
+    <div class="phone-row">
+      <select id="waCC" aria-label="Country code"></select>
+      <input type="tel" id="waIn" inputmode="tel" placeholder="407 555 0142">
+    </div>
+    <div class="hint">Pick your country, then your number. It is the only way we can reach you on
+      the day if your ship docks late.</div></div>
   <div class="field"><label for="mailIn">Email</label>
     <input type="email" id="mailIn" placeholder="you@email.com">
     <div class="hint">Your receipt and confirmation go here.</div></div>
@@ -1607,6 +1624,39 @@ function onName(){
    only address her receipt and her day-before message go to. The server rejects a
    missing name and a missing email too — this is the courteous version of the same
    rule, so she finds out here rather than on Stripe's page. */
+/* ── phone ──────────────────────────────────────────────────────────────
+   Ordered by who actually sails to Cozumel: US and Canada first, then Mexico,
+   then the cruise lines' next-biggest source markets. Generated rather than
+   written out as markup — it is a form control, not content a crawler needs. */
+const COUNTRY_CODES = [
+  ['1','US / Canada'],['52','Mexico'],['44','United Kingdom'],['49','Germany'],
+  ['61','Australia'],['33','France'],['34','Spain'],['39','Italy'],['31','Netherlands'],
+  ['353','Ireland'],['64','New Zealand'],['41','Switzerland'],['43','Austria'],
+  ['32','Belgium'],['45','Denmark'],['46','Sweden'],['47','Norway'],['358','Finland'],
+  ['48','Poland'],['351','Portugal'],['420','Czechia'],['55','Brazil'],['54','Argentina'],
+  ['56','Chile'],['57','Colombia'],['506','Costa Rica'],['507','Panama'],['51','Peru'],
+  ['972','Israel'],['81','Japan'],['82','South Korea'],['65','Singapore'],['27','South Africa'],
+];
+(function fillCountryCodes(){
+  const sel = $('waCC');
+  if (!sel) return;
+  sel.innerHTML = COUNTRY_CODES.map(([c, n]) => `<option value="${c}">+${c} ${n}</option>`).join('');
+  sel.value = '1';
+})();
+
+/* Build E.164 — "+" then country code then national number, digits only.
+   Two things guests actually do that this has to survive:
+     · leading trunk zeros, e.g. UK 07911 123456 -> 7911123456
+     · pasting the country code into the number box as well, e.g. +1 407 555 0142
+   The length guard on the second one stops it eating a number that legitimately
+   begins with the same digits as its own country code. */
+function waE164(){
+  const cc = ($('waCC') ? $('waCC').value : '1').replace(/\D/g, '');
+  let n = ($('waIn').value || '').replace(/\D/g, '').replace(/^0+/, '');
+  if (cc && n.startsWith(cc) && n.length > cc.length + 6) n = n.slice(cc.length);
+  return n ? '+' + cc + n : '';
+}
+
 function toPay(){
   onName();
   const email = $('mailIn').value.trim();
@@ -1617,8 +1667,7 @@ function toPay(){
   // guest could pay $369 with it blank — and on a morning her ship docks two hours late,
   // email is useless to someone at sea. 8–15 digits is the international range (E.164);
   // anything shorter is a typo, anything longer cannot be dialled.
-  const waDigits = $('waIn').value.replace(/\D/g, '');
-  const badPhone = waDigits.length < 8 || waDigits.length > 15;
+  const badPhone = waE164().replace(/\D/g, '').length < 8 || waE164().replace(/\D/g, '').length > 15;
   const bad = !S.name ? 'nameIn'
             : (badPhone ? 'waIn'
             : (!/^\S+@\S+\.\S+$/.test(email) ? 'mailIn'
@@ -1627,7 +1676,7 @@ function toPay(){
     $('whoErr').textContent = bad === 'nameIn'
       ? 'We need the name that goes on the sign.'
       : bad === 'waIn'
-      ? 'We need a phone number with your country code — it is how we reach you if your ship docks late.'
+      ? 'That phone number does not look right. Check your country is selected and the number is complete.'
       : bad === 'mailIn'
       ? 'We need an email address for your confirmation.'
       : 'Tell us where you’re going — a hotel, an address, or the ferry terminal.';
@@ -1813,7 +1862,7 @@ async function payNow(){
     destination: S.dest, date: $('dateIn').value, dateLabel: S.date,
     pickupHour: Number(S.pick), durationHours: Number(S.dur),
     pax: S.pax, name: S.name, email: $('mailIn').value.trim(),
-    whatsapp: $('waIn').value.trim(), ship: S.ship ? S.ship.name : 'Not on a cruise',
+    whatsapp: waE164(), ship: S.ship ? S.ship.name : 'Not on a cruise',
     // No admissionUsd and no returnUrl: the server owns both now. It reads the gate
     // price from its own table and builds the return address from its own host, so
     // neither can be bent by anything sent from this page.
