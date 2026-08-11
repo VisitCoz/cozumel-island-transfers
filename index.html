@@ -687,10 +687,10 @@ footer p{margin:0;max-width:34em}
       <div class="poster-meta"><h3>Nachi Cocom</h3><div class="dur">20–25 min from the pier</div>
       <div class="go">View &amp; book →</div></div>
     </button>
-    <!-- ⚠️ PLACEHOLDER PHOTO — our own van, not the marina. Swap both this and IMG() in
-         DEST when a real photo lands. No distance on any card, so nothing to strip here. -->
+    <!-- Twin of IMG() in DEST — change both together. No distance on any card, so nothing
+         to strip here. -->
     <button class="poster" onclick="openDest('marina')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/hero-vans.png&amp;w=560&amp;fm=webp&amp;q=72" alt="Marina Cozumel ASIPONA" loading="lazy"><span class="pl">Marina</span></div>
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-marina-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Boats docked at Marina Cozumel ASIPONA, with the cruise piers beyond" loading="lazy"><span class="pl">Marina</span></div>
       <div class="poster-meta"><h3>Marina Cozumel</h3><div class="dur">15 min from the pier</div>
       <div class="go">View &amp; book →</div></div>
     </button>
@@ -1267,10 +1267,12 @@ const DEST = {
     admName:'Nachi Cocom day pass',admAdult:0,admAtGate:true,admVerified:false},
   // No `dist` — deliberate, see the note on #dDistPill. No `site` either: the marina has
   // no official page we have verified, and openDest() drops the link when it is absent.
-  // ⚠️ PLACEHOLDER PHOTO. `hero-vans.png` is our own van, chosen because it promises the
-  // guest nothing about the venue; swap it for a real marina shot when Mike sends one.
+  // Photo is Mike's own (confirmed 2026-08-11), so no licence question. ⚠️ It is a 1023px
+  // web-sized copy of his original and the hero asks for w=1400, so it upscales. Swap in
+  // the full-resolution file off his phone and this gets sharper for free — nothing else
+  // has to change.
   'marina':{name:'Marina Cozumel ASIPONA',short:'Marina Cozumel',type:'Marina',drive:'15 min',
-    img:IMG('hero-vans.png'),
+    img:IMG('dest-marina-hero.jpg'),
     blurb:'Cozumel’s marina — where the private boat charters and the fishing trips go out from. We drop you right at the dock and come back at the time you choose; tell us your boat or slip name on WhatsApp and we’ll get you to the right one.',
     maps:'https://maps.app.goo.gl/JBxtQ5yyseyANtk7A',
     admName:'',admAdult:0,admVerified:true},
