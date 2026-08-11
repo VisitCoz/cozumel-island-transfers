@@ -109,11 +109,26 @@ exports.handler = async (event) => {
   const fallbackIcs = (calendarOk || !ics) ? undefined : [ics];
 
   // Tell the team. Reply-to is the guest, so hitting reply in Gmail reaches them.
+  //
+  // 🚨 …which is exactly why the parent company must not be in the visible header. This
+  // mail is addressed to five people and its Reply-To is the GUEST, so one "Reply all"
+  // from anyone on the team puts every @visitcozumel.com.mx address in front of her. She
+  // booked with Cozumel Island Transfers and has no reason to learn it trades under
+  // another name — a company she has never heard of appearing on the thread reads like
+  // she has been handed off to a subcontractor.
+  //
+  // So: only the CIT-domain addresses go in `to`, everything else is BCC'd. The rule is
+  // the domain rather than a hard-coded list, so adding someone to TEAM_EMAILS later
+  // cannot quietly reopen this. If TEAM_EMAILS somehow contains no CIT address at all,
+  // fall back to mailing them all normally — a booking nobody hears about is worse.
   const team = teamEmails();
+  const onBrand = team.filter(a => /@cozumelislandtransfers\.com$/i.test(a));
+  const offBrand = team.filter(a => !/@cozumelislandtransfers\.com$/i.test(a));
   if (team.length) {
     try {
       await sendEmail({
-        to: team,
+        to: onBrand.length ? onBrand : team,
+        bcc: onBrand.length ? offBrand : undefined,
         replyTo: email || undefined,
         subject: bookingSubject(m),
         html: bookingEmail(m, amount, currency, email),

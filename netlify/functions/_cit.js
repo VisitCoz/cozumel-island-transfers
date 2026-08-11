@@ -198,7 +198,7 @@ const calendarConfigured = () => Boolean(process.env.CALENDAR_URL && process.env
 // ⚠️ Resend's memory is 24 h; Stripe's retries run to 72 h. A retry that finally succeeds on
 // day two or three CAN duplicate. That is the correct trade: a second copy of a booking two
 // days late is recoverable, a booking nobody ever heard about is not.
-async function sendEmail({ to, subject, html, replyTo, idempotencyKey, attachments }) {
+async function sendEmail({ to, subject, html, replyTo, idempotencyKey, attachments, bcc }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error('RESEND_API_KEY is not set');
   const from = process.env.MAIL_FROM || 'Cozumel Island Transfers <onboarding@resend.dev>';
@@ -216,6 +216,9 @@ async function sendEmail({ to, subject, html, replyTo, idempotencyKey, attachmen
       subject,
       html,
       ...(replyTo ? { reply_to: replyTo } : {}),
+      // Recipients who must not appear in the visible header — see the note on the team
+      // email in stripe-webhook.js. A Reply All can only ever expose what is in `to`.
+      ...(bcc && bcc.length ? { bcc: Array.isArray(bcc) ? bcc : [bcc] } : {}),
       // Base64 content, per Resend. Used for the .ics calendar file — see _ics.js.
       ...(attachments && attachments.length ? { attachments } : {}),
     }),
