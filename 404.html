@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Page not found. Looking for cruise transfers, airport transfers, or a Cozumel destination? Try one of these.">
+<meta name="description" content="Page not found. Booking a transfer from the Cozumel cruise port? Start here, or message us on WhatsApp.">
 <meta name="robots" content="noindex">
 <title>Page not found — Cozumel Island Transfers</title>
-<link rel="icon" href="https://images.squarespace-cdn.com/content/v1/642c9c20e70c5d437e0cf874/5f65b404-11cf-4bec-86df-4c2ceb7265db/favicon.ico">
+<!-- The favicon used to be fetched from Squarespace's CDN — a live dependency on the platform
+     this site replaced, on the one page shown when something has already gone wrong. -->
+<link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -112,25 +114,26 @@
     The page you&rsquo;re looking for doesn&rsquo;t exist (or maybe we moved it). Here&rsquo;s where to go next:
   </p>
 
+  <!-- Every button here used to point at a page retired on 2026-08-06, including one selling
+       airport transfers, discontinued 2026-07-29. They all 301 to "/" so nothing was broken —
+       but four buttons landing on the same page, one of them advertising a product we do not
+       sell, is a worse answer than two honest ones. -->
   <div class="ctas">
-    <a href="/" class="btn btn-primary">Back to home</a>
-    <a href="/cruise-transfers.html" class="btn btn-ghost">Cruise transfers</a>
-    <a href="/airport-transfers.html" class="btn btn-ghost">Airport transfers</a>
+    <a href="/" class="btn btn-primary">Book a transfer</a>
+    <a href="/meet/" class="btn btn-ghost">Where we meet you</a>
     <a href="https://wa.me/5219871146853?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20a%20transfer%20in%20Cozumel." target="_blank" rel="noopener" class="btn btn-wa">WhatsApp us</a>
   </div>
 
+  <!-- The eight destination pages are gone; the destinations live inside the booking flow on
+       the homepage now. Deep-linking each one back to "/" would be eight identical links, so
+       the section names them as text and sends her to the one place that can take the booking. -->
   <div class="quick-links">
-    <h3>Popular destinations</h3>
-    <div class="quick-grid">
-      <a href="/tierra-maya.html">Tierra Maya ★</a>
-      <a href="/chankanaab.html">Chankanaab</a>
-      <a href="/mr-sanchos.html">Mr. Sanchos</a>
-      <a href="/nachi-cocom.html">Nachi Cocom</a>
-      <a href="/paradise-beach.html">Paradise Beach</a>
-      <a href="/bucanos.html">Buccanos</a>
-      <a href="/san-gervasio.html">San Gervasio</a>
-      <a href="/kuza.html">KUZÁ</a>
-    </div>
+    <h3>Where we go</h3>
+    <p style="margin:0;font-size:0.95rem;line-height:1.7">
+      Mr. Sanchos &middot; Chankanaab &middot; Paradise Beach &middot; Nachi Cocom &middot;
+      Buccanos &middot; San Gervasio &middot; KUZ&Aacute; &middot; Tierra Maya &mdash; or anywhere
+      else on the island. <a href="/">Pick a place on the home page</a> and we&rsquo;ll do the rest.
+    </p>
   </div>
 </main>
 
