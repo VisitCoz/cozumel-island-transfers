@@ -59,8 +59,10 @@ auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
 3. **Guests are charged USD.** Never a hard-coded peso rate — the dead `booking-script-CIT.js` used
    18.5 when the real rate was 17.37, a ~$24 surprise overcharge. The statement must match the page.
 
-⚠️ **`TEST_PRICE_USD` and `TEST_CURRENCY` are still set in Netlify**, which makes every destination
-charge MX$100. They were for the first live-key run. Delete both and redeploy before real traffic.
+✅ **`TEST_PRICE_USD` and `TEST_CURRENCY` were DELETED 2026-08-06** (`486617f`) and verified absent
+from the Netlify environment again on 2026-08-11. The override code still exists in
+`create-checkout.js`, so setting either variable re-arms the same footgun — don't. Cheap live
+testing is the `CITFLOW90R4K` promotion code.
 Zero npm dependencies anywhere — Node 18+ built-ins only.
 
 ## Deploy target
@@ -87,23 +89,26 @@ The Netlify deploy is wired to GitHub. Pushing to main = deploying. That is the 
 
 ## Open items
 
-- **🔴 Delete `TEST_PRICE_USD` and `TEST_CURRENCY`** in Netlify, then redeploy. Until then every
-  booking on the site charges MX$100.
-- **Still to add in Netlify:** `STRIPE_WEBHOOK_SECRET` (the `whsec_…` from the event destination),
-  `TEAM_EMAILS`, `RESEND_API_KEY`. Until all three exist the team is not notified of bookings and
-  no manifest goes out — the webhook returns 200 with `verified:false` by design, so the Stripe
-  dashboard stays green and nothing looks broken. Check the env vars, not the dashboard.
+- ✅ **Netlify environment is COMPLETE as of 2026-08-11** — verified with `netlify env:list`, not
+  assumed: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `TEAM_EMAILS`,
+  `MAIL_FROM`, `SITE_URL`, `PREVIEW_TOKEN`, `FLEET_RUNS_PER_DAY`, `REFUSALS_URL`/`REFUSALS_TOKEN`,
+  `CALENDAR_URL`/`CALENDAR_TOKEN`. A real booking on 2026-08-11 charged the $369 list price and
+  delivered both emails and the calendar events.
+  ⚠️ Two of them are marked "Contains secret values" (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`)
+  so `netlify env:get` returns nothing for them — that is correct, not a missing variable.
 - **⚠️ Two identity mismatches on a page that charges cards.** These pages say
   *Cozumel Island Transfers, S. de R.L. de C.V.* and `+52 987 114 6853`; **Stripe's registered legal
   name is Visit Cozumel Mexico** and its receipts carry `+52 987 113 6492`. Ask Mike/Iris before
   changing either — it's a fiscal question, not a copy question.
-- **🔴 DNS cutover to `cozumelislandtransfers.com` is NOT done.** The real domain still points at the
-  old Squarespace + FareHarbor setup. Customers are not seeing this site.
-  When it happens: **28 of the 29 live Squarespace URLs have no counterpart here** and will 404.
-  `netlify.toml`'s redirects cover the retired *Netlify* pages only — the Squarespace paths
-  (`/czm`, `/shared`, `/private`, `/onewayservice`, `/ssa`, `/maya`, `/about`, `/contact-us` …)
-  still need their own map. Do that in a different week from any payment change, or you won't know
-  which one broke bookings.
+- ✅ **DNS cutover DONE 2026-08-06.** Live at `https://cozumelislandtransfers.com` via **Cloudflare
+  in front of Netlify** — that proxy is load-bearing, do not set those records to "DNS only".
+  The Squarespace path redirects are in `netlify.toml` and verified working (`/czm`,
+  `/onewayservice`, `/privatecar`, `/about`, `/contact-us` → apex; `/ssa`, `/maya`, `/langosta` →
+  the meet pages).
+  ⚠️ **Google has not fully reprocessed them.** A brand search still returns the old Squarespace
+  title — "Airport & Cruise Port Transportation", advertising airport transfers and
+  "English-speaking drivers", both of which are prohibited. This is reindex lag, not a broken
+  redirect. Request indexing in Search Console; don't go hunting for a redirect bug.
 - `booking-script-CIT.js` is a dead Tierra Maya fork, wired to nothing and superseded. Safe to delete.
 - The stack is **Apps Script + AI + Stripe**. FareHarbor is being replaced, not integrated.
 
