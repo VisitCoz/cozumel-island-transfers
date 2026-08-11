@@ -1713,10 +1713,13 @@ function paintPay(){
    be on Cozumel time when it fires.
 
    ⚠️ TWIN OF netlify/functions/_ics.js, which builds the same two events server-side to
-   attach to the confirmation emails. A third copy lives in apps_script/cit_calendar as
-   the shared-calendar invite. All three MUST keep these UIDs — `${ref}-pickup@…` and
-   `${ref}-return@…` — because that is what makes a guest who saves the file AND accepts
-   the invite end up with one event instead of two. Change a UID here, change it there. */
+   attach to the confirmation email. Keep the UIDs identical — `${ref}-pickup@…` and
+   `${ref}-return@…` — so a guest who taps this button AND opens the emailed file gets one
+   event, not two. Change a UID here, change it there.
+
+   🚨 The Google Calendar invite (apps_script/cit_calendar) can NOT join that scheme:
+   events.insert does not accept an iCalUID and Google assigns its own. So the webhook
+   sends her the file only when the calendar write failed — never both. */
 function icsStamp(dateStr, hour){
   const d = new Date(dateStr + 'T00:00:00');
   const p = n => String(n).padStart(2,'0');

@@ -6,11 +6,15 @@
 // shape of an event here, change it there too. Same rule as DEST/grid markup and
 // VEH/VEHICLES.
 //
-// WHY THE UIDs MATTER. Three things now try to put this booking on a calendar: the
-// button on the confirmation screen, this file attached to the emails, and the Google
-// Calendar invite from apps_script/cit_calendar. Calendar clients dedupe on UID, so
-// giving all three the same UID is what stops a guest ending up with three copies of
-// her pickup. Never make a UID unique per send.
+// WHY THE UIDs MATTER — and what they can NOT do. Keeping this file and downloadICS()
+// on the same UID is what stops a guest who taps the confirmation-screen button AND
+// opens the emailed file from getting two copies of her pickup. That much works.
+//
+// 🚨 It does NOT extend to the Google Calendar invite. That has to be created with
+// events.insert to be sent at all, insert does not accept an iCalUID, and Google assigns
+// its own — so the invitation can never carry this UID. The two cannot merge. That is
+// why stripe-webhook.js sends the guest this file ONLY when the calendar write failed:
+// one calendar artifact per guest, never both.
 //
 // Times are FLOATING (no Z, no TZID) and that is deliberate: the guest's phone will be
 // on Cozumel time when the alarm fires, and a floating time is the only kind that is
@@ -69,6 +73,10 @@ function bookingIcs(m) {
   const vevent = (leg, summary, mins, place, alarmMins) => [
     'BEGIN:VEVENT',
     `UID:${uidFor(ref, leg)}`,
+    // RFC 5546 §3.2.1 requires exactly one ORGANIZER on a PUBLISH (and forbids ATTENDEE,
+    // which is why there is none here). It is also the line that puts our name on the
+    // event in her calendar rather than leaving it anonymous.
+    'ORGANIZER;CN=Cozumel Island Transfers:mailto:hello@cozumelislandtransfers.com',
     `DTSTAMP:${dtstamp}`,
     `DTSTART:${stamp(day, mins)}`,
     `DTEND:${stamp(day, mins + 60)}`,

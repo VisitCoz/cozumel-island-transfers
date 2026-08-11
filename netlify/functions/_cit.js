@@ -156,9 +156,14 @@ async function bookings(action, payload = {}) {
 // own team email and Slack post — a second copy of the booking mail this system already
 // sends through Resend. Two endpoints, two tokens, two jobs.
 //
-// Apps Script owns the calendar write because it runs AS contabilidad@, so there is no
-// service-account key and no Google Cloud project anywhere in this repo — only a URL and
+// Apps Script owns the calendar write because it runs AS a real Google user — so there is
+// no service-account key and no Google Cloud project anywhere in this repo, only a URL and
 // a shared secret.
+//
+// That user is hello@cozumelislandtransfers.com, deliberately, and NOT contabilidad@. The
+// account that deploys the script is the identity the guest sees on her invitation, and the
+// guest has already had one email from hello@ (the Resend confirmation). One brand, one
+// sender. Redeploying this from another account silently changes who she hears from.
 async function calendar(action, payload = {}) {
   const url = process.env.CALENDAR_URL;
   const token = process.env.CALENDAR_TOKEN;

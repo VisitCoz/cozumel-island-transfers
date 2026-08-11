@@ -69,6 +69,10 @@ exports.handler = async (event) => {
   catch (err) { console.error('ics build failed, mailing without it', m.booking_ref, err); }
   const withIcs = ics ? [ics] : undefined;
 
+  // Whether the shared calendar accepted this booking. It decides whether the GUEST also
+  // gets the .ics — see the note above her email. The team's copy is unconditional.
+  let calendarOk = false;
+
   // Put it on the shared calendar FIRST, before anything is mailed.
   //
   // The order is the whole design. A calendar failure has to be retryable, and it can only
@@ -93,6 +97,7 @@ exports.handler = async (event) => {
         admissionPrepaid: m.admission_prepaid === 'true',
       }});
       done.calendared = r.duplicate ? 'already there' : true;
+      calendarOk = true;
     } catch (err) {
       console.error('calendar write failed', m.booking_ref, err);
       failures.push('calendar');
@@ -121,13 +126,23 @@ exports.handler = async (event) => {
 
   // Tell HER. She may have booked three weeks before she sails; until 2026-08-08 this did
   // not exist and her first word from us was the day-before email.
+  //
+  // 🚨 She gets the .ics ONLY when the calendar did not take the booking. If the Google
+  // invitation went out, that IS her calendar entry, and attaching the file as well would
+  // put the same pickup on her phone twice.
+  //
+  // The original design claimed a shared UID would make the two merge. It cannot: the
+  // invitation has to be created with events.insert to send at all, insert does not accept
+  // an iCalUID, and Google assigns its own — so the two objects can never carry the same
+  // identifier. One or the other, never both. See eventIdFor() in cit_calendar/Code.gs.
+  const guestIcs = calendarOk ? undefined : withIcs;
   if (email) {
     try {
       await sendEmail({
         to: email,
         subject: confirmationSubject(m),
         html: confirmationEmail(m, amount, currency, email),
-        attachments: withIcs,
+        attachments: guestIcs,
         idempotencyKey: `guest-${s.id}`,
       });
       done.guestEmailed = true;
