@@ -188,9 +188,38 @@ function list_(month) {
   return ok_({ ok: true, month: m, months: months, records: records, labels: STEP_LABEL, steps: STEPS });
 }
 
-/** Paste-free health check: run this from the editor to confirm the token is set. */
+/**
+ * Run this ONCE from the editor (▶ Run, with setupToken selected).
+ *
+ * It mints the shared secret and stores it here, then prints it in the execution log.
+ * Copy it straight from the log into Netlify → Site configuration → Environment
+ * variables as FUNNEL_TOKEN, alongside FUNNEL_URL.
+ *
+ * Generated here rather than handed over in a chat window on purpose: the secret goes
+ * from this log to Netlify and touches nothing in between.
+ *
+ * Safe to run twice — it will not replace a token that already exists, because doing so
+ * would silently break the live site until Netlify was updated to match.
+ */
+function setupToken() {
+  var props = PropertiesService.getScriptProperties();
+  var existing = props.getProperty('CIT_FUNNEL_TOKEN');
+  if (existing) {
+    Logger.log('Already set up. FUNNEL_TOKEN = ' + existing);
+    return existing;
+  }
+  var chars = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var t = '';
+  for (var i = 0; i < 40; i++) t += chars.charAt(Math.floor(Math.random() * chars.length));
+  props.setProperty('CIT_FUNNEL_TOKEN', t);
+  Logger.log('FUNNEL_TOKEN = ' + t);
+  Logger.log('Put that in Netlify as FUNNEL_TOKEN. FUNNEL_URL is the /exec URL of this deployment.');
+  return t;
+}
+
+/** Health check: run this from the editor to confirm the token is set. */
 function checkSetup() {
   var t = PropertiesService.getScriptProperties().getProperty('CIT_FUNNEL_TOKEN');
   Logger.log(t ? 'CIT_FUNNEL_TOKEN is set (' + t.length + ' chars).'
-               : 'CIT_FUNNEL_TOKEN is MISSING — add it under Project Settings.');
+               : 'CIT_FUNNEL_TOKEN is MISSING — run setupToken().');
 }
