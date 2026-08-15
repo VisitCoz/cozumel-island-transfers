@@ -1361,11 +1361,80 @@ function fmtMin(total){
   return (h%12===0?12:h%12) + ':' + String(m).padStart(2,'0') + ' ' + (h>=12?'PM':'AM');
 }
 
+/* ── funnel beacon ──
+   Until 2026-08-15 this site had no analytics of any kind, which left the most
+   important question unanswerable: is the problem that nobody arrives, or that they
+   arrive and don't book? Those need opposite fixes, and Stripe cannot tell them apart.
+
+   NO COOKIES, deliberately. The session id lives in sessionStorage — it dies with the
+   tab and cannot follow anyone to another site — so this site still needs no consent
+   banner. Google Analytics would have cost us that, and a consent wall is the first
+   thing a guest on metered ship wifi would have to dismiss before she can book.
+   Traffic, countries and referrers come from Cloudflare Web Analytics (also cookieless,
+   injected at the bottom of this page); this answers the different question of how far
+   into the booking each visit actually got.
+
+   Each step is sent AT MOST ONCE per session. Going back and forward is normal
+   behaviour rather than progress, and counting it would make every funnel look healthy.
+   Keep this list identical to STEPS in netlify/functions/_funnel.js and in
+   apps_script/cit_funnel/Code.gs — the order is the funnel, and the three drifting
+   apart is the one way this goes quietly wrong. */
+const TRACK_STEPS = ['land','hub','dest','pax','ship','day','who','pay','checkout_open','done'];
+let _sid = null, _sent = null;
+(function trackInit(){
+  try {
+    _sid = sessionStorage.getItem('cit_sid');
+    if (!_sid) {
+      _sid = Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-6);
+      sessionStorage.setItem('cit_sid', _sid);
+    }
+    _sent = new Set(JSON.parse(sessionStorage.getItem('cit_steps') || '[]'));
+  } catch (e) { _sid = null; }   // storage blocked (private mode) — just don't track
+})();
+
+/* Referrer HOST only, never the full URL: a referrer can carry someone else's query
+   string, and we have no business storing it. */
+function trackSource(){
+  try {
+    const utm = new URLSearchParams(location.search).get('utm_source');
+    if (utm) return utm.slice(0,60);
+    if (!document.referrer) return 'direct';
+    const h = new URL(document.referrer).hostname.replace(/^www\./,'');
+    return h === location.hostname ? 'direct' : h;
+  } catch (e) { return 'direct'; }
+}
+
+function track(step){
+  if (!_sid || !_sent || _sent.has(step) || TRACK_STEPS.indexOf(step) < 0) return;
+  _sent.add(step);
+  try { sessionStorage.setItem('cit_steps', JSON.stringify(Array.from(_sent))); } catch (e) {}
+  const body = JSON.stringify({
+    sid: _sid, step,
+    dest: S && S.dest ? S.dest : null,
+    pax:  S && S.pax  ? S.pax  : null,
+    source: trackSource(),
+    device: window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'desktop'
+  });
+  // sendBeacon survives the tab being closed or navigated away mid-flight, which is
+  // exactly when the most interesting step of all — the one where she gave up — is sent.
+  try {
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/.netlify/functions/funnel',
+        new Blob([body], { type: 'application/json' }));
+    } else {
+      fetch('/.netlify/functions/funnel', { method:'POST', body, keepalive:true,
+        headers: { 'Content-Type':'application/json' } });
+    }
+  } catch (e) {}
+}
+track('land');
+
 /* ── router ── */
 function go(id){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
   $('s-'+id).classList.add('on');
   window.scrollTo(0,0);
+  track(id);
   // "Where are you going?" only makes sense for the destination that doesn't name itself.
   if (id==='who') $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
   if (id==='pay') paintPay();
@@ -1926,7 +1995,10 @@ async function payNow(){
       body: JSON.stringify(booking)
     });
     const out = await res.json();
-    if (out.url) { location.href = out.url; return; }        // off to Stripe
+    // Logged before the redirect, not after: once location.href fires this page is gone.
+    // The gap between this step and 'done' is how many guests reach Stripe and abandon
+    // at the card form, which is a different problem from abandoning on our own pages.
+    if (out.url) { track('checkout_open'); location.href = out.url; return; }  // off to Stripe
     // Every refusal from the server is written for a guest, not a developer,
     // and the ones we can't fix on the page route to a human.
     err.innerHTML = out.error + (out.useWhatsApp
@@ -1982,5 +2054,11 @@ function paintDone(){
 }
 
 </script>
+<!-- Cloudflare Web Analytics. Cookieless and edge-side, so it needs no consent banner —
+     see the funnel-beacon note in the page script for why that matters more here than the
+     data GA would have added. It reports visits, countries, referrers and web vitals. It
+     cannot see the booking steps; that is what /.netlify/functions/funnel is for. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token": "74e39afdf47645a2831c620801a92d83"}'></script>
 </body>
 </html>

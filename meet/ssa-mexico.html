@@ -116,5 +116,11 @@ var waHref = 'https://wa.me/5219871146853?text=' +
 document.getElementById('wa').href  = waHref;
 document.getElementById('wa2').href = waHref;
 </script>
+<!-- Cloudflare Web Analytics. Cookieless and edge-side, so it needs no consent banner —
+     see the funnel-beacon note in the page script for why that matters more here than the
+     data GA would have added. It reports visits, countries, referrers and web vitals. It
+     cannot see the booking steps; that is what /.netlify/functions/funnel is for. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token": "74e39afdf47645a2831c620801a92d83"}'></script>
 </body>
 </html>
