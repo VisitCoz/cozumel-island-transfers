@@ -43,6 +43,11 @@ function summarise(rows) {
 
   for (const r of rows) {
     if (!r.step || !r.sid) continue;
+    // Verifying this chain end to end means POSTing a whole session, including 'done'.
+    // Left in, that reads as a booking nobody made and quietly overstates conversion —
+    // the one number here that must never flatter itself. Any check that walks the funnel
+    // should send source 'end-to-end-test' so its rows stay in the sheet but out of the maths.
+    if (r.source === 'end-to-end-test') continue;
     (seen[r.step] = seen[r.step] || new Set()).add(r.sid);
     sessions.add(r.sid);
     if (r.step === 'land') {
