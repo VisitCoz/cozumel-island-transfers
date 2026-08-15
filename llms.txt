@@ -41,8 +41,8 @@ Prices are **per vehicle, not per person**, round trip, in USD, and the same fla
 
 | Tier | Capacity | Round-trip USD |
 |------|----------|----------------|
-| Private van | 1–8 passengers | $369 |
-| Large private van | 9–14 passengers | $425 |
+| Private van | 1–6 passengers | $250 |
+| Large private van | 7–14 passengers | $425 |
 | Extra-large van | 15–18 passengers | $549 |
 | Mini coach | 19–20 passengers | $609 |
 | Private bus | 21–40 passengers | $899 |
