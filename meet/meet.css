@@ -175,3 +175,18 @@ footer p + p{margin-top:6px}
   min-height:54px; padding:0 18px; border-radius:4px; margin-top:16px;
   font-size:14px; font-weight:500; letter-spacing:.06em; text-transform:uppercase}
 .btn-map{background:var(--surface); color:var(--accent)}
+
+/* ── Floating WhatsApp button ──
+   These pages already carry two WhatsApp links: one under the header, one at the very
+   bottom for someone who scrolled the whole way because she is lost. Neither is on screen
+   in the middle, which is exactly where a guest standing on the pier reads them. This one
+   follows her. It reuses each page's own waHref, so the message still names her terminal.
+   Says nothing about response time — the office is 9-5, not 24/7. */
+.wa-fab{position:fixed;right:14px;bottom:14px;z-index:900;display:flex;align-items:center;
+  gap:9px;background:#25D366;color:#fff;border:0;border-radius:999px;padding:13px 18px 13px 15px;
+  font:600 15px/1 inherit;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.28);
+  transition:transform .15s ease, box-shadow .15s ease}
+.wa-fab:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.34)}
+.wa-fab svg{width:23px;height:23px;flex:none;fill:#fff}
+@media(max-width:560px){ .wa-fab{padding:14px} .wa-fab .wa-lbl{display:none} }
+@media(prefers-reduced-motion:reduce){ .wa-fab{transition:none} }
