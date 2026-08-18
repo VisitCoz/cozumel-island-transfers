@@ -1138,7 +1138,14 @@ footer p{margin:0;max-width:34em}
       <input type="tel" id="waIn" inputmode="tel" placeholder="407 555 0142">
     </div>
     <div class="hint">Pick your country, then your number. It is the only way we can reach you on
-      the day if your ship docks late.</div></div>
+      the day if your ship docks late.<br>
+      <!-- Consent sits HERE, at the point of collection, and not in the footer or the privacy
+           policy. US carriers reject SMS sender registration when the opt-in language is anywhere
+           else, and it is the correct thing to say regardless of which provider we end up using.
+           "Booking messages only" is the sentence that matters to them: it scopes the consent and
+           rules out marketing, which is what carrier review is actually screening for. -->
+      By giving us your number you agree we may message you about this booking, on WhatsApp or by
+      text. Messages about your transfer only &mdash; never marketing, and we do not share it.</div></div>
   <div class="field"><label for="mailIn">Email</label>
     <input type="email" id="mailIn" placeholder="you@email.com">
     <div class="hint">Your receipt and confirmation go here.</div></div>
