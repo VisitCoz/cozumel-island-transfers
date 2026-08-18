@@ -52,6 +52,17 @@
   status = 404
   force = true
 
+# Design scratch — half-finished style studies that were never meant to be pages.
+# robots.txt already disallows them, but disallow only stops future crawling: Google had
+# already found them, which is what the 2026-08-09 "Excluded by noindex" notice is about.
+# They also render internal notes (Stripe fee comparisons, the old MX$100 pricing bug) to
+# anyone who guesses the path. 404 them properly rather than relying on a meta tag.
+[[redirects]]
+  from = "/proto/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
 # ── www → apex, and it must come BEFORE every path rule below ────────────────
 # One canonical address. Every page's canonical tag says the bare domain, so this
 # makes the redirect agree with what we already tell Google, and stops a visit to
