@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 132" width="220" height="132" role="img" aria-label="Cozumel Island Transfers">
+  <g transform="translate(78,0)">
+    <path d="M46.8 17.2A21 21 0 1 0 46.8 46.8" fill="none" stroke="#0F2C44" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="6" fill="#1D7AFC"/>
+  </g>
+  <text x="110" y="94" text-anchor="middle" font-family="Inter,-apple-system,Helvetica,Arial,sans-serif" font-size="23" font-weight="800" letter-spacing="-0.5" fill="#0F2C44">Cozumel Island</text>
+  <text x="110" y="120" text-anchor="middle" font-family="Inter,-apple-system,Helvetica,Arial,sans-serif" font-size="23" font-weight="800" letter-spacing="-0.5" fill="#1D7AFC">Transfers</text>
+</svg>

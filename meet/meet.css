@@ -47,7 +47,7 @@ b,strong{font-weight:600}
 .hero .back{position:absolute; top:8px; left:14px; z-index:3; color:rgba(255,255,255,.9);
   display:inline-flex; align-items:center; min-height:44px; padding:0 10px; font-size:15px}
 .over{position:absolute; left:24px; right:24px; bottom:26px; z-index:2; color:#fff}
-.over .k{font-size:14px; opacity:.82; margin:0}
+.over .k{font-size:14px; color:rgba(255,255,255,.82); margin:0}
 .over h1{margin:8px 0 0; font-size:34px; line-height:1.08; font-weight:500; letter-spacing:-.03em}
 .over p{margin:11px 0 0; font-size:16px; line-height:1.45; opacity:.92; max-width:23em}
 
@@ -112,7 +112,7 @@ footer p + p{margin-top:6px}
 
 /* ---------- hub header: the one place with no photograph to lead with ---------- */
 .hubtop{background:#0B0B0C; color:#fff; padding:30px 24px 34px}
-.hubtop .k{font-size:14px; opacity:.7}
+.hubtop .k{font-size:14px; color:rgba(255,255,255,.7)}
 .hubtop h1{margin:8px 0 0; font-size:34px; line-height:1.08; font-weight:500; letter-spacing:-.03em}
 .hubtop p{margin:12px 0 0; font-size:16px; line-height:1.45; opacity:.82; max-width:24em}
 
@@ -190,3 +190,11 @@ footer p + p{margin-top:6px}
 .wa-fab svg{width:23px;height:23px;flex:none;fill:#fff}
 @media(max-width:560px){ .wa-fab{padding:14px} .wa-fab .wa-lbl{display:none} }
 @media(prefers-reduced-motion:reduce){ .wa-fab{transition:none} }
+
+/* brand mark in the kicker — reverse mark, both dark headers */
+.k .cit{display:inline-block; width:18px; height:18px; vertical-align:-4px;
+        margin-right:8px}
+/* the kicker is set at reduced opacity; the mark is not — it reads as a logo,
+   not as another line of dimmed type. */
+.k{display:flex; align-items:center}
+.k .cit{opacity:1}
