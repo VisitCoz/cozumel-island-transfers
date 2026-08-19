@@ -392,7 +392,7 @@ button{font-family:inherit}
 .hero .ht{position:relative;z-index:2;width:100%;padding:18px 20px;
   background:linear-gradient(0deg,rgba(6,20,32,.82),rgba(6,20,32,0));color:#fff}
 .hero .ht .k{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
-.hero .ht h1{margin:5px 0 0;font-size:24px;font-weight:800;line-height:1.14;letter-spacing:-.02em}
+.hero .ht h1,.hero .ht h2{margin:5px 0 0;font-size:24px;font-weight:800;line-height:1.14;letter-spacing:-.02em}
 .metarow{display:flex;gap:8px;padding:13px 18px 4px;flex-wrap:wrap}
 .mpill{font-size:12px;font-weight:600;color:var(--navy);background:var(--surface);border:1px solid var(--line);
   border-radius:999px;padding:6px 12px}
@@ -620,7 +620,7 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
 </head>
 <body>
 
-<div class="wrap">
+<main class="wrap">
 
 <!-- ═══════════ HOME ═══════════ -->
 <section class="screen on" id="s-hub">
@@ -940,7 +940,7 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
 <!-- ═══════════ 2 · DESTINATION ═══════════ -->
 <section class="screen" id="s-dest">
   <a class="topbar" href="#" onclick="go('hub');return false"><span class="bk">←</span> All destinations</a>
-  <div class="hero"><img id="dHero" alt=""><div class="ht"><div class="k" id="dType"></div><h1 id="dName"></h1></div></div>
+  <div class="hero"><img id="dHero" alt=""><div class="ht"><div class="k" id="dType"></div><h2 id="dName"></h2></div></div>
   <div class="metarow">
     <div class="mpill">🚐 <span id="dDrive"></span> from the pier</div>
     <!-- The distance pill is OPTIONAL and hidden when a destination has no `dist`.
@@ -1265,7 +1265,7 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
   <div class="cta-wrap" style="padding-top:0"><button class="btn btn-ghost" onclick="restart()">Book another transfer</button></div>
 </section>
 
-</div>
+</main>
 
 <script>
 /* ══════════════════════════════════════════════════════════════
