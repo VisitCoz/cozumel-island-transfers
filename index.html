@@ -605,6 +605,15 @@ footer p{margin:0;max-width:34em}
   .wa-fab .wa-lbl{display:none}
 }
 @media(prefers-reduced-motion:reduce){ .wa-fab{transition:none} }
+
+/* Proof photo: the representative and the board. Sits directly above the reviews because it is
+   the same argument made a different way - somebody real will be there. Capped height so a
+   portrait phone photo cannot push the reviews off the first screen. */
+figure.proof{margin:0;padding:0 18px 6px}
+figure.proof img{width:100%;max-height:440px;object-fit:cover;object-position:center 38%;
+  border-radius:12px;display:block}
+figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--muted,#5B6B79);
+  padding:8px 2px 0;line-height:1.5}
 </style>
 </head>
 <body>
@@ -809,6 +818,18 @@ footer p{margin:0;max-width:34em}
   <p class="hint" style="padding:2px 18px 0">Swipe →</p>
 
   <!-- Reviews -->
+  <!-- Until 2026-08-18 this site promised eleven times that a person would be standing at the
+       pier with a board, and never once showed it. This is that person, at Punta Langosta, on a
+       real pickup. The guest's name is blurred - she did not agree to appear here. The company
+       name is left readable on purpose, because it is not the one she booked. -->
+  <figure class="proof">
+    <img src="/.netlify/images?url=/assets/rep-with-board.jpg&amp;w=1400&amp;fm=webp&amp;q=72"
+         width="1600" height="1200" loading="lazy"
+         alt="A Cozumel Island Transfers representative at Punta Langosta holding a Visit Cozumel Shuttles and Tours board with a guest name">
+    <figcaption>This is who meets you, and this is the board. Guests' names are blurred here &mdash;
+      yours is not, on the day.</figcaption>
+  </figure>
+
   <div class="sechead">What guests say</div>
   <p class="blurb" style="padding-top:0">🏆 Travelers' Choice on TripAdvisor. <b>4.8★ from 35
      verified reviews</b> · since 2015.
