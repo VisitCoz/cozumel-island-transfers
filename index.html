@@ -631,6 +631,20 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
 .van-figure img{width:100%;max-height:420px;object-fit:cover;object-position:center 42%;
   border-radius:12px;display:block;background:#e8eef2}
 .van-figure figcaption{font-size:13px;color:var(--muted,#5B6B79);padding:8px 2px 0;line-height:1.5}
+
+/* Tierra Maya card, four photos crossfading. 16s cycle, 4s each: slow enough to read as a place
+   rather than a slideshow, and it never moves while she is deciding. Honoured only when the
+   visitor has not asked for reduced motion. */
+.poster-img.rotate img{opacity:0;animation:tmFade 16s linear infinite}
+.poster-img.rotate img:nth-of-type(1){animation-delay:0s}
+.poster-img.rotate img:nth-of-type(2){animation-delay:4s}
+.poster-img.rotate img:nth-of-type(3){animation-delay:8s}
+.poster-img.rotate img:nth-of-type(4){animation-delay:12s}
+@keyframes tmFade{0%{opacity:0}3%{opacity:1}25%{opacity:1}28%{opacity:0}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  .poster-img.rotate img{animation:none;opacity:0}
+  .poster-img.rotate img:nth-of-type(1){opacity:1}
+}
 </style>
 </head>
 <body>
@@ -692,75 +706,19 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
        guest at the top of the page instead of at the thing she came to use. -->
   <div id="book"></div>
 
-  <!-- ── Real guests ──
-       Until today this page argued entirely in words: a private van, a person with a sign, one
-       flat price. It showed vans with nobody in them. These are real pickups and real customers,
-       which is the only evidence a stranger on ship wifi can actually check.
-
-       A horizontal strip rather than a grid, on purpose. A grid of eight means eight downloads and
-       a very long scroll on a phone. This shows about 1.2 photos at a time — the half-visible one
-       is what tells her to swipe — and only fetches what she reaches.
-
-       Every image is srcset across four widths, so a phone pulls a 400px file where a desktop pulls
-       1280px. width/height are the NATIVE ratios so the row cannot jump while loading; layout shift
-       on the way to a booking form is how you lose the booking. -->
-  <div class="sechead">Real pickups, real guests</div>
-  <p class="blurb" style="padding-top:0">Every photo below is a booking we actually drove.</p>
-  <div class="photo-strip" id="photoStrip">
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1200" loading="eager" decoding="async"
-             alt="Guests climbing into a Cozumel Island Transfers van on the street">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="993" loading="lazy" decoding="async"
-             alt="Our driver with a family of five and a baby in a stroller beside the van">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1200" loading="lazy" decoding="async"
-             alt="Six guests of three generations seated inside the van on the way to the beach">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1115" loading="lazy" decoding="async"
-             alt="A family of five at the Mexican flag on Cozumel's windward coast">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1035" loading="lazy" decoding="async"
-             alt="A family at the painted COZUMEL letters on the beach">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1190" loading="lazy" decoding="async"
-             alt="Four guests at the bronze arch on the waterfront with a cruise ship behind">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1200" loading="lazy" decoding="async"
-             alt="Eight guests laughing with ice creams in a local Cozumel shop">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1282" loading="lazy" decoding="async"
-             alt="Guests grinding cacao on volcanic stone under papel picado at Tierra Maya">
-      </figure>
-  </div>
-
   <div class="sechead" id="homeDest">Where do you need to go?</div>
     <div class="grid" id="hubGrid">
     <button class="poster" onclick="openDest('tierra-maya')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/photos/dest-tierra-maya-guests.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Tierra Maya, Cozumel" loading="lazy"><span class="pl">Mayan Preserve</span></div>
+      <!-- Four photos, crossfading. Tierra Maya is the destination we own and the only one with a
+           real archive, so the card shows the place as a visit rather than as a single frame: the
+           group under the sign, the cacao tables, the guide, the face paint. Pure CSS - no script,
+           no library, and it costs four lazy images the browser fetches when the card scrolls in. -->
+      <div class="poster-img rotate">
+        <img src="/.netlify/images?url=/assets/photos/tm-1.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="A group of guests with their guide under the carved Tierra Maya sign" loading="lazy" decoding="async">
+        <img src="/.netlify/images?url=/assets/photos/tm-2.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Guests grinding cacao on stone at Tierra Maya" loading="lazy" decoding="async" aria-hidden="true">
+        <img src="/.netlify/images?url=/assets/photos/tm-3.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img src="/.netlify/images?url=/assets/photos/tm-4.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <span class="pl">Mayan Preserve</span></div>
       <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div>
       <div class="go">View &amp; book →</div></div>
     </button>
@@ -812,6 +770,93 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
       <div class="go">View &amp; book →</div></div>
     </button>
   </div>
+
+  <!-- ── Happy guests ──
+       Named "Happy guests", not "Real pickups, real guests". The earlier heading protested too
+       much: insisting a thing is real is what people do when it is not, and a stranger reads the
+       denial before the claim. The photographs are the evidence; the heading only has to point.
+       Until today this page argued entirely in words: a private van, a person with a sign, one
+       flat price. It showed vans with nobody in them. These are real pickups and real customers,
+       which is the only evidence a stranger on ship wifi can actually check.
+
+       A horizontal strip rather than a grid, on purpose. A grid of eight means eight downloads and
+       a very long scroll on a phone. This shows about 1.2 photos at a time — the half-visible one
+       is what tells her to swipe — and only fetches what she reaches.
+
+       Every image is srcset across four widths, so a phone pulls a 400px file where a desktop pulls
+       1280px. width/height are the NATIVE ratios so the row cannot jump while loading; layout shift
+       on the way to a booking form is how you lose the booking. -->
+  <div class="sechead">Happy guests</div>
+  <p class="blurb" style="padding-top:0">Families we drove this season, on the island.</p>
+  <div class="photo-strip" id="photoStrip">
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1200" loading="eager" decoding="async"
+             alt="Guests climbing into a Cozumel Island Transfers van on the street">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="993" loading="lazy" decoding="async"
+             alt="Our driver with a family of five and a baby in a stroller beside the van">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1200" loading="lazy" decoding="async"
+             alt="Six guests of three generations seated inside the van on the way to the beach">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1115" loading="lazy" decoding="async"
+             alt="A family of five at the Mexican flag on Cozumel's windward coast">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1035" loading="lazy" decoding="async"
+             alt="A family at the painted COZUMEL letters on the beach">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1190" loading="lazy" decoding="async"
+             alt="Four guests at the bronze arch on the waterfront with a cruise ship behind">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1200" loading="lazy" decoding="async"
+             alt="Eight guests laughing with ice creams in a local Cozumel shop">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1282" loading="lazy" decoding="async"
+             alt="Guests grinding cacao on volcanic stone under papel picado at Tierra Maya">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1200" loading="lazy" decoding="async"
+             alt="Five guests at a roadside fruit stand with watermelon and pitaya">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1429" loading="lazy" decoding="async"
+             alt="A family at the Punta Sur signpost, the last point of Mexico">
+      </figure>
+      <figure>
+        <img src="/.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1600" height="1391" loading="lazy" decoding="async"
+             alt="Guests grinding cacao by hand at long stone tables under a palapa">
+      </figure>
+  </div>
+
 
   <!-- Pricing -->
   <div class="sechead" id="homePrice">One price, by vehicle</div>
