@@ -626,11 +626,6 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
   background:#e8eef2}
 @media(min-width:700px){ .photo-strip figure{flex:0 0 300px} .photo-strip img{height:220px} }
 
-/* The van, beside the price list. */
-.van-figure{margin:0 18px 10px;max-width:420px}
-.van-figure img{width:100%;max-height:420px;object-fit:cover;object-position:center 42%;
-  border-radius:12px;display:block;background:#e8eef2}
-.van-figure figcaption{font-size:13px;color:var(--muted,#5B6B79);padding:8px 2px 0;line-height:1.5}
 
 /* Tierra Maya card, four photos crossfading. 16s cycle, 4s each: slow enough to read as a place
    rather than a slideshow, and it never moves while she is deciding. Honoured only when the
@@ -796,6 +791,12 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
              alt="Guests climbing into a Cozumel Island Transfers van on the street">
       </figure>
       <figure>
+        <img src="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+             sizes="(max-width: 560px) 78vw, 300px"
+             width="1200" height="1600" loading="lazy" decoding="async"
+             alt="A full van of guests with their driver, three generations aboard, on the way to the beach">
+      </figure>
+      <figure>
         <img src="/.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
              sizes="(max-width: 560px) 78vw, 300px"
              width="1400" height="1000" loading="lazy" decoding="async"
@@ -900,20 +901,6 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
      or a destination you must change BOTH — the list below, and the VEH / DEST
      data further down this file. Prices also appear in the Offer schema in <head>
      and in netlify/functions/_cit.js, which is what actually charges the card. -->
-  <!-- The whole van, full of people. "One price for the whole vehicle, not per person" is an
-       argument about arithmetic; this is the same argument as a picture. Portrait, because it sits
-       beside a price table and a portrait crop keeps more of the seats in frame. -->
-  <figure class="van-figure">
-    <img src="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;w=560&amp;fm=webp&amp;q=72"
-         srcset="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;w=400&amp;fm=webp&amp;q=72 400w,
-                 /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;w=560&amp;fm=webp&amp;q=72 560w,
-                 /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;w=800&amp;fm=webp&amp;q=72 800w"
-         sizes="(max-width: 700px) 92vw, 420px"
-         width="1200" height="1600" loading="lazy" decoding="async"
-         alt="Six guests and their driver inside a Cozumel Island Transfers van, the driver holding a Visit Cozumel Shuttles and Tours sign">
-    <figcaption>One van, one price. A couple pays what a family of six pays.</figcaption>
-  </figure>
-
   <div class="pricelist" id="priceList">
     <div class="prow">
       <div><div class="pn">Private van</div><div class="pp">up to 6 people</div></div>
