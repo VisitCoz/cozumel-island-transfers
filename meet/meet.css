@@ -84,15 +84,22 @@ section p + p{margin-top:14px}
 /* ---------- hub: one photo card per terminal ---------- */
 .terminals{padding:0}
 .tblock + .tblock{margin-top:34px}
-.tcard{display:block; color:inherit}
-.tcard .shot{position:relative; height:200px; overflow:hidden; background:var(--navy)}
-.tcard .shot img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
-.tcard .shot::after{content:""; position:absolute; inset:0;
-  background:linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.72) 100%)}
-.tcard .lab{position:absolute; left:20px; right:20px; bottom:16px; z-index:2; color:#fff}
-.tcard .lab .tn{font-size:23px; font-weight:500; letter-spacing:-.02em; line-height:1.15}
-.tcard .lab .tl{font-size:15px; opacity:.88; margin-top:4px}
-.tcard .go{padding:14px 24px 0; color:var(--accent)}
+/* ---------- terminal signage ---------- */
+.tsign{display:flex; align-items:stretch; min-height:88px; border-radius:10px; overflow:hidden;
+  text-decoration:none; color:#fff; box-shadow:var(--shadow); transition:transform .12s ease}
+.tsign:active{transform:scale(.99)}
+.tsign .band{width:9px; flex:none}
+.tsign .body{flex:1; background:var(--navy); padding:16px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px}
+.tsign .txt{display:block}
+.tsign .nm{display:block; font-size:20px; font-weight:600; letter-spacing:-.02em; line-height:1.2}
+.tsign .tno{display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  opacity:.72; margin-top:4px}
+.tsign .arw{font-size:26px; opacity:.85; flex:none}
+.t-blue  .band{background:#0F62D6}
+.t-green .band{background:#1F7A3F}
+.t-amber .band{background:#E08A00}
+@media(prefers-reduced-motion:reduce){ .tsign{transition:none} .tsign:active{transform:none} }
 
 .tships:empty{display:none}
 .tday{padding:16px 24px 0}
@@ -127,9 +134,6 @@ footer p + p{margin-top:6px}
 .hero.no-photo .back{position:static; margin-left:10px}
 .hero.no-photo .over{position:static; padding:10px 24px 30px}
 
-.tcard .shot.no-photo{height:auto; padding:26px 0 6px}
-.tcard .shot.no-photo::after{display:none}
-.tcard .shot.no-photo .lab{position:static; padding:0 24px}
 
 /* ---------- embedded map ----------
    Keyless Google embed (`output=embed`), so there is no API key to leak, no
@@ -141,8 +145,9 @@ footer p + p{margin-top:6px}
   background:var(--surface)}
 .mapwrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
 
-/* ---------- the terminal's own name, full width ---------- */
-.tcard .lab .tn{font-size:26px; font-weight:500; letter-spacing:-.025em; line-height:1.12}
+/* ---------- larger screens: the sign gets a little more presence ---------- */
+.tsign{min-height:96px}
+.tsign .nm{font-size:22px}
 .hero .over .k{font-size:15px}
 
 /* ---------- the walkthrough ----------
@@ -198,3 +203,13 @@ footer p + p{margin-top:6px}
    not as another line of dimmed type. */
 .k{display:flex; align-items:center}
 .k .cit{opacity:1}
+
+/* ---------- the terminal's colour, carried onto its own page ----------
+   The hub gives each terminal a colour band; without this the pages behind it would look
+   unrelated to the cards that lead there. A 6px rule at the top of the hero is enough - she
+   sees the same blue she just tapped, which is the whole point of giving it a colour at all. */
+.hero.t-blue::before, .hero.t-green::before, .hero.t-amber::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:6px; z-index:3}
+.hero.t-blue::before{background:#0F62D6}
+.hero.t-green::before{background:#1F7A3F}
+.hero.t-amber::before{background:#E08A00}
