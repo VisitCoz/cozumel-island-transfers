@@ -64,6 +64,21 @@
   "award": "TripAdvisor Travelers' Choice"
 }
 </script>
+<!-- The WebSite node the meet/ pages have been pointing at with isPartOf since they
+     were built. Without it those four pages asserted membership of a site that was
+     never declared, and the graph never joined: Google saw four orphan WebPages and
+     a LocalBusiness with no pages. One canonical @id per entity, #org and #website. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://cozumelislandtransfers.com/#website",
+  "url": "https://cozumelislandtransfers.com/",
+  "name": "Cozumel Island Transfers",
+  "inLanguage": "en",
+  "publisher": { "@id": "https://cozumelislandtransfers.com/#org" }
+}
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -2246,6 +2261,22 @@ async function payNow(){
   }
   history.replaceState({}, '', location.pathname);   // so a refresh doesn't re-fire
   go('done');
+})();
+
+/* Arriving from one of our own pages. /?d=mr-sanchos opens the wizard on that
+   destination instead of dropping the reader at the top of a long homepage —
+   which is what every link from a guide or a ship page would otherwise do.
+   The key is checked against DEST before it is used: a query string is not to
+   be trusted, and openDest() on a key that isn't there would throw and leave
+   her looking at a half-painted screen.
+   Deliberately after the Stripe handler — coming back from checkout wins. */
+(function handleDestDeepLink(){
+  const q = new URLSearchParams(location.search);
+  if (q.get('paid') || q.get('cancelled')) return;
+  const k = q.get('d');
+  if (!k || !Object.prototype.hasOwnProperty.call(DEST, k)) return;
+  openDest(k);
+  history.replaceState({}, '', location.pathname);   // so a refresh doesn't re-open it
 })();
 
 /* ── confirmed ── */
