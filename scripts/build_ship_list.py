@@ -23,6 +23,7 @@ Run manually — once or twice a year is plenty:
 """
 
 import argparse
+import collections
 import html as htmllib
 import json
 import re
@@ -35,6 +36,23 @@ ENDPOINT = ("https://servicios.apiqroo.com.mx/programacion/controller.php"
             "?anio={year}&mes={month:02d}&status=0&doAction=arribos.history.get")
 UA = "Mozilla/5.0 (Cozumel Island Transfers ship-list builder)"
 OUT = Path(__file__).resolve().parent.parent / "data" / "cozumel-ships.json"
+
+# ── the three terminals, as the port authority writes them and as a guest reads them ──
+# The PUERTO column of the historical table carries "TERMINAL PUERTA MAYA",
+# "TERMINAL SSA MEXICO" and "TERMINAL PUNTA LANGOSTA". The site has always called
+# SSA MEXICO the International Pier, so these are the names index.html's TERMINAL
+# table shows — keep the two in step if either ever changes.
+#
+# 🚨 "FONDEO COZUMEL" and "AL PAIRO" are NOT terminals: they are a ship lying at
+# anchor and tendering its guests ashore. They are counted as calls like any other
+# arrival, but they are deliberately left out of the usual-pier count — a ship that
+# has anchored twice has no usual pier to report, and telling a guest she "usually
+# docks at" an anchorage would put her nowhere.
+TERMINALS = {
+    "TERMINAL PUERTA MAYA": "Puerta Maya",
+    "TERMINAL SSA MEXICO": "International Pier",
+    "TERMINAL PUNTA LANGOSTA": "Punta Langosta",
+}
 
 # Vessel-type prefixes the port authority uses inconsistently: "M/S CARNIVAL BREEZE"
 # and "CARNIVAL BREEZE" are the same ship.
@@ -161,6 +179,20 @@ def normalize(raw):
     return SOURCE_TYPOS.get(name, name)
 
 
+def normalize_terminal(port):
+    """'TERMINAL PUERTA MAYA' -> 'Puerta Maya'. None for an anchorage or anything new.
+
+    Matched on a substring rather than on equality so a stray prefix, a double space
+    or a new "TERMINAL SSA MEXICO II" still lands on the right pier instead of
+    silently becoming a fourth terminal nobody notices.
+    """
+    key = re.sub(r"\s+", " ", (port or "").upper()).strip()
+    for raw, name in TERMINALS.items():
+        if raw in key:
+            return name
+    return None
+
+
 def infer_line(name):
     if name in LINE_BY_NAME:
         return LINE_BY_NAME[name]
@@ -180,6 +212,9 @@ def main():
     args = ap.parse_args()
 
     ships, arrivals, ports = {}, 0, {}
+    # ship name -> Counter of normalised terminal names, over the same arrivals the
+    # loop below already reads. Nothing extra is fetched for this.
+    pier_counts = collections.defaultdict(collections.Counter)
     for year in args.years:
         for month in range(1, 13):
             try:
@@ -199,7 +234,29 @@ def main():
                                               "first": f"{year}-{month:02d}", "last": None})
                 rec["calls"] += 1
                 rec["last"] = f"{year}-{month:02d}"
+                terminal = normalize_terminal(port)
+                if terminal:
+                    pier_counts[name][terminal] += 1
             print(f"  {year}-{month:02d}  {found:4d} arrivals", file=sys.stderr)
+
+    # ── the usual pier ────────────────────────────────────────────────────────────
+    # The terminal a ship has tied up at most often, plus the share of her berthed
+    # calls that were there. The homepage reads this ONLY when the port authority has
+    # not yet published the guest's day: "Carnival Paradise usually docks at Puerta
+    # Maya · we confirm your pier by email the day before". It is a hint she can plan
+    # around, never an instruction about where to stand, and the map never moves on it.
+    #
+    # 🚨 A ship that has split her calls between two terminals gets no usualPier at
+    # all. Half right is worse than silent here: the page falls back to promising the
+    # email, which is true whatever the berth turns out to be.
+    MIN_CALLS, MIN_SHARE = 3, 0.70
+    for name, counts in pier_counts.items():
+        top, hits = counts.most_common(1)[0]
+        berthed = sum(counts.values())
+        share = hits / berthed
+        if berthed >= MIN_CALLS and share >= MIN_SHARE:
+            ships[name]["usualPier"] = top
+            ships[name]["usualPierShare"] = round(share, 2)
 
     # Most-frequent callers first — the type-ahead should surface the common ships first.
     ordered = sorted(ships.values(), key=lambda s: (-s["calls"], s["name"]))
@@ -217,6 +274,11 @@ def main():
     unknown = [s["name"] for s in ordered if not s["line"]]
     if unknown:
         print(f"no cruise line inferred for {len(unknown)}: {', '.join(unknown)}")
+    withpier = [s for s in ordered if s.get("usualPier")]
+    print(f"usual pier for {len(withpier)} of {len(ordered)} ships "
+          f"(≥{MIN_CALLS} berthed calls and ≥{int(MIN_SHARE * 100)}% at one terminal)")
+    bypier = collections.Counter(s["usualPier"] for s in withpier)
+    print("  " + ", ".join(f"{p}: {n}" for p, n in bypier.most_common()))
 
     if args.dry_run:
         print("\n--dry-run: nothing written")
