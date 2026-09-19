@@ -742,12 +742,17 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
 .glass .g .shipdrop{display:none}
 /* 🚨 The list has to live INSIDE the hero: .home-hero clips its children (it has to —
    the background photo is scaled 1.06 and would otherwise spill over the nav and push
-   out a horizontal scrollbar). So the list is capped to the room the hero actually
-   leaves below the bar, and the escape row is pinned to its foot — a guest who is not
-   on a cruise must never have to scroll past 144 ships to find her way out. */
+   out a horizontal scrollbar). Which side of the bar it can open on, and how tall it can
+   be, depend on where the bar sits inside that photo — and the photo grows when the price
+   card and the map appear under it. So draw() measures and sets `max-height` and the `up`
+   class; these rules only say what up and down look like. The escape row is pinned to the
+   foot either way: a guest who is not on a cruise must never have to scroll past 144
+   ships to find her way out. */
 .glass .g.open .shipdrop{display:block;position:absolute;z-index:40;left:6px;right:6px;top:100%;
-  margin-top:6px;max-height:238px;overflow-y:auto;background:#fff;border-radius:14px;
+  margin-top:6px;overflow-y:auto;background:#fff;border-radius:14px;
   border:1px solid var(--line);box-shadow:0 26px 60px -22px rgba(0,0,0,.6)}
+.glass .g.open.up .shipdrop{top:auto;bottom:100%;margin:0 0 6px;
+  box-shadow:0 -26px 60px -22px rgba(0,0,0,.6)}
 .shipdrop .sr.esc{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);
   box-shadow:0 -8px 16px -12px rgba(0,0,0,.5)}
 .shipdrop .sr{display:block;width:100%;text-align:left;border:none;background:none;cursor:pointer;
@@ -773,14 +778,10 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
 .gq .p{order:0}
 .gq .gbook{order:3}
 
-/* On a wide screen two things change. The capsule becomes one row pinned to the BOTTOM
-   edge of the photo, so there is no room under it inside the hero and the list opens
-   upward instead — where there is the whole height of the photo. And the ship field is
-   a narrow column, too narrow for a ship's name plus its line, so the list is allowed
-   to be wider than the field it hangs off. */
+/* On a wide screen the ship field is a narrow column of the capsule, too narrow for a
+   ship's name plus its line, so the list is allowed to be wider than the field. */
 @media(min-width:941px){
-  .glass .g.open .shipdrop{top:auto;bottom:100%;margin:0 0 6px;max-height:330px;
-    right:auto;min-width:330px;box-shadow:0 -26px 60px -22px rgba(0,0,0,.6)}
+  .glass .g.open .shipdrop{right:auto;min-width:330px}
 }
 </style>
 </head>
@@ -1630,6 +1631,22 @@ function barField(fldId, selId, txtId, shipId, dropId){
       + (hits.length ? '' : `<div class="none">No ship by that name. Check the spelling, or pick the last option.</div>`)
       + `<button class="sr esc" type="button" data-esc="1"><span class="n">Not on a cruise — I'm at a hotel</span><span class="c">Type your address instead</span></button>`;
     fld.classList.add('open');
+    fit();
+  }
+
+  /* 🚨 .home-hero clips its children, so the list has to fit inside the photo. Where the
+     bar sits in it moves — the photo grows when the price card and the map open under the
+     bar — so the side with more room wins, and the height is whatever that side has.
+     A media query cannot see any of this; it is the same page at the same width either
+     way. 330px is as tall as the list is ever allowed to be. */
+  function fit(){
+    const hero = fld.closest('.home-hero');
+    if (!hero) return;
+    const f = fld.getBoundingClientRect(), h = hero.getBoundingClientRect();
+    const below = h.bottom - f.bottom - 14, above = f.top - h.top - 14;
+    const up = above > below;
+    fld.classList.toggle('up', up);
+    drop.style.maxHeight = Math.max(120, Math.min(330, up ? above : below)) + 'px';
   }
   // The ship list arrives from its own fetch. If she is already typing when it lands,
   // repaint the open list rather than leaving her staring at an empty one.
