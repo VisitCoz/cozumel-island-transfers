@@ -8,4 +8,4 @@ Disallow: /.netlify/functions/
 # Design scratch — half-finished style studies, not pages anyone should land on.
 Disallow: /proto/
 
-Sitemap: https://cozumelislandtransfers.com/sitemap.xml
+Sitemap: https://cozumeltransfers.org/sitemap.xml

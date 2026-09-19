@@ -341,40 +341,30 @@ footer b{color:var(--navy)}
 
 </ol>
 
-<h2>Three things I could not fix from here</h2>
-<p class="lede">All three are decisions, not bugs. None of them stop the site going up, and none
-  of them touch a price.</p>
+<h2>One decision made, one thing still open</h2>
+<p class="lede">The three warnings that were here on 18 September are resolved: you decided the
+  first one, and the other two are built and on the branch. One smaller item is still open.
+  Nothing here touches a price.</p>
 
-<div class="card red">
-  <div class="t">🚨 The confirmation email will say the other brand's name</div>
-  <p>Bookings from the new site are emailed by the old site's webhook, and that email template
-    signs off <b>"Cozumel Island Transfers"</b> and links to the old domain. So a guest who books
-    on Cozumel Transfers gets a receipt from a company she has never heard of — which reads like
-    a scam to exactly the nervous first-time buyer this site is built for.</p>
-  <p>The fix is small and I have already laid the groundwork: every booking now carries a
-    <code>site</code> tag saying which brand sold it, so the email can pick the right name and
-    link. But that template lives on the live site's branch, so <b>changing it changes the live
-    site</b> — I won't touch that without you saying go. <b>Say the word and I'll do it before the
-    test booking.</b></p>
+<div class="card green">
+  <div class="t">✅ The confirmation email — decided: leave it exactly as it is</div>
+  <p>Your call: <b>"you can use the same."</b> The receipt a guest gets after booking on Cozumel
+    Transfers keeps the wording it has today, signed <b>Cozumel Island Transfers, S. de R.L. de
+    C.V.</b> — which is the real registered company behind both names, so it is accurate rather
+    than confusing.</p>
+  <p><b>Nothing was changed to do this</b>, which is the point: the template lives on the live
+    site's branch, and leaving it alone means the live site cannot be affected by the launch.</p>
 </div>
 
 <div class="card amber">
-  <div class="t">⚠️ Four supporting files still name the old site</div>
-  <p><code>llms.txt</code> (what AI assistants read), <code>sitemap.xml</code>,
-    <code>robots.txt</code> and the terms, privacy, 404 and meeting-point pages all still say
-    "Cozumel Island Transfers" and point at the old domain. They were outside what you asked me to
-    change, and two of them also hold the price list, which I was told to leave byte-for-byte
-    alone.</p>
-  <p>Nothing breaks — the pages load and the prices are right. But an AI assistant reading the new
-    site is told it is the old one. <b>Half an hour of work whenever you want it.</b></p>
-</div>
-
-<div class="card amber">
-  <div class="t">⚠️ The share card image still has the old logo on it</div>
-  <p>When someone shares the new site on WhatsApp, the preview picture is the one made for the
-    other brand, with its name burned into the image. Worth replacing before you push the new
-    address anywhere. Same for the TripAdvisor rating in the page's hidden data: it belongs to the
-    old listing, and Google may object to a review score attached to a different name.</p>
+  <div class="t">⚠️ The review score in the page's hidden data belongs to the old listing</div>
+  <p>The new page still carries a <b>4.8 from 35 reviews</b> in the invisible data Google reads.
+    That score was earned by the old listing under the old name. Google may object to a review
+    score shown against a different business name, and the penalty is the rich result — the stars
+    under your search listing — quietly disappearing.</p>
+  <p>Two ways out: drop the score from the new site until it has its own reviews, or keep the
+    listing and the name pointing at the same place. <b>Your call — tell me which and I'll do
+    it.</b></p>
 </div>
 
 <div class="done">
@@ -389,6 +379,20 @@ footer b{color:var(--navy)}
     <li><b>Not one price changed</b> in any of the eight places they live. Verified by diff.</li>
     <li>The two back-office jobs are deleted on this branch and the scheduled-job block is gone
       from the config — so nothing can fire twice.</li>
+    <li><b>The supporting files now say Cozumel Transfers.</b> <code>llms.txt</code> (what AI
+      assistants read), <code>sitemap.xml</code>, <code>robots.txt</code>, the terms, privacy and
+      404 pages and all four meeting-point pages carry the new name and the new address. The
+      price list inside <code>llms.txt</code> is <b>byte-for-byte untouched</b> — checked line by
+      line, not assumed.</li>
+    <li><b>New logo set.</b> The word "Island" is gone from the wordmark and the gap closed, in
+      the same typeface, the same two blues and the same proportions. The round C mark itself did
+      not change, so the favicon and the phone home-screen icon are exactly as they were.</li>
+    <li><b>New share card.</b> The WhatsApp and Facebook preview picture is rebuilt with the same
+      photograph, the same words and the same layout, carrying the new wordmark — every line
+      measured against the old card and landing within two pixels of it.</li>
+    <li>The company's <b>registered legal name and the <code>hello@</code> address are deliberately
+      unchanged</b> everywhere they appear. The name is the real entity, and the mailbox is a live
+      one — inventing an address on the new domain would bounce real guests.</li>
   </ul>
 </div>
 

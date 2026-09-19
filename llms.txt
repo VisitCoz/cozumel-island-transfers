@@ -1,16 +1,16 @@
-# Cozumel Island Transfers
+# Cozumel Transfers
 
 > Licensed private ground-transfer operator in Cozumel, Mexico. Family-run since 2015. Serves all three Cozumel cruise piers (Puerta Maya, SSA International Pier, Punta Langosta). **Cruise port only** — airport transfers were discontinued 2026-07-29. Flat per-vehicle prices in USD, booked and paid online by card. Free cancellation up to 24h before pickup.
 
 ## Pages
 
-- [Home and booking](https://cozumelislandtransfers.com/) — prices, destinations, FAQ, and the booking flow
-- [Where to meet us](https://cozumelislandtransfers.com/meet/) — which terminal, and today's ships
-- [Puerta Maya meeting point](https://cozumelislandtransfers.com/meet/puerta-maya.html) — photographed walking directions
-- [SSA International Pier meeting point](https://cozumelislandtransfers.com/meet/ssa-mexico.html)
-- [Punta Langosta meeting point](https://cozumelislandtransfers.com/meet/punta-langosta.html)
-- [Terms of use](https://cozumelislandtransfers.com/terms.html) — the authoritative cancellation and liability text
-- [Privacy policy](https://cozumelislandtransfers.com/privacy.html)
+- [Home and booking](https://cozumeltransfers.org/) — prices, destinations, FAQ, and the booking flow
+- [Where to meet us](https://cozumeltransfers.org/meet/) — which terminal, and today's ships
+- [Puerta Maya meeting point](https://cozumeltransfers.org/meet/puerta-maya.html) — photographed walking directions
+- [SSA International Pier meeting point](https://cozumeltransfers.org/meet/ssa-mexico.html)
+- [Punta Langosta meeting point](https://cozumeltransfers.org/meet/punta-langosta.html)
+- [Terms of use](https://cozumeltransfers.org/terms.html) — the authoritative cancellation and liability text
+- [Privacy policy](https://cozumeltransfers.org/privacy.html)
 
 ## Company
 
@@ -69,7 +69,7 @@ We publish an admission price, and take money for it, only where the rate is con
 
 ## Booking
 
-- **Direct:** https://cozumelislandtransfers.com/#book or WhatsApp +52 987 114 6853
+- **Direct:** https://cozumeltransfers.org/#book or WhatsApp +52 987 114 6853
 - **Payment:** card only, through Stripe Checkout, paid in full at booking. We do not accept cash.
 - **Booking cutoff:** online booking for a given day closes at **9 AM Cozumel time the day before**, because that is when the vans are assigned. Inside that window, message us on WhatsApp and we arrange it by hand.
 - **Viator:** also listed there. Booking direct is about 20% cheaper.
@@ -79,7 +79,7 @@ We publish an admission price, and take money for it, only where the rate is con
 - Free cancellation up to 24 hours before pickup — 100% back to the same card within five business days
 - Cruise reroute or port skip: full refund, no questions, no fees. You do not have to ask.
 - We monitor cruise itineraries daily
-- Full terms: https://cozumelislandtransfers.com/terms.html
+- Full terms: https://cozumeltransfers.org/terms.html
 
 ## Cruise piers served, and the walk
 

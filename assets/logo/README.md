@@ -1,4 +1,4 @@
-# Cozumel Island Transfers — brand mark
+# Cozumel Transfers — brand mark
 
 Chosen 19 Aug 2026 ("CIT Monogram"): the C drawn as a road, opening east toward the
 beaches, with the pickup dot at its centre.
