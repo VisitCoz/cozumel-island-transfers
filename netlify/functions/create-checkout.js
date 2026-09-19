@@ -127,10 +127,21 @@ exports.handler = async (event) => {
   // request. It used to read `b.returnUrl`, which meant anyone could POST a booking
   // with someone else's address and get a genuine Stripe Checkout page, on this
   // account, that handed the buyer off to their site the moment she paid.
-  const origin = `https://${event.headers.host}`;
+  //
+  // SITE_URL pins it to the site's real address. Two Netlify sites now deploy this
+  // repo, and each one also answers on its own *.netlify.app alias and on every deploy
+  // preview — without this, a booking that happened to start on an alias would send the
+  // guest back to that alias after paying, and she would land on a URL she has never
+  // seen. Unset, it falls back to the requesting host, which is what it always did.
+  const origin = (process.env.SITE_URL || `https://${event.headers.host}`).replace(/\/+$/, '');
 
   const meta = {
     booking_ref: ref,
+    // Which of the two sites sold this. Both brands run on one Stripe account and one
+    // webhook, so without this tag the manifest and the team email cannot tell a
+    // cozumeltransfers.org booking from a cozumelislandtransfers.com one — and the guest
+    // has to be met with the right board and answered in the right brand's voice.
+    site: origin.replace(/^https?:\/\//, ''),
     destination: b.destination,
     destination_name: destName,
     date: b.date,
