@@ -229,14 +229,19 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{overflow-x:hidden}
-body{margin:0;background:#DCE5ED;color:var(--ink);
+body{margin:0;background:#0B1E2E;color:var(--ink);
   font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
   line-height:1.55;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 button{font-family:inherit}
 
-.wrap{max-width:560px;margin:0 auto;background:var(--bg);min-height:100vh;
-  box-shadow:0 0 60px -20px rgba(0,0,0,.35);padding-bottom:74px}
+.wrap{max-width:560px;margin:0 auto;min-height:100vh}
+/* The white column now belongs to the two screens that still live in it. The homepage is
+   a full-bleed hero over a navy band, and painting the column white behind it left a 74px
+   white tail under the footer — the clearance the floating WhatsApp button needs, which
+   only the scrolling screens actually need. */
+#s-pay,#s-done{background:var(--bg);min-height:100vh;padding-bottom:74px;
+  box-shadow:0 0 60px -20px rgba(0,0,0,.35)}
 
 /* header */
 .topbar{display:flex;align-items:center;gap:10px;padding:13px 18px;background:var(--navy);color:#fff;
@@ -390,135 +395,27 @@ button{font-family:inherit}
 }
 
 
-.shipsbar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#0F2C44;color:#CFE4F5;
-  font-size:12.5px}
-.shipsbar b{color:#fff}
-/* Season discount strip. Green rather than the brand navy so it reads as a saving and not
-   as another piece of chrome, but muted enough that it doesn't shout at a nervous buyer.
-   Sits directly under the hero, above the cruise-line marquee. */
-.promo{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;
-  padding:11px 18px;background:#E7F4EC;color:#14532D;font-size:13.5px;text-align:center;
-  border-bottom:1px solid #C6E4D2}
-.promo b{font-weight:800}
-.promo-code{display:inline-block;background:#14532D;color:#fff;font-weight:800;letter-spacing:.06em;
-  padding:3px 9px;border-radius:6px;font-size:12.5px;user-select:all}
 /* Keeps the code and "at checkout" together, so a narrow phone breaks the line before the
    code rather than stranding "at checkout" on a line of its own. */
-.promo-nb{white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+
 /* Map pin + venue website on the destination screen. Outward links, so they get the
    same weight as a secondary action rather than competing with "See price & book". */
-.dlinks{display:flex;flex-wrap:wrap;gap:9px;padding:0 18px 4px}
-.dlinks a{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
-  color:var(--accent-pressed);text-decoration:none;border:1px solid var(--line);
-  border-radius:999px;padding:7px 13px;background:#fff}
-.dlinks a:hover{background:var(--surface)}
+
 /* scrolling brand strip — sits on the hero's own navy so it reads as the base of the
    hero, not a fourth band. Two identical tracks translated -50% means the loop never
    shows a seam. Names set in type, deliberately not logos: a logo row is the grammar of
    partnership, and these lines' guests are our customers, not the lines themselves. */
-.marquee{background:#0F2C44;padding:8px 0 11px;overflow:hidden}
-.mq-t{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.42);text-align:center;margin-bottom:7px}
-.mq-win{overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.mq-track{display:flex;width:max-content;animation:mq 34s linear infinite}
-.mq-win:hover .mq-track,.mq-win:focus-within .mq-track{animation-play-state:paused}
-.mq-set{display:flex;flex:0 0 auto}
-.mq-set span{padding:0 20px;font-size:14.5px;font-weight:700;letter-spacing:.02em;
-  color:rgba(255,255,255,.62);white-space:nowrap}
-@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){
-  .mq-track{animation:none}
-  .mq-win{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scrollbar-width:none}
-  .mq-win::-webkit-scrollbar{display:none}
-}
 
-/* pricing list */
-.pricelist{margin:6px 18px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.prow{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line-soft)}
-.prow:last-child{border-bottom:none}
-.prow.pop{background:var(--card-green)}
-.prow .pn{font-size:14.5px;font-weight:700;color:var(--navy)}
-.prow .pp{font-size:12px;color:var(--mute)}
-.prow .pv{margin-left:auto;font-size:19px;font-weight:800;color:var(--navy);white-space:nowrap;text-align:right}
-.prow .ppp{display:block;font-size:11.5px;font-weight:700;color:var(--success-deep);margin-top:1px}
-.prow .tag{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--success-deep);display:block}
 
-.vsbox{margin:14px 18px 0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px}
-.vsbox .vs-t{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
-  margin-bottom:9px}
-.vs-row{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:9px 0;color:#45607C;
-  border-bottom:1px solid var(--line);align-items:flex-start}
-.vs-row:last-of-type{border-bottom:none}
-.vs-row b{color:var(--navy);text-align:right;white-space:nowrap}
-.vs-row.vs-us{background:var(--card-green);margin:0 -16px;padding:11px 16px;border-radius:10px;border-bottom:none}
-.vs-row b.vs-us{color:var(--success-deep);background:none;margin:0;padding:0}
-.vs-n{font-weight:500;font-size:12px;color:var(--mute);white-space:normal;display:inline-block}
-.vsbox p{margin:9px 0 0;font-size:12.5px;color:var(--mute);line-height:1.5}
 
-/* The "happy-guest photo strip" styles went with the section — see the note in the
-   markup. Restore from git when the six photographs exist. */
 
-/* reviews */
-.revs{display:flex;gap:12px;padding:6px 18px 4px;overflow-x:auto;scroll-snap-type:x mandatory;
-  scrollbar-width:none}
-.revs::-webkit-scrollbar{display:none}
-.rev{flex:0 0 84%;scroll-snap-align:center;background:#fff;border:1px solid var(--line);border-radius:14px;
-  padding:15px 16px;box-shadow:var(--shadow)}
-.rev .rv-s{color:#F0A500;font-size:13px;letter-spacing:.08em}
-.rev .rv-h{font-size:14.5px;font-weight:800;color:var(--navy);margin:4px 0 5px}
-.rev p{margin:0;font-size:13px;color:#33404F}
-.rev .rv-w{margin-top:9px;font-size:11.5px;color:var(--mute-2);font-weight:600}
 
-/* faq */
-.faq{border-bottom:1px solid var(--line-soft);margin:0 18px}
-.faq:last-child{border-bottom:none}
-.faq>summary{list-style:none;cursor:pointer;padding:15px 0;font-size:14px;font-weight:700;
-  color:var(--navy);display:flex;gap:10px;align-items:flex-start;min-height:52px}
-.faq>summary::-webkit-details-marker{display:none}
-.faq>summary .fa{margin-left:auto;color:var(--accent);font-weight:800;flex:0 0 14px;text-align:right}
-.faq[open]>summary .fa{transform:rotate(45deg)}
-.faq p{margin:0 0 15px;font-size:13.5px;color:#45607C}
 
-/* poster grid */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px}
-.poster{border:none;background:none;padding:0;text-align:left;cursor:pointer;display:flex;flex-direction:column}
-.poster-img{position:relative;aspect-ratio:4/3;border-radius:13px;overflow:hidden;background:#0F2C44;
-  box-shadow:0 10px 22px -13px rgba(0,0,0,.6);transition:transform .12s}
-.poster:active .poster-img{transform:scale(.98)}
-.poster-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.poster-img .pl{position:absolute;left:7px;bottom:7px;z-index:2;font-size:9px;letter-spacing:.07em;
-  text-transform:uppercase;background:rgba(6,20,32,.62);color:#fff;padding:3px 7px;border-radius:5px;font-weight:700}
-.poster-meta{padding:9px 2px 0;display:flex;flex-direction:column;min-height:76px}
-.poster-meta h3{margin:0 0 4px;font-size:14px;line-height:1.24;color:var(--navy);font-weight:700}
-.poster-meta .dur{font-size:11.5px;color:var(--mute)}
 .poster-meta .go{margin-top:auto;padding-top:7px;font-size:12.5px;font-weight:800;color:var(--accent)}
-.poster.other .poster-img{background:linear-gradient(140deg,#1D7AFC,#0F2C44);display:grid;place-items:center;
-  color:#fff;font-size:34px}
 
-/* destination page */
-.hero{position:relative;aspect-ratio:16/10;background:#0F2C44;display:flex;align-items:flex-end;overflow:hidden}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero .ht{position:relative;z-index:2;width:100%;padding:18px 20px;
-  background:linear-gradient(0deg,rgba(6,20,32,.82),rgba(6,20,32,0));color:#fff}
-.hero .ht .k{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
-.hero .ht h1,.hero .ht h2{margin:5px 0 0;font-size:24px;font-weight:800;line-height:1.14;letter-spacing:-.02em}
-.metarow{display:flex;gap:8px;padding:13px 18px 4px;flex-wrap:wrap}
-.mpill{font-size:12px;font-weight:600;color:var(--navy);background:var(--surface);border:1px solid var(--line);
-  border-radius:999px;padding:6px 12px}
-.blurb{padding:10px 18px 4px;font-size:14.5px;color:#33404F}
+
 .sechead{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
   padding:22px 18px 8px}
-
-ol.steps{margin:0;padding:0 18px;list-style:none;counter-reset:s}
-ol.steps li{counter-increment:s;position:relative;padding:11px 0 11px 40px;font-size:14px;color:#33404F;
-  border-bottom:1px solid var(--line-soft)}
-ol.steps li:last-child{border-bottom:none}
-ol.steps li b{color:var(--navy)}
-ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:26px;height:26px;border-radius:50%;
-  background:var(--navy);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
 
 .signbox{margin:14px 18px;background:var(--card-green);border:1px solid #B9E0C6;border-radius:13px;padding:14px 16px}
 .signbox .st{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--success-deep)}
@@ -526,15 +423,6 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .signcard{margin-top:11px;background:#fff;border:1px dashed #9FCBAE;border-radius:10px;padding:14px;text-align:center}
 .signcard .sl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
 .signcard .sn{font-size:19px;font-weight:800;color:var(--navy);margin-top:3px}
-
-.incl{margin:8px 18px 4px;border:1px solid var(--line);border-radius:13px;overflow:hidden}
-.incl .ir{display:flex;gap:10px;padding:11px 14px;font-size:13.5px;border-bottom:1px solid var(--line-soft)}
-.incl .ir:last-child{border-bottom:none}
-.incl .ir .ic{flex:0 0 18px;font-weight:800}
-.incl .yes .ic{color:var(--success-deep)}
-.incl .no{background:#FFFBF2}
-.incl .no .ic{color:var(--warn)}
-.incl .ir b{color:var(--navy)}
 
 .cta-wrap{padding:18px 18px 26px}
 .btn{display:block;width:100%;border:none;border-radius:13px;padding:17px 18px;font-size:16px;font-weight:800;
@@ -545,45 +433,21 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .btn-wa{background:var(--success-deep);color:#fff;margin-top:10px}
 .btn[disabled]{opacity:.4;pointer-events:none}
 
-/* booking steps */
-.stepbar{display:flex;gap:6px;padding:14px 18px 0}
-.sdot{flex:1;height:4px;border-radius:99px;background:var(--line)}
+
 .sdot.on{background:var(--accent)}
 .qhead{padding:16px 18px 2px}
 .qhead .qk{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
 .qhead h2{margin:6px 0 4px;font-size:23px;font-weight:800;color:var(--navy);letter-spacing:-.02em;line-height:1.18}
 .qhead p{margin:0;font-size:13.5px;color:var(--mute)}
 
-.stepper{display:flex;align-items:center;justify-content:center;gap:20px;padding:22px 18px 6px}
-.stepper button{width:66px;height:66px;border-radius:50%;border:2px solid var(--line);background:#fff;
-  font-size:32px;font-weight:700;color:var(--navy);cursor:pointer;line-height:1}
-.stepper button:active{background:var(--surface)}
-.stepper .cnt{min-width:96px;text-align:center}
 .stepper .cnt .n{font-size:52px;font-weight:800;color:var(--navy);line-height:1;letter-spacing:-.03em}
 .stepper .cnt .l{font-size:12px;color:var(--mute);font-weight:600;margin-top:2px}
-.quickpax{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:8px 18px 0}
-.quickpax button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:11px 16px;font-size:13px;
-  font-weight:700;color:var(--navy);cursor:pointer;min-height:46px}
+
 .quickpax button.on{border-color:var(--accent);background:var(--card-blue);color:var(--accent-pressed)}
 
-.vehcard{margin:18px 18px 0;background:var(--card-blue);border:1px solid #C7DAF5;border-radius:14px;padding:16px}
-.vehcard .vt{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-pressed)}
-.vehcard .vn{font-size:19px;font-weight:800;color:var(--navy);margin-top:3px}
-.vehcard .vs{font-size:13px;color:#45607C;margin-top:1px}
-.vehcard .vp{font-size:31px;font-weight:800;color:var(--navy);margin-top:9px;letter-spacing:-.02em}
-.vehcard .vp small{display:block;font-size:13px;font-weight:600;color:var(--mute);letter-spacing:0;margin-top:2px}
-.vehcard .vnote{font-size:12.5px;color:#45607C;margin-top:6px}
-
-.addon{margin:12px 18px 0;border:1.5px solid var(--line);border-radius:14px;padding:14px 15px;display:flex;gap:12px;
-  align-items:flex-start;cursor:pointer;background:#fff}
 .addon.on{border-color:var(--success-deep);background:var(--card-green)}
-.addon .box{flex:0 0 24px;height:24px;border-radius:7px;border:2px solid var(--mute-2);display:grid;place-items:center;
-  color:#fff;font-size:14px;font-weight:800;margin-top:1px}
+
 .addon.on .box{background:var(--success-deep);border-color:var(--success-deep)}
-.addon .ab{flex:1}
-.addon .at{font-size:14px;font-weight:700;color:var(--navy)}
-.addon .ad{font-size:12.5px;color:var(--mute);margin-top:2px}
-.addon .ap{font-weight:800;color:var(--navy);font-size:14px;white-space:nowrap}
 
 .total{margin:16px 18px 0;border-top:2px solid var(--navy);padding-top:12px}
 .total .tr{display:flex;justify-content:space-between;font-size:13.5px;color:#45607C;padding:3px 0}
@@ -610,29 +474,8 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .tznote{margin:12px 18px 0;background:var(--card-blue);border:1px solid #C7DAF5;border-radius:13px;
   padding:13px 15px;font-size:13px;color:#1D3B57}
 .tznote b{color:var(--navy)}
-.warnbox{margin:14px 18px 0;background:#FFF7E8;border:1px solid #F5D9A0;border-radius:13px;padding:14px 15px}
-.warnbox .wt{font-size:14px;font-weight:800;color:#8A5A00}
-.warnbox p{margin:5px 0 0;font-size:13px;color:#6B4A08}
-.okbox{display:flex;gap:11px;align-items:flex-start;margin-top:13px;padding-top:12px;
-  border-top:1px dashed #E2C898;font-size:12.5px;color:#6B4A08;cursor:pointer;min-height:44px}
-.okbox input{flex:0 0 22px;width:22px;height:22px;margin:0}
-.okbox b{color:#5A3D06}
-.demolink{background:none;border:none;color:var(--accent);font-size:12.5px;font-weight:700;padding:14px 18px 4px;
-  cursor:pointer;text-decoration:underline;min-height:48px;text-align:left}
 
-.shiplist{padding:6px 18px 0}
-.shipopt{display:flex;align-items:center;gap:12px;width:100%;border:1.5px solid var(--line);background:#fff;
-  border-radius:13px;padding:14px;margin-top:9px;cursor:pointer;text-align:left;min-height:60px}
 .shipopt.on{border-color:var(--accent);background:var(--card-blue)}
-.shipopt .sname{font-size:14.5px;font-weight:700;color:var(--navy)}
-.shipopt .spier{font-size:12px;color:var(--mute)}
-.shipopt .stime{margin-left:auto;font-size:12px;color:var(--mute);text-align:right;white-space:nowrap}
-
-.autofill{margin:14px 18px 0;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 15px}
-.autofill .af{display:flex;justify-content:space-between;font-size:13.5px;padding:4px 0;color:#45607C}
-.autofill .af b{color:var(--navy)}
-.autofill .aftitle{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);
-  margin-bottom:5px}
 
 /* pay */
 .handoff{margin:16px 18px 0;background:var(--card-blue);border:1px solid #C7DAF5;
@@ -659,8 +502,6 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .nextlist li:last-child{border-bottom:none}
 .nextlist .e{flex:0 0 22px;font-size:16px}
 
-
-
 footer{padding:22px 20px 40px;text-align:center;color:var(--mute);font-size:11.5px;border-top:1px solid var(--line);
   margin-top:20px}
 footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
@@ -669,7 +510,7 @@ footer .fb{font-weight:800;color:var(--navy);letter-spacing:.02em}
    Rhythm is strict: 4px between a line and its explanation, 28px between groups.
    Tap targets get their height from min-height, never from padding, so the
    optical spacing stays even. */
-footer{background:#0F2C44;padding:34px 18px 42px;text-align:left;margin-top:20px;border-top:none;
+footer{background:#0B1E2E;padding:34px 18px 42px;text-align:left;margin-top:0;border-top:1px solid rgba(255,255,255,.14);
   -webkit-font-smoothing:antialiased}
 footer,footer *{font-family:Inter,-apple-system,sans-serif;font-size:15px;line-height:23px;
   font-weight:400;letter-spacing:-.15px;color:#A4AFB8}
@@ -699,10 +540,39 @@ footer p{margin:0;max-width:34em}
 .screen.on{display:block;animation:fade .18s ease}
 @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
+/* ── below the hero: the one section Option 3 keeps (proto/ab-3-glass-line.html) ──
+   Navy, full-bleed on desktop by the same trick the hero uses, so the page reads as one
+   piece rather than a dark card floating in the 560px column. The footer below it shares
+   the colour, which is what makes the two of them look like one base. */
+.below{background:#0B1E2E;color:#fff;padding:40px 18px 44px}
+.below .sechead{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin:0 0 18px;padding:0}
+.ladder{display:flex;flex-wrap:wrap;gap:1px;background:rgba(255,255,255,.14);
+  border-radius:16px;overflow:hidden}
+.ladder .li{flex:1 1 180px;background:#0F2C44;padding:18px 20px}
+.ladder .li .n{font-size:13.5px;font-weight:700;color:#CFE4F5}
+.ladder .li .s{font-size:12px;color:rgba(255,255,255,.5)}
+.ladder .li .p{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:8px}
+.ladder .li .e{font-size:12px;font-weight:700;color:#8FE3AE}
+/* The footer shares the band's colour and its break-out, so below the hero the page is
+   one navy field with a rule across it — the mockup's shape. Without the break-out the
+   footer stayed trapped in the 560px column with the full-width band above it, which
+   read as a bug rather than a layout. */
+@media(min-width:941px){
+  .below,footer{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+  .below{padding:56px clamp(16px,4vw,48px)}
+  footer{padding:34px clamp(16px,4vw,48px) 52px}
+  .below > *,footer > *{max-width:1060px;margin-left:auto;margin-right:auto}
+}
+/* The one field on the form that may be left blank, said on the label as well as in the
+   hint — it used to be a screen with a Continue button she could not pass without it. */
+.field label .opt{display:inline-block;margin-left:7px;padding:2px 7px;vertical-align:1px;
+  font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mute);background:var(--surface);border:1px solid var(--line);border-radius:999px}
 
 /* ── Floating WhatsApp button ──
    WhatsApp was already reachable from seven places on this page, but every one of them
-   is somewhere she has to already be: the footer, the FAQ, a dead end in the wizard. This
+   is somewhere she has to already be: the footer, or a dead end in the form. This
    is the one that follows her. It reuses waHref() so the pre-filled message stays consistent
    with every other entry point — the person answering always knows which business it is.
    Deliberately says nothing about response time: the office is 9-5, not 24/7. */
@@ -720,38 +590,12 @@ footer p{margin:0;max-width:34em}
 }
 @media(prefers-reduced-motion:reduce){ .wa-fab{transition:none} }
 
-/* Proof photo: the representative and the board. Sits directly above the reviews because it is
-   the same argument made a different way - somebody real will be there. Capped height so a
-   portrait phone photo cannot push the reviews off the first screen. */
-figure.proof{margin:0;padding:0 18px 6px}
-figure.proof img{width:100%;max-height:440px;object-fit:cover;object-position:center 38%;
-  border-radius:12px;display:block}
+
 figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--muted,#5B6B79);
   padding:8px 2px 0;line-height:1.5}
 
-/* Real-guest photo strip. Swipeable on a phone, same mechanic as the reviews row below it. */
-.photo-strip{display:flex;gap:10px;padding:4px 18px 6px;overflow-x:auto;
-  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.photo-strip::-webkit-scrollbar{display:none}
-.photo-strip figure{flex:0 0 78vw;max-width:300px;margin:0;scroll-snap-align:start}
-.photo-strip img{width:100%;height:210px;object-fit:cover;border-radius:12px;display:block;
-  background:#e8eef2}
-@media(min-width:700px){ .photo-strip figure{flex:0 0 300px} .photo-strip img{height:220px} }
 
 
-/* Tierra Maya card, four photos crossfading. 16s cycle, 4s each: slow enough to read as a place
-   rather than a slideshow, and it never moves while she is deciding. Honoured only when the
-   visitor has not asked for reduced motion. */
-.poster-img.rotate img{opacity:0;animation:tmFade 16s linear infinite}
-.poster-img.rotate img:nth-of-type(1){animation-delay:0s}
-.poster-img.rotate img:nth-of-type(2){animation-delay:4s}
-.poster-img.rotate img:nth-of-type(3){animation-delay:8s}
-.poster-img.rotate img:nth-of-type(4){animation-delay:12s}
-@keyframes tmFade{0%{opacity:0}3%{opacity:1}25%{opacity:1}28%{opacity:0}100%{opacity:0}}
-@media(prefers-reduced-motion:reduce){
-  .poster-img.rotate img{animation:none;opacity:0}
-  .poster-img.rotate img:nth-of-type(1){opacity:1}
-}
 </style>
 </head>
 <body>
@@ -818,403 +662,27 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
     </div>
   </div>
 
-  <!-- The season discount. This is what makes the "Add promotion code" box on Stripe an
-       asset rather than a leak: she arrives at checkout already holding the code, so the
-       box is a reason to book instead of a reason to leave and go hunting.
-       ⚠️ The code here must match a LIVE coupon in Stripe. If the coupon is retired or
-       renamed, change it here the same day — an advertised code that fails at checkout
-       costs more than no discount at all. -->
-  <div class="promo">
-    <b>Save 10%</b> — enter code
-    <span class="promo-nb"><span class="promo-code">COZUMEL10</span> at checkout</span>
-  </div>
 
-  <div class="marquee" aria-label="Guests we've picked up from Carnival, Royal Caribbean, Norwegian, Celebrity, MSC, Disney, Princess, Holland America, TUI Cruises, Virgin Voyages">
-    <div class="mq-t">Guests we've picked up from</div>
-    <div class="mq-win">
-      <div class="mq-track">
-        <div class="mq-set" aria-hidden="false"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
-        <div class="mq-set" aria-hidden="true"><span>Carnival</span><span>Royal Caribbean</span><span>Norwegian</span><span>Celebrity</span><span>MSC</span><span>Disney</span><span>Princess</span><span>Holland America</span><span>TUI Cruises</span><span>Virgin Voyages</span></div>
-      </div>
-    </div>
-  </div>
+  <!-- ═══ the one section below the hero (Option 3 — proto/ab-3-glass-line.html) ═══
+       Everything else that used to live here — the discount strip, the cruise-line
+       marquee, the destination grid, the guest photos, the four-way comparison, How it
+       works, the reviews, Who we are and the thirteen-question FAQ — was removed on
+       2026-09-19. The whole job of this page is bar → price → form → Stripe, and each
+       of those blocks was a scroll between the buyer and the button.
 
-
-  <!-- Destinations — first thing the buyer can actually act on, kept above the fold.
-       id="book" is here because llms.txt sends AI assistants to /#book, and until
-       2026-08-07 no such anchor existed, so every AI-sourced booking link dumped the
-       guest at the top of the page instead of at the thing she came to use. -->
-  <div id="book"></div>
-
-  <div class="sechead" id="homeDest">Where do you need to go?</div>
-    <div class="grid" id="hubGrid">
-    <button class="poster" onclick="openDest('tierra-maya')">
-      <!-- Four photos, crossfading. Tierra Maya is the destination we own and the only one with a
-           real archive, so the card shows the place as a visit rather than as a single frame: the
-           group under the sign, the cacao tables, the guide, the face paint. Pure CSS - no script,
-           no library, and it costs four lazy images the browser fetches when the card scrolls in. -->
-      <div class="poster-img rotate">
-        <img src="/.netlify/images?url=/assets/photos/tm-1.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="A group of guests with their guide under the carved Tierra Maya sign" loading="lazy" decoding="async">
-        <img src="/.netlify/images?url=/assets/photos/tm-2.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Guests grinding cacao on stone at Tierra Maya" loading="lazy" decoding="async" aria-hidden="true">
-        <img src="/.netlify/images?url=/assets/photos/tm-3.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" loading="lazy" decoding="async" aria-hidden="true">
-        <img src="/.netlify/images?url=/assets/photos/tm-4.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" loading="lazy" decoding="async" aria-hidden="true">
-        <span class="pl">Mayan Preserve</span></div>
-      <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('kuza')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-kuza-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="KUZÁ Park, Cozumel" loading="lazy"><span class="pl">Theme Park · Beach</span></div>
-      <div class="poster-meta"><h3>KUZÁ</h3><div class="dur">20 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('san-gervasio')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-san-gervasio-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="San Gervasio Mayan Ruins, Cozumel" loading="lazy"><span class="pl">Archaeological Site</span></div>
-      <div class="poster-meta"><h3>San Gervasio</h3><div class="dur">20–25 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('chankanaab')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-chankanaab-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Chankanaab National Park, Cozumel" loading="lazy"><span class="pl">National Marine Park</span></div>
-      <div class="poster-meta"><h3>Chankanaab</h3><div class="dur">10–15 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('bucanos')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-bucanos-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Buccanos at Night · Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club · Wine Bar</span></div>
-      <div class="poster-meta"><h3>Buccanos</h3><div class="dur">10 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('paradise-beach')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-paradise-beach-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Paradise Beach, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
-      <div class="poster-meta"><h3>Paradise Beach</h3><div class="dur">15 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('mr-sanchos')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-mr-sanchos-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Mr. Sanchos Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
-      <div class="poster-meta"><h3>Mr. Sanchos</h3><div class="dur">15–20 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('nachi-cocom')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-nachi-cocom-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Nachi Cocom Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
-      <div class="poster-meta"><h3>Nachi Cocom</h3><div class="dur">20–25 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <!-- Twin of IMG() in DEST — change both together. No distance on any card, so nothing
-         to strip here. -->
-    <button class="poster" onclick="openDest('marina')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-marina-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Boats docked at Marina Cozumel ASIPONA, with the cruise piers beyond" loading="lazy"><span class="pl">Marina</span></div>
-      <div class="poster-meta"><h3>Marina Cozumel</h3><div class="dur">15 min from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-    <button class="poster" onclick="openDest('somewhere-else')">
-      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-paradise-beach-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Somewhere else on the island, Cozumel" loading="lazy"><span class="pl">Tell us where</span></div>
-      <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Varies from the pier</div>
-      <div class="go">View &amp; book →</div></div>
-    </button>
-  </div>
-
-  <!-- ── Happy guests ──
-       Named "Happy guests", not "Real pickups, real guests". The earlier heading protested too
-       much: insisting a thing is real is what people do when it is not, and a stranger reads the
-       denial before the claim. The photographs are the evidence; the heading only has to point.
-       Until today this page argued entirely in words: a private van, a person with a sign, one
-       flat price. It showed vans with nobody in them. These are real pickups and real customers,
-       which is the only evidence a stranger on ship wifi can actually check.
-
-       A horizontal strip rather than a grid, on purpose. A grid of eight means eight downloads and
-       a very long scroll on a phone. This shows about 1.2 photos at a time — the half-visible one
-       is what tells her to swipe — and only fetches what she reaches.
-
-       Every image is srcset across four widths, so a phone pulls a 400px file where a desktop pulls
-       1280px. width/height are the NATIVE ratios so the row cannot jump while loading; layout shift
-       on the way to a booking form is how you lose the booking. -->
-  <div class="sechead">Happy guests</div>
-  <p class="blurb" style="padding-top:0">Families we drove this season, on the island.</p>
-  <div class="photo-strip" id="photoStrip">
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1200" loading="eager" decoding="async"
-             alt="Guests climbing into a Cozumel Transfers van on the street">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1200" height="1600" loading="lazy" decoding="async"
-             alt="A full van of guests with their driver, three generations aboard, on the way to the beach">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1400" height="1000" loading="lazy" decoding="async"
-             alt="Three generations and a baby seated in a Cozumel Transfers van, plenty of room between the seats">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1067" loading="lazy" decoding="async"
-             alt="Eight friends in their twenties filling a private transfer van, doors open at the pier">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1067" loading="lazy" decoding="async"
-             alt="A family of eight, grandparents to small children, in one private van">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="993" loading="lazy" decoding="async"
-             alt="Our driver with a family of five and a baby in a stroller beside the van">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1200" loading="lazy" decoding="async"
-             alt="Six guests of three generations seated inside the van on the way to the beach">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1115" loading="lazy" decoding="async"
-             alt="A family of five at the Mexican flag on Cozumel's windward coast">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/cozumel-letters-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1035" loading="lazy" decoding="async"
-             alt="A family at the painted COZUMEL letters on the beach">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/waterfront-arch-ship.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1190" loading="lazy" decoding="async"
-             alt="Four guests at the bronze arch on the waterfront with a cruise ship behind">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-ice-cream.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1200" loading="lazy" decoding="async"
-             alt="Eight guests laughing with ice creams in a local Cozumel shop">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/tierra-maya-workshop.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1282" loading="lazy" decoding="async"
-             alt="Guests grinding cacao on volcanic stone under papel picado at Tierra Maya">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/fruit-stand-guests.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1200" loading="lazy" decoding="async"
-             alt="Five guests at a roadside fruit stand with watermelon and pitaya">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/punta-sur-signpost.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1429" loading="lazy" decoding="async"
-             alt="A family at the Punta Sur signpost, the last point of Mexico">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/tierra-maya-cacao.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1600" height="1391" loading="lazy" decoding="async"
-             alt="Guests grinding cacao by hand at long stone tables under a palapa">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/guests-boarding-street.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-boarding-street.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-boarding-street.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-boarding-street.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-boarding-street.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1585" height="1600" loading="lazy" decoding="async"
-             alt="Guests stepping up into a private transfer van on a Cozumel street">
-      </figure>
-      <figure>
-        <img src="/.netlify/images?url=/assets/photos/cacao-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/cacao-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/cacao-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/cacao-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/cacao-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
-             sizes="(max-width: 560px) 78vw, 300px"
-             width="1084" height="1600" loading="lazy" decoding="async"
-             alt="A family grinding cacao by hand with a Maya cook under a palapa">
-      </figure>
-  </div>
-
-
-  <!-- Pricing -->
-  <div class="sechead" id="homePrice">One price, by vehicle</div>
-  <p class="blurb" style="padding-top:0">Not per person. Not by distance. The same flat rate to
-     anywhere on the island — and you pay it once, online.</p>
-  <!-- ⚠️ SERVER-RENDERED ON PURPOSE, AND DUPLICATED. This markup used to be built by
-     JavaScript into an empty div, which meant Google and ChatGPT could not see a
-     single destination name or four of the five prices. It is written out here so
-     it survives being read without scripts.
-     The trade is real: these values now exist in TWO places. If you change a price
-     or a destination you must change BOTH — the list below, and the VEH / DEST
-     data further down this file. Prices also appear in the Offer schema in <head>
-     and in netlify/functions/_cit.js, which is what actually charges the card. -->
-  <div class="pricelist" id="priceList">
-    <div class="prow">
-      <div><div class="pn">Private van</div><div class="pp">up to 6 people</div></div>
-      <div class="pv">$250<span class="ppp">$42 each with 6</span></div>
-    </div>
-    <div class="prow pop">
-      <div><div class="pn">Large private van</div><div class="pp">up to 14 people</div>
-        <span class="tag">Most booked</span></div>
-      <div class="pv">$425<span class="ppp">$30 each with 14</span></div>
-    </div>
-    <div class="prow">
-      <div><div class="pn">Extra-large van</div><div class="pp">up to 18 people</div></div>
-      <div class="pv">$549<span class="ppp">$31 each with 18</span></div>
-    </div>
-    <div class="prow">
-      <div><div class="pn">Mini coach</div><div class="pp">up to 20 people</div></div>
-      <div class="pv">$609<span class="ppp">$30 each with 20</span></div>
-    </div>
-    <div class="prow">
-      <div><div class="pn">Private bus</div><div class="pp">up to 40 people</div></div>
-      <div class="pv">$899<span class="ppp">$22 each with 40</span></div>
-    </div>
-  </div>
-  <div class="vsbox">
-    <div class="vs-t">Your four options for getting there</div>
-    <div class="vs-row vs-us"><span><b>Our van, booked direct</b><br><span class="vs-n">Your group only. You pick the times.</span></span><b class="vs-us">$42 each<br><span class="vs-n">6 people · $250 the van</span></b></div>
-    <div class="vs-row"><span><b>A tour from the ship</b><br><span class="vs-n">The ride comes with the tour — their route, their schedule.</span></span><b>up to $80 each</b></div>
-    <!-- This row used to deny that taxis have a set fare, and printed a ? where its price goes.
-         Both were disprovable in one click: Paradise Beach's own booking page, with 3,779
-         reviews, publishes the real figure — about US$16 each way per car for up to four.
-         Never quote a rival's cost as unknown when a bigger listing publishes it. Compete on
-         what a taxi genuinely cannot do instead: hold the return. -->
-    <div class="vs-row"><span><b>The taxi line</b><br><span class="vs-n">About $16 each way for up to four, cash. Nobody holds your ride home — you queue again, and the line is longest when the ship is boarding.</span></span><b>from $32<br><span class="vs-n">round trip, one car</span></b></div>
-    <div class="vs-row"><span><b>Same transfer on Viator</b></span><b>~$469 the van</b></div>
-    <p>The ship's excursion desk doesn't sell transfers on their own — the ride is bundled into a tour,
-       so you go where the tour goes, when it goes. Booking our van direct is also about <b>20% less</b>
-       than the same transfer on Viator, because you're not paying a booking site's markup.</p>
-  </div>
-
-  <!-- How it works -->
-  <div class="sechead">How it works</div>
-  <ol class="steps" style="padding-bottom:6px">
-    <li><b>Book online.</b> Pick your destination, group size, and times. Pay by card — that's it.</li>
-    <!-- "a few steps from all three piers" was the wording until 2026-08-07, replaced then by
-         the measured times: 5-7 min at Puerta Maya, ~7 at the International Pier, 3-5 at Punta
-         Langosta, past vendors and across a street.
-         🚨 2026-08-11: ALL of them now say "about 10 minutes", everywhere — here, the meet
-         pages, llms.txt and the Viator listings. Mike's call, and it is a deliberate safety
-         margin, NOT a measurement. Do not "correct" it back to the stopwatch numbers.
-         The reasoning: a guest who arrives early is comfortable, one who arrives late has
-         missed her ship. Under-promise the walk on every surface, and keep them identical —
-         two channels quoting different numbers is how the 70-year-old finds out in the heat
-         that one of them was wrong. The derived figure follows: be with us 15 minutes early,
-         so leave the ship about 25. -->
-    <li><b>We meet you at the pier.</b> Our representative is at our meeting point, a
-        <b>10 minute walk</b> from the ship, holding a sign with your name. The board reads
-        <b>Visit Cozumel Shuttles &amp; Tours</b> &mdash; the same family company, so look for that and your name.
-        <a href="/meet/" style="color:var(--accent-pressed);font-weight:600">See the walk from your pier →</a></li>
-    <li><b>We come back at your time.</b> Your driver returns to the same spot you were dropped at.</li>
-  </ol>
-  <div class="tznote" style="margin-bottom:6px">
-    Your driver drops you off and comes back at the time you chose — that return time is locked in
-    when you book. He isn't parked outside all day, which is what keeps the price flat instead of hourly.
-    <b>We follow the port authority's arrival feed, and one of our team checks it again before every
-    pickup</b> — so a late arrival never costs you the transfer.
-  </div>
-
-  <!-- "Real guests, real days" lived here and rendered six grey tiles reading
-       "▦ photo needed", each printing Angel's internal shot brief to the public —
-       directly under a line promising these were not stock photos. Cut until the
-       photographs exist. The shot list is kept with the script below so it isn't
-       lost; put the section back the day the six frames land. -->
-
-  <p class="hint" style="padding:2px 18px 0">Swipe →</p>
-
-  <!-- Reviews -->
-  <!-- Until 2026-08-18 this site promised eleven times that a person would be standing at the
-       pier with a board, and never once showed it. This is that person, at Punta Langosta, on a
-       real pickup. The guest's name is blurred - she did not agree to appear here. The company
-       name is left readable on purpose, because it is not the one she booked. -->
-  <figure class="proof">
-    <img src="/.netlify/images?url=/assets/rep-with-board.jpg&amp;w=1400&amp;fm=webp&amp;q=72"
-         width="1600" height="1200" loading="lazy"
-         alt="A Cozumel Transfers representative at Punta Langosta holding a Visit Cozumel Shuttles and Tours board with a guest name">
-    <figcaption>This is who meets you, and this is the board. Guests' names are blurred here &mdash;
-      yours is not, on the day.</figcaption>
-  </figure>
-
-  <div class="sechead">What guests say</div>
-  <p class="blurb" style="padding-top:0">🏆 Travelers' Choice on TripAdvisor. <b>4.8★ from 35
-     verified reviews</b> · since 2015.
-     <a href="https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
-        target="_blank" rel="noopener"
-        style="color:var(--accent);font-weight:700;display:inline-block;padding:11px 0">Read all 35 on
-        TripAdvisor →</a></p>
-  <div class="revs">
-    <div class="rev">
-      <div class="rv-s">★★★★★</div>
-      <div class="rv-h">Great company</div>
-      <p>They communicated well and very fast to respond. We made a last-minute change to our meeting
-         time and they accommodated. It was nice to not have to wait at our resort and have an
-         air-conditioned van waiting for us.</p>
-      <div class="rv-w">Genny · May 2026 · TripAdvisor</div>
-    </div>
-    <div class="rev">
-      <div class="rv-s">★★★★★</div>
-      <div class="rv-h">Excellent transfer</div>
-      <p>Wonderful experience. Prompt, easy, friendly, clean, and safe! Would highly recommend if you
-         need transportation for a group. Our driver even came early when we finished a tour earlier
-         than expected.</p>
-      <div class="rv-w">Meghan G · Jun 2025 · TripAdvisor</div>
-    </div>
-    <div class="rev">
-      <div class="rv-s">★★★★★</div>
-      <div class="rv-h">Perfect service</div>
-      <p>Exceeded my expectations with their reliable, punctual, and professional service. The vehicle
-         was clean and well-equipped, making for an enjoyable ride. I'll certainly use this service
-         again.</p>
-      <div class="rv-w">Hasna E · Nov 2023 · TripAdvisor</div>
-    </div>
-  </div>
-
-  <!-- Who we are -->
-  <div class="sechead">Who we are</div>
-  <p class="blurb" style="padding-top:0">Cozumel Transfers is a licensed private ground-transfer
-     operator based in San Miguel de Cozumel, Quintana Roo. We've been picking up cruise guests and
-     cruise guests on this island <b>since 2015</b>.</p>
-  <p class="blurb">Every vehicle is private — never shared. A/C, bottled water, daily inspection.
-     We pick up at all three cruise terminals: Puerta Maya, the International Pier and Punta
-     Langosta. <b>You're not texting a call centre. You're texting Emma, in Cozumel — the same person
-     who'll answer on the day of your trip.</b></p>
-
-  <!-- FAQ -->
-  <div class="sechead">The things people always ask</div>
-  <!-- The FAQ lives here, in the HTML, on purpose. It used to be a JavaScript array
-     rendered into an empty div, which meant none of these thirteen answers existed
-     for Google, ChatGPT or anyone reading the page without running scripts — the
-     most quotable content on the site was invisible to the things that quote it.
-     This is now the ONLY copy. There is no JS array to keep in sync; edit the text
-     right here. Keep the <details>/<summary> shape — the FAQPage structured data
-     and the "See all" button both depend on it. -->
-  <div id="faqList">
-  <details class="faq"><summary>What do you guarantee?<span class="fa">+</span></summary><p>Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print.</p></details>
-  <details class="faq"><summary>Will the ship wait for me?<span class="fa">+</span></summary><p>No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full.</p></details>
-  <details class="faq"><summary>What if I need to cancel?<span class="fa">+</span></summary><p>Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, we refund you in full without you having to ask.</p></details>
-  <details class="faq"><summary>How do I pay?<span class="fa">+</span></summary><p>Credit card, always — secure online payment at booking. No cash to the driver, no deposits, no surprise fees at the curb.</p></details>
-  <details class="faq"><summary>What happens on the day?<span class="fa">+</span></summary><p>The day before, we email you your terminal, your meeting point and your times. When you disembark, look for our English-speaking representative holding a sign with your name — we are waiting for you outside — about a 10 minute walk from the ship, and you can see the walk from each pier on this site before you sail. Your driver takes you to your destination and comes back at the time you chose.</p></details>
-  <div id="faqRest" hidden>
-  <details class="faq"><summary>What's included in my transfer?<span class="fa">+</span></summary><p>Round-trip private transfer in an air-conditioned private vehicle, and bottled water. Our English-speaking representative waits at our meeting point with your name on a sign and gets you settled; your driver takes you there and comes back at the time you chose. Your pickup and return times are confirmed in writing before you ride, so nothing important depends on a conversation in the van.</p></details>
-  <details class="faq"><summary>Where can you take me?<span class="fa">+</span></summary><p>Anywhere on the island: beach clubs, Mayan ruins, the marina, downtown San Miguel, the Playa del Carmen ferry terminal, or any address you have. If you don't see your destination listed, just message us on WhatsApp.</p></details>
-  <details class="faq"><summary>What if my ship is delayed?<span class="fa">+</span></summary><p>No problem. We pull every Cozumel arrival from the port authority's feed, and one of our team checks yours again before your pickup — so we adjust instead of losing you. No rescheduling fees, no missed-pickup penalties. Same for early arrivals.</p></details>
-  <details class="faq"><summary>Can I come back earlier than I booked?<span class="fa">+</span></summary><p>Yes. If your plans change, message us on WhatsApp with about 30 to 60 minutes' notice and we'll come for you sooner. One thing to know: the return trip runs once, so the whole group comes back together — we can't do one run for part of the group and a second run for the rest.</p></details>
-  <details class="faq"><summary>Traveling with a large group?<span class="fa">+</span></summary><p>Up to 40 passengers in one vehicle. Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing together. Message us with group size, destination and date.</p></details>
-  <details class="faq"><summary>Do you provide child or car seats?<span class="fa">+</span></summary><p>No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle.</p></details>
-  <details class="faq"><summary>Is the van easy to get in and out of?<span class="fa">+</span></summary><p>Our vans have a standard step up — most guests manage it easily, and our representative will steady an arm if you'd like. Folded walkers and collapsible wheelchairs travel with you at no charge. If anyone in your group uses a mobility scooter or needs a low step, message us before you book and we'll tell you honestly whether we can carry it.</p></details>
-  <details class="faq"><summary>Should I tip the driver?<span class="fa">+</span></summary><p>Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way.</p></details>
-  </div>
-  <div class="cta-wrap" style="padding:14px 18px 4px">
-    <button class="btn btn-ghost" style="margin-top:0" id="faqMore" onclick="showAllFaq()">See all 13 questions</button>
-  </div>
+       The ladder is BUILT FROM VEH at the bottom of this file, so the figures here and
+       the figure the card is charged cannot drift apart. They used to be typed out twice.
+       The five prices stay crawlable in the Offer schema in <head>, which is where Google
+       reads them from anyway. -->
+  <div class="below">
+    <div class="sechead">One price, by vehicle — same to anywhere on the island</div>
+    <div class="ladder" id="ladder"></div>
   </div>
 
   <footer>
     <div class="ft-g">
       <a class="ft-tel" href="#" onclick="return wa()">+52 987 114 6853
         <span class="ft-wa">on WhatsApp</span></a>
-      <p>Message us on WhatsApp — it's the fastest way to reach us, and it's how we answer you
-        in English.</p>
-      <a class="ft-mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
       <p>Someone answers 9 AM – 5 PM, Cozumel time (UTC−5, year round).</p>
     </div>
 
@@ -1222,11 +690,6 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
       <a href="/terms.html#cancellation">Cancellation &amp; refunds</a>
       <a href="/terms.html">Terms of use</a>
       <a href="/privacy.html">Privacy policy</a>
-    </div>
-
-    <div class="ft-g">
-      <p class="ft-white">Your card is charged by Stripe. We never see the number.</p>
-      <p>All prices in US dollars, per vehicle, paid in full when you book.</p>
     </div>
 
     <div class="ft-legal">
@@ -1239,226 +702,50 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
 </section>
 
 
-<!-- ═══════════ 2 · DESTINATION ═══════════ -->
-<section class="screen" id="s-dest">
-  <a class="topbar" href="#" onclick="go('hub');return false"><span class="bk">←</span> All destinations</a>
-  <div class="hero"><img id="dHero" alt=""><div class="ht"><div class="k" id="dType"></div><h2 id="dName"></h2></div></div>
-  <div class="metarow">
-    <div class="mpill">🚐 <span id="dDrive"></span> from the pier</div>
-    <!-- The distance pill is OPTIONAL and hidden when a destination has no `dist`.
-         Marina Cozumel omits it on purpose (Mike, 2026-08-11): it is close enough to the
-         pier that publishing the distance beside a flat $369 makes the price read as
-         steep. The flat rate is the product — "not by distance" is already the line in
-         the pricing section. Blank the string and the whole pill goes, not just the 📍. -->
-    <div class="mpill" id="dDistPill">📍 <span id="dDist"></span></div>
-  </div>
-  <p class="blurb" id="dBlurb"></p>
-  <!-- The map pin and the venue's own site. Mike's reasoning: a guest who can see the
-       place on a map and check it exists relaxes about handing over $369 to a company
-       she found ten minutes ago. Both open in a new tab so she doesn't lose her booking.
-       Populated in openDest(); either link is omitted if that destination has none. -->
-  <div class="dlinks" id="dLinks"></div>
+<!-- ═══════════ THE ONE BOOKING SCREEN ═══════════
+     Replaces the six screens this site had until 2026-09-19 — destination, passengers,
+     ship, day, details, confirm. The bar in the hero already answered where, when and how
+     many, so all that is genuinely still unknown fits here: the two times, who she is, how
+     to reach her, and her ship if she is on one. One button, straight to Stripe.
 
-  <div class="sechead">What happens, step by step</div>
-  <ol class="steps">
-    <li>You walk off the ship at your own pace. <b>No rush — we track your ship.</b></li>
-    <li>About a <b>10 minute walk</b> from the ship, <b>our English-speaking representative is holding
-        a sign with your name on it.</b> They get you settled and answer anything you need.</li>
-    <li>You ride in a <b>private, air-conditioned vehicle</b> — just your group, and bottled water.</li>
-    <li>You're dropped at <b><span class="dNameInline"></span></b> and you enjoy your day.</li>
-    <li>At the time <em>you</em> chose, <b>your driver is waiting at the same spot</b> to bring you back.</li>
-    <li>You're back at the pier at the time you picked. <b>We recommend leaving at least 90 minutes
-        before your ship's all-aboard time.</b></li>
-  </ol>
+     🚨 THE ID STAYS `s-pay`. go() feeds the screen id to track(), and those steps are
+     pinned to STEPS in netlify/functions/_funnel.js and apps_script/cit_funnel/Code.gs.
+     Renaming this would silently drop the last step before checkout_open. The steps for
+     the screens that no longer exist simply never fire again, which is the truth. -->
+<section class="screen" id="s-pay">
+  <a class="topbar" href="#" onclick="go('hub');return false"><span class="bk">←</span> Change your trip</a>
+  <div class="qhead"><h2>Almost done</h2><p id="paySummary"></p></div>
 
-  <div class="signbox">
-    <div class="st">How you'll find us</div>
-    <p>Our <b>English-speaking representative</b> waits at our marked meeting point just outside the terminal — about a <b>10 minute walk</b>,
-       flat and paved from the two southern piers — holding a sign with your name.
-       <a href="/meet/" style="color:var(--accent-pressed);font-weight:600">See the walk from your pier →</a></p>
-    <div class="signcard">
-      <div class="sl">Your sign will read</div>
-      <div class="sn" id="signName">YOUR NAME</div>
-    </div>
+  <div class="total" style="margin-top:14px">
+    <div class="tr"><span id="pVehLbl"></span><span id="pVeh"></span></div>
+    <div class="tr big"><span>Charged today</span><span id="pAll"></span></div>
   </div>
 
-  <div class="sechead">What your price covers</div>
-  <div class="incl">
-    <div class="ir yes"><span class="ic">✓</span><div>Round-trip private vehicle, <b>paid in full online</b></div></div>
-    <div class="ir yes"><span class="ic">✓</span><div>An <b>English-speaking representative</b> meets you at the pier</div></div>
-    <div class="ir yes"><span class="ic">✓</span><div>Private air-conditioned vehicle, bottled water</div></div>
-    <div class="ir yes"><span class="ic">✓</span><div>Ship tracking + free cancellation if your ship skips Cozumel</div></div>
-    <div class="ir yes"><span class="ic">✓</span><div><b>Nothing to pay the driver.</b> We don't accept cash.</div></div>
-    <div class="ir no" id="admRow"><span class="ic">!</span><div id="admText"></div></div>
-  </div>
+  <div class="field"><label for="pickIn">Pickup time</label>
+    <select id="pickIn" onchange="onTimes()"></select></div>
 
-  <div class="cta-wrap">
-    <button class="btn btn-primary" onclick="startBooking()">See price &amp; book →</button>
-    <button class="btn btn-ghost" onclick="return waHere()">Ask a question on WhatsApp</button>
-  </div>
-</section>
+  <div class="field"><label for="retIn">Return time</label>
+    <select id="retIn" onchange="onTimes()"></select>
+    <div class="hint" id="retHint">Pick your pickup time first.</div></div>
 
-<!-- ═══════════ THE WIZARD ═══════════ -->
-<section class="screen" id="s-pax">
-  <a class="topbar" href="#" onclick="go('dest');return false"><span class="bk">←</span> <span id="paxBack"></span></a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i><i class="sdot"></i><i class="sdot"></i></div>
-  <div class="qhead"><div class="qk">Step 1 of 5</div><h2>How many of you?</h2>
-    <p>Count everyone, including children. We charge by vehicle — not per person.</p></div>
-  <div class="stepper">
-    <button onclick="bumpPax(-1)" aria-label="One fewer">−</button>
-    <div class="cnt"><div class="n" id="paxN">2</div><div class="l" id="paxL">people</div></div>
-    <button onclick="bumpPax(1)" aria-label="One more">+</button>
-  </div>
-  <div class="quickpax" id="quickPax"></div>
-  <div class="vehcard">
-    <div class="vt">Your vehicle</div>
-    <div class="vn" id="vehName"></div>
-    <div class="vs" id="vehSub"></div>
-    <div class="vp" id="vehPrice"></div>
-    <div class="vnote">Same flat price to anywhere on the island. No surge, no per-person charge, no fees at the curb.</div>
-  </div>
-  <div class="addon" id="admAddon" onclick="toggleAdm()">
-    <div class="box">✓</div>
-    <div class="ab"><div class="at" id="admTitle"></div><div class="ad" id="admDesc"></div></div>
-    <div class="ap" id="admPrice"></div>
-  </div>
-  <div class="total">
-    <div class="tr"><span id="totVehLbl">Private vehicle</span><span id="totVeh"></span></div>
-    <div class="tr" id="totAdmRow" style="display:none"><span id="totAdmLbl">Admission</span><span id="totAdm"></span></div>
-    <div class="tr big"><span>Total</span><span id="totAll"></span></div>
-  </div>
-  <div class="cta-wrap"><button class="btn btn-primary" onclick="go('ship')">Continue →</button></div>
-</section>
-
-<!-- ─── Step 2 · the ship, by name only — never tied to a schedule ─── -->
-<section class="screen" id="s-ship">
-  <a class="topbar" href="#" onclick="go('pax');return false"><span class="bk">←</span> How many of you</a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i><i class="sdot"></i></div>
-  <div class="qhead"><div class="qk">Step 2 of 5</div><h2>What ship are you on?</h2>
-    <p>Start typing — we know every ship that calls at Cozumel.</p></div>
-
-  <div class="field">
-    <label for="shipIn">Your cruise ship</label>
-    <input type="text" id="shipIn" placeholder="Start typing, e.g. Carnival…" autocomplete="off"
-           oninput="onShipType()" onfocus="onShipType()">
-    <div class="hint" id="shipHint">144 ships, straight from the Cozumel port authority.</div>
-  </div>
-  <div class="shiplist" id="shipResults"></div>
-
-  <div id="shipChosen" style="display:none">
-    <div class="signbox" style="background:var(--card-blue);border-color:#C7DAF5">
-      <div class="st" style="color:var(--accent-pressed)">We'll confirm your pier</div>
-      <p style="color:#1D3B57">Cozumel's port authority publishes the ship schedule about a month ahead.
-        As soon as your date is published we'll message you <b>which terminal you'll dock at and our
-        meeting point</b> — where our representative will be standing, holding a sign with your name.
-        The board reads <b>Visit Cozumel Shuttles &amp; Tours</b>.</p>
-    </div>
-  </div>
-
-  <div id="noShipBlock" style="display:none">
-    <div class="field"><label for="pickupOther">Where should we pick you up?</label>
-      <input type="text" id="pickupOther" placeholder="Hotel name, address, or the ferry terminal">
-      <div class="hint">We'll confirm the meeting point by WhatsApp.</div></div>
-  </div>
-
-  <button class="demolink" id="noShipLink" onclick="toggleNoShip()">My ship isn't listed · I'm not on a cruise</button>
-  <div class="cta-wrap"><button class="btn btn-primary" id="shipNext" disabled onclick="go('day')">Continue →</button></div>
-</section>
-
-<!-- ─── Step 3 · the day: date + pickup + how long ─── -->
-<section class="screen" id="s-day">
-  <a class="topbar" href="#" onclick="go('ship');return false"><span class="bk">←</span> Your ship</a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i><i class="sdot"></i></div>
-  <div class="qhead"><div class="qk">Step 3 of 5</div><h2>Your day in Cozumel</h2>
-    <p>When you want us, and how long you want to stay.</p></div>
-
-  <!-- This said "4 ships in port today", hard-coded. On a page whose entire claim is
-       that we watch the port authority's feed, inventing the number is the worst
-       possible detail to be caught on. It now reads the same endpoint the other
-       pages already use, and falls back to the promise without the count. -->
-  <div class="shipsbar" style="margin-top:14px">
-    <b id="shipsCount">We track every arrival</b> · we pull arrivals from the port authority's own feed and check yours
-    again before your pickup, so a late dock moves your pickup instead of costing you the transfer
-  </div>
-  <div class="field">
-    <label for="dateIn">Date</label>
-    <input type="date" id="dateIn" onchange="onDate()">
-    <div class="hint" id="dateHint"></div>
-  </div>
-  <div id="tooSoon" style="display:none">
-    <div class="warnbox">
-      <div class="wt">Online booking for that day has closed</div>
-      <p>We plan the vans the morning before, so the website stops taking that day. We can still get you a
-         vehicle — message our team and they'll confirm one for you directly.</p>
-    </div>
-    <div class="cta-wrap"><button class="btn btn-wa" style="margin-top:0" onclick="return waHere('I need a transfer sooner than the website allows.')">Message customer service on WhatsApp</button></div>
-  </div>
-
-  <div id="dayBlock">
-    <div class="field">
-      <label for="pickIn">What time should we pick you up? <span style="color:var(--accent)">(Cozumel time)</span></label>
-      <select id="pickIn" onchange="onDay()"></select>
-    </div>
-    <div class="tznote">
-      🕐 <b>Every time on this page is Cozumel local time</b> (UTC−5, no daylight saving) —
-      <b>not</b> your ship's onboard clock. Many ships run an hour ahead of the island. Check with
-      guest services before you set your pickup.
-    </div>
-
-    <div class="qhead" style="padding-top:18px"><div class="qk">How long do you want to stay?</div></div>
-    <div class="quickpax" id="durChips" style="padding:4px 18px 0"></div>
-    <div id="customRet" style="display:none">
-      <div class="field"><label for="retIn">What time should we come back for you?</label>
-        <select id="retIn" onchange="setCustomRet()"></select></div>
-    </div>
-    <div class="hint" style="padding:10px 18px 0">
-      On a cruise? <b>We recommend no more than 5 hours</b> — that puts you back at the pier with
-      about 90 minutes to spare before all-aboard.
-    </div>
-    <div class="warnbox" id="longDay" style="display:none">
-      <div class="wt">More than 5 hours — let us check it with you</div>
-      <p>We won't sell you a return time that could cost you your ship. Message us with your ship and
-         date and we'll confirm your all-aboard time, then book it for you in a minute.</p>
-      <button class="btn btn-wa" style="margin-top:12px" onclick="return waHere('Could you check my ship&#39;s all-aboard time for me?')">Have us check my all-aboard time</button>
-      <label class="okbox"><input type="checkbox" id="longOk" onchange="onDay()">
-        <span>Or tick to continue anyway — <b>I've checked my ship's all-aboard time and I'll be back
-        at the pier at least 90 minutes before it.</b></span></label>
-    </div>
-
-    <div class="autofill" id="dayOut" style="display:none">
-      <div class="aftitle">So your day looks like this</div>
-      <div class="af"><span>We pick you up</span><b id="ofPick"></b></div>
-      <div class="af"><span>You're at <span id="ofDest"></span> until</span><b id="ofBack"></b></div>
-      <div class="af"><span>Back at the pier around</span><b id="ofPier2"></b></div>
-    </div>
-    <div class="warnbox" style="background:#F4F8FA;border-color:var(--line)">
-      <p style="margin:0;color:#45607C">Not sure what time your ship leaves? Message us and we'll
-         check your ship's departure for that date.</p>
-    </div>
-    <div class="cta-wrap"><button class="btn btn-primary" id="dayNext" disabled onclick="go('who')">Continue →</button></div>
-  </div>
-</section>
-
-<section class="screen" id="s-who">
-  <a class="topbar" href="#" onclick="go('day');return false"><span class="bk">←</span> Your day</a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot"></i></div>
-  <div class="qhead"><div class="qk">Step 4 of 5</div><h2>Who should we look for?</h2>
-    <p>This is the name we'll write on the sign.</p></div>
-  <!-- Only for "Somewhere else on the island". Until 2026-08-07 that destination took
-       $369+ and never asked where she was going — the team received the literal string
-       "Somewhere else on the island" and had to chase her on WhatsApp. It lives on this
-       screen rather than the destination screen so it is validated in toPay() beside the
-       name and email, with one error line instead of three. -->
+  <!-- Only for "Somewhere else on the island" — the one destination that doesn't say
+       where it is. Prefilled from the bar when she typed an address up there, so she
+       never types it twice. create-checkout refuses that destination with this empty. -->
   <div class="field" id="dropoffBlock" style="display:none">
     <label for="dropoffIn">Where are you going?</label>
     <input type="text" id="dropoffIn" placeholder="Hotel name, address, or the ferry terminal">
     <div class="hint">The exact address, so your driver takes you to the right door.</div></div>
+
   <div class="field"><label for="nameIn">Full name</label>
     <input type="text" id="nameIn" placeholder="Margaret Johnson" oninput="onName()"></div>
-  <!-- The country code is a picker, not something she has to remember to type. Until 2026-08-10
-       this was one free-text box: "407 555 0142" passed validation and was stored exactly as
-       typed, which no SMS or WhatsApp API can dial. Guessing the country from bare digits is how
-       you message a stranger, so the form asks instead. -->
+
+  <div class="field"><label for="mailIn">Email</label>
+    <input type="email" id="mailIn" placeholder="you@email.com">
+    <div class="hint">Your receipt and confirmation go here.</div></div>
+
+  <!-- The country code is a picker, not something she has to remember to type. Until
+       2026-08-10 this was one free-text box: "407 555 0142" passed validation and was
+       stored exactly as typed, which no SMS or WhatsApp API can dial. -->
   <div class="field"><label for="waIn">WhatsApp or mobile</label>
     <div class="phone-row">
       <select id="waCC" aria-label="Country code"></select>
@@ -1467,38 +754,27 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
     <div class="hint">Pick your country, then your number. It is the only way we can reach you on
       the day if your ship docks late.<br>
       <!-- Consent sits HERE, at the point of collection, and not in the footer or the privacy
-           policy. US carriers reject SMS sender registration when the opt-in language is anywhere
-           else, and it is the correct thing to say regardless of which provider we end up using.
-           "Booking messages only" is the sentence that matters to them: it scopes the consent and
-           rules out marketing, which is what carrier review is actually screening for. -->
+           policy. US carriers reject SMS sender registration when the opt-in language is
+           anywhere else. "Booking messages only" is the sentence that matters to them. -->
       By giving us your number you agree we may message you about this booking, on WhatsApp or by
-      text. Messages about your transfer only &mdash; never marketing, and we do not share it.</div></div>
-  <div class="field"><label for="mailIn">Email</label>
-    <input type="email" id="mailIn" placeholder="you@email.com">
-    <div class="hint">Your receipt and confirmation go here.</div></div>
+      text. Messages about your transfer only — never marketing, and we do not share it.</div></div>
+
+  <!-- Optional, and said so twice — on the label and in the hint. The ship used to be a
+       whole screen with a Continue button she could not pass without answering it. -->
+  <div class="field"><label for="shipIn">Your cruise ship <span class="opt">optional</span></label>
+    <input type="text" id="shipIn" list="shipList" placeholder="Start typing, e.g. Carnival…"
+      autocomplete="off" oninput="onShip()">
+    <datalist id="shipList"></datalist>
+    <div class="hint" id="shipHint">Leave it blank if you’re not on a cruise.</div></div>
+
   <div class="signbox" style="margin-top:20px">
     <div class="st">Preview of your sign</div>
     <div class="signcard"><div class="sl">Our rep will be holding</div><div class="sn" id="signName2">YOUR NAME</div></div>
   </div>
-  <div class="cta-wrap">
-    <button class="btn btn-primary" onclick="toPay()">Continue to payment →</button>
-    <p class="hint" id="whoErr" style="display:none;padding:12px 0 0"></p>
-  </div>
-</section>
 
-<section class="screen" id="s-pay">
-  <a class="topbar" href="#" onclick="go('who');return false"><span class="bk">←</span> Your details</a>
-  <div class="stepbar"><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i><i class="sdot on"></i></div>
-  <div class="qhead"><div class="qk">Step 5 of 5</div><h2>Confirm and pay</h2><p id="paySummary"></p></div>
-  <div class="total" style="margin-top:6px">
-    <div class="tr"><span id="pVehLbl"></span><span id="pVeh"></span></div>
-    <div class="tr" id="pAdmRow" style="display:none"><span id="pAdmLbl"></span><span id="pAdm"></span></div>
-    <div class="tr big"><span>Charged today</span><span id="pAll"></span></div>
-  </div>
-  <!-- No card fields here on purpose. The card is entered on Stripe's own page,
-       which is the whole reason we chose Checkout: it keeps card data off this
-       site entirely, and the guest sees stripe.com in the address bar at the
-       moment she is deciding whether to trust us. -->
+  <!-- No card fields here on purpose. The card is entered on Stripe's own page, which is
+       the whole reason we chose Checkout: it keeps card data off this site entirely, and
+       she sees stripe.com in the address bar at the moment she decides whether to trust us. -->
   <div class="handoff">
     <div class="ho-t">🔒 You'll pay on Stripe's secure page</div>
     <p>Tap below and we'll take you to <b>stripe.com</b> to enter your card. Your card details
@@ -1630,12 +906,9 @@ const DEST = {
     maps:'https://www.google.com/maps/place/Nachi+Cocom+Cozumel+Beach+Club+%26+Water+Sport+Center/@20.384789,-87.021742,17z/data=!3m1!4b1!4m6!3m5!1s0x8f4e53ccb8bd7c95:0xb4325f28bbaee4eb!8m2!3d20.384789!4d-87.021742!16s%2Fg%2F1tq4s3xd',
     site:'https://cozumelnachicocom.com/',
     admName:'Nachi Cocom day pass',admAdult:0,admAtGate:true,admVerified:false},
-  // No `dist` — deliberate, see the note on #dDistPill. No `site` either: the marina has
-  // no official page we have verified, and openDest() drops the link when it is absent.
-  // Photo is Mike's own (confirmed 2026-08-11), so no licence question. ⚠️ It is a 1023px
-  // web-sized copy of his original and the hero asks for w=1400, so it upscales. Swap in
-  // the full-resolution file off his phone and this gets sharper for free — nothing else
-  // has to change.
+  // No `dist` and no `site`: the marina has no official page we have verified. Both
+  // fields were read by the destination screen, which is gone — they stay because the
+  // other destinations still carry them and the row shape is the point of this table.
   'marina':{name:'Marina Cozumel ASIPONA',short:'Marina Cozumel',type:'Marina',drive:'15 min',
     img:IMG('dest-marina-hero.jpg'),
     blurb:'Cozumel’s marina — where the private boat charters and the fishing trips go out from. We drop you right at the dock and come back at the time you choose; tell us your boat or slip name on WhatsApp and we’ll get you to the right one.',
@@ -1660,26 +933,26 @@ const VEH = [
 
 /* Every ship that has actually called at Cozumel, built by scripts/build_ship_list.py from the
    port authority's own records. Deliberately NOT tied to a date: APIQROO only publishes the
-   schedule about a month out, so a dated ship picker would turn away anyone booking early. */
-let SHIPS = [];
+   schedule about a month out, so a dated ship picker would turn away anyone booking early.
+   It feeds the form's <datalist> — a native suggestion list on one optional field, where it
+   used to be a screen of its own with a Continue button she could not pass. */
 fetch('../data/cozumel-ships.json')
   .then(r => r.json())
-  .then(d => { SHIPS = d.ships; $('shipHint').textContent =
-    `${d.shipCount} ships, straight from the Cozumel port authority.`; })
-  .catch(() => { $('shipHint').textContent = 'Ship list unavailable — type your ship name.'; });
+  .then(d => {
+    $('shipList').innerHTML = d.ships
+      .map(s => `<option value="${s.name.replace(/"/g, '&quot;')}">`).join('');
+    $('shipHint').textContent = `Optional. ${d.shipCount} ships, straight from the Cozumel port `
+      + `authority — leave it blank if you're not on a cruise.`;
+  })
+  .catch(() => { $('shipHint').textContent = "Leave it blank if you're not on a cruise."; });
 
-/* How long guests want at the destination. 'custom' reveals a return-time picker. */
-const DURATIONS = [
-  {h:4, label:'4 hours'}, {h:5, label:'5 hours'},
-  {h:6, label:'6 hours'}, {h:'custom', label:'Choose my return time'}
-];
 /* Port → destination → port. Held flat at 20 min: the island is small and every
    destination is 10–25 minutes out, so one honest number beats per-venue precision. */
 const DRIVE_MIN = 20;
 
 /* ── state ── */
-let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'',
-         pick:'', dur:null, durMode:null, name:'', ref:null};
+let S = {dest:null, pax:2, adm:false, ship:null, notCruise:true, date:'',
+         pick:'', dur:null, name:'', ref:null};
 
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
@@ -1789,22 +1062,19 @@ function go(id){
   $('s-'+id).classList.add('on');
   window.scrollTo(0,0);
   track(id);
-  // "Where are you going?" only makes sense for the destination that doesn't name itself.
-  if (id==='who') $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
   if (id==='pay') paintPay();
   if (id==='done') paintDone();
 }
 function restart(){
-  // date defaults to the earliest bookable day, matching what the date input shows
-  S = {dest:null,pax:2,adm:false,ship:null,notCruise:false,date:pretty(md),
-       pick:'',dur:5,durMode:'5',name:'',ref:null};  // 5h is the safe default; keep it after a restart too
-  $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
-  $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
-  $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
-  // These two now travel with the booking, so a value left over from a previous run
-  // would follow the next guest to Stripe and into the team's email. While they were
-  // dead inputs it did not matter; now it does.
-  $('dropoffIn').value=''; $('pickupOther').value='';
+  // `md` was a module-level const on the deleted day screen. The floor is cheap to
+  // recompute and the bar already calls minDate() for its own min attribute.
+  S = {dest:null, pax:2, adm:false, ship:null, notCruise:true, date:pretty(minDate()),
+       pick:'', dur:null, name:'', ref:null};
+  // Every one of these travels with the booking, so a value left over from a previous run
+  // would follow the next guest to Stripe and into the team's email.
+  ['nameIn','mailIn','waIn','shipIn','dropoffIn','pickIn'].forEach(id => $(id).value = '');
+  $('retIn').innerHTML = '';
+  $('retHint').textContent = 'Pick your pickup time first.';
   barReset();
   go('hub');
 }
@@ -1981,227 +1251,80 @@ function barQuote(){
   $('barBook').textContent = 'Book this transfer →';
 }
 
-/* Hand the four answers to the flow that already exists. Nothing is charged here. */
+/* Hand the bar's four answers to the one screen. Nothing is charged here. */
 function barGo(){
   if (barPierSide().on()) return waHere('I need a transfer that does not start at a pier.');
   const d = $('barDate').value;
-  if (d){ $('dateIn').value = d; onDate(); }
+  if (d) S.date = pretty(new Date(d + 'T12:00:00'));
   // A typed destination IS bookable — it is the "Somewhere else" product at the normal
-  // price — so the typed text is dropped into the field the wizard already has for it,
-  // and travels to Stripe in the booking's metadata.
+  // price — so the typed text drops straight into the address field the form already has,
+  // and travels to Stripe in the booking's metadata. She never types it twice.
   if (barDestSide().on()){
+    S.dest = 'somewhere-else';
     $('dropoffIn').value = barDestSide().text();
-    return openDest('somewhere-else');
+  } else {
+    S.dest = barDestSide().slug();
+    $('dropoffIn').value = '';
   }
-  openDest(barDestSide().slug());
+  go('pay');
 }
 
-/* The FAQ is server-rendered in the HTML — see the note beside #faqList. The array
-   and renderer that used to live here are gone on purpose: two copies of thirteen
-   answers is two copies to keep in step, and the JS one was invisible to crawlers.
-   showAllFaq() below still reveals the hidden remainder. */
-function showAllFaq(){
-  $('faqRest').hidden = false;
-  $('faqMore').closest('.cta-wrap').remove();
-}
+/* The price ladder, built from the same VEH rows the quote in the bar and the price the
+   server charges both read. It used to be typed out a second time in the markup. */
+$('ladder').innerHTML = VEH.map(v =>
+  `<div class="li"><div class="n">${v.name}</div><div class="s">${v.sub}</div>
+   <div class="p">$${v.price.toLocaleString('en-US')}</div>
+   <div class="e">$${Math.round(v.price / v.max)} each with ${v.max}</div></div>`).join('');
 
-/* Angel's shot list for the "Real guests, real days" strip. The section is cut from
-   the page until these six frames exist — see the note where it used to sit.
-     1. The hand-off at the pier — rep holding a sign with a guest name, couple walking up smiling, terminal behind.
-     2. A family loading up — side door open, driver helping, kids climbing in, van clean and branded.
-     3. Arriving at the beach club — guests stepping out at the gate, sea behind them.
-     4. The group shot — 10+ people in front of the van, arms up. Big-group proof.
-     5. Inside the van — back seat, A/C on, water bottles visible, phone-camera candid.
-     6. The pickup back — same guests at day's end, sunburnt and happy, driver waiting. */
+/* The "ships in port today" counter went with the day screen it sat on, and with it the
+   call to /.netlify/functions/ships-today. The function itself is untouched and still
+   serves meet/ — this page simply no longer has anywhere to put the number. */
 
-/* The ships count. Same endpoint index.html and cruise-transfers.html already read.
-   If it fails we keep the promise and drop the number rather than invent one. */
-fetch('/.netlify/functions/ships-today')
-  .then(r => r.json())
-  .then(d => {
-    const n = ((d && d.today && d.today.ships) || []).length;
-    if (n) $('shipsCount').textContent = n === 1 ? '1 ship in port today' : n + ' ships in port today';
-  })
-  .catch(() => {});
-
-/* Per-person figure = whole-vehicle price ÷ its capacity. This is the number the guest
-   compares against the ship's tour, which is quoted per person. */
-/* The price list and destination grid are server-rendered in the HTML above — see the
-   note beside #priceList. The renderers that used to sit here are gone; VEH and DEST
-   remain because the booking wizard reads them. Keep the markup and the data in step. */
-
-/* ── 2 · destination ── */
-function openDest(k){
-  S.dest = k; const d = DEST[k];
-  $('dHero').src = d.img; $('dName').textContent = d.name; $('dType').textContent = d.type;
-  $('dDrive').textContent = d.drive; $('dBlurb').textContent = d.blurb;
-  // `dist` is optional — see the note on #dDistPill. Hide the pill rather than blanking
-  // the span, or the guest is left looking at a lone 📍 in an empty box.
-  $('dDist').textContent = d.dist || '';
-  $('dDistPill').style.display = d.dist ? '' : 'none';
-  // `inline` is an optional override for destinations whose short name doesn't read
-  // inside a sentence — "You're dropped at Somewhere else" is not English. Every named
-  // place omits it and falls back to `short`.
-  $('dLinks').innerHTML =
-      (d.maps ? `<a href="${d.maps}" target="_blank" rel="noopener noreferrer">📍 See it on the map</a>` : '')
-    + (d.site ? `<a href="${d.site}" target="_blank" rel="noopener noreferrer">🔗 Official website</a>` : '');
-  document.querySelectorAll('.dNameInline').forEach(e => e.textContent = d.inline || d.short);
-  // Where we have the rate in writing we offer to prepay it. Where we don't, we quote
-  // it as "about" and she pays at the gate — we do not take money for a number nobody
-  // has confirmed, and "‹placeholder rate›" was internal shorthand leaking to guests.
-  // Three states, by Mike's decision on 2026-08-07:
-  //   admAdult > 0   → we have the rate in writing. Show it and offer to prepay.
-  //                    Only San Gervasio and Chankanaab.
-  //   admAtGate      → there IS a fee but we do not publish a number we cannot stand
-  //                    behind. Name it, say she pays at the gate, quote nothing.
-  //   neither        → no fee at all (the marina, somewhere else). Hide the row.
-  $('admText').innerHTML =
-      d.admAdult > 0 ? `<b>${d.admName}</b> — $${d.admAdult} per person. That money goes to
-        ${d.short}, not to us. You can pay at the gate, or add it to this booking and walk straight in.`
-    : d.admAtGate  ? `<b>${d.admName}</b> is paid at the gate on the day, directly to ${d.short}.
-        It is not included in the transfer price.`
-    : '';
-  $('admRow').style.display = (d.admAdult > 0 || d.admAtGate) ? 'flex' : 'none';
-  go('dest');
-}
-function startBooking(){ paintPax(); go('pax'); }
-
-/* ── 1 · how many ──
-   Chips are the MAX capacity of each vehicle, so one tap jumps straight to a tier
-   instead of thirty presses on the +. */
-$('quickPax').innerHTML = VEH.map(v =>
-  `<button data-q="${v.max}" onclick="setPax(${v.max})">Up to ${v.max}</button>`).join('');
-function setPax(n){ S.pax = Math.min(40, Math.max(1,n)); paintPax(); barPaint(); }
-function bumpPax(d){ setPax(S.pax + d); }
-function toggleAdm(){ S.adm = !S.adm; paintPax(); }
-
-function paintPax(){
-  const d = DEST[S.dest], v = vehFor(S.pax);
-  // A destination switch must not carry a prepay tick onto a venue we can't charge for.
-  if (!d.admVerified) S.adm = false;
-  $('paxBack').textContent = d.short;
-  $('paxN').textContent = S.pax; $('paxL').textContent = S.pax===1 ? 'person' : 'people';
-  document.querySelectorAll('#quickPax button').forEach(b => b.classList.toggle('on', +b.dataset.q === S.pax));
-  $('vehName').textContent = v.name; $('vehSub').textContent = v.sub;
-  $('vehPrice').innerHTML = moneyOf(priceOf()) + ' <small>round-trip, whole vehicle</small>';
-  $('admTitle').textContent = 'Add ' + d.admName;
-  $('admDesc').innerHTML = `$${d.admAdult} per person × ${S.pax} — pay nothing at the gate.`;
-  $('admPrice').textContent = '+$' + (d.admAdult*S.pax).toLocaleString('en-US');
-  // Prepay is offered ONLY where the gate rate is confirmed in writing. The server
-  // refuses the rest (see ADMISSION in netlify/functions/_cit.js), so showing the
-  // option here would let her tick a box, see it in her total, and arrive at the gate
-  // having never been charged for it. Keep the two sides in step.
-  // ...and only where there IS a gate fee. 'Somewhere else' has none, so offering to
-  // prepay $0 per person would be nonsense.
-  $('admAddon').style.display = (!d.admAdult || !d.admVerified) ? 'none' : 'flex';
-  $('admAddon').classList.toggle('on', S.adm);
-  $('totVehLbl').textContent = v.name;
-  $('totVeh').textContent = moneyOf(priceOf());
-  $('totAdmRow').style.display = S.adm ? 'flex' : 'none';
-  $('totAdmLbl').textContent = d.admName + ' × ' + S.pax;
-  $('totAdm').textContent = money(admTotal());
-  $('totAll').textContent = moneyOf(grand());
-}
-
-/* ── 2 · the ship — type-ahead over the name list, no dates involved ── */
-function onShipType(){
-  const q = $('shipIn').value.trim().toLowerCase();
-  const box = $('shipResults');
-  if (q.length < 2){ box.innerHTML = ''; return; }
-  const hits = SHIPS.filter(s => s.name.toLowerCase().includes(q)).slice(0, 8);
-  box.innerHTML = hits.length
-    ? hits.map(s => `<button class="shipopt" onclick="pickShip('${s.name.replace(/'/g,"\\'")}')">
-        <div><div class="sname">${s.name}</div><div class="spier">${s.line || 'Cruise ship'}</div></div>
-      </button>`).join('')
-    : `<div class="hint" style="padding:12px 0">No match. Check the spelling, or tap
-       “My ship isn't listed” below — or <a href="#" onclick="return waHere('My ship is not on your list.')" style="color:var(--accent);font-weight:700">message us on WhatsApp</a>.</div>`;
-}
-function pickShip(name){
-  S.ship = SHIPS.find(s => s.name === name) || {name, line:null};
-  S.notCruise = false;
-  $('shipIn').value = S.ship.name;
-  $('shipResults').innerHTML = '';
-  $('shipChosen').style.display = 'block';
-  $('noShipBlock').style.display = 'none';
-  $('shipNext').disabled = false;
-}
-function toggleNoShip(){
-  S.notCruise = !S.notCruise;
-  S.ship = null;
-  $('shipIn').value = ''; $('shipResults').innerHTML = '';
-  $('shipChosen').style.display = 'none';
-  $('noShipBlock').style.display = S.notCruise ? 'block' : 'none';
-  $('shipNext').disabled = !S.notCruise;
-}
-
-/* ── 3 · the day — date, pickup time, how long ── */
-const md = minDate();
-$('dateIn').min = iso(md); $('dateIn').value = iso(md);
-$('dateHint').textContent = 'Earliest online booking: ' + pretty(md) + '. Travelling sooner? Message us and we’ll arrange it.';
-S.date = pretty(md);
-/* 5 hours is the safe default for a cruise guest — it lands them back at the pier with
-   roughly 90 minutes of slack. Anything longer routes to customer service (see onDay). */
-S.durMode = '5'; S.dur = 5;
+/* ── the two times ──
+   The only two questions the bar could not answer. Pickup runs 6 AM to 8 PM and the
+   return window is the one create-checkout enforces: 1 to 12 hours later, never past
+   10 PM. Neither moves the price — the ladder is by vehicle, and that is the whole
+   promise of the page. */
 $('pickIn').innerHTML = '<option value="">Pick a time</option>' +
   Array.from({length:15}, (_,i) => i+6).map(h => `<option value="${h}">${fmtHour(h)}</option>`).join('');
-$('durChips').innerHTML = DURATIONS.map(d =>
-  `<button data-h="${d.h}" onclick="setDur('${d.h}')">${d.label}</button>`).join('');
 
-function onDate(){
-  const v = $('dateIn').value; if(!v) return;
-  const picked = new Date(v + 'T12:00:00');
-  if (picked < md){ demoTooSoon(); return; }
-  $('tooSoon').style.display = 'none'; $('dayBlock').style.display = 'block';
-  S.date = pretty(picked);
+/* Rebuilt whenever the pickup moves, because the earliest legal return moves with it.
+   Five hours is preselected: it is the length that lands a cruise guest back at the pier
+   with roughly 90 minutes of slack, and it was the wizard's default too. An existing
+   choice is kept whenever it still fits the new window. */
+function fillReturn(){
+  const start = +$('pickIn').value;
+  if (!start){ $('retIn').innerHTML = '<option value="">Pick a pickup time first</option>'; return; }
+  const prev = +$('retIn').value, first = start + 1, last = Math.min(22, start + 12);
+  $('retIn').innerHTML = Array.from({length: last - first + 1}, (_,i) => first + i)
+    .map(h => `<option value="${h}">${fmtHour(h)}</option>`).join('');
+  $('retIn').value = (prev >= first && prev <= last) ? prev : Math.min(start + 5, last);
 }
-function demoTooSoon(){
-  const shown = $('tooSoon').style.display === 'block';
-  $('tooSoon').style.display = shown ? 'none' : 'block';
-  $('dayBlock').style.display = shown ? 'block' : 'none';
-  if (!shown) $('tooSoon').scrollIntoView({behavior:'smooth',block:'center'});
-}
-function setDur(h){
-  S.durMode = h;
-  S.dur = h === 'custom' ? null : +h;
-  onDay();
-}
-/* Return-time picker — only offered when the guest asks for it. */
-function setCustomRet(){
-  const ret = +$('retIn').value;
-  S.dur = ret ? ret - (+S.pick) : null;
-  onDay();
-}
-function onDay(){
-  S.pick = $('pickIn').value;
-  document.querySelectorAll('#durChips button')
-    .forEach(b => b.classList.toggle('on', b.dataset.h === String(S.durMode)));
 
-  const custom = S.durMode === 'custom';
-  $('customRet').style.display = custom && S.pick ? 'block' : 'none';
-  if (custom && S.pick){
-    // Return options run from 2 hours after pickup to 10 PM.
-    const first = +S.pick + 2, prev = $('retIn').value;
-    $('retIn').innerHTML = '<option value="">Pick a time</option>' +
-      Array.from({length: Math.max(0, 22 - first + 1)}, (_,i) => first + i)
-        .map(h => `<option value="${h}">${fmtHour(h)}</option>`).join('');
-    if (prev) $('retIn').value = prev;
+function onTimes(){
+  const start = +$('pickIn').value;
+  if (!start){ S.pick = ''; S.dur = null; $('retHint').textContent = 'Pick your pickup time first.'; }
+  else {
+    fillReturn();
+    const end = +$('retIn').value;
+    S.pick = String(start); S.dur = end - start;
+    // The old wizard made her tick a checkbox to get past five hours. The warning is worth
+    // keeping; the extra tap is not — so it is a sentence now, not a gate. Someone staying
+    // on the island has no all-aboard to miss, so it only shows when she named a ship.
+    $('retHint').textContent = `Back at the pier around ${fmtMin(end*60 + DRIVE_MIN)}.`
+      + (!S.notCruise && S.dur > 5
+         ? ' That is a long day — check your all-aboard time before you book it.' : '');
   }
+  $('paySummary').textContent = tripLine();
+}
 
-  if (!S.pick || !S.dur){ $('dayOut').style.display='none'; $('longDay').style.display='none';
-    $('dayNext').disabled = true; return; }
-
-  const start = +S.pick, end = start + S.dur;
-  $('ofPick').textContent = fmtHour(start);
-  $('ofDest').textContent = DEST[S.dest].short;
-  $('ofBack').textContent = fmtHour(end);
-  $('ofPier2').textContent = fmtMin(end*60 + DRIVE_MIN);
-  $('dayOut').style.display = 'block';
-  // Over 5 hours, route to customer service rather than sell a return time that could
-  // cost them the ship. They can still self-certify. Cruise guests only — someone
-  // staying on the island has no all-aboard to miss.
-  const risky = !S.notCruise && S.dur > 5;
-  $('longDay').style.display = risky ? 'block' : 'none';
-  $('dayNext').disabled = risky && !$('longOk').checked;
+/* The ship is one optional box now. Empty means "not on a cruise", which is exactly what
+   the old screen's "My ship isn't listed" link meant, minus the two taps. */
+function onShip(){
+  const n = $('shipIn').value.trim();
+  S.ship = n ? {name:n, line:null} : null;
+  S.notCruise = !n;
+  onTimes();
 }
 
 /* ── 4 · who ── */
@@ -2249,53 +1372,44 @@ function waE164(){
   return n ? '+' + cc + n : '';
 }
 
-function toPay(){
+/* The courteous half of the server's rules. create-checkout enforces every one of these
+   again — this only saves her a round trip to Stripe and back to find out. */
+function formError(){
   onName();
-  const email = $('mailIn').value.trim();
-  // A "somewhere else" booking with no address is a van with nowhere to go. The server
-  // rejects it too — this is the courteous half, so she finds out here, not on Stripe.
-  const needsDropoff = S.dest === 'somewhere-else' && !$('dropoffIn').value.trim();
-  // The phone is required from 2026-08-08. It sat on this form optional and unchecked, so a
-  // guest could pay $369 with it blank — and on a morning her ship docks two hours late,
-  // email is useless to someone at sea. 8–15 digits is the international range (E.164);
-  // anything shorter is a typo, anything longer cannot be dialled.
-  const badPhone = waE164().replace(/\D/g, '').length < 8 || waE164().replace(/\D/g, '').length > 15;
-  const bad = !S.name ? 'nameIn'
-            : (badPhone ? 'waIn'
-            : (!/^\S+@\S+\.\S+$/.test(email) ? 'mailIn'
-            : (needsDropoff ? 'dropoffIn' : null)));
-  if (bad) {
-    $('whoErr').textContent = bad === 'nameIn'
-      ? 'We need the name that goes on the sign.'
-      : bad === 'waIn'
-      ? 'That phone number does not look right. Check your country is selected and the number is complete.'
-      : bad === 'mailIn'
-      ? 'We need an email address for your confirmation.'
-      : 'Tell us where you’re going — a hotel, an address, or the ferry terminal.';
-    $('whoErr').style.display = 'block';
-    $(bad).focus();
-    return;
-  }
-  $('whoErr').style.display = 'none';
-  go('pay');
+  if (!S.pick || !S.dur) return ['pickIn', 'Pick your pickup and return times.'];
+  if (!S.name) return ['nameIn', 'We need the name that goes on the sign.'];
+  if (!/^\S+@\S+\.\S+$/.test($('mailIn').value.trim()))
+    return ['mailIn', 'We need an email address for your confirmation.'];
+  // 8–15 digits is the international range (E.164); shorter is a typo, longer cannot be dialled.
+  const digits = waE164().replace(/\D/g, '').length;
+  if (digits < 8 || digits > 15)
+    return ['waIn', 'That phone number does not look right. Check your country is selected and the number is complete.'];
+  // A "somewhere else" booking with no address is a van with nowhere to go.
+  if (S.dest === 'somewhere-else' && !$('dropoffIn').value.trim())
+    return ['dropoffIn', 'Tell us where you\u2019re going \u2014 a hotel, an address, or the ferry terminal.'];
+  return null;
 }
 
 /* ── 5 · pay ── */
 function tripLine(){
   if (!S.dest) return '';
   const v = vehFor(S.pax);
-  const when = S.pick ? `${fmtHour(+S.pick)}–${fmtHour(+S.pick + S.dur)}` : '';
-  return `${v.name} to ${DEST[S.dest].short} · ${S.date} · ${when} · ${S.pax} ${S.pax===1?'person':'people'}`;
+  // The times are blank until she picks them — this line is painted the moment the screen
+  // opens, so the empty segment has to drop out rather than leave a "· ·" in the summary.
+  return [`${v.name} to ${DEST[S.dest].short}`, S.date,
+          S.pick && S.dur ? `${fmtHour(+S.pick)}–${fmtHour(+S.pick + S.dur)}` : '',
+          `${S.pax} ${S.pax===1?'person':'people'}`].filter(Boolean).join(' · ');
 }
 function paintPay(){
   if (!S.dest) return;
-  const d = DEST[S.dest], v = vehFor(S.pax);
+  const v = vehFor(S.pax);
   $('paySummary').textContent = tripLine();
   $('pVehLbl').textContent = v.name + ' — round trip';
   $('pVeh').textContent = moneyOf(priceOf());
-  $('pAdmRow').style.display = S.adm ? 'flex' : 'none';
-  $('pAdmLbl').textContent = d.admName + ' × ' + S.pax; $('pAdm').textContent = money(admTotal());
   $('pAll').textContent = moneyOf(grand()); $('payBtnAmt').textContent = moneyOf(grand());
+  // "Where are you going?" only makes sense for the destination that doesn't name itself.
+  $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
+  onTimes();
 }
 
 /* ── calendar file ──
@@ -2319,7 +1433,7 @@ function icsStamp(dateStr, hour){
 }
 function downloadICS(){
   const d = DEST[S.dest], v = vehFor(S.pax), ref = $('doneRef').textContent;
-  const day = $('dateIn').value, start = +S.pick, end = start + S.dur;
+  const day = $('barDate').value, start = +S.pick, end = start + S.dur;
   const esc = s => String(s).replace(/([,;\\])/g,'\\$1').replace(/\n/g,'\\n');
   const loc = 'Cozumel cruise terminal — our meeting point, just outside';
   const notes = `Booking ${ref}. Look for a sign reading ${(S.name||'YOUR NAME').toUpperCase()}. `
@@ -2451,24 +1565,38 @@ function waDone(){
    nothing but ?paid=1&ref= in the URL — Stripe doesn't hand the details back. */
 async function payNow(){
   const btn = $('payBtn'), err = $('payErr'), d = DEST[S.dest], v = vehFor(S.pax);
+  // The screen that used to check these was deleted with the wizard. Checking here keeps
+  // the guest off a round trip to a server refusal she can fix in place.
+  const bad = formError();
+  if (bad){ err.textContent = bad[1]; err.style.display = 'block'; $(bad[0]).focus(); return; }
   btn.disabled = true; btn.textContent = 'Opening secure payment…'; err.style.display = 'none';
 
   const booking = {
-    destination: S.dest, date: $('dateIn').value, dateLabel: S.date,
+    destination: S.dest, date: $('barDate').value, dateLabel: S.date,
     pickupHour: Number(S.pick), durationHours: Number(S.dur),
     pax: S.pax, name: S.name, email: $('mailIn').value.trim(),
-    whatsapp: waE164(), ship: S.ship ? S.ship.name : 'Not on a cruise',
+    whatsapp: waE164(),
+    // Optional on the form now. Empty is fine and always was: create-checkout writes
+    // "Not on a cruise" itself when this is blank.
+    ship: $('shipIn').value.trim(),
     // No admissionUsd and no returnUrl: the server owns both now. It reads the gate
     // price from its own table and builds the return address from its own host, so
     // neither can be bent by anything sent from this page.
-    admissionPrepaid: S.adm,
+    // The prepaid-admission add-on went with the screen it lived on. `false` is the value
+    // that screen opened at, and it is what keeps the charge equal to the price on the card
+    // above: the ladder promises one price by vehicle, so nothing else may be added to it.
+    admissionPrepaid: false,
     // Two free-text fields that must actually reach a human.
     // dropoff: required when the destination is "somewhere else" — without it the team
     // gets the string "Somewhere else on the island" and has to chase her on WhatsApp.
     // pickup: shown to guests not on a cruise since the wizard was built, and read
     // nowhere until today — she typed her hotel and it was discarded at submit.
     dropoff: $('dropoffIn').value.trim(),
-    pickup:  $('pickupOther').value.trim()
+    // The pickup-address box lived on the deleted ship screen, for guests not on a cruise.
+    // A trip that does not start at a pier never reaches this form — the bar sends it to
+    // WhatsApp — so there is no second address to carry. The key stays, at the value every
+    // cruise booking has always sent.
+    pickup:  ''
   };
   sessionStorage.setItem('cit_pending', JSON.stringify({
     ...booking, destName: d.short, vehicleName: v.name, total: grand()
@@ -2524,19 +1652,20 @@ async function payNow(){
   go('done');
 })();
 
-/* Arriving from one of our own pages. /?d=mr-sanchos opens the wizard on that
-   destination instead of dropping the reader at the top of a long homepage —
-   which is what every link from a guide or a ship page would otherwise do.
-   The key is checked against DEST before it is used: a query string is not to
-   be trusted, and openDest() on a key that isn't there would throw and leave
-   her looking at a half-painted screen.
+/* Arriving from one of our own pages. /?d=mr-sanchos used to open a destination screen;
+   there is no destination screen any more, so it selects that place in the bar and shows
+   the price — the same promise, one screen earlier. Every link from a guide, a ship page
+   or llms.txt keeps working.
+   The key is checked against DEST before it is used: a query string is not to be trusted.
    Deliberately after the Stripe handler — coming back from checkout wins. */
 (function handleDestDeepLink(){
   const q = new URLSearchParams(location.search);
   if (q.get('paid') || q.get('cancelled')) return;
   const k = q.get('d');
   if (!k || !Object.prototype.hasOwnProperty.call(DEST, k)) return;
-  openDest(k);
+  barDestSide().reset();
+  (barRev ? $('barFrom') : $('barTo')).value = k;
+  barQuote();
   history.replaceState({}, '', location.pathname);   // so a refresh doesn't re-open it
 })();
 
