@@ -352,6 +352,43 @@ button{font-family:inherit}
 .gmap.on{display:block}
 .gmap iframe{display:block;width:100%;height:200px;border:0}
 
+/* ── desktop: the hero as it was approved (proto/ab-3-glass-line.html) ──────────
+   Same markup, same wiring, same order of fields. On a wide screen the capsule stops
+   stacking and becomes one row — From, ⇄, To, Date, Passengers, button — pinned low in a
+   full-bleed photo, with the map directly under it. 941px is the mockup's own breakpoint:
+   below it the capsule goes back to the stacked phone shape defined above. */
+@media(min-width:941px){
+  /* The hero — and only the hero — steps out of the 560px column and spans the viewport.
+     Everything after it keeps the column, and every narrower screen keeps today's layout:
+     a full-bleed photo with a still-stacked capsule stretched across it looked wrong. */
+  .home-hero{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+    min-height:min(720px,100svh);
+    padding:88px clamp(16px,4vw,48px) clamp(24px,4vh,44px)}
+  /* The mockup shows the photograph itself, not a blurred plate: at this size the
+     gradient scrim alone carries the type. */
+  .home-hero .hh-img{transform:none;filter:none}
+  .home-hero .hh-text{width:100%;max-width:1060px;margin:0 auto;padding:0}
+  .home-hero h1{font-size:clamp(30px,5vw,54px);line-height:1.02;margin:9px 0 10px;
+    letter-spacing:-.045em;max-width:13em}
+  .home-hero h1 br{display:none}
+  .home-hero p{margin:0 0 22px;font-size:clamp(14px,1.5vw,16.5px);max-width:30em}
+
+  .glass{grid-template-columns:1.2fr auto 1.2fr .85fr .78fr auto;
+    border-radius:999px;padding:8px}
+  .glass > .g:nth-of-type(1),.glass > .g:nth-of-type(2),
+  .glass .swap,.glass .ggo{grid-column:auto}
+  .glass .g{padding:6px 18px;border-bottom:none;border-right:1px solid rgba(255,255,255,.14)}
+  .glass .g:last-of-type{border-right:none}
+  .glass .swap{margin:0 -4px;transform:none}
+  .glass .ggo{padding:0 4px}
+  .glass .ggo button{width:auto;padding:15px 30px;white-space:nowrap}
+
+  .gq{padding:15px 22px}
+  .gq .v{font-size:17px}
+  .gq .p{font-size:30px}
+  .gmap iframe{height:clamp(190px,26vh,300px)}
+}
+
 
 .shipsbar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#0F2C44;color:#CFE4F5;
   font-size:12.5px}
@@ -725,10 +762,13 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
 <section class="screen on" id="s-hub">
   <div class="home-hero">
     <!-- LCP image. Never lazy, never through the poster-sized transform. -->
-    <img class="hh-img" src="/.netlify/images?url=/assets/dest-mr-sanchos-hero.jpg&amp;w=1400&amp;fm=webp&amp;q=72" alt="" fetchpriority="high" decoding="async">
+    <img class="hh-img" src="/.netlify/images?url=/assets/dest-chankanaab-hero.jpg&amp;w=1600&amp;fm=webp&amp;q=72" alt="" fetchpriority="high" decoding="async">
     <div class="hh-text">
       <div class="kick">Cozumel cruise port transportation</div>
-      <h1>Two points. One price.<br>Your times.</h1>
+      <!-- The space after the <br> is load-bearing: desktop hides the break (the headline
+           wraps on its own there, as in the mockup) and without it the words run together.
+           At the start of a line the browser drops it, so the phone layout is unchanged. -->
+      <h1>Two points. One price.<br> Your times.</h1>
       <p>Private ground transfer across Cozumel — the price is for the vehicle, so it
         doesn't change when the group does.</p>
 
