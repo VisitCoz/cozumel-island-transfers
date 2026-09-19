@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Cozumel Transfers — launch checklist</title>
+<!-- INTERNAL. Not linked from anywhere. netlify.toml 404s /proto/* on both sites,
+     so this cannot be reached from the web even though it lives in the repo. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E0E10; --navy:#0F2C44; --mute:#6E6E73; --mute-2:#8C9AAB;
+  --line:#E5E5E7; --line-soft:#F1F1F4; --surface:#F4F8FA; --bg:#DCE5ED;
+  --accent:#1D7AFC; --accent-pressed:#0F62D6;
+  --green:#1F7A3F; --green-bg:#E6F4EA;
+  --amber:#8A5A00; --amber-bg:#FFF4DE;
+  --red:#A12018;   --red-bg:#FDECEA;
+  --shadow:0 1px 2px rgba(14,14,16,.04), 0 8px 24px rgba(14,14,16,.07);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.6;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.page{max-width:860px;margin:0 auto;background:#fff;min-height:100vh;
+  box-shadow:0 0 60px -20px rgba(0,0,0,.3)}
+
+/* masthead */
+header{background:var(--navy);color:#fff;padding:34px clamp(18px,4vw,44px) 30px}
+header .kick{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:#8FB8DE}
+header h1{margin:10px 0 8px;font-size:clamp(26px,4.4vw,36px);line-height:1.08;
+  font-weight:800;letter-spacing:-.035em}
+header p{margin:0;color:rgba(255,255,255,.82);font-size:15px;max-width:52em}
+header .meta{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.16);
+  display:flex;flex-wrap:wrap;gap:8px 26px;font-size:12.5px;color:rgba(255,255,255,.7)}
+header .meta b{color:#fff;font-weight:700}
+
+main{padding:8px clamp(18px,4vw,44px) 56px}
+h2{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent-pressed);margin:40px 0 4px}
+h2 + .lede{margin:0 0 18px;color:var(--mute);font-size:14.5px;max-width:56em}
+
+/* the picture of the idea */
+figure{margin:26px 0 8px;background:var(--surface);border:1px solid var(--line);
+  border-radius:16px;padding:22px 18px 14px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{margin-top:12px;font-size:13px;color:var(--mute);line-height:1.55}
+figcaption b{color:var(--navy)}
+
+/* numbered steps */
+ol.steps{list-style:none;counter-reset:s;margin:0;padding:0}
+ol.steps > li{counter-increment:s;position:relative;padding:20px 0 20px 52px;
+  border-top:1px solid var(--line-soft)}
+ol.steps > li:first-child{border-top:none}
+ol.steps > li::before{content:counter(s);position:absolute;left:0;top:20px;
+  width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;
+  font-size:14px;font-weight:800;display:grid;place-items:center}
+ol.steps h3{margin:0 0 6px;font-size:17px;font-weight:800;color:var(--navy);
+  letter-spacing:-.02em;line-height:1.25}
+ol.steps p{margin:0 0 8px;font-size:14.5px;color:#3A3A3E}
+ol.steps p:last-child{margin-bottom:0}
+.where{display:inline-block;background:var(--surface);border:1px solid var(--line);
+  border-radius:8px;padding:2px 9px;font-size:12px;font-weight:700;color:var(--navy);
+  margin-bottom:9px}
+
+/* key/value rows for exact settings */
+table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:14px}
+th{text-align:left;font-size:10.5px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mute-2);padding:0 10px 7px 0;
+  border-bottom:1px solid var(--line)}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line-soft);vertical-align:top}
+td:last-child,th:last-child{padding-right:0}
+td.k{white-space:nowrap}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:1.5px 6px;color:var(--navy);font-weight:600;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+td .why{display:block;margin-top:3px;font-size:12.5px;color:var(--mute);
+  line-height:1.5;white-space:normal}
+
+/* severity cards */
+.card{border-radius:14px;padding:16px 18px;margin:14px 0;border:1px solid;
+  box-shadow:var(--shadow)}
+.card .t{font-size:14px;font-weight:800;margin-bottom:5px;display:flex;gap:8px;
+  align-items:baseline;letter-spacing:-.01em}
+.card p{margin:0 0 7px;font-size:14px}
+.card p:last-child{margin-bottom:0}
+.card.red{background:var(--red-bg);border-color:#F3C6C1;color:#4A1410}
+.card.red .t{color:var(--red)}
+.card.amber{background:var(--amber-bg);border-color:#EFD9A6;color:#4A3300}
+.card.amber .t{color:var(--amber)}
+.card.green{background:var(--green-bg);border-color:#BEE0C8;color:#123D22}
+.card.green .t{color:var(--green)}
+
+.done{background:var(--green-bg);border:1px solid #BEE0C8;border-radius:14px;
+  padding:18px 20px;margin:26px 0 0}
+.done .t{font-size:14px;font-weight:800;color:var(--green);margin-bottom:6px}
+.done ul{margin:0;padding-left:20px;font-size:14px;color:#123D22}
+.done li{margin-bottom:4px}
+
+footer{background:var(--surface);border-top:1px solid var(--line);
+  padding:22px clamp(18px,4vw,44px);font-size:12.5px;color:var(--mute)}
+footer b{color:var(--navy)}
+
+@media(max-width:560px){
+  ol.steps > li{padding-left:42px}
+  ol.steps > li::before{width:28px;height:28px;font-size:13px}
+  table,thead,tbody,tr,td,th{display:block}
+  thead{display:none}
+  td{border:none;padding:2px 0}
+  tr{border-bottom:1px solid var(--line-soft);padding:11px 0;display:block}
+  code{white-space:normal;word-break:break-all}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="kick">Only you can do these · 18 September 2026</div>
+  <h1>Putting Cozumel Transfers on the air</h1>
+  <p>The code is finished and pushed. What is left is five things inside two dashboards —
+    Netlify and Cloudflare — that I have no login for. None of them touch the site that is
+    live and taking money today.</p>
+  <div class="meta">
+    <span>Branch <b>cozumeltransfers</b></span>
+    <span>Repo <b>VisitCoz/cozumel-island-transfers</b></span>
+    <span>Live site <b>untouched</b></span>
+    <span>Test booking <b>not yet run</b></span>
+  </div>
+</header>
+
+<main>
+
+<h2>What we are building</h2>
+<p class="lede">Two front doors, one engine. Both brands sell the same transfer, take the same
+  card through the same Stripe account, and land in the same inbox. Only the front of the
+  house is duplicated.</p>
+
+<figure>
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Diagram: two websites both send bookings to one Stripe account, which calls a single webhook on the old site, which emails the team and the guest.">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8C9AAB"/>
+    </marker>
+    <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#1D7AFC"/>
+    </marker>
+  </defs>
+
+  <!-- two sites -->
+  <rect x="14" y="20" width="230" height="92" rx="13" fill="#fff" stroke="#E5E5E7"/>
+  <text x="129" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" fill="#0F2C44">cozumelislandtransfers.com</text>
+  <text x="129" y="71" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" fill="#6E6E73">branch: main · live today</text>
+  <text x="129" y="93" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="700" fill="#1F7A3F">nothing changes here</text>
+
+  <rect x="14" y="146" width="230" height="92" rx="13" fill="#fff" stroke="#1D7AFC" stroke-width="2"/>
+  <text x="129" y="176" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" fill="#0F2C44">cozumeltransfers.org</text>
+  <text x="129" y="197" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" fill="#6E6E73">branch: cozumeltransfers</text>
+  <text x="129" y="219" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="700" fill="#0F62D6">the new site · you create it</text>
+
+  <!-- arrows into stripe -->
+  <path d="M248 66 C 300 66, 300 122, 344 122" fill="none" stroke="#8C9AAB" stroke-width="2" marker-end="url(#ar)"/>
+  <path d="M248 192 C 300 192, 300 140, 344 140" fill="none" stroke="#1D7AFC" stroke-width="2" marker-end="url(#arb)"/>
+  <text x="296" y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#8C9AAB">card</text>
+
+  <!-- stripe -->
+  <rect x="352" y="92" width="150" height="78" rx="13" fill="#0F2C44"/>
+  <text x="427" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" fill="#fff">One Stripe</text>
+  <text x="427" y="141" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" fill="#fff">account</text>
+  <text x="427" y="159" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#8FB8DE">both brands, one balance</text>
+
+  <!-- to webhook -->
+  <path d="M506 131 L 566 131" fill="none" stroke="#8C9AAB" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="574" y="92" width="212" height="78" rx="13" fill="#fff" stroke="#E5E5E7"/>
+  <text x="680" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="800" fill="#0F2C44">ONE webhook</text>
+  <text x="680" y="137" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#6E6E73">on the OLD site only</text>
+  <text x="680" y="156" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#6E6E73">emails + files every booking</text>
+
+  <!-- down to outputs -->
+  <path d="M680 174 L 680 214" fill="none" stroke="#8C9AAB" stroke-width="2" marker-end="url(#ar)"/>
+  <rect x="574" y="222" width="212" height="62" rx="13" fill="#F4F8FA" stroke="#E5E5E7"/>
+  <text x="680" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" fill="#0F2C44">Team email · guest email</text>
+  <text x="680" y="266" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" fill="#0F2C44">calendar · 9 AM manifest</text>
+
+  <!-- the removed copy -->
+  <rect x="352" y="252" width="150" height="76" rx="13" fill="#FDECEA" stroke="#F3C6C1" stroke-dasharray="5 4"/>
+  <text x="427" y="279" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="800" fill="#A12018">a SECOND webhook</text>
+  <text x="427" y="297" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="800" fill="#A12018">+ a second manifest</text>
+  <text x="427" y="316" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#A12018">deleted on this branch</text>
+
+  <path d="M427 252 L 427 176" fill="none" stroke="#A12018" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="410" y1="205" x2="444" y2="222" stroke="#A12018" stroke-width="2.5"/>
+  <line x1="444" y1="205" x2="410" y2="222" stroke="#A12018" stroke-width="2.5"/>
+
+  <text x="400" y="372" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="700" fill="#6E6E73">Two shopfronts. One till, one inbox, one morning manifest.</text>
+</svg>
+<figcaption><b>Why the red box matters.</b> Netlify deploys whatever files it finds in the
+  functions folder. If the new site carried its own copy of the two back-office jobs, the
+  morning manifest would email the team twice and a second webhook would race the first over
+  the same booking. So on this branch those two files are simply <b>deleted</b> — that is the
+  whole mechanism. Stripe keeps calling the old site's webhook, and because it is the same
+  Stripe account, it processes bookings from <em>both</em> brands exactly as it does today.</figcaption>
+</figure>
+
+<h2>Your five steps</h2>
+<p class="lede">Roughly twenty minutes. Steps 1–3 are Netlify, step 4 is Cloudflare, step 5 is
+  telling me.</p>
+
+<ol class="steps">
+
+<li>
+  <span class="where">Netlify → Add new site → Import an existing project</span>
+  <h3>Create a second site from the same repository</h3>
+  <p>Pick <b>the same GitHub repo you already use</b> — <code>VisitCoz/cozumel-island-transfers</code>.
+    Netlify will let you add it twice; that is normal and it is what we want.</p>
+  <p>On the build settings screen, the one field that matters:</p>
+  <table>
+    <thead><tr><th>Setting</th><th>What to put</th></tr></thead>
+    <tbody>
+    <tr><td class="k">Branch to deploy</td><td><code>cozumeltransfers</code>
+      <span class="why">Not <code>main</code>. This is the single setting that keeps the two
+      sites apart. If this says main, you have just deployed a second copy of the live site.</span></td></tr>
+    <tr><td class="k">Build command</td><td>leave empty
+      <span class="why">There is no build step — the page is plain HTML.</span></td></tr>
+    <tr><td class="k">Publish directory</td><td><code>.</code>
+      <span class="why">Netlify reads this from netlify.toml anyway; just don't override it.</span></td></tr>
+    <tr><td class="k">Site name</td><td>something like <code>cozumeltransfers</code>
+      <span class="why">Only decides the temporary <code>*.netlify.app</code> address. Cosmetic.</span></td></tr>
+    </tbody>
+  </table>
+  <p>Deploy it. It will go live on a <code>something.netlify.app</code> address straight away.
+    <b>Don't test a booking yet</b> — the keys aren't in place, so it would fail.</p>
+</li>
+
+<li>
+  <span class="where">Netlify → the NEW site → Site configuration → Environment variables</span>
+  <h3>Copy across exactly these two, and no others</h3>
+  <p>A Netlify site starts with an empty set — nothing is inherited from the other one. Open the
+    live site's variable list in a second tab and copy the values across. <b>Don't paste any value
+    into a message, a document or a chat</b>, including to me; I only ever need the names.</p>
+  <table>
+    <thead><tr><th>Name</th><th>Where its value comes from</th></tr></thead>
+    <tbody>
+    <tr><td class="k"><code>STRIPE_SECRET_KEY</code></td>
+      <td>Copy the value from the live site, unchanged.
+        <span class="why">Same Stripe account on purpose — it is what puts both brands' money in
+        one balance and lets the one webhook handle both. Without it, the pay button returns an
+        error instead of opening Stripe.</span></td></tr>
+    <tr><td class="k"><code>SITE_URL</code></td>
+      <td>Type it fresh: <code>https://cozumeltransfers.org</code>
+        <span class="why">Do <b>not</b> copy the live site's value. This is the address Stripe
+        sends the guest back to after she pays. Set wrong, she pays and then lands on the other
+        brand's website, which looks like she has been handed off to a stranger.</span></td></tr>
+    </tbody>
+  </table>
+  <div class="card red">
+    <div class="t">⛔ Three that must stay UNSET on the new site</div>
+    <p><code>STRIPE_WEBHOOK_SECRET</code> — there is no webhook here. Setting it does nothing
+      useful and invites someone to add one back.</p>
+    <p><code>TEST_PRICE_USD</code> and <code>TEST_CURRENCY</code> — these exist to charge $5 in
+      pesos during a test. While either is set, <b>every booking on the site charges the test
+      amount.</b> Leave them off, and when we do run a test booking, remember to remove them the
+      same hour.</p>
+  </div>
+  <div class="card amber">
+    <div class="t">🤔 One decision I need from you</div>
+    <p>There are four more variables on the live site — two for the <b>funnel log</b>
+      (<code>FUNNEL_URL</code>, <code>FUNNEL_TOKEN</code>) and two for the <b>refusal log</b>
+      (<code>REFUSALS_URL</code>, <code>REFUSALS_TOKEN</code>). They feed the two Google Sheets
+      that record where visitors drop off and who a rule turned away.</p>
+    <p>If you copy them, <b>both sites write into the same sheet and neither row says which site
+      it came from</b> — the two brands' numbers get blended and can't be pulled apart later. If
+      you leave them out, the new site silently records nothing and the live site's figures stay
+      clean.</p>
+    <p><b>My recommendation: leave all four out for now.</b> The new site has no traffic yet, so
+      there is nothing to lose, and adding a site column later is a small job. Tell me if you'd
+      rather have the data blended from day one.</p>
+  </div>
+</li>
+
+<li>
+  <span class="where">Netlify → the NEW site → Domain management → Add a domain</span>
+  <h3>Add cozumeltransfers.org as the custom domain</h3>
+  <p>Enter <code>cozumeltransfers.org</code>. Netlify will say the domain is registered elsewhere
+    and offer to let you point it yourself — take that option. Do <b>not</b> let it move the
+    nameservers to Netlify: the domain sits on Cloudflare and we want it to stay there, the same
+    way the live site does.</p>
+  <p>Netlify then shows you the DNS records it wants. Those are what step 4 is for.</p>
+  <p>It will also ask whether <code>www.cozumeltransfers.org</code> should work. <b>Tell me which
+    you choose</b> — if you want www to work, there is a one-line rule I need to add to the repo
+    so the two addresses don't count as two separate websites to Google.</p>
+</li>
+
+<li>
+  <span class="where">Cloudflare → cozumeltransfers.org → DNS → Records</span>
+  <h3>Point the domain at the new site</h3>
+  <p>Add exactly what Netlify showed you on the previous screen. It is normally one record:</p>
+  <table>
+    <thead><tr><th>Type</th><th>Name</th><th>Value</th><th>Proxy</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="k"><code>CNAME</code></td>
+      <td class="k"><code>@</code>
+        <span class="why">the bare domain</span></td>
+      <td class="k"><code>&lt;your-site&gt;.netlify.app</code>
+        <span class="why">the exact address Netlify gives you — copy it, don't retype it</span></td>
+      <td class="k">🟠 Proxied
+        <span class="why">the orange cloud ON, same as the live site</span></td>
+    </tr>
+    </tbody>
+  </table>
+  <p>If Netlify asks for an <code>A</code> record to an IP address instead, use that — follow
+    what its screen says, not what this page guesses.</p>
+  <div class="card amber">
+    <div class="t">⚠️ Set SSL/TLS to Full (strict) before you test</div>
+    <p>Cloudflare → SSL/TLS → Overview. If a fresh zone is left on <b>Flexible</b>, the browser
+      and Netlify disagree about who is encrypting what and the page can redirect in a loop that
+      looks exactly like a broken deploy. Match whatever the live zone is set to.</p>
+    <p>Give the certificate a few minutes. A padlock warning in the first five minutes is normal;
+      one that is still there after an hour is not.</p>
+  </div>
+</li>
+
+<li>
+  <span class="where">Message me</span>
+  <h3>Tell me it's up, and I'll run the test booking</h3>
+  <p>Send me the new address once it loads. I'll then walk a real booking end to end and confirm
+    the four things that can only be checked once it is live: that the pay button reaches Stripe,
+    that paying sends the guest back to <b>cozumeltransfers.org</b> and not the other domain,
+    that the team email and the guest email both arrive, and that the booking carries its new
+    <code>site</code> tag in Stripe so the manifest can tell the two brands apart.</p>
+  <p><b>No card gets charged for real</b> — we'll use the $5 test override and take it off the
+    same hour.</p>
+</li>
+
+</ol>
+
+<h2>Three things I could not fix from here</h2>
+<p class="lede">All three are decisions, not bugs. None of them stop the site going up, and none
+  of them touch a price.</p>
+
+<div class="card red">
+  <div class="t">🚨 The confirmation email will say the other brand's name</div>
+  <p>Bookings from the new site are emailed by the old site's webhook, and that email template
+    signs off <b>"Cozumel Island Transfers"</b> and links to the old domain. So a guest who books
+    on Cozumel Transfers gets a receipt from a company she has never heard of — which reads like
+    a scam to exactly the nervous first-time buyer this site is built for.</p>
+  <p>The fix is small and I have already laid the groundwork: every booking now carries a
+    <code>site</code> tag saying which brand sold it, so the email can pick the right name and
+    link. But that template lives on the live site's branch, so <b>changing it changes the live
+    site</b> — I won't touch that without you saying go. <b>Say the word and I'll do it before the
+    test booking.</b></p>
+</div>
+
+<div class="card amber">
+  <div class="t">⚠️ Four supporting files still name the old site</div>
+  <p><code>llms.txt</code> (what AI assistants read), <code>sitemap.xml</code>,
+    <code>robots.txt</code> and the terms, privacy, 404 and meeting-point pages all still say
+    "Cozumel Island Transfers" and point at the old domain. They were outside what you asked me to
+    change, and two of them also hold the price list, which I was told to leave byte-for-byte
+    alone.</p>
+  <p>Nothing breaks — the pages load and the prices are right. But an AI assistant reading the new
+    site is told it is the old one. <b>Half an hour of work whenever you want it.</b></p>
+</div>
+
+<div class="card amber">
+  <div class="t">⚠️ The share card image still has the old logo on it</div>
+  <p>When someone shares the new site on WhatsApp, the preview picture is the one made for the
+    other brand, with its name burned into the image. Worth replacing before you push the new
+    address anywhere. Same for the TripAdvisor rating in the page's hidden data: it belongs to the
+    old listing, and Google may object to a review score attached to a different name.</p>
+</div>
+
+<div class="done">
+  <div class="t">✅ Already done, so you don't need to check it</div>
+  <ul>
+    <li>Branch <b>cozumeltransfers</b> created and pushed. <b>main was never touched</b> and the
+      live site cannot change because of anything on it.</li>
+    <li>New hero: the glass bar and the map you picked off the proof sheet, with both piers
+      showing as separate pins — checked in a browser, not assumed.</li>
+    <li>Every section below the hero is byte-for-byte what is live today, apart from four places
+      where the brand name reads "Cozumel Transfers".</li>
+    <li><b>Not one price changed</b> in any of the eight places they live. Verified by diff.</li>
+    <li>The two back-office jobs are deleted on this branch and the scheduled-job block is gone
+      from the config — so nothing can fire twice.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>
+  <b>Cozumel Transfers launch checklist</b> · prepared 18 September 2026 ·
+  branch <b>cozumeltransfers</b> of VisitCoz/cozumel-island-transfers.<br>
+  Internal working document. No key, token or password appears anywhere on this page, and none
+  should ever be added to it.
+</footer>
+
+</div>
+</body>
+</html>
