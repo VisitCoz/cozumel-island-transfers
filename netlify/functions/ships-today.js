@@ -22,6 +22,20 @@ exports.handler = async () => {
     const todayShips = ships.filter(s => s.dateISO === today);
     const tomorrowShips = ships.filter(s => s.dateISO === tomorrow);
 
+    // ── the whole published window, by day ──────────────────────────────────────
+    // The homepage bar asks a different question from meet/: not "who is in port now"
+    // but "which terminal will THIS ship use on THAT day". That needs every day the port
+    // authority has published, not just the next two — so the same parse is grouped by
+    // date here. Days already past are dropped: nobody books yesterday, and they only
+    // make the payload bigger. `to` is the last day APIQROO has published, which is what
+    // tells the browser a date is beyond the schedule rather than simply ship-free.
+    const byDay = {};
+    for (const s of ships) {
+      if (s.dateISO < today) continue;
+      (byDay[s.dateISO] = byDay[s.dateISO] || []).push({ ship: s.ship, port: s.port });
+    }
+    const days = Object.keys(byDay).sort();
+
     return {
       statusCode: 200,
       headers: {
@@ -34,7 +48,8 @@ exports.handler = async () => {
         sourceUrl: SOURCE,
         fetchedAt: new Date().toISOString(),
         today: { date: today, ships: todayShips },
-        tomorrow: { date: tomorrow, ships: tomorrowShips }
+        tomorrow: { date: tomorrow, ships: tomorrowShips },
+        published: { from: today, to: days[days.length - 1] || today, byDay }
       })
     };
   } catch (e) {

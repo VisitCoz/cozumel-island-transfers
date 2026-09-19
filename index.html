@@ -724,6 +724,53 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
   .v2-h2{font-size:34px}
   .v2-sec .grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
 }
+
+/* ══ THE SHIP FIELD AND THE PIER LINE ════════════════════════════════════════════
+   Added 2026-09-19. A cruise guest does not know which of Cozumel's three terminals
+   her ship uses — the line never tells her, and the two big ones are 300 m apart.
+   She does know her ship's name. So the "From" list became a ship box, and the pier
+   is our problem, answered from the port authority's own published schedule. ── */
+
+/* ── the type-ahead, in the slot the "From" list used to fill ──
+   A text box rather than a <select>: 144 ships is too many to wheel through. The list
+   under it is the whole control — its last row is always the way out for a guest who
+   is not arriving by ship. */
+.glass .cship{display:none}
+.glass .g.ship .cship{display:block}
+.glass .g.ship select{display:none}
+.glass .g.typing .cship{display:none}
+.glass .g .shipdrop{display:none}
+.glass .g.open .shipdrop{display:block;position:absolute;z-index:40;left:6px;right:6px;top:100%;
+  margin-top:6px;max-height:330px;overflow-y:auto;background:#fff;border-radius:14px;
+  border:1px solid var(--line);box-shadow:0 26px 60px -22px rgba(0,0,0,.6)}
+.shipdrop .sr{display:block;width:100%;text-align:left;border:none;background:none;cursor:pointer;
+  padding:10px 15px;border-bottom:1px solid var(--line-soft);min-height:52px}
+.shipdrop .sr:last-child{border-bottom:none}
+.shipdrop .sr:hover,.shipdrop .sr:focus{background:var(--surface);outline:none}
+.shipdrop .sr .n,.shipdrop .sr .c{display:block}
+.shipdrop .sr .n{font-size:15.5px;font-weight:700;color:var(--navy);letter-spacing:-.01em;line-height:1.25}
+.shipdrop .sr .c{font-size:12.5px;color:var(--mute);margin-top:1px}
+.shipdrop .sr.esc .n{color:var(--accent-pressed)}
+.shipdrop .none{padding:13px 15px;font-size:13.5px;color:var(--mute)}
+
+/* ── the price card grows one row: her pier, or our promise to write ── */
+.gq .pier{flex:1 1 100%;order:1;display:flex;gap:10px;align-items:flex-start;
+  background:var(--card-blue);border:1px solid #C7DAF5;border-radius:14px;padding:11px 13px}
+.gq .pier .ic{font-size:17px;line-height:1.2}
+.gq .pier .tx{font-size:13.5px;color:#1D3B57;font-weight:600}
+.gq .pier .tx b{color:var(--navy);font-weight:800}
+.gq .pier.soft{background:var(--surface);border-color:var(--line)}
+.gq .pier.soft .tx{color:#3C4A57}
+/* The card's own order: route line, price, pier, button. */
+.gq > div:first-child{order:0}
+.gq .p{order:0}
+.gq .gbook{order:3}
+
+/* On a wide screen the ship field is a narrow column of the capsule, and a ship's name
+   plus its line will not fit in it. The list is allowed to be wider than its field. */
+@media(min-width:941px){
+  .glass .g.open .shipdrop{right:auto;min-width:330px}
+}
 </style>
 </head>
 <body>
@@ -763,19 +810,29 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
         doesn't change when the group does.</p>
 
       <div class="glass">
-        <div class="g" id="barFromF">
-          <label for="barFrom">From<button class="revert" type="button">use list</button></label>
+        <!-- ══ "From" became "Your ship" ══════════════════════════════════════════
+             She names the ship and the day; the pier is our problem. The field keeps all
+             three shapes the old one had: ship (default), destination list (after ⇄),
+             and a typed address (the escape hatch at the foot of the ship list). -->
+        <div class="g ship" id="barFromF">
+          <label for="barFromS"><span class="lt">Your ship</span><button class="revert" type="button">use the ship list</button></label>
+          <input class="cship" id="barFromS" type="text" placeholder="Start typing, e.g. Carnival…"
+            autocomplete="off" aria-label="Which ship are you arriving on">
           <select id="barFrom"></select>
           <input class="ctext" id="barFromT" type="text" placeholder="Hotel, villa or address"
             autocomplete="off" aria-label="Where we pick you up">
+          <div class="shipdrop" id="barFromD" role="listbox"></div>
         </div>
         <button class="swap" type="button" onclick="barSwap()" title="Reverse the direction"
           aria-label="Reverse the direction">⇄</button>
         <div class="g" id="barToF">
-          <label for="barTo">To<button class="revert" type="button">use list</button></label>
+          <label for="barTo"><span class="lt">To</span><button class="revert" type="button">use the list</button></label>
+          <input class="cship" id="barToS" type="text" placeholder="Start typing, e.g. Carnival…"
+            autocomplete="off" aria-label="Which ship are you sailing on">
           <select id="barTo"></select>
           <input class="ctext" id="barToT" type="text" placeholder="Hotel, restaurant or address"
             autocomplete="off" aria-label="Where we take you">
+          <div class="shipdrop" id="barToD" role="listbox"></div>
         </div>
         <div class="g">
           <label for="barDate">Date</label>
@@ -798,6 +855,12 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
           <div class="v" id="barVeh"></div>
         </div>
         <div class="p" id="barPrice"></div>
+        <!-- The pier we will meet her at. Shown only when the port authority has published
+             her day AND her ship is on it. Otherwise it says we will write — never a guess,
+             because she will be standing in the terminal we name. -->
+        <div class="pier" id="barPier" style="display:none">
+          <span class="ic" id="barPierIc">⚓</span><span class="tx" id="barPierTx"></span>
+        </div>
         <button class="gbook" id="barBook" type="button" onclick="barGo()">Book this transfer →</button>
       </div>
 
@@ -1225,10 +1288,15 @@ const VEH = [
    port authority's own records. Deliberately NOT tied to a date: APIQROO only publishes the
    schedule about a month out, so a dated ship picker would turn away anyone booking early.
    It feeds the form's <datalist> — a native suggestion list on one optional field, where it
-   used to be a screen of its own with a Continue button she could not pass. */
+   used to be a screen of its own with a Continue button she could not pass — and the bar's
+   own ship type-ahead, which reads SHIPS below rather than downloading the list twice. */
+let SHIPS = [];              // [[name, line], …] once the download lands
+const BAR_DRAWS = [];        // type-aheads to repaint when it does
 fetch('../data/cozumel-ships.json')
   .then(r => r.json())
   .then(d => {
+    SHIPS = d.ships.map(s => [s.name, s.line]);
+    BAR_DRAWS.forEach(fn => fn());
     $('shipList').innerHTML = d.ships
       .map(s => `<option value="${s.name.replace(/"/g, '&quot;')}">`).join('');
     $('shipHint').textContent = `Optional. ${d.shipCount} ships, straight from the Cozumel port `
@@ -1242,7 +1310,7 @@ const DRIVE_MIN = 20;
 
 /* ── state ── */
 let S = {dest:null, pax:2, adm:false, ship:null, notCruise:true, date:'',
-         pick:'', dur:null, name:'', ref:null};
+         pick:'', dur:null, name:'', ref:null, pier:null};
 
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
@@ -1359,7 +1427,7 @@ function restart(){
   // `md` was a module-level const on the deleted day screen. The floor is cheap to
   // recompute and the bar already calls minDate() for its own min attribute.
   S = {dest:null, pax:2, adm:false, ship:null, notCruise:true, date:pretty(minDate()),
-       pick:'', dur:null, name:'', ref:null};
+       pick:'', dur:null, name:'', ref:null, pier:null};
   // Every one of these travels with the booking, so a value left over from a previous run
   // would follow the next guest to Stripe and into the team's email.
   ['nameIn','mailIn','waIn','shipIn','dropoffIn','pickIn'].forEach(id => $(id).value = '');
@@ -1421,60 +1489,182 @@ const PIER_Q = {
 const BAR_OTHER = '__other';
 let barRev = false;   // has the ⇄ arrow been used?
 
-/* On the pier side, "my hotel" is a genuinely new option. On the destination side the
-   list already ends in "Somewhere else" — a real destination at the normal price, whose
-   address the wizard asks for on the details screen — so that option is repurposed into
-   the typing one rather than a second near-identical entry being bolted on. */
-function barLoad(sel, rows, isPierSide){
-  sel.innerHTML = '';
-  rows.forEach(([t, v]) => sel.add(new Option(t, v)));
-  if (isPierSide) sel.add(new Option('My hotel or another address', BAR_OTHER));
-  // Repurpose the last destination — "Somewhere else" — rather than adding a second,
-  // near-identical option beside it. Picking it opens the text box here; barGo() books
-  // it as the real `somewhere-else` destination at the normal price and carries what she
-  // typed into the address field the wizard already has.
-  else sel.options[sel.options.length - 1].value = BAR_OTHER;
+/* ═══════════════════════════════════════════════════════════════════════════════
+   THE SHIP, AND THE PIER IT DOCKS AT
+   ═══════════════════════════════════════════════════════════════════════════════
+   The bar used to ask a cruise guest which of Cozumel's three terminals she was
+   arriving at. She has no way of knowing: the line never tells her, and Puerta Maya
+   and the International Pier are 300 m apart. She does know the name of her ship.
+
+   So she names the ship and the day, and we work the pier out from the port
+   authority's own published schedule — the same APIQROO feed ships-today.js has
+   always parsed, now returned by day so this page can look up a future date.
+
+     SHIPS      data/cozumel-ships.json — every ship that has ever called here.
+                Already fetched above for the form's <datalist>; the type-ahead
+                reads the same download rather than pulling it twice.
+     PUBLISHED  /.netlify/functions/ships-today → `published` — {from, to, byDay}.
+                The port publishes roughly a month out and no further, so most dates
+                a guest picks are NOT in it. That is a normal answer, not a failure.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* The three terminals as the port authority writes them, and as a guest should read
+   them. SSA MEXICO is the pier this site has always called the International Pier.
+   🚨 The `q` strings are HAND-TUNED and verified in a browser: they are the place
+   names Google's own embeds on the meet/ pages resolve to, so the keyless map returns
+   two distinct pins instead of collapsing Puerta Maya and the International Pier onto
+   one terminal. Do not "simplify" them back to the plain labels. */
+const TERMINAL = {
+  'PUERTA MAYA':    {name:'Puerta Maya',        q:'Puerta Maya Cruise Ship Maritime Terminal, Cozumel'},
+  'SSA MEXICO':     {name:'International Pier', q:'Cozumel Cruise Terminal, Costera, Cozumel'},
+  'PUNTA LANGOSTA': {name:'Punta Langosta',     q:'Punta Langosta Cruise Terminal, Cozumel'},
+};
+/* Every meet/ page on this site puts the walk at about ten minutes. One honest figure,
+   the same one she will read on the page that shows her the walk. */
+const WALK = 'about a 10-minute walk';
+/* When we do not know the pier the map still has to point somewhere honest — the port
+   itself, not one of the three terminals in it. */
+const PORT_Q = 'Cozumel Cruise Port, Cozumel';
+
+/* ── the published schedule ──
+   One fetch per page load, held here and read by every date she tries. The window is a
+   few kilobytes and the edge caches it for six hours, so asking per date would buy
+   nothing and cost a round trip each time she moves the calendar. Null until it lands,
+   and null forever if the port authority is down — in both cases the pier line simply
+   says we will write, which is the truth. */
+let PUBLISHED = null;
+let pubPromise = null;
+function loadPublished(){
+  if (!pubPromise) pubPromise = fetch('/.netlify/functions/ships-today')
+    .then(r => r.json())
+    .then(d => { PUBLISHED = d.published || null; return PUBLISHED; })
+    .catch(() => null);
+  return pubPromise;
 }
 
-/* The ⇄ arrow flips which list is From and which is To. A guest heading back to the
-   pier is the same transfer read the other way round, not a different product. */
+/* Her ship's terminal on her day, or null. Null is a real answer and the common one:
+   the port publishes about a month out, and a ship can be absent from a day that IS
+   published. APIQROO writes "M/S CARNIVAL BREEZE" where our list says "Carnival Breeze",
+   so both sides are stripped to letters and the M/S — M/V prefix is dropped. */
+function pierFor(shipName, iso){
+  if (!shipName || !iso || !PUBLISHED) return null;
+  const day = PUBLISHED.byDay[iso];
+  if (!day) return null;
+  const key = shipName.toUpperCase().replace(/[^A-Z ]/g, ' ').replace(/\s+/g, ' ').trim();
+  const hit = day.find(r => {
+    const s = r.ship.toUpperCase().replace(/^M\/[SV]\s+/, '').replace(/[^A-Z ]/g,' ').replace(/\s+/g,' ').trim();
+    return s === key || s.includes(key) || key.includes(s);
+  });
+  return hit ? (TERMINAL[hit.port] || null) : null;
+}
+
+/* On the destination side the list already ends in "Somewhere else" — a real destination
+   at the normal price, whose address the wizard asks for on the details screen — so that
+   option is repurposed into the typing one rather than a second near-identical entry
+   being bolted on. */
+function barLoad(sel, rows){
+  sel.innerHTML = '';
+  rows.forEach(([t, v]) => sel.add(new Option(t, v)));
+  // Picking it opens the text box here; barGo() books it as the real `somewhere-else`
+  // destination at the normal price and carries what she typed into the address field
+  // the wizard already has.
+  sel.options[sel.options.length - 1].value = BAR_OTHER;
+}
+
+/* The ⇄ arrow flips which end is the ship. A guest heading back to the pier is the same
+   transfer read the other way round, not a different product — so the ship field and the
+   destination list swap sides, and nothing else moves. */
 function barFill(){
-  const piers = PIERS.map(p => [p, p]);
   const dests = Object.keys(DEST).map(k => [DEST[k].short + ' · ' + DEST[k].drive, k]);
-  barLoad($('barFrom'), barRev ? dests : piers, !barRev);
-  barLoad($('barTo'),   barRev ? piers : dests,  barRev);
-  if (!barRev) $('barTo').selectedIndex = 0; else $('barFrom').selectedIndex = 0;
+  const shipF = barRev ? $('barToF')   : $('barFromF');
+  const destF = barRev ? $('barFromF') : $('barToF');
+  shipF.classList.add('ship');  destF.classList.remove('ship');
+  shipF.querySelector('.lt').textContent = 'Your ship';
+  destF.querySelector('.lt').textContent = barRev ? 'From' : 'To';
+  shipF.querySelector('.revert').textContent = 'use the ship list';
+  destF.querySelector('.revert').textContent = 'use the list';
+  barLoad(destF.querySelector('select'), dests);
+  destF.querySelector('select').selectedIndex = 0;
 }
 
 /* One field of the capsule. Returns the handful of questions the rest of the bar asks
-   of it, so nothing outside here has to know whether it is a list or a text box. */
-function barField(fldId, selId, txtId){
-  const fld = $(fldId), sel = $(selId), txt = $(txtId);
+   of it, so nothing outside here has to know whether it is the ship box, a list or a
+   text box. */
+function barField(fldId, selId, txtId, shipId, dropId){
+  const fld = $(fldId), sel = $(selId), txt = $(txtId), shp = $(shipId), drop = $(dropId);
+  let ship = null;                                   // [name, line] once she has picked one
   sel.addEventListener('change', () => { if (sel.value === BAR_OTHER) set(true); barSync(); });
   fld.querySelector('.revert').addEventListener('click', () => { set(false); barSync(); });
   /* 🚨 NO ADDRESS SUGGESTIONS, on purpose. There is no Google key on this site and
      nothing here is geocoded, so a list of guesses would be theatre — and a villa name
      nobody has mapped would send the map to the middle of the ocean. A typed place is
      confirmed by a person on WhatsApp; the map simply keeps the last thing it could
-     actually find. */
+     actually find. The SHIP box is different: those names are a closed list we own. */
   txt.addEventListener('input', () => $('barQ').classList.remove('on'));
+
+  /* ── the type-ahead ── too many ships to wheel through, and she knows the name.
+     Matches on the ship AND on the line, so "carnival" finds all of them. The last row
+     is always the way out for a guest who is not arriving by ship. */
+  function draw(){
+    const q = shp.value.trim().toLowerCase();
+    const hits = (q ? SHIPS.filter(s => s[0].toLowerCase().includes(q) || (s[1]||'').toLowerCase().includes(q))
+                    : SHIPS).slice(0, 7);
+    drop.innerHTML = hits.map(s =>
+        `<button class="sr" type="button" data-n="${s[0].replace(/"/g,'&quot;')}"><span class="n">${s[0]}</span><span class="c">${s[1]||''}</span></button>`).join('')
+      + (hits.length ? '' : `<div class="none">No ship by that name. Check the spelling, or pick the last option.</div>`)
+      + `<button class="sr esc" type="button" data-esc="1"><span class="n">Not on a cruise — I'm at a hotel</span><span class="c">Type your address instead</span></button>`;
+    fld.classList.add('open');
+  }
+  // The ship list arrives from its own fetch. If she is already typing when it lands,
+  // repaint the open list rather than leaving her staring at an empty one.
+  BAR_DRAWS.push(() => { if (fld.classList.contains('open')) draw(); });
+  // Touching the ship box is the first moment we know she is on a cruise, so that is
+  // when the schedule is sent for — it is usually in hand before she picks a date.
+  shp.addEventListener('focus', () => { loadPublished(); draw(); });
+  shp.addEventListener('input', () => { ship = null; $('barQ').classList.remove('on'); draw(); });
+  drop.addEventListener('mousedown', e => {
+    const b = e.target.closest('.sr'); if (!b) return;
+    e.preventDefault();
+    if (b.dataset.esc){ set(true); fld.classList.remove('open'); barSync(); return; }
+    ship = SHIPS.find(s => s[0] === b.dataset.n) || null;
+    shp.value = b.dataset.n;
+    fld.classList.remove('open');
+    barSync();
+  });
+  // Touch devices fire no mousedown before blur, so the row is committed on click too.
+  drop.addEventListener('click', e => {
+    const b = e.target.closest('.sr');
+    if (b && !b.dataset.esc && shp.value !== b.dataset.n) {
+      ship = SHIPS.find(s => s[0] === b.dataset.n) || null;
+      shp.value = b.dataset.n; fld.classList.remove('open'); barSync();
+    }
+  });
+  shp.addEventListener('blur', () => setTimeout(() => fld.classList.remove('open'), 160));
+
   function set(on){
     fld.classList.toggle('typing', on);
-    if (on) txt.focus(); else { sel.selectedIndex = 0; txt.value = ''; }
+    if (on) txt.focus(); else { sel.selectedIndex = 0; txt.value = ''; shp.value = ''; ship = null; }
     $('barQ').classList.remove('on');
   }
   return {
-    on:    () => fld.classList.contains('typing'),
-    slug:  () => sel.value,
-    text:  () => txt.value.trim(),
+    on:     () => fld.classList.contains('typing'),
+    isShip: () => fld.classList.contains('ship') && !fld.classList.contains('typing'),
+    ship:   () => ship,
+    slug:   () => sel.value,
+    text:   () => txt.value.trim(),
     /* What the guest sees in the quote line. */
     label: () => fld.classList.contains('typing')
       ? (txt.value.trim() || 'the address you give us')
-      : sel.options[sel.selectedIndex].text.split(' · ')[0],
-    /* What the map is asked for. A typed field answers with nothing — see above. */
-    place: () => fld.classList.contains('typing')
-      ? '' : (PIER_Q[sel.value] || (DEST[sel.value] ? DEST[sel.value].name : '')),
-    reset: () => set(false),
+      : fld.classList.contains('ship')
+        ? (ship ? ship[0] : 'your ship')
+        : sel.options[sel.selectedIndex].text.split(' · ')[0],
+    /* What the map is asked for. A typed field answers with nothing — see above. The
+       ship end answers with the pier we worked out, or with the port when we cannot. */
+    place: () => fld.classList.contains('typing') ? ''
+      : fld.classList.contains('ship')
+        ? ((pierFor(ship && ship[0], $('barDate').value) || {}).q || PORT_Q)
+        : (DEST[sel.value] ? DEST[sel.value].name : ''),
+    reset: () => { set(false); },
   };
 }
 
@@ -1491,6 +1681,7 @@ function barSync(){
   const f = $('barMapFrame');
   if (f.getAttribute('src') !== url) f.setAttribute('src', url);
   $('barMap').classList.add('on');
+  if ($('barQ').classList.contains('on')) barQuote();
 }
 
 function barSwap(){ barRev = !barRev; BFROM.reset(); BTO.reset(); barFill(); barSync(); }
@@ -1502,32 +1693,66 @@ function barReset(){ barRev = false; BFROM.reset(); BTO.reset(); barFill();
   $('barQ').classList.remove('on'); barPaint(); barSync(); }
 
 barFill();
-const BFROM = barField('barFromF', 'barFrom', 'barFromT');
-const BTO   = barField('barToF',   'barTo',   'barToT');
-barSync();
+const BFROM = barField('barFromF', 'barFrom', 'barFromT', 'barFromS', 'barFromD');
+const BTO   = barField('barToF',   'barTo',   'barToT',   'barToS',   'barToD');
 
 /* The date can't be earlier than the wizard's own floor, so the capsule cannot collect
-   a day the next screen will refuse. minDate() is the same function the wizard uses. */
+   a day the next screen will refuse. minDate() is the same function the wizard uses.
+   It now also moves the pier, so it has to repaint. */
 $('barDate').min = iso(minDate());
 $('barDate').value = iso(minDate());
+$('barDate').addEventListener('change', barSync);
 
-/* Which end of the trip is the pier depends on which way the ⇄ arrow has it. */
+/* Which end of the trip is the ship — and therefore the pier — depends on the ⇄ arrow. */
 const barPierSide = () => barRev ? BTO   : BFROM;
 const barDestSide = () => barRev ? BFROM : BTO;
+
+/* ── the pier line ──────────────────────────────────────────────────────────────
+   Painted from two answers: which ship, and which day. Either we know her terminal
+   from the published schedule or we say we will write. Never a guess: she will be
+   standing in the terminal this line names. */
+function paintPier(){
+  const el = $('barPier'), side = barPierSide(), iso_ = $('barDate').value;
+
+  // No ship, or she is not on a cruise: the line has nothing true to say.
+  if (!side.isShip() || !side.ship() || !iso_){ el.style.display = 'none'; S.pier = null; return; }
+
+  // The schedule may still be in flight on her first quote. Ask for it, and repaint
+  // when it lands — the card is already on screen by then, so the line simply fills in.
+  // barSync() rather than paintPier(), because the map moves to her terminal too.
+  if (!PUBLISHED){ loadPublished().then(p => { if (p && $('barQ').classList.contains('on')) barSync(); }); }
+
+  const pier = pierFor(side.ship()[0], iso_);
+  el.style.display = 'flex';
+  if (pier){
+    el.classList.remove('soft'); $('barPierIc').textContent = '⚓';
+    $('barPierTx').innerHTML = `Your ship docks at <b>${pier.name}</b> · our meeting point is ${WALK}`;
+    S.pier = pier.name;
+  } else {
+    el.classList.add('soft'); $('barPierIc').textContent = '✉️';
+    $('barPierTx').innerHTML = `We confirm your pier by email the day before — the port publishes `
+      + `the berths about a month ahead, and we watch it for you.`;
+    S.pier = null;
+  }
+  /* 🚨 No barSync() here. barSync() repaints the card, the card repaints this line —
+     calling back into it would loop. The map is already current: place() reads pierFor()
+     fresh, and every input that can move the pier (the ship, the date, the ⇄) goes
+     through barSync() on its own. */
+}
 
 function barQuote(){
   const v = vehFor(S.pax);
   $('barRoute').textContent = BFROM.label() + '  →  ' + BTO.label();
   $('barQ').classList.add('on');
-  barSync();
 
   /* This site prices a trip with a cruise pier at ONE end and anywhere on the island at
-     the other. If the pier end has been typed over, there is no pier on the trip, the
+     the other. If the ship end has been typed over, there is no pier on the trip, the
      live price list does not cover it, and we ask rather than invent a number. */
   if (barPierSide().on()){
     $('barVeh').textContent = v.name + ' · ' + v.sub + ' · round trip';
     $('barPrice').innerHTML = '<span class="wa-pill">We\'ll confirm this price on WhatsApp</span>';
     $('barBook').textContent = 'Message us on WhatsApp →';
+    $('barPier').style.display = 'none'; S.pier = null;
     return;
   }
   const typedDest = barDestSide().on();
@@ -1539,9 +1764,9 @@ function barQuote(){
     + (S.pax >= 4 ? ' <small>$' + Math.round(v.price / S.pax) + ' each</small>'
                   : ' <small>same price up to ' + v.max + '</small>');
   $('barBook').textContent = 'Book this transfer →';
+  paintPier();
 }
 
-/* Hand the bar's four answers to the one screen. Nothing is charged here. */
 function barGo(){
   if (barPierSide().on()) return waHere('I need a transfer that does not start at a pier.');
   const d = $('barDate').value;
@@ -1556,6 +1781,11 @@ function barGo(){
     S.dest = barDestSide().slug();
     $('dropoffIn').value = '';
   }
+  // The ship travels with the booking, and so does the pier when we know it. The form's
+  // own optional ship box is filled in for her, so she never types it twice. S.pier was
+  // set by paintPier() from the published schedule — null when the port has not said yet.
+  const shp = barPierSide().ship();
+  if (shp){ S.ship = {name: shp[0], line: shp[1] || null}; S.notCruise = false; $('shipIn').value = shp[0]; }
   go('pay');
 }
 
@@ -1884,9 +2114,11 @@ async function payNow(){
     dropoff: $('dropoffIn').value.trim(),
     // The pickup-address box lived on the deleted ship screen, for guests not on a cruise.
     // A trip that does not start at a pier never reaches this form — the bar sends it to
-    // WhatsApp — so there is no second address to carry. The key stays, at the value every
-    // cruise booking has always sent.
-    pickup:  ''
+    // WhatsApp — so this key now carries the one pickup address a cruise booking has:
+    // her terminal, worked out in the bar from the port authority's published schedule.
+    // When the port has not published her day yet we say exactly that, rather than
+    // sending a pier nobody has confirmed. create-checkout files it as `pickup_addr`.
+    pickup:  S.pier || 'Cruise pier, confirmed day before'
   };
   sessionStorage.setItem('cit_pending', JSON.stringify({
     ...booking, destName: d.short, vehicleName: v.name, total: grand()
