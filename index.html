@@ -1545,8 +1545,13 @@ const PORT_Q = 'Cozumel Cruise Port, Cozumel';
    says we will write, which is the truth. */
 let PUBLISHED = null;
 let pubPromise = null;
+/* 🚨 The ?v= is not decoration. ships-today is cached six hours at the edge AND in the
+   browser, so the day `published` was added to its body every visitor kept getting the
+   old shape — no pier lines at all — until the cache aged out. A new query string is a
+   new cache entry, so the new shape is served at once and still cached six hours after.
+   BUMP IT whenever the shape of what this page reads out of that function changes. */
 function loadPublished(){
-  if (!pubPromise) pubPromise = fetch('/.netlify/functions/ships-today')
+  if (!pubPromise) pubPromise = fetch('/.netlify/functions/ships-today?v=1')
     .then(r => r.json())
     .then(d => { PUBLISHED = d.published || null; return PUBLISHED; })
     .catch(() => null);
