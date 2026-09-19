@@ -596,9 +596,155 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
 
 
 
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   V2 ADDITIONS (approved 2026-09-19) — nothing above this line was changed.
+   Same fonts, same colour tokens, same shapes as the rest of the page.  The one rule that
+   governs all of it: this page is read by people in their sixties and seventies on a
+   phone in the sun.  Body text ≥18px on the phone, every tap target ≥48px tall,
+   no small grey text, one idea per block.
+   ══════════════════════════════════════════════════════════════════════════════ */
+html{scroll-behavior:smooth}
+body{padding-top:64px}                       /* clearance for the fixed nav */
+#s-pay,#s-done{padding-top:8px}
+
+/* ── the nav ── */
+.v2nav{position:fixed;top:0;left:0;right:0;z-index:950;height:64px;
+  background:#0B1E2E;border-bottom:1px solid rgba(255,255,255,.14);
+  display:flex;align-items:center;gap:16px;padding:0 18px}
+.v2nav .v2-brand{display:flex;align-items:center;min-height:48px;text-decoration:none}
+.v2nav .v2-brand img{height:26px;width:auto;display:block}
+.v2nav .v2-links{display:flex;gap:6px;margin-left:auto;margin-right:auto}
+.v2nav .v2-links a{display:inline-flex;align-items:center;min-height:48px;padding:0 14px;
+  border-radius:10px;color:#DCE6EF;text-decoration:none;font-size:16px;font-weight:600;
+  letter-spacing:-.01em}
+.v2nav .v2-links a:hover{background:rgba(255,255,255,.10);color:#fff}
+.v2nav .v2-wa{margin-left:auto;display:inline-flex;align-items:center;min-height:48px;
+  padding:0 20px;border-radius:999px;background:#25D366;color:#fff;text-decoration:none;
+  font-size:16px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+/* Phone: logo + WhatsApp only.  The three links are the big buttons below the price
+   card instead — no hamburger, nothing folded away. */
+@media(max-width:940px){
+  .v2nav{height:60px;padding:0 14px}
+  .v2nav .v2-links{display:none}
+  .v2nav .v2-brand img{height:23px}
+  .v2nav .v2-wa{padding:0 16px;font-size:15px;min-height:46px}
+  body{padding-top:60px}
+}
+
+/* ── the three big buttons ── */
+.below{display:flex;flex-direction:column}
+.below .sechead{order:2}
+.below #ladder{order:3}
+.below .v2-jump{order:4;margin-top:26px}
+.v2-jump{display:flex;flex-wrap:wrap;gap:12px}
+.v2-jump a{flex:1 1 220px;display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:60px;padding:16px 18px;border-radius:14px;
+  background:#173D5C;border:1px solid rgba(255,255,255,.22);
+  color:#fff;text-decoration:none;font-size:18px;font-weight:700;letter-spacing:-.01em;
+  text-align:center}
+.v2-jump a:hover{background:#1E4E75}
+.v2-jump a .ic{font-size:20px;line-height:1}
+@media(max-width:940px){
+  /* On the phone they belong directly under the price card, not under five price rows. */
+  .below .v2-jump{order:1;margin:0 0 30px}
+  .v2-jump a{flex:1 1 100%;min-height:62px;font-size:19px}
+}
+
+/* ── the three lifted sections ── */
+.v2-sec{background:#fff;padding:38px 18px 42px;scroll-margin-top:72px}
+.v2-sec-soft{background:var(--surface)}
+.v2-h2{margin:0;font-size:27px;line-height:1.15;font-weight:800;color:var(--navy);
+  letter-spacing:-.025em}
+.v2-lede{margin:10px 0 22px;font-size:18px;line-height:1.55;color:#33404F;max-width:34em}
+.v2-swipe{margin:14px 0 0;font-size:16px;font-weight:700;color:var(--navy)}
+.v2-back{margin-top:26px}
+.v2-back a{display:inline-flex;align-items:center;min-height:56px;padding:0 26px;
+  border-radius:999px;background:var(--accent);color:#fff;text-decoration:none;
+  font-size:18px;font-weight:800}
+.v2-note{margin-top:22px;background:var(--card-blue);border:1px solid #C7DAF5;
+  border-radius:14px;padding:18px 20px;font-size:17px;line-height:1.55;color:#1D3B57}
+
+/* Destination cards — main's poster grid, sized up for older eyes. */
+.v2-sec .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0}
+.v2-sec .poster{border:none;background:none;padding:0;text-align:left;cursor:pointer;
+  display:flex;flex-direction:column;font-family:inherit}
+.v2-sec .poster-img{position:relative;aspect-ratio:4/3;border-radius:14px;overflow:hidden;
+  background:#0F2C44;box-shadow:0 10px 22px -13px rgba(0,0,0,.6);transition:transform .12s}
+.v2-sec .poster:active .poster-img{transform:scale(.98)}
+.v2-sec .poster-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.v2-sec .poster-img .pl{position:absolute;left:8px;bottom:8px;z-index:2;font-size:11px;
+  letter-spacing:.06em;text-transform:uppercase;background:rgba(6,20,32,.72);color:#fff;
+  padding:4px 9px;border-radius:6px;font-weight:700}
+.v2-sec .poster-meta{padding:11px 2px 0;display:flex;flex-direction:column;min-height:92px}
+.v2-sec .poster-meta h3{margin:0 0 5px;font-size:18px;line-height:1.2;color:var(--navy);
+  font-weight:800;letter-spacing:-.015em}
+.v2-sec .poster-meta .dur{font-size:15px;color:#4B5B6B}
+.v2-sec .poster-meta .go{margin-top:auto;padding-top:9px;font-size:16px;font-weight:800;
+  color:var(--accent-pressed)}
+/* Tierra Maya's four crossfading photos, exactly as on main. */
+.v2-sec .poster-img.rotate img{opacity:0;animation:tmFade 16s linear infinite}
+.v2-sec .poster-img.rotate img:nth-of-type(1){animation-delay:0s}
+.v2-sec .poster-img.rotate img:nth-of-type(2){animation-delay:4s}
+.v2-sec .poster-img.rotate img:nth-of-type(3){animation-delay:8s}
+.v2-sec .poster-img.rotate img:nth-of-type(4){animation-delay:12s}
+@keyframes tmFade{0%{opacity:0}3%{opacity:1}25%{opacity:1}28%{opacity:0}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  .v2-sec .poster-img.rotate img{animation:none;opacity:0}
+  .v2-sec .poster-img.rotate img:nth-of-type(1){opacity:1}
+}
+
+/* Happy guests — main's swipeable strip, larger and shorter on the phone. */
+.photo-strip{display:flex;gap:12px;overflow-x:auto;padding:2px 0 8px;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.photo-strip::-webkit-scrollbar{display:none}
+.photo-strip figure{flex:0 0 320px;margin:0;scroll-snap-align:start}
+.photo-strip img{width:100%;height:240px;object-fit:cover;border-radius:14px;display:block;
+  background:#e8eef2}
+@media(max-width:940px){
+  /* Four photos, not eight, and each one bigger — fewer things to swipe past. */
+  .photo-strip figure{flex:0 0 86%;max-width:none}
+  .photo-strip img{height:260px}
+  .photo-strip .v2-desk-only{display:none}
+}
+
+/* How it works — main's numbered steps, set larger. */
+.v2-steps{padding:0}
+.v2-steps li{padding:16px 0 16px 50px;font-size:18px;line-height:1.55;color:#28323D}
+.v2-steps li::before{width:34px;height:34px;font-size:16px;top:14px}
+.v2-steps li a{display:inline-block;margin-top:6px;color:var(--accent-pressed);
+  font-weight:700;text-decoration:underline;text-underline-offset:4px;min-height:44px;
+  line-height:44px}
+
+/* Desktop: the sections break out of the 560px column exactly as the navy band does. */
+@media(min-width:941px){
+  .v2-sec{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+    padding:60px clamp(16px,4vw,48px) 64px}
+  .v2-sec > *{max-width:1060px;margin-left:auto;margin-right:auto}
+  .v2-h2{font-size:34px}
+  .v2-sec .grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+}
 </style>
 </head>
 <body>
+<a id="top"></a>
+
+<!-- ══ ADDED: the nav bar (shape from proto/ab-3-glass-line.html lines 186–188) ══
+     Logo left, the three section links centre, WhatsApp right.  Solid navy rather
+     than transparent-over-photo: this buyer is 60+ and contrast beats atmosphere.
+     Below 941px the three links disappear and become the big buttons under the
+     price card — no hamburger, nothing hidden. -->
+<nav class="v2nav">
+  <a class="v2-brand" href="#top" aria-label="Cozumel Transfers, back to the top">
+    <img src="/assets/logo/cit-logo-horizontal-reverse.svg" alt="Cozumel Transfers">
+  </a>
+  <div class="v2-links">
+    <a href="#sec-destinations">Destinations</a>
+    <a href="#sec-guests">Happy guests</a>
+    <a href="#sec-how">How it works</a>
+  </div>
+  <a class="v2-wa" href="#" onclick="return wa()">WhatsApp us</a>
+</nav>
 
 <main class="wrap">
 
@@ -677,7 +823,151 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
   <div class="below">
     <div class="sechead">One price, by vehicle — same to anywhere on the island</div>
     <div class="ladder" id="ladder"></div>
+
+    <!-- ══ ADDED: the three links as big buttons.  On a phone CSS `order` lifts this
+         block ABOVE the ladder, so it sits directly under the price card; on desktop
+         it stays under the ladder, as approved. ══ -->
+    <div class="v2-jump">
+      <a href="#sec-destinations"><span class="ic">📍</span>See destinations</a>
+      <a href="#sec-guests"><span class="ic">📷</span>Happy guests</a>
+      <a href="#sec-how"><span class="ic">🧭</span>How it works</a>
+    </div>
   </div>
+
+
+  <!-- ══ ADDED: Destinations — the card grid lifted from main's index.html
+       ("Where do you need to go?", photo, name, minutes from the pier, same ten
+       places).  One change: a card no longer opens a page of its own.  It fills the
+       bar's To field and scrolls back up to the price, so "View & book →" — which
+       promised a page — became "See the price →", which is what actually happens. ══ -->
+  <section class="v2-sec" id="sec-destinations">
+    <h2 class="v2-h2">Where do you need to go?</h2>
+    <p class="v2-lede">Tap a place. We put it in the box at the top and show you the price.
+      The price is the same to anywhere on the island.</p>
+    <div class="grid">
+    <button class="poster" onclick="pickDest('tierra-maya')">
+      <div class="poster-img rotate">
+        <img src="/.netlify/images?url=/assets/photos/tm-1.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="A group of guests with their guide under the carved Tierra Maya sign" loading="lazy" decoding="async">
+        <img src="/.netlify/images?url=/assets/photos/tm-2.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img src="/.netlify/images?url=/assets/photos/tm-3.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img src="/.netlify/images?url=/assets/photos/tm-4.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <span class="pl">Mayan Preserve</span></div>
+      <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('kuza')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-kuza-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="KUZÁ Park, Cozumel" loading="lazy"><span class="pl">Theme Park · Beach</span></div>
+      <div class="poster-meta"><h3>KUZÁ</h3><div class="dur">20 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('san-gervasio')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-san-gervasio-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="San Gervasio Mayan Ruins, Cozumel" loading="lazy"><span class="pl">Archaeological Site</span></div>
+      <div class="poster-meta"><h3>San Gervasio</h3><div class="dur">20–25 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('chankanaab')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-chankanaab-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Chankanaab National Park, Cozumel" loading="lazy"><span class="pl">National Marine Park</span></div>
+      <div class="poster-meta"><h3>Chankanaab</h3><div class="dur">10–15 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('bucanos')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-bucanos-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Buccanos at Night · Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club · Wine Bar</span></div>
+      <div class="poster-meta"><h3>Buccanos</h3><div class="dur">10 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('paradise-beach')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-paradise-beach-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Paradise Beach, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
+      <div class="poster-meta"><h3>Paradise Beach</h3><div class="dur">15 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('mr-sanchos')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-mr-sanchos-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Mr. Sanchos Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
+      <div class="poster-meta"><h3>Mr. Sanchos</h3><div class="dur">15–20 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('nachi-cocom')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-nachi-cocom-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Nachi Cocom Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
+      <div class="poster-meta"><h3>Nachi Cocom</h3><div class="dur">20–25 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('marina')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-marina-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Boats docked at Marina Cozumel ASIPONA, with the cruise piers beyond" loading="lazy"><span class="pl">Marina</span></div>
+      <div class="poster-meta"><h3>Marina Cozumel</h3><div class="dur">15 min from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    <button class="poster" onclick="pickDest('somewhere-else')">
+      <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-paradise-beach-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Somewhere else on the island, Cozumel" loading="lazy"><span class="pl">Tell us where</span></div>
+      <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Varies from the pier</div>
+      <div class="go">See the price →</div></div>
+    </button>
+    </div>
+  </section>
+
+  <!-- ══ ADDED: Happy guests — the photo strip lifted from main's index.html,
+       using the photographs in assets/photos/.  Fewer and larger on a phone: four
+       photos at 86% of the screen instead of eight at 78%. ══ -->
+  <section class="v2-sec v2-sec-soft" id="sec-guests">
+    <h2 class="v2-h2">Happy guests</h2>
+    <p class="v2-lede">Families we drove this season, on the island.</p>
+    <div class="photo-strip">
+      <figure><img src="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/guests-boarding-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1600" height="1200" loading="eager" decoding="async"
+        alt="Guests climbing into a Cozumel Island Transfers van on the street"></figure>
+      <figure><img src="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-interior-full.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1200" height="1600" loading="lazy" decoding="async"
+        alt="A full van of guests with their driver, three generations aboard, on the way to the beach"></figure>
+      <figure><img src="/.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-three-generations.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1400" height="1000" loading="lazy" decoding="async"
+        alt="Three generations and a baby seated in a Cozumel Island Transfers van, plenty of room between the seats"></figure>
+      <figure><img src="/.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-eight-friends.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1600" height="1067" loading="lazy" decoding="async"
+        alt="Eight friends in their twenties filling a private transfer van, doors open at the pier"></figure>
+      <figure class="v2-desk-only"><img src="/.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/van-family-of-eight.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1600" height="1067" loading="lazy" decoding="async"
+        alt="A family of eight, grandparents to small children, in one private van"></figure>
+      <figure class="v2-desk-only"><img src="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/driver-welcome-family.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1600" height="993" loading="lazy" decoding="async"
+        alt="Our driver with a family of five and a baby in a stroller beside the van"></figure>
+      <figure class="v2-desk-only"><img src="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/inside-the-van.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1600" height="1200" loading="lazy" decoding="async"
+        alt="Six guests of three generations seated inside the van on the way to the beach"></figure>
+      <figure class="v2-desk-only"><img src="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640" srcset="/.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=400 400w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=640 640w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=900 900w, /.netlify/images?url=/assets/photos/family-windward-coast.jpg&amp;fm=webp&amp;q=72&amp;w=1280 1280w"
+        sizes="(max-width: 940px) 86vw, 320px"
+        width="1600" height="1115" loading="lazy" decoding="async"
+        alt="A family on the windward coast of Cozumel, the van behind them"></figure>
+    </div>
+    <p class="v2-swipe">Swipe to see more →</p>
+  </section>
+
+  <!-- ══ ADDED: How it works — the three steps from main's index.html, in the same
+       words, set larger.  The 10-minute walk is Mike's deliberate safety margin and
+       is quoted here exactly as it is everywhere else. ══ -->
+  <section class="v2-sec" id="sec-how">
+    <h2 class="v2-h2">How it works</h2>
+    <ol class="steps v2-steps">
+      <li><b>Book online.</b> Pick your destination, group size, and times. Pay by card — that's it.</li>
+      <li><b>We meet you at the pier.</b> Our representative is at our meeting point, a
+        <b>10 minute walk</b> from the ship, holding a sign with your name. The board reads
+        <b>Visit Cozumel Shuttles &amp; Tours</b> &mdash; the same family company, so look for
+        that and your name.
+        <a href="/meet/">See the walk from your pier →</a></li>
+      <li><b>We come back at your time.</b> Your driver returns to the same spot you were
+        dropped at.</li>
+    </ol>
+    <div class="v2-note">
+      Your driver drops you off and comes back at the time you chose — that return time is
+      locked in when you book. He isn't parked outside all day, which is what keeps the price
+      flat instead of hourly.
+    </div>
+    <div class="v2-back"><a href="#top">↑ Back to the top and book</a></div>
+  </section>
 
   <footer>
     <div class="ft-g">
@@ -1694,5 +1984,23 @@ function paintDone(){
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
   <span class="wa-lbl">WhatsApp</span>
 </button>
+
+<script>
+/* ══ ADDED ══ A destination card is not a link to a page — it is a way of answering
+   the "To" question in the bar at the top.  Tapping one selects it there, works out
+   the price and scrolls back up to the price card.  No per-destination page exists
+   and none is implied. */
+function pickDest(slug){
+  if (barRev) barSwap();                 // make sure the destination side is "To"
+  var sel = document.getElementById('barTo');
+  var want = (slug === 'somewhere-else') ? '__other' : slug;
+  for (var i = 0; i < sel.options.length; i++){
+    if (sel.options[i].value === want){ sel.selectedIndex = i; break; }
+  }
+  sel.dispatchEvent(new Event('change'));   // same path as a guest picking it by hand
+  barQuote();
+  document.getElementById('barQ').scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
 </body>
 </html>
