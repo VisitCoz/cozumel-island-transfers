@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Port Meter — rate table</title>
 <style>
-:root{--ink:#0F2A44;--mute:#5B6B7B;--line:#E3E9F0;--bg:#F7F9FB;--card:#fff;--p25:#DCFCE7;--p20:#ECFCCB;--p15:#FEF9C3;--p10:#F1F5F9;--green:#14532D}
+:root{--ink:#0F2A44;--mute:#5B6B7B;--line:#E3E9F0;--bg:#F7F9FB;--card:#fff;--p40:#BBF7D0;--p30:#DCFCE7;--p20:#ECFCCB;--p15:#FEF9C3;--p10:#F1F5F9;--green:#14532D}
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 -apple-system,Segoe UI,Inter,sans-serif;color:var(--ink);background:var(--bg);padding:28px 16px}
 main{max-width:1180px;margin:0 auto}h1{font-size:26px;margin:0 0 4px}h2{font-size:19px;margin:0 0 6px}.kick{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:700}
 .lead{color:var(--mute);margin:0 0 22px;max-width:760px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:0 0 26px}
@@ -10,19 +10,19 @@ main{max-width:1180px;margin:0 auto}h1{font-size:26px;margin:0 0 4px}h2{font-siz
 section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 22px;overflow-x:auto}.note{color:var(--mute);margin:0 0 12px;font-size:14px}
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:13.5px}th{font-size:12px;text-align:left;color:var(--mute);font-weight:700;border-bottom:2px solid var(--line);padding:6px 8px;vertical-align:bottom}th small{display:block;font-weight:500;color:#8A97A5}
 td{border-bottom:1px solid var(--line);padding:5px 8px;white-space:nowrap}td b{display:block;font-weight:800}td span{display:block;font-size:11.5px;color:var(--mute)}td.d small{color:var(--mute)}td.s{font-weight:700;text-align:center}td.s em{color:var(--green);font-style:normal;font-weight:900}td.s i{color:var(--mute);font-weight:500}td.b{color:var(--mute);font-size:12px}
-.p25{background:var(--p25)}.p20{background:var(--p20)}.p15{background:var(--p15)}.p10{background:var(--p10)}tr.avg td{opacity:.75}tr.we td.d{color:#9A3412}
+.p40{background:var(--p40)}.p30{background:var(--p30)}.p20{background:var(--p20)}.p15{background:var(--p15)}.p10{background:var(--p10)}tr.avg td{opacity:.75}tr.we td.d{color:#9A3412}
 tfoot td{border-top:2px solid var(--ink);border-bottom:0;font-weight:700;padding-top:8px}tfoot td span{font-weight:500}
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px;font-size:12.5px}.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid var(--line)}
 .flag{border-left:4px solid #B45309;background:#FFFBEB;padding:12px 14px;border-radius:0 10px 10px 0;margin:0 0 22px}.flag b{display:block;margin-bottom:2px}
 svg text{font-family:inherit}
 </style></head><body><main>
-<div class="kick">Milestone 1 checkpoint · 19 Sep 2026</div>
+<div class="kick">Milestone 2 checkpoint · 19 Sep 2026</div>
 <h1>What the Port Meter would hand out, day by day</h1>
 <p class="lead">No pixel has been drawn yet. This is the brain only: the rule, run against the port authority's real calendar. Read the two tables, check the averages against the research page, and say whether the ladder feels right before the meter is built.</p>
 
 <div class="cards">
-  <div class="card"><div class="big">17.5%</div><div class="lbl">September 2026 average, Private van (research page said ~17.5%)</div></div>
-  <div class="card"><div class="big">11.6%</div><div class="lbl">January 2026 average, Private van (research page said ~10.8%)</div></div>
+  <div class="card"><div class="big">25.0%</div><div class="lbl">September 2026 average, Minivan (was 17.5% on the old single ladder)</div></div>
+  <div class="card"><div class="big">11.6%</div><div class="lbl">January 2026 average, Minivan (unchanged — the winter clamp bites first)</div></div>
   <div class="card"><div class="big">2.45</div><div class="lbl">September ships per day, from 2025-09 + 2026-09</div></div>
   <div class="card"><div class="big">5.19</div><div class="lbl">January ships per day, from 2026-01</div></div>
 </div>
@@ -39,16 +39,23 @@ svg text{font-family:inherit}
       <path d="M320 95H380" stroke="#5B6B7B" stroke-width="1.5" marker-end="url(#a)"/><text x="350" y="112" text-anchor="middle" fill="#9A3412" font-weight="700">no</text>
       <rect x="385" y="30" width="150" height="44" rx="8" fill="#DCFCE7" stroke="#86EFAC"/><text x="460" y="49" text-anchor="middle" font-weight="700">That day's ships</text><text x="460" y="65" text-anchor="middle" fill="#5B6B7B">cancelled calls removed</text>
       <rect x="385" y="82" width="150" height="44" rx="8" fill="#FEF3C7" stroke="#FCD34D"/><text x="460" y="101" text-anchor="middle" font-weight="700">Month average</text><text x="460" y="117" text-anchor="middle" fill="#5B6B7B">rounded, from history</text>
-      <path d="M535 52 Q560 75 590 75" stroke="#5B6B7B" stroke-width="1.5" fill="none" marker-end="url(#a)"/><path d="M535 104 Q560 75 590 75" stroke="#5B6B7B" stroke-width="1.5" fill="none"/>
-      <rect x="595" y="40" width="130" height="70" rx="8" fill="#fff" stroke="#C7DAF5"/><text x="660" y="60" text-anchor="middle" font-weight="700">The ladder</text><text x="660" y="77" text-anchor="middle" fill="#5B6B7B">0–1 → 25% · 2 → 20%</text><text x="660" y="93" text-anchor="middle" fill="#5B6B7B">3–4 → 15% · 5+ → 10%</text>
-      <path d="M725 75H765" stroke="#5B6B7B" stroke-width="1.5" marker-end="url(#a)"/>
-      <rect x="770" y="30" width="125" height="90" rx="8" fill="#fff" stroke="#C7DAF5"/><text x="832" y="50" text-anchor="middle" font-weight="700">Clamp</text><text x="832" y="68" text-anchor="middle" fill="#5B6B7B">Nov–Apr: 10–15%</text><text x="832" y="84" text-anchor="middle" fill="#5B6B7B">15+ seats: 10–15%</text><text x="832" y="100" text-anchor="middle" fill="#5B6B7B">not on a cruise: 10%</text>
+      <path d="M535 52 Q555 75 575 75" stroke="#5B6B7B" stroke-width="1.5" fill="none" marker-end="url(#a)"/><path d="M535 104 Q555 75 575 75" stroke="#5B6B7B" stroke-width="1.5" fill="none"/>
+      <rect x="580" y="20" width="158" height="112" rx="8" fill="#fff" stroke="#C7DAF5"/>
+      <text x="659" y="38" text-anchor="middle" font-weight="700">The ladder</text>
+      <text x="588" y="56" font-size="9.5" fill="#5B6B7B">ships</text><text x="641" y="56" text-anchor="middle" font-size="9.5" fill="#5B6B7B">0–1</text><text x="670" y="56" text-anchor="middle" font-size="9.5" fill="#5B6B7B">2</text><text x="699" y="56" text-anchor="middle" font-size="9.5" fill="#5B6B7B">3–4</text><text x="727" y="56" text-anchor="middle" font-size="9.5" fill="#5B6B7B">5+</text>
+      <line x1="586" y1="62" x2="732" y2="62" stroke="#E3E9F0"/>
+      <text x="588" y="81" font-size="10" font-weight="700">Minivan</text><text x="641" y="81" text-anchor="middle" font-size="11" font-weight="800" fill="#14532D">40</text><text x="670" y="81" text-anchor="middle" font-size="11" font-weight="800" fill="#14532D">30</text><text x="699" y="81" text-anchor="middle" font-size="11">20</text><text x="727" y="81" text-anchor="middle" font-size="11">10</text>
+      <text x="588" y="103" font-size="10" font-weight="700">Others</text><text x="641" y="103" text-anchor="middle" font-size="11" font-weight="800">30</text><text x="670" y="103" text-anchor="middle" font-size="11">20</text><text x="699" y="103" text-anchor="middle" font-size="11">15</text><text x="727" y="103" text-anchor="middle" font-size="11">10</text>
+      <text x="659" y="122" text-anchor="middle" font-size="9.5" fill="#5B6B7B">percent off the vehicle price</text>
+      <path d="M738 75H765" stroke="#5B6B7B" stroke-width="1.5" marker-end="url(#a)"/>
+      <rect x="770" y="40" width="125" height="70" rx="8" fill="#fff" stroke="#C7DAF5"/><text x="832" y="62" text-anchor="middle" font-weight="700">Clamp</text><text x="832" y="80" text-anchor="middle" font-size="10.5" fill="#5B6B7B">Nov–Apr: 10–15%</text><text x="832" y="96" text-anchor="middle" font-size="10.5" fill="#5B6B7B">not on a cruise: 10%</text>
     </g>
   </svg>
   <ol>
     <li><b>Published</b> means the day is inside the window the port authority currently shows. On 19 September that window ends on the 26th.</li>
-    <li><b>Month average</b> is the ships-per-day figure in <code>data/port-month-averages.json</code>, built from Sep 2025 to Sep 2026. It is rounded to the nearest whole ship before the ladder reads it: September's 2.45 reads as 2 ships, so an unpublished September day earns 20%.</li>
-    <li><b>Deep tiers</b> (20% and 25%) exist only for the Private van and the Large private van, and only May to October.</li>
+    <li><b>Month average</b> is the ships-per-day figure in <code>data/port-month-averages.json</code>, built from Sep 2025 to Sep 2026. It is rounded to the nearest whole ship before the ladder reads it: September's 2.45 reads as 2 ships, so an unpublished September day earns 30% on the Minivan and 20% on everything else.</li>
+    <li><b>The Minivan runs its own ladder</b> — 40 / 30 / 20 / 10 against everyone else's 30 / 20 / 15 / 10. It is the cheapest vehicle for us to put on the road, so a quiet day is worth buying with a deeper cut. Every other vehicle, the $425 Large private van included, shares the shallower ladder.</li>
+    <li><b>The clamp is the only thing above the ladder.</b> November to April every vehicle is held between 10% and 15%, so the deep tiers exist May to October only.</li>
   </ol>
 </div>
 
@@ -57,114 +64,114 @@ svg text{font-family:inherit}
 2 · Cancelled calls (the port's red marker) are not counted as ships in port. The research page counted them, which is why its month totals run one to six calls higher, and why January averages 11.6% here against the page's 10.8%.<br>
 3 · Found and fixed while wiring this: the live scraper behind "ships in port today" was dropping the first ship of every day (the port's date-header row has no closing tag). The homepage count has been one short every day. The fix ships with this branch.</div>
 
-<div class="legend"><span><i style="background:var(--p25)"></i>25%</span><span><i style="background:var(--p20)"></i>20%</span><span><i style="background:var(--p15)"></i>15%</span><span><i style="background:var(--p10)"></i>10%</span><span style="color:#9A3412">weekend days in orange</span><span style="opacity:.7">shaded rows = month-average fallback</span></div>
+<div class="legend"><span><i style="background:var(--p40)"></i>40%</span><span><i style="background:var(--p30)"></i>30%</span><span><i style="background:var(--p20)"></i>20%</span><span><i style="background:var(--p15)"></i>15%</span><span><i style="background:var(--p10)"></i>10%</span><span style="color:#9A3412">weekend days in orange</span><span style="opacity:.7">shaded rows = month-average fallback</span></div>
 
 
   <section>
     <h2>September 2026 — a dead month</h2>
     <p class="note">Days 1–26 are the port authority's published schedule (cancelled calls removed). Days 27–30 were not published on 19 September, so the rule falls back to the September average and the row is shaded.</p>
     <table>
-      <thead><tr><th>Day</th><th>Ships in port</th><th>Basis</th><th>Private van<small>up to 6 · list $250</small></th><th>Large private van<small>up to 14 · list $425</small></th><th>Extra-large van<small>up to 18 · list $549</small></th><th>Mini coach<small>up to 20 · list $609</small></th><th>Private bus<small>up to 40 · list $899</small></th></tr></thead>
+      <thead><tr><th>Day</th><th>Ships in port</th><th>Basis</th><th>Minivan<small>up to 6 · list $250</small></th><th>Large private van<small>up to 14 · list $425</small></th><th>Extra-large van<small>up to 18 · list $549</small></th><th>Mini coach<small>up to 20 · list $609</small></th><th>Private bus<small>up to 40 · list $899</small></th></tr></thead>
       <tbody><tr class="">
       <td class="d">1 <small>Tue</small></td>
       <td class="s">2</td>
-      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class="">
       <td class="d">2 <small>Wed</small></td>
       <td class="s">4</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
       <td class="d">3 <small>Thu</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
       <td class="d">4 <small>Fri</small></td>
       <td class="s">4</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
       <td class="d">5 <small>Sat</small></td>
       <td class="s">2</td>
-      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
+      <td class="b">published</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class="we">
       <td class="d">6 <small>Sun</small></td>
       <td class="s"><em>0</em></td>
-      <td class="b">published</td><td class="p25"><b>25%</b><span>$187.50</span></td><td class="p25"><b>25%</b><span>$318.75</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p40"><b>40%</b><span>$150</span></td><td class="p30"><b>30%</b><span>$297.50</span></td><td class="p30"><b>30%</b><span>$384.30</span></td><td class="p30"><b>30%</b><span>$426.30</span></td><td class="p30"><b>30%</b><span>$629.30</span></td></tr><tr class="">
       <td class="d">7 <small>Mon</small></td>
       <td class="s">2</td>
-      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class="">
       <td class="d">8 <small>Tue</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
       <td class="d">9 <small>Wed</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
       <td class="d">10 <small>Thu</small></td>
       <td class="s">6</td>
       <td class="b">published</td><td class="p10"><b>10%</b><span>$225</span></td><td class="p10"><b>10%</b><span>$382.50</span></td><td class="p10"><b>10%</b><span>$494.10</span></td><td class="p10"><b>10%</b><span>$548.10</span></td><td class="p10"><b>10%</b><span>$809.10</span></td></tr><tr class="">
       <td class="d">11 <small>Fri</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
       <td class="d">12 <small>Sat</small></td>
       <td class="s">2</td>
-      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
+      <td class="b">published</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class="we">
       <td class="d">13 <small>Sun</small></td>
       <td class="s"><em>0</em></td>
-      <td class="b">published</td><td class="p25"><b>25%</b><span>$187.50</span></td><td class="p25"><b>25%</b><span>$318.75</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p40"><b>40%</b><span>$150</span></td><td class="p30"><b>30%</b><span>$297.50</span></td><td class="p30"><b>30%</b><span>$384.30</span></td><td class="p30"><b>30%</b><span>$426.30</span></td><td class="p30"><b>30%</b><span>$629.30</span></td></tr><tr class="">
       <td class="d">14 <small>Mon</small></td>
       <td class="s">1</td>
-      <td class="b">published</td><td class="p25"><b>25%</b><span>$187.50</span></td><td class="p25"><b>25%</b><span>$318.75</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p40"><b>40%</b><span>$150</span></td><td class="p30"><b>30%</b><span>$297.50</span></td><td class="p30"><b>30%</b><span>$384.30</span></td><td class="p30"><b>30%</b><span>$426.30</span></td><td class="p30"><b>30%</b><span>$629.30</span></td></tr><tr class="">
       <td class="d">15 <small>Tue</small></td>
       <td class="s">1</td>
-      <td class="b">published</td><td class="p25"><b>25%</b><span>$187.50</span></td><td class="p25"><b>25%</b><span>$318.75</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p40"><b>40%</b><span>$150</span></td><td class="p30"><b>30%</b><span>$297.50</span></td><td class="p30"><b>30%</b><span>$384.30</span></td><td class="p30"><b>30%</b><span>$426.30</span></td><td class="p30"><b>30%</b><span>$629.30</span></td></tr><tr class="">
       <td class="d">16 <small>Wed</small></td>
       <td class="s">2</td>
-      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class="">
       <td class="d">17 <small>Thu</small></td>
       <td class="s">5</td>
       <td class="b">published</td><td class="p10"><b>10%</b><span>$225</span></td><td class="p10"><b>10%</b><span>$382.50</span></td><td class="p10"><b>10%</b><span>$494.10</span></td><td class="p10"><b>10%</b><span>$548.10</span></td><td class="p10"><b>10%</b><span>$809.10</span></td></tr><tr class="">
       <td class="d">18 <small>Fri</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
       <td class="d">19 <small>Sat</small></td>
       <td class="s">2</td>
-      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
+      <td class="b">published</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class="we">
       <td class="d">20 <small>Sun</small></td>
       <td class="s"><em>0</em></td>
-      <td class="b">published</td><td class="p25"><b>25%</b><span>$187.50</span></td><td class="p25"><b>25%</b><span>$318.75</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p40"><b>40%</b><span>$150</span></td><td class="p30"><b>30%</b><span>$297.50</span></td><td class="p30"><b>30%</b><span>$384.30</span></td><td class="p30"><b>30%</b><span>$426.30</span></td><td class="p30"><b>30%</b><span>$629.30</span></td></tr><tr class="">
       <td class="d">21 <small>Mon</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
       <td class="d">22 <small>Tue</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
       <td class="d">23 <small>Wed</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="">
       <td class="d">24 <small>Thu</small></td>
       <td class="s">6</td>
       <td class="b">published</td><td class="p10"><b>10%</b><span>$225</span></td><td class="p10"><b>10%</b><span>$382.50</span></td><td class="p10"><b>10%</b><span>$494.10</span></td><td class="p10"><b>10%</b><span>$548.10</span></td><td class="p10"><b>10%</b><span>$809.10</span></td></tr><tr class="">
       <td class="d">25 <small>Fri</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we">
       <td class="d">26 <small>Sat</small></td>
       <td class="s">3</td>
-      <td class="b">published</td><td class="p15"><b>15%</b><span>$212.50</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we avg">
+      <td class="b">published</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p15"><b>15%</b><span>$361.25</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class="we avg">
       <td class="d">27 <small>Sun</small></td>
       <td class="s"><i>~2.45</i></td>
-      <td class="b">month average</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class=" avg">
+      <td class="b">month average</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class=" avg">
       <td class="d">28 <small>Mon</small></td>
       <td class="s"><i>~2.45</i></td>
-      <td class="b">month average</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class=" avg">
+      <td class="b">month average</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class=" avg">
       <td class="d">29 <small>Tue</small></td>
       <td class="s"><i>~2.45</i></td>
-      <td class="b">month average</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr><tr class=" avg">
+      <td class="b">month average</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr><tr class=" avg">
       <td class="d">30 <small>Wed</small></td>
       <td class="s"><i>~2.45</i></td>
-      <td class="b">month average</td><td class="p20"><b>20%</b><span>$200</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p15"><b>15%</b><span>$466.65</span></td><td class="p15"><b>15%</b><span>$517.65</span></td><td class="p15"><b>15%</b><span>$764.15</span></td></tr></tbody>
-      <tfoot><tr><td colspan="3">Average over the 26 published days</td><td><b>17.5%</b><span>avg saving $43.75</span></td><td><b>17.5%</b><span>avg saving $74.38</span></td><td><b>14.4%</b><span>avg saving $79.18</span></td><td><b>14.4%</b><span>avg saving $87.84</span></td><td><b>14.4%</b><span>avg saving $129.66</span></td></tr></tfoot>
+      <td class="b">month average</td><td class="p30"><b>30%</b><span>$175</span></td><td class="p20"><b>20%</b><span>$340</span></td><td class="p20"><b>20%</b><span>$439.20</span></td><td class="p20"><b>20%</b><span>$487.20</span></td><td class="p20"><b>20%</b><span>$719.20</span></td></tr></tbody>
+      <tfoot><tr><td colspan="3">Average over the 26 published days</td><td><b>25.0%</b><span>avg saving $62.50</span></td><td><b>18.5%</b><span>avg saving $78.46</span></td><td><b>18.5%</b><span>avg saving $101.35</span></td><td><b>18.5%</b><span>avg saving $112.43</span></td><td><b>18.5%</b><span>avg saving $165.97</span></td></tr></tfoot>
     </table>
   </section>
 
   <section>
     <h2>January 2026 — high season, for contrast</h2>
-    <p class="note">Every day is real history. November to April is clamped to 10–15%, so even the three one-ship days in January stay at 15%, never 25%.</p>
+    <p class="note">Every day is real history. November to April is clamped to 10–15%, so even the three one-ship days in January stay at 15% — the Minivan's 40% never reaches the guest in winter.</p>
     <table>
-      <thead><tr><th>Day</th><th>Ships in port</th><th>Basis</th><th>Private van<small>up to 6 · list $250</small></th><th>Large private van<small>up to 14 · list $425</small></th><th>Extra-large van<small>up to 18 · list $549</small></th><th>Mini coach<small>up to 20 · list $609</small></th><th>Private bus<small>up to 40 · list $899</small></th></tr></thead>
+      <thead><tr><th>Day</th><th>Ships in port</th><th>Basis</th><th>Minivan<small>up to 6 · list $250</small></th><th>Large private van<small>up to 14 · list $425</small></th><th>Extra-large van<small>up to 18 · list $549</small></th><th>Mini coach<small>up to 20 · list $609</small></th><th>Private bus<small>up to 40 · list $899</small></th></tr></thead>
       <tbody><tr class="">
       <td class="d">1 <small>Thu</small></td>
       <td class="s">6</td>

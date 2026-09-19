@@ -88,7 +88,7 @@
   "areaServed": "Cozumel Island, Quintana Roo, Mexico",
   "audience": { "@type": "Audience", "audienceType": "Cruise passengers" },
   "offers": [
-    { "@type": "Offer", "name": "Private van — round-trip transfer", "price": "250", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "1–6 passengers" } },
+    { "@type": "Offer", "name": "Minivan — round-trip transfer", "price": "250", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "1–6 passengers" } },
     { "@type": "Offer", "name": "Large private van — round-trip transfer", "price": "425", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "7–14 passengers" } },
     { "@type": "Offer", "name": "Extra-large van — round-trip transfer", "price": "549", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "15–18 passengers" } },
     { "@type": "Offer", "name": "Mini coach — round-trip transfer", "price": "609", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "19–20 passengers" } },
@@ -918,7 +918,7 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
      and in netlify/functions/_cit.js, which is what actually charges the card. -->
   <div class="pricelist" id="priceList">
     <div class="prow">
-      <div><div class="pn">Private van</div><div class="pp">up to 6 people</div></div>
+      <div><div class="pn">Minivan</div><div class="pp">up to 6 people</div></div>
       <div class="pv">$250<span class="ppp">$42 each with 6</span></div>
     </div>
     <div class="prow pop">
@@ -1521,7 +1521,7 @@ const DEST = {
 
 /* Guest-facing vehicle names — nobody has to learn the words "XL Van" or "Coach". */
 const VEH = [
-  {max:6, name:'Private van',        sub:'up to 6 people',  price:250},
+  {max:6, name:'Minivan',             sub:'up to 6 people',  price:250},
   {max:14,name:'Large private van',  sub:'up to 14 people', price:425},
   {max:18,name:'Extra-large van',    sub:'up to 18 people', price:549},
   {max:20,name:'Mini coach',         sub:'up to 20 people', price:609},
