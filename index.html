@@ -426,6 +426,19 @@ ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:2
 .signbox{margin:14px 18px;background:var(--card-green);border:1px solid #B9E0C6;border-radius:13px;padding:14px 16px}
 .signbox .st{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--success-deep)}
 .signbox p{margin:6px 0 0;font-size:14px;color:#1E3A2B}
+/* The Port Meter — how quiet the port is on her day, and what that earns her. Lives on the
+   day step, because the count is only true once she has picked the day. */
+.meter{margin:14px 18px 0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px 16px;text-align:center}
+.meter svg{width:100%;max-width:250px;height:auto}
+.meter .gn{font-size:12.5px;color:var(--mute);margin-top:2px}
+.meter .gn b{color:var(--navy)}
+.meter .price{display:flex;align-items:baseline;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:10px}
+.meter .was{font-size:15px;color:var(--mute);text-decoration:line-through;font-weight:700}
+.meter .now{font-size:31px;font-weight:800;color:var(--success-deep);letter-spacing:-.03em;line-height:1}
+.meter .ea{font-size:12px;color:var(--mute);font-weight:600;width:100%}
+.meter .cap{margin-top:12px;font-size:13.5px;color:#1D3B57;background:var(--card-blue);border:1px solid #C7DAF5;border-radius:10px;padding:10px 12px;text-align:left}
+.meter .auto{margin-top:8px;font-size:11.5px;color:var(--mute-2);font-weight:600}
+.total .tr.save span:last-child{color:var(--success-deep);font-weight:800}
 .signcard{margin-top:11px;background:#fff;border:1px dashed #9FCBAE;border-radius:10px;padding:14px;text-align:center}
 .signcard .sl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
 .signcard .sn{font-size:19px;font-weight:800;color:var(--navy);margin-top:3px}
@@ -1216,6 +1229,13 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
   <div class="shiplist" id="shipResults"></div>
 
   <div id="shipChosen" style="display:none">
+    <!-- The tease. The size of the cut depends on how busy the port is on her day, and she
+         picks the day on the next step — so this promises the discount and the meter on
+         step 3 shows the number. A number shown here would be for a day she hasn't chosen. -->
+    <div class="signbox" id="shipTease">
+      <div class="st">Discount unlocked</div>
+      <p id="shipTeaseTxt"></p>
+    </div>
     <div class="signbox" style="background:var(--card-blue);border-color:#C7DAF5">
       <div class="st" style="color:var(--accent-pressed)">We'll confirm your pier</div>
       <p style="color:#1D3B57">Cozumel's port authority publishes the ship schedule about a month ahead.
@@ -1254,6 +1274,27 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
     <label for="dateIn">Date</label>
     <input type="date" id="dateIn" onchange="onDate()">
     <div class="hint" id="dateHint"></div>
+  </div>
+
+  <!-- The Port Meter. Display only — the browser is never trusted with this number.
+       netlify/functions/port-rate.js is the one rule, and create-checkout.js works it out
+       again from her date before Stripe sees anything. The arc is how busy the port is;
+       the figure is what that earns her. -->
+  <div class="meter" id="meter" style="display:none">
+    <svg viewBox="0 0 240 142" aria-hidden="true">
+      <path d="M22 122 A98 98 0 0 1 218 122" fill="none" stroke="#F1F1F4" stroke-width="17" stroke-linecap="round"/>
+      <path id="mArc" d="M22 122 A98 98 0 0 1 218 122" fill="none" stroke="#1F7A3F" stroke-width="17"
+            stroke-linecap="round" stroke-dasharray="308" stroke-dashoffset="308"
+            style="transition:stroke-dashoffset .8s cubic-bezier(.2,.9,.3,1), stroke .5s"/>
+      <text id="mPct" x="120" y="98" text-anchor="middle" font-size="40" font-weight="800" fill="#1F7A3F">—</text>
+      <text x="120" y="118" text-anchor="middle" font-size="11" font-weight="700" fill="#6E6E73" letter-spacing="1.4">OFF YOUR VEHICLE</text>
+      <text x="20" y="140" font-size="10" font-weight="700" fill="#8C9AAB">QUIET PORT</text>
+      <text x="220" y="140" font-size="10" font-weight="700" fill="#8C9AAB" text-anchor="end">BUSY PORT</text>
+    </svg>
+    <div class="gn" id="mNote"></div>
+    <div class="price"><span class="was" id="mWas"></span><span class="now" id="mNow"></span><span class="ea" id="mEa"></span></div>
+    <div class="cap" id="mCap"></div>
+    <div class="auto">Applied automatically at checkout — nothing to type.</div>
   </div>
   <div id="tooSoon" style="display:none">
     <div class="warnbox">
@@ -1363,6 +1404,7 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
   <div class="total" style="margin-top:6px">
     <div class="tr"><span id="pVehLbl"></span><span id="pVeh"></span></div>
     <div class="tr" id="pAdmRow" style="display:none"><span id="pAdmLbl"></span><span id="pAdm"></span></div>
+    <div class="tr save" id="pDiscRow" style="display:none"><span id="pDiscLbl"></span><span id="pDisc"></span></div>
     <div class="tr big"><span>Charged today</span><span id="pAll"></span></div>
   </div>
   <!-- No card fields here on purpose. The card is entered on Stripe's own page,
@@ -1521,12 +1563,13 @@ const DEST = {
 
 /* Guest-facing vehicle names — nobody has to learn the words "XL Van" or "Coach". */
 const VEH = [
-  {max:6, name:'Minivan',             sub:'up to 6 people',  price:250},
-  {max:14,name:'Large private van',  sub:'up to 14 people', price:425},
-  {max:18,name:'Extra-large van',    sub:'up to 18 people', price:549},
-  {max:20,name:'Mini coach',         sub:'up to 20 people', price:609},
-  {max:40,name:'Private bus',        sub:'up to 40 people', price:899}
+  {max:6, name:'Minivan',             sub:'up to 6 people',  price:250, slug:'van_1_6'},
+  {max:14,name:'Large private van',  sub:'up to 14 people', price:425, slug:'van_7_14'},
+  {max:18,name:'Extra-large van',    sub:'up to 18 people', price:549, slug:'van_15_18'},
+  {max:20,name:'Mini coach',         sub:'up to 20 people', price:609, slug:'coach_20'},
+  {max:40,name:'Private bus',        sub:'up to 40 people', price:899, slug:'bus_40'}
 ];
+// slug = the key netlify/functions/port-rate.js answers by; same five as VEHICLES in _cit.js.
 
 /* Every ship that has actually called at Cozumel, built by scripts/build_ship_list.py from the
    port authority's own records. Deliberately NOT tied to a date: APIQROO only publishes the
@@ -1553,7 +1596,7 @@ let S = {dest:null, pax:2, adm:false, ship:null, notCruise:false, date:'',
 
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
-const money = n => '$' + n.toLocaleString('en-US') + ' USD';
+const money = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2}) + ' USD';
 /* One price list, every destination. There used to be a fixed-price escape hatch here
    that quoted its own amount and currency; it sold an 8-passenger transfer for MX$100
    to a real agency on 2026-08-06. The price is per vehicle and flat across the island,
@@ -1661,6 +1704,7 @@ function go(id){
   track(id);
   // "Where are you going?" only makes sense for the destination that doesn't name itself.
   if (id==='who') $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
+  if (id==='day') paintMeter();
   if (id==='pay') paintPay();
   if (id==='done') paintDone();
 }
@@ -1671,6 +1715,7 @@ function restart(){
   $('shipIn').value=''; $('shipResults').innerHTML=''; $('shipChosen').style.display='none';
   $('noShipBlock').style.display='none'; $('shipNext').disabled=true;
   $('dayOut').style.display='none'; $('dayNext').disabled=true; $('pickIn').value='';
+  $('meter').style.display='none';
   // These two now travel with the booking, so a value left over from a previous run
   // would follow the next guest to Stripe and into the team's email. While they were
   // dead inputs it did not matter; now it does.
@@ -1860,6 +1905,8 @@ function pickShip(name){
   S.notCruise = false;
   $('shipIn').value = S.ship.name;
   $('shipResults').innerHTML = '';
+  $('shipTeaseTxt').innerHTML = `<b>${S.ship.name}</b> guests get a cruise-day discount. Pick your day next —
+    the quieter the port, the bigger the cut.`;
   $('shipChosen').style.display = 'block';
   $('noShipBlock').style.display = 'none';
   $('shipNext').disabled = false;
@@ -1892,7 +1939,60 @@ function onDate(){
   if (picked < md){ demoTooSoon(); return; }
   $('tooSoon').style.display = 'none'; $('dayBlock').style.display = 'block';
   S.date = pretty(picked);
+  paintMeter();
 }
+
+/* ── the Port Meter ──
+   One fetch per date, answered by netlify/functions/port-rate.js: ships in port on that day
+   (or the month's average when the port hasn't published it) and the percent per vehicle.
+   Display only. The same rule runs again server-side at checkout, so a number changed here
+   changes nothing she pays. If the fetch itself fails we show no meter rather than a guess. */
+const RATE_CACHE = {};
+function paintMeter(){
+  const iso = $('dateIn').value, m = $('meter');
+  if (!iso || (!S.ship && !S.notCruise)){ m.style.display = 'none'; S.rate = null; return; }
+  if (RATE_CACHE[iso]) return fillMeter(RATE_CACHE[iso], iso);
+  fetch('/.netlify/functions/port-rate?date=' + iso)
+    .then(r => r.json())
+    .then(d => { if (!d || !d.vehicles) throw new Error('no rate'); RATE_CACHE[iso] = d;
+                 if ($('dateIn').value === iso) fillMeter(d, iso); })
+    .catch(() => { m.style.display = 'none'; S.rate = null; });
+}
+function fillMeter(d, iso){
+  const v = vehFor(S.pax), pct = S.notCruise ? d.notCruise : d.vehicles[v.slug];
+  const ships = d.basis === 'published' ? d.ships : null;
+  const cut = Math.round(v.price * (100 - pct)) / 100;
+  const month = new Date(iso + 'T12:00:00').toLocaleString('en-US', {month:'long'});
+  const veh = v.name.toLowerCase();
+  const busy = Math.min(1, (ships === null ? Math.round(d.shipsPerDay || 5) : ships) / 8);   // 8 = the busiest day on record
+  const col = pct >= 20 ? '#1F7A3F' : '#1D7AFC';
+
+  $('mArc').style.strokeDashoffset = 308 * (1 - busy); $('mArc').style.stroke = col;
+  $('mPct').textContent = pct + '%'; $('mPct').setAttribute('fill', col);
+
+  let note, cap;
+  if (S.notCruise){
+    note = 'Not arriving by ship — you still get our floor rate';
+    cap = `Not on a cruise? Your ${veh} is still ${pct}% off on ${S.date}.`;
+  } else if (ships === null){
+    note = `The port hasn't published ${month} yet — a typical ${month} day sees about <b>${Math.round(d.shipsPerDay)} ships</b>`;
+    cap = `The port hasn't published ${month} yet, so ${S.ship.name} guests get the typical ${month}-day rate: ${pct}% off your ${veh}.`;
+  } else {
+    const tone = ships <= 1 ? 'Quiet port' : ships === 2 ? 'Easy day' : ships <= 4 ? 'Steady day' : 'Busy port';
+    const n = ships === 0 ? 'no ships' : ships === 1 ? 'just 1 ship' : `${ships} ships`;
+    note = `${tone} — <b>${n}</b> in port on ${S.date}`;
+    cap = ships <= 2
+      ? `${S.ship.name} guests: with ${n} in port on ${S.date}, the island is quiet and your ${veh} is ${pct}% off.`
+      : `${n} share the port on ${S.date}, and ${S.ship.name} guests still get ${pct}% off your ${veh}.`;
+  }
+  $('mNote').innerHTML = note;
+  $('mWas').textContent = money(v.price); $('mNow').textContent = money(cut);
+  $('mEa').textContent = `whole ${veh}, round trip · about ${money(cut / S.pax)} a person`;
+  $('mCap').textContent = cap;
+  S.rate = {percent: pct, ships: S.notCruise ? null : ships, basis: S.notCruise ? 'floor' : d.basis, date: iso};
+  $('meter').style.display = 'block';
+}
+const discountUSD = () => S.rate ? Math.round(priceOf() * S.rate.percent) / 100 : 0;
 function demoTooSoon(){
   const shown = $('tooSoon').style.display === 'block';
   $('tooSoon').style.display = shown ? 'none' : 'block';
@@ -2034,7 +2134,12 @@ function paintPay(){
   $('pVeh').textContent = moneyOf(priceOf());
   $('pAdmRow').style.display = S.adm ? 'flex' : 'none';
   $('pAdmLbl').textContent = d.admName + ' × ' + S.pax; $('pAdm').textContent = money(admTotal());
-  $('pAll').textContent = moneyOf(grand()); $('payBtnAmt').textContent = moneyOf(grand());
+  // The Port Meter's cut, on the vehicle line only — never on admission, which is the venue's money.
+  const disc = discountUSD();
+  $('pDiscRow').style.display = disc ? 'flex' : 'none';
+  if (disc){ $('pDiscLbl').textContent = `Port Meter · ${S.rate.percent}% off your ${v.name.toLowerCase()}`;
+             $('pDisc').textContent = '−' + money(disc); }
+  $('pAll').textContent = moneyOf(grand() - disc); $('payBtnAmt').textContent = moneyOf(grand() - disc);
 }
 
 /* ── calendar file ──
