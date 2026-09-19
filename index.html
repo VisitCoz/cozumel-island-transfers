@@ -60,7 +60,18 @@
   "sameAs": [
     "https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
   ],
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "35" },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "35",
+    "bestRating": "5",
+    "itemReviewed": {
+      "@type": "LocalBusiness",
+      "name": "Cozumel Island Transfers",
+      "url": "https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
+    },
+    "url": "https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html"
+  },
   "award": "TripAdvisor Travelers' Choice"
 }
 </script>
@@ -783,6 +794,219 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
 @media(min-width:941px){
   .glass .g.open .shipdrop{right:auto;min-width:330px}
 }
+/* ══ v4 (2026-09-19) — everything above this line is the branch as it was ══════════
+   Three changes only: the pier line's wording, four sections brought back from the old
+   site, and a Google address list on the "I'm at a hotel" box.
+   The page rule is unchanged and governs all of it: this is read by people in their
+   sixties and seventies, on a phone, in the sun. Body text ≥18px, taps ≥48px, one
+   idea per band, nothing small and grey.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ══ 3 · the "I'm at a hotel" box — Google's own address suggestions ═════════════
+   Google Places Autocomplete, drawn into the same panel the ship list uses, so the
+   guest meets one control and not two. Rows are Google's two-line shape: the place
+   in black, the rest of the address in grey — and Google's attribution under them,
+   which its terms require on any screen that shows its suggestions without a map. */
+.shipdrop .pr{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;
+  border:none;background:none;cursor:pointer;padding:11px 15px;min-height:52px;
+  border-bottom:1px solid var(--line-soft)}
+.shipdrop .pr:hover,.shipdrop .pr:focus{background:var(--surface);outline:none}
+.shipdrop .pr .pin{font-size:15px;line-height:1.35;flex:0 0 auto}
+.shipdrop .pr .n{display:block;font-size:15.5px;font-weight:700;color:var(--navy);
+  letter-spacing:-.01em;line-height:1.3}
+.shipdrop .pr .c{display:block;font-size:12.5px;color:var(--mute);margin-top:1px}
+.shipdrop .gattr{display:flex;align-items:center;gap:6px;padding:9px 15px;
+  border-top:1px solid var(--line);font-size:11px;font-weight:600;color:var(--mute-2)}
+/* 🚨 The letter classes are gl-*, not .b/.r/.y/.g. This list lives inside .glass .g —
+   the bar's own field wrapper — and a bare `.g` here inherits the field's layout rules
+   and tears the word "Google" apart. */
+.shipdrop .gattr .gg{font-weight:800;letter-spacing:-.02em}
+.shipdrop .gattr .gg i{font-style:normal}
+.shipdrop .gattr .gg .gl-b{color:#4285F4}.shipdrop .gattr .gg .gl-r{color:#EA4335}
+.shipdrop .gattr .gg .gl-y{color:#FBBC05}.shipdrop .gattr .gg .gl-g{color:#34A853}
+
+/* ══ 2 · the four sections that came back ═══════════════════════════════════════
+   They reuse .v2-sec / .v2-h2 / .v2-lede — the shells the three approved sections
+   already use — so this is layout for new content, not a second design system. */
+
+/* ── What guests say ──
+   The rating is stated ONCE, in a strip of its own above the cards (Kiwitaxi and
+   Suntransfers both do this; repeating ★ 4.8 on every card is what makes a review
+   band look like an advertisement). Then three cards, three across, with room. */
+/* 🚨 `margin:0 auto`, not `margin:0`. These are direct children of .v2-sec, which centres
+   its children inside a 1060px measure on a desktop — a plain `margin:0` here wins on
+   source order and drags the strip 62px left of the heading above it. */
+.v4-rate{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;
+  margin:0 auto 10px;padding:16px 20px;background:#fff;border:1px solid var(--line);
+  border-radius:16px}
+.v4-rate .award{display:inline-flex;align-items:center;gap:8px;font-size:17px;
+  font-weight:800;color:var(--navy);letter-spacing:-.015em}
+.v4-rate .score{display:inline-flex;align-items:baseline;gap:5px;font-size:30px;
+  font-weight:800;color:var(--navy);letter-spacing:-.03em;line-height:1}
+.v4-rate .score .st{font-size:20px;color:#F0A500;letter-spacing:0}
+.v4-rate .of{font-size:17px;color:#33404F;font-weight:600}
+.v4-rate .lk{margin-left:auto;display:inline-flex;align-items:center;min-height:52px;
+  padding:0 22px;border-radius:999px;background:var(--accent);color:#fff;
+  text-decoration:none;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.v4-rate .lk:hover{background:var(--accent-pressed)}
+/* No max-width of its own: .v2-sec > * already holds it to the 1060px measure the
+   heading and the cards use, and anything narrower breaks the left edge. */
+.v4-who{margin:0 auto 22px;font-size:16.5px;line-height:1.5;color:#3C4A57}
+.v4-who b{color:var(--navy);font-weight:800}
+.v4-revs{display:grid;grid-template-columns:1fr;gap:16px}
+.v4-rev{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px 18px;
+  display:flex;flex-direction:column}
+.v4-rev .rv-s{color:#F0A500;font-size:15px;letter-spacing:.14em;line-height:1}
+.v4-rev .rv-h{font-size:19px;font-weight:800;color:var(--navy);margin:11px 0 8px;
+  letter-spacing:-.02em;line-height:1.25}
+.v4-rev p{margin:0;font-size:17px;line-height:1.58;color:#33404F}
+.v4-rev .rv-w{margin-top:auto;padding-top:16px;font-size:15px;color:#5C6B7A;font-weight:700}
+
+/* ── Who we are ── two paragraphs and nothing else. The quiet band between two busy
+   ones is doing work: it is what stops the page reading as a wall. */
+.v4-about p{margin:0 0 16px;font-size:18px;line-height:1.62;color:#33404F;max-width:36em}
+.v4-about p:last-child{margin-bottom:0}
+.v4-about b{color:var(--navy);font-weight:800}
+
+/* ── The things people always ask ──
+   Suntransfers' shape: the heading holds a narrow column on the left and the questions
+   run down the right, so a thirteen-question list never becomes a thirteen-question
+   wall. Each row is a whole card and a whole tap target. */
+.v4-faq{display:grid;grid-template-columns:1fr;gap:18px}
+.v4-faq .faq{background:#fff;border:1px solid var(--line);border-radius:14px;
+  margin-bottom:10px;overflow:hidden}
+.v4-faq .faq[open]{border-color:#C7DAF5;background:var(--card-blue)}
+.v4-faq .faq > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+  min-height:62px;padding:15px 20px;font-size:18px;font-weight:700;color:var(--navy);
+  line-height:1.4;letter-spacing:-.015em}
+.v4-faq .faq > summary::-webkit-details-marker{display:none}
+.v4-faq .faq > summary:hover{background:var(--surface)}
+.v4-faq .faq[open] > summary:hover{background:transparent}
+.v4-faq .faq > summary .fa{margin-left:auto;flex:0 0 32px;height:32px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);color:var(--accent-pressed);
+  font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;
+  line-height:1;transition:transform .15s ease}
+.v4-faq .faq[open] > summary .fa{transform:rotate(45deg);background:#fff}
+.v4-faq .faq p{margin:0;padding:2px 20px 20px;font-size:17px;line-height:1.6;color:#1D3B57;
+  max-width:40em}
+.v4-faq-more{margin-top:6px}
+.v4-faq-more button{display:inline-flex;align-items:center;min-height:56px;padding:0 26px;
+  border-radius:999px;background:#fff;border:2px solid var(--accent);color:var(--accent-pressed);
+  font-family:inherit;font-size:18px;font-weight:800;line-height:1;cursor:pointer}
+.v4-faq-more button:hover{background:var(--card-blue)}
+
+/* ── the footer's contact block ── */
+footer .ft-mail{font-size:17px !important;color:#CFE0EE !important}
+
+/* ── desktop ─────────────────────────────────────────────────────────────────── */
+@media(min-width:941px){
+  .v4-revs{grid-template-columns:repeat(3,1fr);gap:22px}
+  /* the heading holds its own column and stays with the guest as she reads down */
+  .v4-faq{grid-template-columns:300px 1fr;gap:40px;align-items:start}
+  .v4-faq > .v4-faq-head{position:sticky;top:88px}
+  .v4-about p{font-size:19px}
+}
+/* ── phone ───────────────────────────────────────────────────────────────────── */
+@media(max-width:940px){
+  /* One review at a time, swiped — three stacked cards is three screens of scrolling
+     before she reaches anything she can act on. */
+  .v4-revs{display:flex;gap:12px;overflow-x:auto;padding:2px 0 8px;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .v4-revs::-webkit-scrollbar{display:none}
+  .v4-rev{flex:0 0 86%;scroll-snap-align:start}
+  .v4-rate{flex-direction:column;align-items:flex-start;gap:12px;padding:18px}
+  .v4-rate .lk{margin-left:0;width:100%;justify-content:center;min-height:58px}
+  .v4-faq .faq > summary{font-size:18px;padding:16px 16px 16px 18px}
+  .v4-faq .faq p{font-size:17px;padding:2px 18px 20px}
+  .v4-faq-more button{width:100%;justify-content:center;min-height:60px}
+}
+
+/* ══ REVISION 2 (2026-09-19) — Mike's four notes ════════════════════════════════
+   Nothing below changes a size. The jump buttons keep their 19px text and their
+   62px height on a phone, the cards keep theirs; what changes is how many of them
+   are on screen at once, and how they arrive. ══════════════════════════════════ */
+
+/* ── 4 · five jump buttons instead of three ──────────────────────────────────────
+   Five stacked full-width buttons is 360px of navy directly under the price card —
+   half a phone screen of nothing but buttons, and the price card scrolled off the
+   top before she has read it. So: a two-column grid, with the first button spanning
+   both. Destinations is the one we want tapped, so it keeps the full width and the
+   eye; the other four pair off underneath it. Three rows on a phone instead of five,
+   and on a desktop the same shape (the block is 608px wide there, so the pairs sit
+   at 298px each) instead of the 2+1 wrap it used to make. */
+.v2-jump{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v2-jump a{padding:0 10px;gap:8px}
+.v2-jump a.j-wide{grid-column:1 / -1}
+/* 🚨 .below is a flex column and .below > * carries `margin-left/right:auto` on a
+   desktop — auto margins on the cross axis beat `align-items:stretch`, so a child
+   there is sized to fit its content and then centred. The old wrapping flex row
+   happened to fit at 608px; a two-column grid fits at 354px, which left the buttons
+   looking shrunken under a 1060px price ladder. So say the width out loud: 620px,
+   the same pair-of-300px shape the block had before. */
+@media(min-width:941px){
+  .v2-jump{width:100%;max-width:620px}
+}
+/* 🚨 On a phone a paired cell is 171px wide and "Happy guests" at its unchanged 19px
+   wants 179 of them with the icon in front of it — so it wrapped to two lines and sat
+   next to a one-line neighbour looking like a mistake. The text is not negotiable and
+   neither is its size, so the decoration goes: on a phone only, the four paired
+   buttons drop their icon and "See destinations" keeps its pin. That also says which
+   one we want tapped. On a desktop a pair is 304px and every icon stays. */
+@media(max-width:940px){
+  .v2-jump a:not(.j-wide) .ic{display:none}
+}
+
+/* ── 6 · the destinations grid collapses, the way the questions do ───────────────
+   Four places are on screen — exactly one full row on a desktop, where the grid is
+   four across at its 1060px measure, and two rows of two on a phone. The other six
+   are one tap away on this same page, in the same words and the same button the
+   thirteen questions use, so the page has one gesture and not two. */
+#destGrid:not(.all) .dst-more{display:none}
+/* Between 941px and 1071px the grid falls to three across. Six keeps it two
+   full rows there rather than a row of three with one card sitting alone beneath.
+   (.dst-more are buttons 5–10, so -n+6 is exactly the fifth and sixth cards.) */
+@media(min-width:941px) and (max-width:1071px){
+  #destGrid:not(.all) .dst-more:nth-of-type(-n+6){display:flex}
+}
+.v2-more{margin-top:22px}
+.v2-more button{display:inline-flex;align-items:center;min-height:56px;padding:0 26px;
+  border-radius:999px;background:#fff;border:2px solid var(--accent);color:var(--accent-pressed);
+  font-family:inherit;font-size:18px;font-weight:800;line-height:1;cursor:pointer}
+.v2-more button:hover{background:var(--card-blue)}
+@media(max-width:940px){
+  .v2-more button{width:100%;justify-content:center;min-height:60px}
+}
+
+/* ── 7 · cards fade and rise as they come into view ──────────────────────────────
+   The idea is lifted from proto/ab-8-arrivals-board.html: a card starts 12px low and
+   transparent and arrives. Here it is triggered by an IntersectionObserver rather
+   than on load, so a card announces itself as she reaches it instead of all of them
+   firing above the fold and being missed.
+
+   🚨 The hiding rule is behind html.v4-motion, a class the script adds to itself.
+   Without that a script that never runs would leave every card permanently invisible.
+   The same script refuses to add the class when the phone asks for reduced motion,
+   so that reader gets the finished page with nothing moving at all — which is also
+   what the media query at the bottom enforces, belt and braces.
+
+   400ms per card, 60ms apart, and the stagger is capped at six so nothing waits
+   longer than 300ms to start. Cards are released as they arrive and never observed
+   again, so nothing fades back out on the way up. */
+html.v4-motion #sec-destinations .poster,
+html.v4-motion .v4-rev,
+html.v4-motion .v4-faq .faq{opacity:0;transform:translateY(12px)}
+html.v4-motion #sec-destinations .poster.arrived,
+html.v4-motion .v4-rev.arrived,
+html.v4-motion .v4-faq .faq.arrived{
+  animation:v4arrive .4s cubic-bezier(.22,.61,.36,1) both;
+  animation-delay:calc(var(--i,0) * 60ms)}
+@keyframes v4arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  html.v4-motion #sec-destinations .poster,
+  html.v4-motion .v4-rev,
+  html.v4-motion .v4-faq .faq{opacity:1;transform:none;animation:none}
+}
+
 </style>
 </head>
 <body>
@@ -801,6 +1025,13 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
     <a href="#sec-destinations">Destinations</a>
     <a href="#sec-guests">Happy guests</a>
     <a href="#sec-how">How it works</a>
+    <!-- ══ ADDED (v4 rev 2): the two sections that came back are in the bar too. They
+         are the two a guest goes looking for by name — the reviews and the questions —
+         and the bar is where she looks. Below 941px this whole block is still hidden:
+         the phone shows the logo and WhatsApp and nothing else, and the five big
+         buttons under the price card carry the sections instead. ══ -->
+    <a href="#sec-reviews">Reviews</a>
+    <a href="#sec-faq">Questions</a>
   </div>
   <a class="v2-wa" href="#" onclick="return wa()">WhatsApp us</a>
 </nav>
@@ -903,9 +1134,15 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
          block ABOVE the ladder, so it sits directly under the price card; on desktop
          it stays under the ladder, as approved. ══ -->
     <div class="v2-jump">
-      <a href="#sec-destinations"><span class="ic">📍</span>See destinations</a>
+      <!-- ══ ADDED (v4 rev 2): five, not three — and in a 1 + 2 + 2 grid rather than a
+           stack, so the block is three rows deep on a phone instead of five and the
+           price card above it stays on screen. Destinations spans the full width
+           because it is the one we want tapped. ══ -->
+      <a class="j-wide" href="#sec-destinations"><span class="ic">📍</span>See destinations</a>
       <a href="#sec-guests"><span class="ic">📷</span>Happy guests</a>
       <a href="#sec-how"><span class="ic">🧭</span>How it works</a>
+      <a href="#sec-reviews"><span class="ic">★</span>Reviews</a>
+      <a href="#sec-faq"><span class="ic">❓</span>Questions</a>
     </div>
   </div>
 
@@ -916,10 +1153,14 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
        bar's To field and scrolls back up to the price, so "View & book →" — which
        promised a page — became "See the price →", which is what actually happens. ══ -->
   <section class="v2-sec" id="sec-destinations">
-    <h2 class="v2-h2">Where do you need to go?</h2>
-    <p class="v2-lede">Tap a place. We put it in the box at the top and show you the price.
-      The price is the same to anywhere on the island.</p>
-    <div class="grid">
+    <!-- ══ CHANGED (v4 rev 2): Mike's heading and Mike's lede, word for word. The old
+         heading was the question; the question moved into the lede, where it belongs,
+         and the heading now says what the band actually is. The nav label stays
+         "Destinations" — that is the word she is scanning the bar for. ══ -->
+    <h2 class="v2-h2">Top places people visit</h2>
+    <p class="v2-lede">Where do you need to go? Tap a place. We put it in the box at the top
+      and show you the price. The price is the same to anywhere on the island.</p>
+    <div class="grid" id="destGrid">
     <button class="poster" onclick="pickDest('tierra-maya')">
       <div class="poster-img rotate">
         <img src="/.netlify/images?url=/assets/photos/tm-1.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="A group of guests with their guide under the carved Tierra Maya sign" loading="lazy" decoding="async">
@@ -945,36 +1186,43 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
       <div class="poster-meta"><h3>Chankanaab</h3><div class="dur">10–15 min from the pier</div>
       <div class="go">See the price →</div></div>
     </button>
-    <button class="poster" onclick="pickDest('bucanos')">
+    <button class="poster dst-more" onclick="pickDest('bucanos')">
       <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-bucanos-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Buccanos at Night · Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club · Wine Bar</span></div>
       <div class="poster-meta"><h3>Buccanos</h3><div class="dur">10 min from the pier</div>
       <div class="go">See the price →</div></div>
     </button>
-    <button class="poster" onclick="pickDest('paradise-beach')">
+    <button class="poster dst-more" onclick="pickDest('paradise-beach')">
       <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-paradise-beach-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Paradise Beach, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
       <div class="poster-meta"><h3>Paradise Beach</h3><div class="dur">15 min from the pier</div>
       <div class="go">See the price →</div></div>
     </button>
-    <button class="poster" onclick="pickDest('mr-sanchos')">
+    <button class="poster dst-more" onclick="pickDest('mr-sanchos')">
       <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-mr-sanchos-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Mr. Sanchos Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
       <div class="poster-meta"><h3>Mr. Sanchos</h3><div class="dur">15–20 min from the pier</div>
       <div class="go">See the price →</div></div>
     </button>
-    <button class="poster" onclick="pickDest('nachi-cocom')">
+    <button class="poster dst-more" onclick="pickDest('nachi-cocom')">
       <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-nachi-cocom-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Nachi Cocom Beach Club, Cozumel" loading="lazy"><span class="pl">Beach Club</span></div>
       <div class="poster-meta"><h3>Nachi Cocom</h3><div class="dur">20–25 min from the pier</div>
       <div class="go">See the price →</div></div>
     </button>
-    <button class="poster" onclick="pickDest('marina')">
+    <button class="poster dst-more" onclick="pickDest('marina')">
       <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-marina-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Boats docked at Marina Cozumel ASIPONA, with the cruise piers beyond" loading="lazy"><span class="pl">Marina</span></div>
       <div class="poster-meta"><h3>Marina Cozumel</h3><div class="dur">15 min from the pier</div>
       <div class="go">See the price →</div></div>
     </button>
-    <button class="poster" onclick="pickDest('somewhere-else')">
+    <button class="poster dst-more" onclick="pickDest('somewhere-else')">
       <div class="poster-img"><img src="/.netlify/images?url=/assets/dest-paradise-beach-hero.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Somewhere else on the island, Cozumel" loading="lazy"><span class="pl">Tell us where</span></div>
       <div class="poster-meta"><h3>Somewhere else</h3><div class="dur">Varies from the pier</div>
       <div class="go">See the price →</div></div>
     </button>
+    </div>
+    <!-- ══ ADDED (v4 rev 2): the same gesture the thirteen questions use. Four places
+         are on screen — one full row on a desktop, two rows of two on a phone — and the
+         other six open here, on this page, rather than sending her anywhere. The button
+         takes itself away once it has been used. ══ -->
+    <div class="v2-more">
+      <button type="button" id="destMore" onclick="showAllDest()">See all 10 places</button>
     </div>
   </section>
 
@@ -1044,10 +1292,117 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
     <div class="v2-back"><a href="#top">↑ Back to the top and book</a></div>
   </section>
 
+  <!-- ══ ADDED (v4): the four blocks that came back from the old site ═══════════════
+       Lifted out of main's index.html word for word — the reviews, Who we are, the
+       thirteen questions and the contact lines — and laid out on the shells the three
+       approved sections already use. In this order, after How it works: proof, then
+       who is behind it, then the questions, then how to reach us. Nothing was rewritten;
+       the one correction is noted where it is. ══ -->
+
+  <!-- ── What guests say ──
+       Borrowed from Kiwitaxi and Suntransfers: the score is said ONCE, in a strip above
+       the cards, and the cards carry the words. Three across on a desktop, one at a time
+       on a phone. -->
+  <section class="v2-sec v2-sec-soft" id="sec-reviews">
+    <h2 class="v2-h2">What guests say</h2>
+    <p class="v2-lede">Verified reviews left by guests we have driven, on TripAdvisor.</p>
+    <div class="v4-rate">
+      <span class="award">🏆 Travelers&rsquo; Choice on TripAdvisor</span>
+      <span class="score">4.8<span class="st">★</span></span>
+      <span class="of">from 35 verified reviews · since 2015</span>
+      <a class="lk" href="https://www.tripadvisor.com/Attraction_Review-g13882869-d25443478-Reviews-Cozumel_Island_Transfers_Airport_Cruise_Port_Transportation-San_Miguel_de_Cozu.html" target="_blank" rel="noopener">Read all 35 on TripAdvisor →</a>
+    </div>
+    <!-- Mike's call, 2026-09-19: the reviews belong to the operating company, not to the
+         brand on this domain, and the page says so rather than letting a guest wonder why
+         the TripAdvisor page carries a different name. -->
+    <p class="v4-who">These reviews are for <b>Cozumel Island Transfers</b> — the licensed
+      operator that drives every transfer booked here.</p>
+    <div class="v4-revs">
+      <div class="v4-rev">
+      <div class="rv-s">★★★★★</div>
+      <div class="rv-h">Great company</div>
+      <p>They communicated well and very fast to respond. We made a last-minute change to our meeting
+         time and they accommodated. It was nice to not have to wait at our resort and have an
+         air-conditioned van waiting for us.</p>
+      <div class="rv-w">Genny · May 2026 · TripAdvisor</div>
+      </div>
+      <div class="v4-rev">
+      <div class="rv-s">★★★★★</div>
+      <div class="rv-h">Excellent transfer</div>
+      <p>Wonderful experience. Prompt, easy, friendly, clean, and safe! Would highly recommend if you
+         need transportation for a group. Our driver even came early when we finished a tour earlier
+         than expected.</p>
+      <div class="rv-w">Meghan G · Jun 2025 · TripAdvisor</div>
+      </div>
+      <div class="v4-rev">
+      <div class="rv-s">★★★★★</div>
+      <div class="rv-h">Perfect service</div>
+      <p>Exceeded my expectations with their reliable, punctual, and professional service. The vehicle
+         was clean and well-equipped, making for an enjoyable ride. I'll certainly use this service
+         again.</p>
+      <div class="rv-w">Hasna E · Nov 2023 · TripAdvisor</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Who we are ──
+       Two paragraphs and nothing else. Borrowed from Welcome Pickups: a quiet band
+       between two busy ones is what stops a long page reading as a wall.
+       🚨 One word changed from main: main reads "picking up cruise guests and cruise
+       guests", a live typo. Mike approved "cruise and hotel guests". -->
+  <section class="v2-sec" id="sec-about">
+    <h2 class="v2-h2">Who we are</h2>
+    <div class="v4-about">
+      <p>Cozumel Island Transfers is a licensed private ground-transfer operator based in San Miguel de Cozumel, Quintana Roo. We've been picking up cruise and hotel guests on this island <b>since 2015</b>.</p>
+      <p>Every vehicle is private — never shared. A/C, bottled water, daily inspection. We pick up at all three cruise terminals: Puerta Maya, the International Pier and Punta Langosta. <b>You're not texting a call centre. You're texting Emma, in Cozumel — the same person who'll answer on the day of your trip.</b></p>
+    </div>
+  </section>
+
+  <!-- ── The things people always ask ──
+       Borrowed from Suntransfers: the heading holds a narrow column on the left and the
+       questions run down the right, each one a card and a whole tap target, so thirteen
+       answers never become a thirteen-paragraph wall. Five are open to the eye; the
+       other eight are one tap away, on this same page. -->
+  <section class="v2-sec v2-sec-soft" id="sec-faq">
+    <div class="v4-faq">
+      <div class="v4-faq-head">
+        <h2 class="v2-h2">The things people always ask</h2>
+        <p class="v2-lede">The five we are asked most. The rest are underneath them.</p>
+      </div>
+      <div>
+      <details class="faq"><summary>What do you guarantee?<span class="fa">+</span></summary><p>Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print.</p></details>
+      <details class="faq"><summary>Will the ship wait for me?<span class="fa">+</span></summary><p>No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full.</p></details>
+      <details class="faq"><summary>What if I need to cancel?<span class="fa">+</span></summary><p>Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, we refund you in full without you having to ask.</p></details>
+      <details class="faq"><summary>How do I pay?<span class="fa">+</span></summary><p>Credit card, always — secure online payment at booking. No cash to the driver, no deposits, no surprise fees at the curb.</p></details>
+      <details class="faq"><summary>What happens on the day?<span class="fa">+</span></summary><p>The day before, we email you your terminal, your meeting point and your times. When you disembark, look for our English-speaking representative holding a sign with your name — we are waiting for you outside — about a 10 minute walk from the ship, and you can see the walk from each pier on this site before you sail. Your driver takes you to your destination and comes back at the time you chose.</p></details>
+      <div id="faqRest" hidden>
+      <details class="faq"><summary>What's included in my transfer?<span class="fa">+</span></summary><p>Round-trip private transfer in an air-conditioned private vehicle, and bottled water. Our English-speaking representative waits at our meeting point with your name on a sign and gets you settled; your driver takes you there and comes back at the time you chose. Your pickup and return times are confirmed in writing before you ride, so nothing important depends on a conversation in the van.</p></details>
+      <details class="faq"><summary>Where can you take me?<span class="fa">+</span></summary><p>Anywhere on the island: beach clubs, Mayan ruins, the marina, downtown San Miguel, the Playa del Carmen ferry terminal, or any address you have. If you don't see your destination listed, just message us on WhatsApp.</p></details>
+      <details class="faq"><summary>What if my ship is delayed?<span class="fa">+</span></summary><p>No problem. We pull every Cozumel arrival from the port authority's feed, and one of our team checks yours again before your pickup — so we adjust instead of losing you. No rescheduling fees, no missed-pickup penalties. Same for early arrivals.</p></details>
+      <details class="faq"><summary>Can I come back earlier than I booked?<span class="fa">+</span></summary><p>Yes. If your plans change, message us on WhatsApp with about 30 to 60 minutes' notice and we'll come for you sooner. One thing to know: the return trip runs once, so the whole group comes back together — we can't do one run for part of the group and a second run for the rest.</p></details>
+      <details class="faq"><summary>Traveling with a large group?<span class="fa">+</span></summary><p>Up to 40 passengers in one vehicle. Larger groups — weddings, corporate, multi-family — can book multiple vehicles departing together. Message us with group size, destination and date.</p></details>
+      <details class="faq"><summary>Do you provide child or car seats?<span class="fa">+</span></summary><p>No, we don't offer baby or child car seats. If you need one, please bring your own — it travels free in the vehicle.</p></details>
+      <details class="faq"><summary>Is the van easy to get in and out of?<span class="fa">+</span></summary><p>Our vans have a standard step up — most guests manage it easily, and our representative will steady an arm if you'd like. Folded walkers and collapsible wheelchairs travel with you at no charge. If anyone in your group uses a mobility scooter or needs a low step, message us before you book and we'll tell you honestly whether we can carry it.</p></details>
+      <details class="faq"><summary>Should I tip the driver?<span class="fa">+</span></summary><p>Tipping is customary in Mexico but never required. Whatever you feel is fair — your driver appreciates it either way.</p></details>
+      </div>
+        <div class="v4-faq-more">
+          <button type="button" id="faqMore" onclick="showAllFaq()">See all 13 questions</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="ft-g">
       <a class="ft-tel" href="#" onclick="return wa()">+52 987 114 6853
         <span class="ft-wa">on WhatsApp</span></a>
+      <!-- ══ ADDED (v4): main's contact block, word for word, folded in here rather
+           than standing as a fifth section. A guest who has read three bands and the
+           questions is at the bottom of the page already — the way to reach us belongs
+           where she is, not in one more thing to scroll past. ══ -->
+      <p>Message us on WhatsApp — it's the fastest way to reach us, and it's how we answer you
+        in English.</p>
+      <a class="ft-mail" href="mailto:hello@cozumelislandtransfers.com">hello@cozumelislandtransfers.com</a>
       <p>Someone answers 9 AM – 5 PM, Cozumel time (UTC−5, year round).</p>
     </div>
 
@@ -1307,7 +1662,7 @@ const BAR_DRAWS = [];        // type-aheads to repaint when it does
 fetch('../data/cozumel-ships.json')
   .then(r => r.json())
   .then(d => {
-    SHIPS = d.ships.map(s => [s.name, s.line]);
+    SHIPS = d.ships.map(s => [s.name, s.line, s.usualPier || null]);
     BAR_DRAWS.forEach(fn => fn());
     $('shipList').innerHTML = d.ships
       .map(s => `<option value="${s.name.replace(/"/g, '&quot;')}">`).join('');
@@ -1575,6 +1930,22 @@ function pierFor(shipName, iso){
   return hit ? (TERMINAL[hit.port] || null) : null;
 }
 
+/* ── the ship's usual terminal ───────────────────────────────────────────────────
+   Counted by scripts/build_ship_list.py over the very same arrivals it already reads
+   to build this list — nothing extra is fetched, here or there — and written into
+   data/cozumel-ships.json as `usualPier` (the terminal, already spelled the way a
+   guest reads it) and `usualPierShare` (how much of her berthed history was there).
+
+   🚨 A ship only gets one at all if she has three or more berthed calls and at least
+   70% of them at a single terminal. A ship that splits her calls has NO usual pier
+   and this returns null, which drops the line to state 3 — the promise of an email,
+   which is true whatever the berth turns out to be. Half right is worse than silent
+   when a guest is deciding where to stand. */
+function usualPierFor(shipName){
+  const s = SHIPS.find(r => r[0] === shipName);
+  return (s && s[2]) ? {name: s[2]} : null;
+}
+
 /* On the destination side the list already ends in "Somewhere else" — a real destination
    at the normal price, whose address the wizard asks for on the details screen — so that
    option is repurposed into the typing one rather than a second near-identical entry
@@ -1604,6 +1975,49 @@ function barFill(){
   destF.querySelector('select').selectedIndex = 0;
 }
 
+/* ── Google Places, loaded on demand and never a requirement ─────────────────────
+   Resolves ONCE, to the places library or to null, and every caller treats null as
+   the ordinary case. Null happens whenever:
+     · GOOGLE_MAPS_BROWSER_KEY is not set in Netlify — the function returns key:null
+     · the function is missing or erroring
+     · the Maps script will not load, or Google rejects the key (gm_authFailure)
+     · the SDK loads but has no AutocompleteSuggestion, e.g. a very old browser
+   In every one of those the "I'm at a hotel" box degrades to plain typing with no
+   visible error, which is exactly how the site behaved before this existed.
+
+   🚨 The key is read at request time from the environment and is never written into
+   this page, so there is nothing here to leak and nothing to rotate in the repo. */
+let placesPromise = null;
+let placesDead = false;
+window.gm_authFailure = function(){ placesDead = true; };
+function loadPlaces(){
+  if (placesPromise) return placesPromise;
+  placesPromise = fetch('/.netlify/functions/maps-key')
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      const key = d && d.key;
+      if (!key) return null;                       // the ordinary case, for now
+      return new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.async = true;
+        s.onload = res; s.onerror = rej;
+        s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(key)
+              + '&v=weekly&loading=async&libraries=places&language=en&region=MX';
+        document.head.appendChild(s);
+      }).then(() => google.maps.importLibrary('places'));
+    })
+    .then(lib => (lib && lib.AutocompleteSuggestion && !placesDead) ? lib : null)
+    .catch(() => null);
+  return placesPromise;
+}
+/* Google's suggestions are strings from a third party and they land in innerHTML.
+   Named escHtml, not esc: downloadICS() already has a local `esc` that escapes for a
+   calendar file, and two different escapes under one name is how the wrong one gets
+   called. */
+const escHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                              .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+
 /* One field of the capsule. Returns the handful of questions the rest of the bar asks
    of it, so nothing outside here has to know whether it is the ship box, a list or a
    text box. */
@@ -1612,12 +2026,71 @@ function barField(fldId, selId, txtId, shipId, dropId){
   let ship = null;                                   // [name, line] once she has picked one
   sel.addEventListener('change', () => { if (sel.value === BAR_OTHER) set(true); barSync(); });
   fld.querySelector('.revert').addEventListener('click', () => { set(false); barSync(); });
-  /* 🚨 NO ADDRESS SUGGESTIONS, on purpose. There is no Google key on this site and
-     nothing here is geocoded, so a list of guesses would be theatre — and a villa name
-     nobody has mapped would send the map to the middle of the ocean. A typed place is
-     confirmed by a person on WhatsApp; the map simply keeps the last thing it could
-     actually find. The SHIP box is different: those names are a closed list we own. */
-  txt.addEventListener('input', () => $('barQ').classList.remove('on'));
+  /* ── ADDRESS SUGGESTIONS, from Google Places ──────────────────────────────────
+     Until now this box took whatever she typed and geocoded none of it: a villa name
+     nobody has mapped sent the map to the middle of the ocean, and a misspelt hotel
+     became a WhatsApp conversation on the morning. Google Places Autocomplete turns
+     the box into the same list of real places her phone's maps app gives her.
+
+     🚨 IT IS OPTIONAL, AND THAT IS THE POINT. The suggestions need a Google Maps
+     browser key. The key lives in ONE place — the Netlify environment variable
+     GOOGLE_MAPS_BROWSER_KEY — and reaches the page only through
+     /.netlify/functions/maps-key. It is not in this file, it is not in this
+     repository, and it is not in any build output. While that variable is unset the
+     function answers {"key":null}, loadPlaces() resolves to null, and this box is
+     exactly the plain text box it has always been: she types, nothing appears, no
+     error, nothing to explain. Every line below is written to be skipped.
+
+     Loaded on demand: the Maps SDK is fetched the first time a guest opens THIS box,
+     so a guest arriving by ship never downloads it. */
+  let placeToken = null;          // one Places session token per search-and-pick
+  // Google's terms require its attribution on any screen that shows its suggestions
+  // without a Google map beside them.
+  const GATTR = `<div class="gattr">powered by <span class="gg"><i class="gl-b">G</i>`
+    + `<i class="gl-r">o</i><i class="gl-y">o</i><i class="gl-b">g</i><i class="gl-g">l</i>`
+    + `<i class="gl-r">e</i></span></div>`;
+  function drawPlaces(){
+    const q = txt.value.trim();
+    // Google asks for two characters before it answers, and so does this.
+    if (q.length < 2){ fld.classList.remove('open'); return; }
+    loadPlaces().then(lib => {
+      // No key, or Google refused it. Either way: say nothing and let her type.
+      if (!lib) return;
+      // She has typed on since this went out. Her newer keystroke owns the list.
+      if (txt.value.trim() !== q) return;
+      if (!placeToken) placeToken = new lib.AutocompleteSessionToken();
+      return lib.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+        input: q,
+        sessionToken: placeToken,
+        includedRegionCodes: ['mx'],
+        language: 'en',
+        /* Biased, not restricted, to the middle of the island: a guest who types a
+           street the geocoder files under a neighbouring town still finds it, but
+           "Melgar" answers with Cozumel's Melgar and not Cancún's. */
+        locationBias: {center: {lat: 20.4230, lng: -86.9223}, radius: 20000},
+      }).then(res => {
+        if (txt.value.trim() !== q) return;
+        const hits = (res.suggestions || [])
+          .map(s => s.placePrediction).filter(Boolean).slice(0, 5);
+        drop.innerHTML = (hits.length
+            ? hits.map(p => {
+                const full = (p.text && p.text.text) || '';
+                const main = (p.mainText && p.mainText.text) || full;
+                const rest = (p.secondaryText && p.secondaryText.text) || '';
+                return `<button class="pr" type="button" data-place="${escHtml(full)}">`
+                  + `<span class="pin">📍</span><span><span class="n">${escHtml(main)}</span>`
+                  + `<span class="c">${escHtml(rest)}</span></span></button>`;
+              }).join('')
+            : `<div class="none">No match yet — keep typing, or send it to us on WhatsApp.</div>`)
+          + GATTR;
+        fld.classList.add('open');
+        fit();
+      });
+    }).catch(() => { /* a dropped request is not something a guest needs told about */ });
+  }
+  txt.addEventListener('input', () => { $('barQ').classList.remove('on'); drawPlaces(); });
+  txt.addEventListener('focus', () => { loadPlaces(); drawPlaces(); });
+  txt.addEventListener('blur', () => setTimeout(() => fld.classList.remove('open'), 160));
 
   /* ── the type-ahead ── too many ships to wheel through, and she knows the name.
      Matches on the ship AND on the line, so "carnival" finds all of them. The last row
@@ -1656,6 +2129,11 @@ function barField(fldId, selId, txtId, shipId, dropId){
   shp.addEventListener('focus', () => { loadPublished(); draw(); });
   shp.addEventListener('input', () => { ship = null; $('barQ').classList.remove('on'); draw(); });
   drop.addEventListener('mousedown', e => {
+    const p = e.target.closest('.pr');
+    // A pick ends the Places session, so the next search starts a fresh token —
+    // which is how Google expects the widget to be billed and used.
+    if (p){ e.preventDefault(); txt.value = p.dataset.place; placeToken = null;
+            fld.classList.remove('open'); $('barQ').classList.remove('on'); return; }
     const b = e.target.closest('.sr'); if (!b) return;
     e.preventDefault();
     if (b.dataset.esc){ set(true); fld.classList.remove('open'); barSync(); return; }
@@ -1666,6 +2144,9 @@ function barField(fldId, selId, txtId, shipId, dropId){
   });
   // Touch devices fire no mousedown before blur, so the row is committed on click too.
   drop.addEventListener('click', e => {
+    const p = e.target.closest('.pr');
+    if (p){ txt.value = p.dataset.place; placeToken = null;
+            fld.classList.remove('open'); $('barQ').classList.remove('on'); return; }
     const b = e.target.closest('.sr');
     if (b && !b.dataset.esc && shp.value !== b.dataset.n) {
       ship = SHIPS.find(s => s[0] === b.dataset.n) || null;
@@ -1755,16 +2236,41 @@ function paintPier(){
   // barSync() rather than paintPier(), because the map moves to her terminal too.
   if (!PUBLISHED){ loadPublished().then(p => { if (p && $('barQ').classList.contains('on')) barSync(); }); }
 
-  const pier = pierFor(side.ship()[0], iso_);
+  /* ── the three states ────────────────────────────────────────────────────────
+     1  PUBLISHED   the port authority has published her day and her ship is on it.
+                    This is the only state we say "docks at" in, because it is the
+                    only one we know. The map moves to that terminal.
+     2  USUAL       her day is past the end of what the port has published — in
+                    practice, any day after the end of this month. We cannot know her
+                    berth, but data/cozumel-ships.json knows where that ship has
+                    almost always tied up, so we say so as a hint and promise the real
+                    answer in writing. The map stays on the port.
+     3  UNKNOWN     a ship with no settled history of her own — she has split her
+                    calls between terminals, or we have fewer than three. We promise
+                    the email and say nothing else.
+     🚨 The wording of state 1 is unchanged. States 2 and 3 replace a line that said
+     the port "publishes the berths about a month ahead" — it does not. APIQROO
+     publishes the REST OF THE CURRENT MONTH and no further, so on 19 September 2026
+     the window ran only to the 26th. A guest booking for October was being told to
+     expect a berth list that would not exist until October. That clause is gone. */
+  const pier  = pierFor(side.ship()[0], iso_);
+  const usual = pier ? null : usualPierFor(side.ship()[0]);
   el.style.display = 'flex';
   if (pier){
     el.classList.remove('soft'); $('barPierIc').textContent = '⚓';
     $('barPierTx').innerHTML = `Your ship docks at <b>${pier.name}</b> · our meeting point is ${WALK}`;
     S.pier = pier.name;
+  } else if (usual){
+    el.classList.add('soft'); $('barPierIc').textContent = '⚓';
+    $('barPierTx').innerHTML = `${side.ship()[0]} usually docks at <b>${usual.name}</b> · `
+      + `we confirm your pier by email the day before`;
+    /* 🚨 S.pier stays null and the map stays on the port. "Usually" is a hint she can
+       plan around, not an instruction about where to stand — and the one thing this
+       line must never do is put her in the wrong terminal on the morning. */
+    S.pier = null;
   } else {
     el.classList.add('soft'); $('barPierIc').textContent = '✉️';
-    $('barPierTx').innerHTML = `We confirm your pier by email the day before — the port publishes `
-      + `the berths about a month ahead, and we watch it for you.`;
+    $('barPierTx').innerHTML = `We confirm your pier by email the day before`;
     S.pier = null;
   }
   /* 🚨 No barSync() here. barSync() repaints the card, the card repaints this line —
@@ -1798,6 +2304,23 @@ function barQuote(){
                   : ' <small>same price up to ' + v.max + '</small>');
   $('barBook').textContent = 'Book this transfer →';
   paintPier();
+}
+
+/* ── the other eight questions ──────────────────────────────────────────────────
+   They open on this page, under the five already there, rather than sending her
+   anywhere. The button takes itself away once it has been used. */
+function showAllFaq(){
+  const rest = $('faqRest'); if (rest) rest.hidden = false;
+  const b = $('faqMore'); if (b) b.parentNode.remove();
+}
+
+/* ── the other six places ───────────────────────────────────────────────────────
+   Identical in behaviour to showAllFaq above: they open in place, the button removes
+   itself, and the cards that appear are picked up by the arrival observer at the foot
+   of this page, so they fade in rather than snapping into existence. */
+function showAllDest(){
+  const g = $('destGrid'); if (g) g.classList.add('all');
+  const b = $('destMore'); if (b) b.parentNode.remove();
 }
 
 function barGo(){
@@ -2266,6 +2789,53 @@ function pickDest(slug){
   barQuote();
   document.getElementById('barQ').scrollIntoView({behavior:'smooth', block:'center'});
 }
+
+/* ══ ADDED (v4 rev 2): cards fade and rise as they come into view ════════════════
+   Mike asked for "the motion effect that we had for these ones". Two separate things
+   answer that, and only these two move on the page:
+
+     · Tierra Maya's four photographs still crossfade on their card, on a 16s loop,
+       in pure CSS and exactly as they do on the old site. Nothing was done to them —
+       they were already here. (See .poster-img.rotate in the stylesheet.)
+
+     · Everything else is this: a destination card, a review card or a question rises
+       12px and fades in, once, as it reaches the screen. 400ms each, 60ms apart, and
+       the stagger is capped so the sixth card in a batch is the last one that waits.
+
+   Three rules this obeys:
+     1. It never fires twice. A card is released from the observer the moment it has
+        arrived, so scrolling back up finds the page exactly as she left it.
+     2. It cannot strand the page. The stylesheet only hides a card while
+        html.v4-motion is set, and this script is the only thing that sets it — so if
+        it never runs, every card is simply already there.
+     3. A phone set to reduce motion never gets the class at all, and the stylesheet
+        also refuses the animation under that media query. Two locks, because a page
+        of invisible cards is a broken page, not a slow one. */
+(function(){
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var cards = document.querySelectorAll(
+    '#sec-destinations .poster, .v4-revs .v4-rev, .v4-faq .faq');
+  if (!cards.length) return;
+  document.documentElement.classList.add('v4-motion');
+
+  var io = new IntersectionObserver(function(entries){
+    /* The stagger is counted across the cards arriving in THIS batch, not across the
+       page: a batch is what came into view together, which is what should look like
+       one movement. Capped at 5 so a long batch — the whole FAQ opening at once —
+       never leaves the last card waiting most of a second. */
+    var n = 0;
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      e.target.style.setProperty('--i', Math.min(n++, 5));
+      e.target.classList.add('arrived');
+      io.unobserve(e.target);
+    });
+  }, {threshold: 0.12});
+
+  cards.forEach(function(c){ io.observe(c); });
+})();
 </script>
 </body>
 </html>
