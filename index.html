@@ -1973,6 +1973,14 @@ function barFill(){
   destF.querySelector('.revert').textContent = 'use the list';
   barLoad(destF.querySelector('select'), dests);
   destF.querySelector('select').selectedIndex = 0;
+  /* 🚨 The ADDRESS BOX is this side's default, not the list. Almost every guest is going
+     to a hotel or a villa by name, and Google's suggestions are already in this box — the
+     list of ten is the narrower answer, so it is the one behind a link. "use the list"
+     (the link in the label) opens it; the list's own last row, "Somewhere else", comes
+     back here. The class is toggled rather than set(true) called, because set(true)
+     focuses the box and nothing should take focus on load or on ⇄. */
+  shipF.classList.remove('typing');
+  destF.classList.add('typing');
 }
 
 /* ── Google Places, loaded on demand and never a requirement ─────────────────────
@@ -2075,10 +2083,17 @@ function barField(fldId, selId, txtId, shipId, dropId){
         sessionToken: placeToken,
         includedRegionCodes: ['mx'],
         language: 'en',
-        /* Biased, not restricted, to the middle of the island: a guest who types a
-           street the geocoder files under a neighbouring town still finds it, but
-           "Melgar" answers with Cozumel's Melgar and not Cancún's. */
-        locationBias: {center: {lat: 20.4230, lng: -86.9223}, radius: 20000},
+        /* RESTRICTED to the island, not merely biased towards it. The 20 km bias circle
+           that used to sit here still offered Playa del Carmen and Puerto Morelos, and a
+           guest who picked one was quoted for a transfer we cannot drive — there is a
+           ferry in the middle of it. A restriction returns nothing outside the box, so
+           "Playa del Carmen" now answers with nothing rather than with the mainland.
+           🚨 Checked against the map before it was written: Isla Cozumel runs
+           20.272–20.592 N and 87.025–86.723 W, so this box clears the island on every
+           side. The west edge is the tight one — it is deliberately 87.05 and NOT the
+           87.08 it looks like it could be, because Playacar, the south end of Playa del
+           Carmen, sits at 87.07 W and would fall inside the wider box. */
+        locationRestriction: {west: -87.05, south: 20.24, east: -86.72, north: 20.62},
       }).then(res => {
         if (txt.value.trim() !== q) return;
         const hits = (res.suggestions || [])
@@ -2101,7 +2116,13 @@ function barField(fldId, selId, txtId, shipId, dropId){
   }
   txt.addEventListener('input', () => { $('barQ').classList.remove('on'); drawPlaces(); });
   txt.addEventListener('focus', () => { loadPlaces(); drawPlaces(); });
-  txt.addEventListener('blur', () => setTimeout(() => fld.classList.remove('open'), 160));
+  /* She typed a name Google has never heard of and moved on. What she wrote is the only
+     address we have, so the map goes there too. On the same 160 ms delay the list already
+     used, so a tap on a suggestion row still wins the race and the map ends up on
+     Google's wording rather than on her half-finished spelling. */
+  txt.addEventListener('blur', () => setTimeout(() => {
+    fld.classList.remove('open'); barSync();
+  }, 160));
 
   /* ── the type-ahead ── too many ships to wheel through, and she knows the name.
      Matches on the ship AND on the line, so "carnival" finds all of them. The last row
@@ -2144,7 +2165,8 @@ function barField(fldId, selId, txtId, shipId, dropId){
     // A pick ends the Places session, so the next search starts a fresh token —
     // which is how Google expects the widget to be billed and used.
     if (p){ e.preventDefault(); txt.value = p.dataset.place; placeToken = null;
-            fld.classList.remove('open'); $('barQ').classList.remove('on'); return; }
+            fld.classList.remove('open'); $('barQ').classList.remove('on');
+            barSync(); return; }
     const b = e.target.closest('.sr'); if (!b) return;
     e.preventDefault();
     if (b.dataset.esc){ set(true); fld.classList.remove('open'); barSync(); return; }
@@ -2157,7 +2179,8 @@ function barField(fldId, selId, txtId, shipId, dropId){
   drop.addEventListener('click', e => {
     const p = e.target.closest('.pr');
     if (p){ txt.value = p.dataset.place; placeToken = null;
-            fld.classList.remove('open'); $('barQ').classList.remove('on'); return; }
+            fld.classList.remove('open'); $('barQ').classList.remove('on');
+            barSync(); return; }
     const b = e.target.closest('.sr');
     if (b && !b.dataset.esc && shp.value !== b.dataset.n) {
       ship = SHIPS.find(s => s[0] === b.dataset.n) || null;
@@ -2183,9 +2206,12 @@ function barField(fldId, selId, txtId, shipId, dropId){
       : fld.classList.contains('ship')
         ? (ship ? ship[0] : 'your ship')
         : sel.options[sel.selectedIndex].text.split(' · ')[0],
-    /* What the map is asked for. A typed field answers with nothing — see above. The
+    /* What the map is asked for. A typed field answers with the address she gave us —
+       Google's own full suggestion text when she picked one — so the map draws the route
+       to her hotel instead of leaving the last place she looked at on screen. Blank while
+       the box is still empty, which barSync() already reads as "leave the map alone". The
        ship end answers with the pier we worked out, or with the port when we cannot. */
-    place: () => fld.classList.contains('typing') ? ''
+    place: () => fld.classList.contains('typing') ? txt.value.trim()
       : fld.classList.contains('ship')
         ? ((pierFor(ship && ship[0], $('barDate').value) || {}).q || PORT_Q)
         : (DEST[sel.value] ? DEST[sel.value].name : ''),
