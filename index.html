@@ -8,7 +8,7 @@
      answer Viator's "from $30", were written and never displayed. Keep this under 155.
      "— not per person" is the load-bearing phrase; it is the entire answer to the price
      objection. Mike's call 2026-08-10: lead with value, knowing it costs some couples. -->
-<meta name="description" content="Round-trip from the cruise port to any beach club or ruin. One price for the entire vehicle, 1–40 passengers — not per person. From $250, booked online.">
+<meta name="description" content="Round-trip from the cruise port to any beach club or ruin. One price for the entire vehicle, 1–40 passengers — not per person. From $150, booked online.">
 <link rel="canonical" href="https://cozumeltransfers.org/">
 <!-- og: and twitter: below must match <title> and the description above. Until 2026-08-10
      there were FOUR different pitches on this page — the title, og, twitter and the JSON-LD
@@ -16,13 +16,13 @@
      the business is. Share cards allow more room, which is why the rep-with-a-sign line
      survives here: it sits BEHIND the value frame, not instead of it. -->
 <meta property="og:title" content="Cozumel Cruise Port Transfers — One Flat Price, Whole Van">
-<meta property="og:description" content="One price for the whole vehicle, not per person — 1–40 passengers, round trip, from $250. Our English-speaking rep meets you at the pier with a sign.">
+<meta property="og:description" content="One price for the whole vehicle, not per person — 1–40 passengers, round trip, from $150. Our English-speaking rep meets you at the pier with a sign.">
 <meta property="og:image" content="https://cozumeltransfers.org/assets/og-card.jpg">
 <meta property="og:url" content="https://cozumeltransfers.org/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cozumel Cruise Port Transfers — One Flat Price, Whole Van">
-<meta name="twitter:description" content="One price for the whole vehicle, not per person — 1–40 passengers, round trip, from $250. Our English-speaking rep meets you at the pier with a sign.">
+<meta name="twitter:description" content="One price for the whole vehicle, not per person — 1–40 passengers, round trip, from $150. Our English-speaking rep meets you at the pier with a sign.">
 <meta name="twitter:image" content="https://cozumeltransfers.org/assets/og-card.jpg">
 <!-- "Booked Online" was the old differentiator and it is not one — every competitor books
      online. The whole-van price is the thing nobody else leads with. Keep the keyword phrase
@@ -43,7 +43,7 @@
   "url": "https://cozumeltransfers.org/",
   "telephone": "+529871146853",
   "email": "hello@cozumelislandtransfers.com",
-  "priceRange": "$250 - $899 USD",
+  "priceRange": "$150 - $899 USD",
   "image": "https://cozumeltransfers.org/assets/hero-vans.png",
   "address": {
     "@type": "PostalAddress",
@@ -99,7 +99,8 @@
   "areaServed": "Cozumel Island, Quintana Roo, Mexico",
   "audience": { "@type": "Audience", "audienceType": "Cruise passengers" },
   "offers": [
-    { "@type": "Offer", "name": "Private van — round-trip transfer", "price": "250", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "1–6 passengers" } },
+    { "@type": "Offer", "name": "Private minivan — round-trip transfer", "price": "150", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "1–4 passengers" } },
+    { "@type": "Offer", "name": "Private minivan — round-trip transfer", "price": "250", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "5–6 passengers" } },
     { "@type": "Offer", "name": "Large private van — round-trip transfer", "price": "425", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "7–14 passengers" } },
     { "@type": "Offer", "name": "Extra-large van — round-trip transfer", "price": "549", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "15–18 passengers" } },
     { "@type": "Offer", "name": "Mini coach — round-trip transfer", "price": "609", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "description": "19–20 passengers" } },
@@ -580,26 +581,6 @@ footer p{margin:0;max-width:34em}
 .field label .opt{display:inline-block;margin-left:7px;padding:2px 7px;vertical-align:1px;
   font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
   color:var(--mute);background:var(--surface);border:1px solid var(--line);border-radius:999px}
-
-/* ── Floating WhatsApp button ──
-   WhatsApp was already reachable from seven places on this page, but every one of them
-   is somewhere she has to already be: the footer, or a dead end in the form. This
-   is the one that follows her. It reuses waHref() so the pre-filled message stays consistent
-   with every other entry point — the person answering always knows which business it is.
-   Deliberately says nothing about response time: the office is 9-5, not 24/7. */
-.wa-fab{position:fixed;right:16px;bottom:16px;z-index:900;display:flex;align-items:center;
-  gap:9px;background:#25D366;color:#fff;border:0;border-radius:999px;padding:13px 18px 13px 15px;
-  font:600 15px/1 inherit;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.28);
-  transition:transform .15s ease, box-shadow .15s ease}
-.wa-fab:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.34)}
-.wa-fab:active{transform:translateY(0)}
-.wa-fab svg{width:23px;height:23px;flex:none;fill:#fff}
-@media(max-width:560px){
-  /* Icon only on a phone — the label costs width she needs for the booking form. */
-  .wa-fab{padding:14px;right:14px;bottom:14px}
-  .wa-fab .wa-lbl{display:none}
-}
-@media(prefers-reduced-motion:reduce){ .wa-fab{transition:none} }
 
 
 figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--muted,#5B6B79);
@@ -1644,7 +1625,8 @@ const DEST = {
 
 /* Guest-facing vehicle names — nobody has to learn the words "XL Van" or "Coach". */
 const VEH = [
-  {max:6, name:'Private van',        sub:'up to 6 people',  price:250},
+  {max:4, name:'Private minivan',    sub:'up to 4 people',  price:150},
+  {max:6, name:'Private minivan',    sub:'up to 6 people',  price:250},
   {max:14,name:'Large private van',  sub:'up to 14 people', price:425},
   {max:18,name:'Extra-large van',    sub:'up to 18 people', price:549},
   {max:20,name:'Mini coach',         sub:'up to 20 people', price:609},
@@ -2819,10 +2801,6 @@ function paintDone(){
      cannot see the booking steps; that is what /.netlify/functions/funnel is for. -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon='{"token": "b6448e98ea2b4435bcb689081b3b91da"}'></script>
-<button class="wa-fab" onclick="return waHere()" aria-label="Message us on WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
-  <span class="wa-lbl">WhatsApp</span>
-</button>
 
 <script>
 /* ══ ADDED ══ A destination card is not a link to a page — it is a way of answering
