@@ -2086,14 +2086,28 @@ function barField(fldId, selId, txtId, shipId, dropId){
         /* RESTRICTED to the island, not merely biased towards it. The 20 km bias circle
            that used to sit here still offered Playa del Carmen and Puerto Morelos, and a
            guest who picked one was quoted for a transfer we cannot drive — there is a
-           ferry in the middle of it. A restriction returns nothing outside the box, so
-           "Playa del Carmen" now answers with nothing rather than with the mainland.
-           🚨 Checked against the map before it was written: Isla Cozumel runs
+           ferry in the middle of it.
+           🚨 Checked against Google's own answers, not against a guess: Isla Cozumel runs
            20.272–20.592 N and 87.025–86.723 W, so this box clears the island on every
            side. The west edge is the tight one — it is deliberately 87.05 and NOT the
-           87.08 it looks like it could be, because Playacar, the south end of Playa del
-           Carmen, sits at 87.07 W and would fall inside the wider box. */
+           87.08 it looks like it could be. Playacar, the south end of Playa del Carmen,
+           sits at 87.07 W, and at 87.08 this box still answered "Playacar Palace" with
+           the mainland resort. At 87.05 it answers with nothing. */
         locationRestriction: {west: -87.05, south: 20.24, east: -86.72, north: 20.62},
+        /* 🚨 THE BOX ALONE IS NOT ENOUGH, and this is the non-obvious half. Google
+           applies locationRestriction to places that HAVE a point — hotels, houses,
+           street numbers — but a town, a state or a highway is matched as a region and
+           comes back whatever the box says. That is why "Playa del Carmen" still listed
+           the mainland town, and "Cancun" a highway 200 km up the coast, with the box
+           already in place at every width tried.
+           Naming the four types we actually drive to drops all of them: a guest is
+           collected from a business, a house or a numbered street address, never from
+           the idea of a town. Confirmed against the live API — "Playa del Carmen" now
+           answers only with Cozumel's own Calle Playa del Carmen, and "Tulum" with
+           nothing. `route` is deliberately absent: it would let those mainland highways
+           straight back in, and a road with no number on it is not an address we could
+           send a van to anyway. */
+        includedPrimaryTypes: ['establishment', 'street_address', 'premise', 'subpremise'],
       }).then(res => {
         if (txt.value.trim() !== q) return;
         const hits = (res.suggestions || [])
