@@ -1992,6 +1992,7 @@ let placesDead = false;
 window.gm_authFailure = function(){ placesDead = true; };
 function loadPlaces(){
   if (placesPromise) return placesPromise;
+  let broke = false;                               // an error, not "no key"
   placesPromise = fetch('/.netlify/functions/maps-key')
     .then(r => r.ok ? r.json() : null)
     .then(d => {
@@ -2000,14 +2001,24 @@ function loadPlaces(){
       return new Promise((res, rej) => {
         const s = document.createElement('script');
         s.async = true;
-        s.onload = res; s.onerror = rej;
+        /* 🚨 NOT s.onload. With loading=async that fires when the few-kilobyte
+           bootstrap lands — measured 3 ms — and at that moment
+           google.maps.importLibrary does not exist yet, so calling it threw and the
+           box stayed empty for the whole visit. Google's documented ready signal for
+           this mode is &callback=, which it calls once the API really is usable. */
+        window.__ctPlacesReady = function(){ delete window.__ctPlacesReady; res(); };
+        s.onerror = rej;
         s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(key)
-              + '&v=weekly&loading=async&libraries=places&language=en&region=MX';
+              + '&v=weekly&loading=async&libraries=places&language=en&region=MX'
+              + '&callback=__ctPlacesReady';
         document.head.appendChild(s);
       }).then(() => google.maps.importLibrary('places'));
     })
     .then(lib => (lib && lib.AutocompleteSuggestion && !placesDead) ? lib : null)
-    .catch(() => null);
+    .catch(() => { broke = true; return null; })
+    /* A dropped request is not a verdict: forget it so the next focus tries again.
+       "No key" and a refused key stay remembered — those answers will not change. */
+    .then(lib => { if (broke) placesPromise = null; return lib; });
   return placesPromise;
 }
 /* Google's suggestions are strings from a third party and they land in innerHTML.
