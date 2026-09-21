@@ -90,14 +90,25 @@ function out(obj) {
 function spreadsheet() {
   var ss = null;
   try { ss = SpreadsheetApp.getActiveSpreadsheet(); } catch (e) { ss = null; }
-  if (ss) return ss;
+  if (ss) return pinTz_(ss);
 
   var id = prop('CIT_SHEET_ID');
   if (id) {
-    try { return SpreadsheetApp.openById(id); } catch (e) { /* fall through and remake */ }
+    try { return pinTz_(SpreadsheetApp.openById(id)); } catch (e) { /* fall through and remake */ }
   }
   ss = SpreadsheetApp.create('CIT Lost Demand');
   PropertiesService.getScriptProperties().setProperty('CIT_SHEET_ID', ss.getId());
+  return pinTz_(ss);
+}
+
+/**
+ * The SHEET's own timezone decides how a 'yyyy-MM-dd HH:mm' string is parsed on write and
+ * read back by stampOf() below. A sheet this script CREATED for itself defaults to UTC,
+ * which shifts every stamp by five hours — the same bug found in the funnel on
+ * 2026-09-21. Pin it once; existing rows re-read correctly afterwards.
+ */
+function pinTz_(ss) {
+  if (ss.getSpreadsheetTimeZone() !== 'America/Cancun') ss.setSpreadsheetTimeZone('America/Cancun');
   return ss;
 }
 

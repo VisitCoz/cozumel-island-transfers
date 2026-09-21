@@ -44,9 +44,15 @@
 
 var SHEET = 'Funnel';
 
+/**
+ * ⚠️ APPEND ONLY. Every extractor and every row already in the sheet reads by POSITION,
+ * so inserting or reordering a column silently re-labels months of history. The last
+ * three arrived on 2026-09-21 — Mike's two questions, "who are my guests" and "where are
+ * they trying to go", which the first eight columns could not answer between them.
+ */
 var HEADERS = [
   'Logged at (Cozumel)', 'Session', 'Step', 'Step no', 'Destination', 'Pax',
-  'Source', 'Device'
+  'Source', 'Device', 'Ship', 'Line', 'Place text'
 ];
 
 /**
@@ -119,6 +125,7 @@ function monthKey_(d) {
  */
 function sheetFor_(month) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  pinTz_(ss);
   var name = SHEET + ' ' + month;
   var sh = ss.getSheetByName(name);
   if (!sh) {
@@ -126,8 +133,24 @@ function sheetFor_(month) {
     sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
+  } else if (sh.getLastColumn() < HEADERS.length) {
+    /* A tab written before a column was added. Widen the HEADER only, to the right —
+       rows already in it keep exactly the columns they were written with, and the new
+       cells simply stay empty for them. Idempotent: it runs once and then never again. */
+    var have = sh.getLastColumn();
+    sh.getRange(1, have + 1, 1, HEADERS.length - have)
+      .setValues([HEADERS.slice(have)]).setFontWeight('bold');
   }
   return sh;
+}
+
+/**
+ * The SHEET's own timezone decides how a 'yyyy-MM-dd HH:mm' string is parsed on write and
+ * read back on list. A sheet created by clasp defaults to UTC, which shifted every stamp
+ * by five hours (found 2026-09-21). Pin it once; existing rows re-read correctly after.
+ */
+function pinTz_(ss) {
+  if (ss.getSpreadsheetTimeZone() !== 'America/Cancun') ss.setSpreadsheetTimeZone('America/Cancun');
 }
 
 function ok_(obj) {
@@ -169,7 +192,10 @@ function record_(ev) {
       ev.dest || '',
       ev.pax || '',
       ev.source || 'direct',
-      ev.device || ''
+      ev.device || '',
+      ev.ship || '',
+      ev.line || '',
+      ev.place_text || ''
     ]);
   } finally { lock.releaseLock(); }
   return ok_({ ok: true });
@@ -177,6 +203,7 @@ function record_(ev) {
 
 function list_(month) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  pinTz_(ss);
   var m = /^\d{4}-\d{2}$/.test(month || '') ? month : monthKey_();
   var sh = ss.getSheetByName(SHEET + ' ' + m);
 
@@ -201,7 +228,11 @@ function list_(month) {
       dest: String(r[4] || ''),
       pax: Number(r[5]) || null,
       source: String(r[6] || ''),
-      device: String(r[7] || '')
+      device: String(r[7] || ''),
+      // Empty on every row written before 2026-09-21, which is correct: we did not ask.
+      ship: String(r[8] || ''),
+      line: String(r[9] || ''),
+      place_text: String(r[10] || '')
     });
   }
   return ok_({ ok: true, month: m, months: months, records: records, labels: STEP_LABEL, steps: STEPS });

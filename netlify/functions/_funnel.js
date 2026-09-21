@@ -107,6 +107,14 @@ async function logStep(ev) {
     pax: Number(ev.pax) || null,
     source: ev.source ? String(ev.source).slice(0, 60) : 'direct',
     device: ev.device === 'mobile' || ev.device === 'desktop' ? ev.device : '',
+    // Who she is and where she is trying to go. The ship is the guest's own answer to
+    // "which ship" and the line comes with it from the ship list; place_text is the words
+    // in the destination box. None of the three is a person — no name, email or phone has
+    // ever entered this funnel and none may start now. Truncated because this endpoint is
+    // open to any browser and a spreadsheet cell is not a place to discover that.
+    ship: ev.ship ? String(ev.ship).trim().slice(0, 60) : '',
+    line: ev.line ? String(ev.line).trim().slice(0, 40) : '',
+    place_text: ev.place_text ? String(ev.place_text).trim().slice(0, 120) : '',
   };
   try {
     const out = await call('record', { event });

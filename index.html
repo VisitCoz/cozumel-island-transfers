@@ -1766,6 +1766,34 @@ function trackSource(){
   } catch (e) { return 'direct'; }
 }
 
+/* ── who she is, and where she is trying to go ──────────────────────────────────
+   The two questions the funnel could not answer. `dest` is one of our ten slugs, so it
+   can only ever say which of OUR places she picked — it cannot say that eleven people
+   asked for the same hotel we do not list, and it says nothing at all about who asked.
+   The ship is the guest's own answer to "which ship", and the cruise line comes with it
+   out of data/cozumel-ships.json; neither identifies a person.
+
+   🚨 Read FRESH at send time and wrapped in try. track('land') fires while this file is
+   still being evaluated, long before BFROM/BTO exist, and touching a `const` before its
+   line has run throws — so an unguarded read here would kill the very first step. */
+function trackShip(){
+  try {
+    const s = barPierSide();
+    if (s.on()) return {ship: 'not on a cruise', line: ''};   // she took the escape row
+    const sh = s.ship();
+    return sh ? {ship: sh[0], line: sh[1] || ''} : {ship: '', line: ''};
+  } catch (e) { return {ship: '', line: ''}; }
+}
+/* The exact words in the destination box: the list name, Google's wording, or what she
+   typed. '' while it is still empty — an empty box is not an answer. */
+function trackPlaceText(){
+  try {
+    const d = barDestSide();
+    if (d.on()) return d.text();
+    return DEST[d.slug()] ? DEST[d.slug()].name : '';
+  } catch (e) { return ''; }
+}
+
 /* `destOverride` exists for one step: 'place'. S.dest is not set until barGo(), which is
    two steps later, so without it the row that says WHICH place she chose would be the one
    row with no place on it — and that is the column the dashboard ranks destinations by. */
@@ -1773,12 +1801,16 @@ function track(step, destOverride){
   if (!_sid || !_sent || _sent.has(step) || TRACK_STEPS.indexOf(step) < 0) return;
   _sent.add(step);
   try { sessionStorage.setItem('cit_steps', JSON.stringify(Array.from(_sent))); } catch (e) {}
+  const who = trackShip();
   const body = JSON.stringify({
     sid: _sid, step,
     dest: destOverride || (S && S.dest ? S.dest : null),
     pax:  S && S.pax  ? S.pax  : null,
     source: trackSource(),
-    device: window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'desktop'
+    device: window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'desktop',
+    ship: who.ship,
+    line: who.line,
+    place_text: trackPlaceText()
   });
   // sendBeacon survives the tab being closed or navigated away mid-flight, which is
   // exactly when the most interesting step of all — the one where she gave up — is sent.
@@ -1874,6 +1906,46 @@ const PIER_Q = {
 
 const BAR_OTHER = '__other';
 let barRev = false;   // has the ⇄ arrow been used?
+
+/* ── snapping a typed address back onto the list ────────────────────────────────
+   Mike's phone test, 2026-09-21: he typed "Tierra Maya" into the To box and took
+   Google's suggestion. Google answers with a real place, so the field stayed in the
+   address box — and barGo() then booked OUR OWN preserve as `somewhere-else` with
+   "address confirmed on WhatsApp", when it is a listed destination whose price and
+   drop-off we already know. Every one of the ten can be reached that way, and the
+   guest has no idea she has just left the list.
+
+   So: recognise our own ten by name, however she spelled it and whichever wording
+   Google handed back. One line of needles each, matched WHOLE-WORD against the text
+   with accents folded and apostrophes and full stops dropped, so "KUZÁ Beach &
+   Adventure Park - Cozumel" and "Mr. Sancho's Beach Club Cozumel" — Google's own
+   names for them — both land. Anything we do not recognise is untouched and is still
+   the ordinary "Somewhere else" booking it has always been. */
+const DEST_NEEDLES = {
+  'tierra-maya':    ['tierra maya'],
+  'kuza':           ['kuza'],
+  'san-gervasio':   ['san gervasio'],
+  'chankanaab':     ['chankanaab'],
+  'bucanos':        ['buccanos', 'bucanos'],
+  'paradise-beach': ['paradise beach'],
+  'mr-sanchos':     ['mr sanchos', 'mr sancho'],
+  'nachi-cocom':    ['nachi cocom'],
+  'marina':         ['marina cozumel', 'asipona', 'marina'],
+};
+const destNorm = s => String(s).toLowerCase()
+  .normalize('NFD').replace(/[̀-ͯ]/g, '')   // kuzá → kuza, Cancún → cancun
+  .replace(/['’.]/g, '')                              // Sancho's → sanchos, Mr. → mr
+  .replace(/[^a-z0-9]+/g, ' ').trim();
+/* Returns a destination slug, or null for "this really is somewhere else". Padded with
+   spaces on both sides so a needle only ever matches whole words: "marina" finds
+   "Marina Cozumel" but never the middle of a longer word. */
+function destSnap(text){
+  const t = ' ' + destNorm(text) + ' ';
+  if (t.trim() === '') return null;
+  for (const slug in DEST_NEEDLES)
+    if (DEST_NEEDLES[slug].some(n => t.indexOf(' ' + n + ' ') >= 0)) return slug;
+  return null;
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    THE SHIP, AND THE PIER IT DOCKS AT
@@ -2062,6 +2134,7 @@ const escHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
 function barField(fldId, selId, txtId, shipId, dropId){
   const fld = $(fldId), sel = $(selId), txt = $(txtId), shp = $(shipId), drop = $(dropId);
   let ship = null;                                   // [name, line] once she has picked one
+  let matched = null;                                // set by commitTyped() when we snapped
   /* Funnel only. Both fields run this same function and the ⇄ arrow swaps which is which,
      so a commit here is only the 'place' step on the side that is NOT the ship side —
      otherwise a guest who took the "not on a cruise" escape and typed her hotel into the
@@ -2079,10 +2152,29 @@ function barField(fldId, selId, txtId, shipId, dropId){
   sel.addEventListener('change', () => {
     // "Somewhere else" is not a place yet — it only opens the box. The step fires when
     // she has actually written something in it, below.
+    matched = null;                 // she picked from the list herself; nothing to explain
     if (sel.value === BAR_OTHER) set(true);
     else { fld.classList.remove('typing'); trackPlace(sel.value); }
     barSync();
   });
+
+  /* Committing whatever is in the address box — she picked a Google suggestion, or she
+     typed something and left. If it names one of our ten, select that list entry: the
+     list price, the normal booking, and a one-line note on the card so she can see what
+     we did. Otherwise it stays the "Somewhere else" booking it has always been.
+     🚨 The destination side only. The ship end's box is the "not on a cruise" escape,
+     where a guest's hotel is a PICK-UP address and is not a destination at all. */
+  function commitTyped(){
+    const q = txt.value.trim();
+    if (!q) return;
+    const slug = fld.classList.contains('ship') ? null : destSnap(q);
+    if (!slug){ trackPlace('somewhere-else'); return; }
+    sel.value = slug;
+    txt.value = DEST[slug].short;    // leave the box showing what we matched it to
+    matched = DEST[slug].short;
+    fld.classList.remove('typing');  // it is a listed destination now, not an address
+    trackPlace(slug);
+  }
   fld.querySelector('.revert').addEventListener('click', () => { set(false); barSync(); });
   /* ── ADDRESS SUGGESTIONS, from Google Places ──────────────────────────────────
      Until now this box took whatever she typed and geocoded none of it: a villa name
@@ -2167,17 +2259,19 @@ function barField(fldId, selId, txtId, shipId, dropId){
       });
     }).catch(() => { /* a dropped request is not something a guest needs told about */ });
   }
-  txt.addEventListener('input', () => { $('barQ').classList.remove('on'); drawPlaces(); });
+  txt.addEventListener('input', () => { matched = null; $('barQ').classList.remove('on'); drawPlaces(); });
   txt.addEventListener('focus', () => { loadPlaces(); drawPlaces(); });
   /* She typed a name Google has never heard of and moved on. What she wrote is the only
      address we have, so the map goes there too. On the same 160 ms delay the list already
      used, so a tap on a suggestion row still wins the race and the map ends up on
      Google's wording rather than on her half-finished spelling. */
   txt.addEventListener('blur', () => setTimeout(() => {
-    fld.classList.remove('open'); barSync();
-    // Leaving the box with words in it IS committing an address — it is what barGo()
-    // books as `somewhere-else`, so that is the destination the funnel records.
-    if (fld.classList.contains('typing') && txt.value.trim()) trackPlace('somewhere-else');
+    fld.classList.remove('open');
+    // Leaving the box with words in it IS committing an address — so it goes through
+    // the same snap as a picked suggestion, and barSync() runs AFTER it so the map
+    // draws the destination we matched rather than the words she typed.
+    if (fld.classList.contains('typing') && txt.value.trim()) commitTyped();
+    barSync();
   }, 160));
 
   /* ── the type-ahead ── too many ships to wheel through, and she knows the name.
@@ -2222,7 +2316,7 @@ function barField(fldId, selId, txtId, shipId, dropId){
     // which is how Google expects the widget to be billed and used.
     if (p){ e.preventDefault(); txt.value = p.dataset.place; placeToken = null;
             fld.classList.remove('open'); $('barQ').classList.remove('on');
-            barSync(); trackPlace('somewhere-else'); return; }
+            commitTyped(); barSync(); return; }
     const b = e.target.closest('.sr'); if (!b) return;
     e.preventDefault();
     // Both rows answer the same question — which ship, or none — so both are the step.
@@ -2238,7 +2332,7 @@ function barField(fldId, selId, txtId, shipId, dropId){
     const p = e.target.closest('.pr');
     if (p){ txt.value = p.dataset.place; placeToken = null;
             fld.classList.remove('open'); $('barQ').classList.remove('on');
-            barSync(); trackPlace('somewhere-else'); return; }
+            commitTyped(); barSync(); return; }
     const b = e.target.closest('.sr');
     if (b && !b.dataset.esc && shp.value !== b.dataset.n) {
       ship = SHIPS.find(s => s[0] === b.dataset.n) || null;
@@ -2250,6 +2344,7 @@ function barField(fldId, selId, txtId, shipId, dropId){
 
   function set(on){
     fld.classList.toggle('typing', on);
+    matched = null;
     if (on) txt.focus(); else { sel.selectedIndex = 0; txt.value = ''; shp.value = ''; ship = null; }
     $('barQ').classList.remove('on');
   }
@@ -2259,6 +2354,8 @@ function barField(fldId, selId, txtId, shipId, dropId){
     ship:   () => ship,
     slug:   () => sel.value,
     text:   () => txt.value.trim(),
+    /* The name we snapped her typing onto, for the note on the price card. */
+    matched: () => matched,
     /* What the guest sees in the quote line. */
     label: () => fld.classList.contains('typing')
       ? (txt.value.trim() || 'the address you give us')
@@ -2404,8 +2501,13 @@ function barQuote(){
      the moment the page loaded and the line promised to "confirm" an address the guest
      had not given us. The suffix is about text she actually wrote: require the text. */
   const typedDest = barDestSide().on() && !!barDestSide().text();
+  /* She typed a name we recognised and we quietly moved her onto the list entry. Say so
+     in one line, or the price changing under her would look like the site guessing. The
+     two suffixes cannot both appear: snapping is precisely what stops it being typed. */
+  const snapped = barDestSide().matched();
   $('barVeh').textContent = v.name + ' · ' + v.sub + ' · round trip'
-    + (typedDest ? ' · address confirmed on WhatsApp' : '');
+    + (typedDest ? ' · address confirmed on WhatsApp' : '')
+    + (snapped ? ' · Matched to ' + snapped : '');
   // Below four the per-head figure flatters nobody ($125 each for two), and the real
   // selling point at that size is that the price doesn't move. Say that instead.
   $('barPrice').innerHTML = '$' + v.price.toLocaleString('en-US')
