@@ -52,32 +52,51 @@ var HEADERS = [
 /**
  * The order matters — it IS the funnel. Adding a step in the middle renumbers the ones
  * after it, which is fine going forward but makes old rows and new rows incomparable.
- * Append new steps at the end unless you genuinely want to break the history.
+ * Append new steps at the end unless you genuinely want to break the history — which is
+ * exactly what the 2026-09-21 rewrite below did, deliberately and once, because the flow
+ * those old numbers described no longer exists to be compared with.
  */
 var STEPS = [
+  /* ── the live funnel, in order. Identical to TRACK_STEPS in index.html and to STEPS in
+        netlify/functions/_funnel.js. Rewritten 2026-09-21: the entries that used to sit
+        here were the six-screen wizard's, and record_() below DROPS any step not in this
+        array — so until this list was updated, every step of the new one-page flow was
+        being thrown away on arrival. ── */
   'land',           // the page loaded. Everything else is a fraction of this.
+  'ship',           // picked a ship, or said she is not on a cruise
+  'place',          // committed a destination — list, Google suggestion, or typed
+  'pax',            // moved the head count, or asked for a price with it as it stood
+  'price_seen',     // the price card rendered — a number, or "we'll confirm on WhatsApp"
+  'form_open',      // "Book this transfer" opened the one booking screen
+  'pay',            // pressed Pay on Stripe and create-checkout answered with a URL
+  'done',           // came back on the success URL
+  /* ── the wizard's steps, kept rather than removed. No page sends them any more, but a
+        tab left open on the old build still deserves to be written down instead of
+        dropped. ⚠️ They have MOVED to the end, so their 'Step no' changes — hub was 2 and
+        is now 9. Rows already in the sheet keep the number they were written with, so old
+        and new wizard rows are not comparable by number. Their NAMES are untouched, which
+        is what every report actually reads; nothing else in this file uses 'Step no'. ── */
   'hub',            // opened the booking wizard
   'dest',           // chose a destination
-  'pax',            // set the head count — this is where she first sees a price
-  'ship',           // named her ship
   'day',            // set the date and times
   'who',            // typed her details
-  'pay',            // reached the review-and-pay screen
-  'checkout_open',  // Stripe checkout actually opened
-  'done'            // came back on the success URL
+  'checkout_open'   // the old name for what is now 'pay'
 ];
 
 var STEP_LABEL = {
   land:          'Landed on the site',
-  hub:           'Opened the booking form',
-  dest:          'Chose a destination',
-  pax:           'Set the group size (saw the price)',
-  ship:          'Named their ship',
-  day:           'Picked the date and times',
-  who:           'Entered their details',
-  pay:           'Reached the payment screen',
-  checkout_open: 'Opened Stripe checkout',
-  done:          'Booked'
+  ship:          'Named their ship (or said they are not on a cruise)',
+  place:         'Chose where they are going',
+  pax:           'Set the group size',
+  price_seen:    'Saw the price',
+  form_open:     'Opened the booking form',
+  pay:           'Pressed Pay on Stripe',
+  done:          'Booked',
+  hub:           'Opened the booking form (old wizard)',
+  dest:          'Chose a destination (old wizard)',
+  day:           'Picked the date and times (old wizard)',
+  who:           'Entered their details (old wizard)',
+  checkout_open: 'Opened Stripe checkout (old wizard)'
 };
 
 function stepNo_(step) {

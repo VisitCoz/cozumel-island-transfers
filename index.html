@@ -1419,10 +1419,10 @@ html.v4-motion .v4-faq .faq.arrived{
      many, so all that is genuinely still unknown fits here: the two times, who she is, how
      to reach her, and her ship if she is on one. One button, straight to Stripe.
 
-     🚨 THE ID STAYS `s-pay`. go() feeds the screen id to track(), and those steps are
-     pinned to STEPS in netlify/functions/_funnel.js and apps_script/cit_funnel/Code.gs.
-     Renaming this would silently drop the last step before checkout_open. The steps for
-     the screens that no longer exist simply never fire again, which is the truth. -->
+     🚨 THE ID STAYS `s-pay`. go() looks it up in SCREEN_STEP to get the funnel step, and
+     those steps are pinned to STEPS in netlify/functions/_funnel.js and
+     apps_script/cit_funnel/Code.gs. Renaming this would silently drop `form_open`, the
+     last step before the Stripe button. -->
 <section class="screen" id="s-pay">
   <a class="topbar" href="#" onclick="go('hub');return false"><span class="bk">←</span> Change your trip</a>
   <div class="qhead"><h2>Almost done</h2><p id="paySummary"></p></div>
@@ -1720,10 +1720,28 @@ function fmtMin(total){
 
    Each step is sent AT MOST ONCE per session. Going back and forward is normal
    behaviour rather than progress, and counting it would make every funnel look healthy.
-   Keep this list identical to STEPS in netlify/functions/_funnel.js and in
-   apps_script/cit_funnel/Code.gs — the order is the funnel, and the three drifting
-   apart is the one way this goes quietly wrong. */
-const TRACK_STEPS = ['land','hub','dest','pax','ship','day','who','pay','checkout_open','done'];
+   Keep this list identical to STEPS in netlify/functions/_funnel.js and to the first
+   eight entries of STEPS in apps_script/cit_funnel/Code.gs — the order is the funnel,
+   and the three drifting apart is the one way this goes quietly wrong.
+
+   🚨 REWRITTEN 2026-09-21 for the one-page flow. The old list was the six-screen
+   wizard's — hub, dest, day, who — and every one of those screens was deleted on
+   2026-09-19, so from that day the funnel recorded only 'land' and 'checkout_open' and
+   could not say where anybody left. These eight are the moments the page actually has:
+
+     land        the page loaded
+     ship        a ship picked from the type-ahead, or "not on a cruise" taken
+     place       a destination committed — list, Google suggestion, or typed
+     pax         the head count moved off the default, or the first price request
+     price_seen  the price card rendered, with a price or the WhatsApp-confirm state
+     form_open   "Book this transfer" opened the one booking screen
+     pay         "Pay on Stripe" pressed and create-checkout answered with a URL
+     done        back from Stripe on the success URL
+
+   'pay' is the step formerly called 'checkout_open' — same moment, the name now matches
+   what the guest did. The old names stay ACCEPTED at both ends so a tab left open on the
+   previous build still gets written down; they are simply never sent again. */
+const TRACK_STEPS = ['land','ship','place','pax','price_seen','form_open','pay','done'];
 let _sid = null, _sent = null;
 (function trackInit(){
   try {
@@ -1748,13 +1766,16 @@ function trackSource(){
   } catch (e) { return 'direct'; }
 }
 
-function track(step){
+/* `destOverride` exists for one step: 'place'. S.dest is not set until barGo(), which is
+   two steps later, so without it the row that says WHICH place she chose would be the one
+   row with no place on it — and that is the column the dashboard ranks destinations by. */
+function track(step, destOverride){
   if (!_sid || !_sent || _sent.has(step) || TRACK_STEPS.indexOf(step) < 0) return;
   _sent.add(step);
   try { sessionStorage.setItem('cit_steps', JSON.stringify(Array.from(_sent))); } catch (e) {}
   const body = JSON.stringify({
     sid: _sid, step,
-    dest: S && S.dest ? S.dest : null,
+    dest: destOverride || (S && S.dest ? S.dest : null),
     pax:  S && S.pax  ? S.pax  : null,
     source: trackSource(),
     device: window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'desktop'
@@ -1773,12 +1794,18 @@ function track(step){
 }
 track('land');
 
-/* ── router ── */
+/* ── router ──
+   A screen id is no longer a funnel step. The booking screen's id is still `s-pay` (it is
+   pinned — see the note on that section), but in the funnel that moment is form_open, and
+   'pay' is now the Stripe button further down. 'hub' is the page itself, already counted
+   as 'land'. A screen not named here sends nothing, which is what track() does with
+   undefined anyway. */
+const SCREEN_STEP = { pay: 'form_open', done: 'done' };
 function go(id){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
   $('s-'+id).classList.add('on');
   window.scrollTo(0,0);
-  track(id);
+  track(SCREEN_STEP[id]);
   if (id==='pay') paintPay();
   if (id==='done') paintDone();
 }
@@ -2035,6 +2062,11 @@ const escHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
 function barField(fldId, selId, txtId, shipId, dropId){
   const fld = $(fldId), sel = $(selId), txt = $(txtId), shp = $(shipId), drop = $(dropId);
   let ship = null;                                   // [name, line] once she has picked one
+  /* Funnel only. Both fields run this same function and the ⇄ arrow swaps which is which,
+     so a commit here is only the 'place' step on the side that is NOT the ship side —
+     otherwise a guest who took the "not on a cruise" escape and typed her hotel into the
+     PIER end would be recorded as having chosen a destination she never picked. */
+  const trackPlace = (d) => { if (!fld.classList.contains('ship')) track('place', d); };
   /* 🚨 The `else` is not decoration. This side opens on the ADDRESS BOX (see barFill),
      so the "typing" class is on before the guest has done anything — and a destination
      card calls pickDest(), which sets this <select> and fires this event while the box
@@ -2045,7 +2077,10 @@ function barField(fldId, selId, txtId, shipId, dropId){
      field. Picking from the list IS leaving the box, so say so.
      NOT set(false) — that resets selectedIndex to 0 and would throw away the pick. */
   sel.addEventListener('change', () => {
-    if (sel.value === BAR_OTHER) set(true); else fld.classList.remove('typing');
+    // "Somewhere else" is not a place yet — it only opens the box. The step fires when
+    // she has actually written something in it, below.
+    if (sel.value === BAR_OTHER) set(true);
+    else { fld.classList.remove('typing'); trackPlace(sel.value); }
     barSync();
   });
   fld.querySelector('.revert').addEventListener('click', () => { set(false); barSync(); });
@@ -2140,6 +2175,9 @@ function barField(fldId, selId, txtId, shipId, dropId){
      Google's wording rather than on her half-finished spelling. */
   txt.addEventListener('blur', () => setTimeout(() => {
     fld.classList.remove('open'); barSync();
+    // Leaving the box with words in it IS committing an address — it is what barGo()
+    // books as `somewhere-else`, so that is the destination the funnel records.
+    if (fld.classList.contains('typing') && txt.value.trim()) trackPlace('somewhere-else');
   }, 160));
 
   /* ── the type-ahead ── too many ships to wheel through, and she knows the name.
@@ -2184,25 +2222,28 @@ function barField(fldId, selId, txtId, shipId, dropId){
     // which is how Google expects the widget to be billed and used.
     if (p){ e.preventDefault(); txt.value = p.dataset.place; placeToken = null;
             fld.classList.remove('open'); $('barQ').classList.remove('on');
-            barSync(); return; }
+            barSync(); trackPlace('somewhere-else'); return; }
     const b = e.target.closest('.sr'); if (!b) return;
     e.preventDefault();
-    if (b.dataset.esc){ set(true); fld.classList.remove('open'); barSync(); return; }
+    // Both rows answer the same question — which ship, or none — so both are the step.
+    if (b.dataset.esc){ set(true); fld.classList.remove('open'); barSync(); track('ship'); return; }
     ship = SHIPS.find(s => s[0] === b.dataset.n) || null;
     shp.value = b.dataset.n;
     fld.classList.remove('open');
     barSync();
+    track('ship');
   });
   // Touch devices fire no mousedown before blur, so the row is committed on click too.
   drop.addEventListener('click', e => {
     const p = e.target.closest('.pr');
     if (p){ txt.value = p.dataset.place; placeToken = null;
             fld.classList.remove('open'); $('barQ').classList.remove('on');
-            barSync(); return; }
+            barSync(); trackPlace('somewhere-else'); return; }
     const b = e.target.closest('.sr');
     if (b && !b.dataset.esc && shp.value !== b.dataset.n) {
       ship = SHIPS.find(s => s[0] === b.dataset.n) || null;
       shp.value = b.dataset.n; fld.classList.remove('open'); barSync();
+      track('ship');
     }
   });
   shp.addEventListener('blur', () => setTimeout(() => fld.classList.remove('open'), 160));
@@ -2257,7 +2298,7 @@ function barSwap(){ barRev = !barRev; BFROM.reset(); BTO.reset(); barFill(); bar
 /* The head count is shared with the wizard's own stepper, so both have to repaint it. */
 function barPaint(){ $('barPaxN').textContent = S.pax;
   if ($('barQ').classList.contains('on')) barQuote(); }
-function barPax(d){ S.pax = Math.min(40, Math.max(1, S.pax + d)); barPaint(); }
+function barPax(d){ S.pax = Math.min(40, Math.max(1, S.pax + d)); barPaint(); track('pax'); }
 function barReset(){ barRev = false; BFROM.reset(); BTO.reset(); barFill();
   $('barQ').classList.remove('on'); barPaint(); barSync(); }
 
@@ -2338,6 +2379,15 @@ function barQuote(){
   const v = vehFor(S.pax);
   $('barRoute').textContent = BFROM.label() + '  →  ' + BTO.label();
   $('barQ').classList.add('on');
+
+  /* Both steps, before the two branches, because both branches ARE the price card: one
+     shows a number, the other shows "we'll confirm this on WhatsApp", and a guest who
+     leaves after either of them left at the price. Asking for a price is also the latest
+     moment we can still call the head count answered — she may simply have accepted the
+     default of two, and a funnel that only counted the stepper would show a hole here
+     that does not exist. track() sends each at most once, so the repaints cost nothing. */
+  track('pax');
+  track('price_seen');
 
   /* This site prices a trip with a cruise pier at ONE end and anywhere on the island at
      the other. If the ship end has been typed over, there is no pier on the trip, the
@@ -2746,9 +2796,9 @@ async function payNow(){
     });
     const out = await res.json();
     // Logged before the redirect, not after: once location.href fires this page is gone.
-    // The gap between this step and 'done' is how many guests reach Stripe and abandon
-    // at the card form, which is a different problem from abandoning on our own pages.
-    if (out.url) { track('checkout_open'); location.href = out.url; return; }  // off to Stripe
+    // The gap between 'pay' and 'done' is how many guests reach Stripe and abandon at the
+    // card form, which is a different problem from abandoning on our own pages.
+    if (out.url) { track('pay'); location.href = out.url; return; }  // off to Stripe
     // Every refusal from the server is written for a guest, not a developer,
     // and the ones we can't fix on the page route to a human.
     err.innerHTML = out.error + (out.useWhatsApp

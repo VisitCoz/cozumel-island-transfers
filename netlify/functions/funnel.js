@@ -11,7 +11,8 @@
 // The GET side is gated. The funnel is commercially revealing — it says exactly where the
 // business loses people — so it reuses PREVIEW_TOKEN, same as the refusal dashboard.
 
-const { logStep, listSteps, monthKey, isConfigured, STEPS, STEP_LABEL } = require('./_funnel');
+const { logStep, listSteps, monthKey, isConfigured,
+        STEPS, LEGACY_STEPS, STEP_LABEL } = require('./_funnel');
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c =>
   ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -54,15 +55,21 @@ function summarise(rows) {
       const s = r.source || 'direct';
       bySource[s] = (bySource[s] || 0) + 1;
     }
-    if (r.step === 'dest' && r.dest) byDest[r.dest] = (byDest[r.dest] || 0) + 1;
+    // 'dest' is the wizard's name for what the one-page flow calls 'place'. Both are read
+    // so the ranking does not restart from zero on the day the page changed.
+    if ((r.step === 'place' || r.step === 'dest') && r.dest) byDest[r.dest] = (byDest[r.dest] || 0) + 1;
   }
 
-  const counts = STEPS.map(s => ({ step: s, label: STEP_LABEL[s] || s, n: (seen[s] || new Set()).size }));
+  // The live funnel, then any wizard step that actually has rows this month — normally
+  // none, because no page sends them any more, so this usually adds nothing at all.
+  const counts = STEPS.concat(LEGACY_STEPS.filter(s => seen[s]))
+    .map(s => ({ step: s, label: STEP_LABEL[s] || s, n: (seen[s] || new Set()).size }));
   const top = counts[0].n || 0;
 
   // Drop-off is measured against the previous step that actually had traffic. Measuring
   // against the step immediately before would report a meaningless 0% whenever a step is
-  // skipped — the hero configurator lets a guest answer 'pax' before 'hub', for instance.
+  // skipped — the bar lets a guest press "See prices" without naming a ship, for instance,
+  // so 'price_seen' can run ahead of 'ship'.
   let prev = null;
   for (const c of counts) {
     c.pctOfTop = top ? Math.round(c.n / top * 100) : 0;
