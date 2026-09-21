@@ -74,7 +74,7 @@ function monthKey(d = new Date()) {
   return new Date(d.getTime() - 5 * 3600 * 1000).toISOString().slice(0, 7);
 }
 
-async function call(action, payload, timeoutMs = 4000) {
+async function call(action, payload, timeoutMs = 9000) {
   const url = FUNNEL_URL(), token = FUNNEL_TOKEN();
   if (!url || !token) throw new Error('FUNNEL_URL / FUNNEL_TOKEN not set');
   // Apps Script can be slow to wake. Nobody is waiting on this — the browser already sent
