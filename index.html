@@ -562,7 +562,16 @@ footer p{margin:0;max-width:34em}
 .ladder{display:flex;flex-wrap:wrap;gap:1px;background:rgba(255,255,255,.14);
   border-radius:16px;overflow:hidden}
 .ladder .li{flex:1 1 180px;background:#0F2C44;padding:18px 20px}
-.ladder .li .n{font-size:13.5px;font-weight:700;color:#CFE4F5}
+.ladder .li .n{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  font-size:13.5px;font-weight:700;color:#CFE4F5}
+/* 🚨 The seat count, on the title line, because two rows are both called "Private
+   minivan" — the $150 four-seater and the $250 six-seater — and the only thing telling
+   them apart used to be the half-opacity 12px line underneath. A buyer scanning the
+   bold line saw the same product twice at two prices, which reads as an error. The
+   number goes where the eye already is. Every row gets one, so the ladder stays one
+   thing; it is built from VEH.max, so it cannot drift from the price beside it. */
+.ladder .li .cap{font-size:11px;font-weight:800;letter-spacing:.03em;color:#fff;
+  background:rgba(255,255,255,.16);border-radius:999px;padding:3px 9px;white-space:nowrap}
 .ladder .li .s{font-size:12px;color:rgba(255,255,255,.5)}
 .ladder .li .p{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:8px}
 .ladder .li .e{font-size:12px;font-weight:700;color:#8FE3AE}
@@ -2025,7 +2034,19 @@ const escHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
 function barField(fldId, selId, txtId, shipId, dropId){
   const fld = $(fldId), sel = $(selId), txt = $(txtId), shp = $(shipId), drop = $(dropId);
   let ship = null;                                   // [name, line] once she has picked one
-  sel.addEventListener('change', () => { if (sel.value === BAR_OTHER) set(true); barSync(); });
+  /* 🚨 The `else` is not decoration. This side opens on the ADDRESS BOX (see barFill),
+     so the "typing" class is on before the guest has done anything — and a destination
+     card calls pickDest(), which sets this <select> and fires this event while the box
+     is still the visible half. Without the else the field stayed in "typing" after a
+     listed place was picked: the route line read "the address you give us" instead of
+     "Mr. Sanchos", the quote carried "· address confirmed on WhatsApp" for an address
+     we already know, and barGo() booked it as "somewhere-else" with an empty address
+     field. Picking from the list IS leaving the box, so say so.
+     NOT set(false) — that resets selectedIndex to 0 and would throw away the pick. */
+  sel.addEventListener('change', () => {
+    if (sel.value === BAR_OTHER) set(true); else fld.classList.remove('typing');
+    barSync();
+  });
   fld.querySelector('.revert').addEventListener('click', () => { set(false); barSync(); });
   /* ── ADDRESS SUGGESTIONS, from Google Places ──────────────────────────────────
      Until now this box took whatever she typed and geocoded none of it: a villa name
@@ -2327,7 +2348,11 @@ function barQuote(){
     $('barPier').style.display = 'none'; S.pier = null;
     return;
   }
-  const typedDest = barDestSide().on();
+  /* 🚨 The empty box is not a typed address. on() only says which half of the field is
+     showing, and the address box is this side's default — so on() alone was true from
+     the moment the page loaded and the line promised to "confirm" an address the guest
+     had not given us. The suffix is about text she actually wrote: require the text. */
+  const typedDest = barDestSide().on() && !!barDestSide().text();
   $('barVeh').textContent = v.name + ' · ' + v.sub + ' · round trip'
     + (typedDest ? ' · address confirmed on WhatsApp' : '');
   // Below four the per-head figure flatters nobody ($125 each for two), and the real
@@ -2381,7 +2406,8 @@ function barGo(){
 /* The price ladder, built from the same VEH rows the quote in the bar and the price the
    server charges both read. It used to be typed out a second time in the markup. */
 $('ladder').innerHTML = VEH.map(v =>
-  `<div class="li"><div class="n">${v.name}</div><div class="s">${v.sub}</div>
+  `<div class="li"><div class="n">${v.name}<span class="cap">${v.max} seats</span></div>
+   <div class="s">${v.sub}</div>
    <div class="p">$${v.price.toLocaleString('en-US')}</div>
    <div class="e">$${Math.round(v.price / v.max)} each with ${v.max}</div></div>`).join('');
 
