@@ -1,6 +1,6 @@
 # Cozumel Transfers
 
-> Licensed private ground-transfer operator in Cozumel, Mexico. Family-run since 2015. Serves all three Cozumel cruise piers (Puerta Maya, SSA International Pier, Punta Langosta). **Cruise port only** — airport transfers were discontinued 2026-07-29. Flat per-vehicle prices in USD, booked and paid online by card. Free cancellation up to 24h before pickup.
+> **Cozumel Transfers** is the brand; the operating company is **Cozumel Island Transfers, S. de R.L. de C.V.** Licensed private ground-transfer operator in Cozumel, Mexico. Family-run since 2015. Serves all three Cozumel cruise piers (Puerta Maya, SSA International Pier, Punta Langosta). **Cruise port only** — airport transfers were discontinued 2026-07-29. Flat per-vehicle prices in USD, booked and paid online by card. Free cancellation up to 24h before pickup.
 
 ## Pages
 
@@ -52,7 +52,10 @@ Prices are **per vehicle, not per person**, round trip, in USD, and the same fla
 
 **What it does not cover: the venue's own admission.** Beach clubs, parks and archaeological sites charge their own entry, paid by you. Transport points such as the marina do not. See the table below.
 
-## Destination admission (paid to the venue, not to us)
+## The ten destinations on the site, and their admission
+
+These are the ten entries in the site's destination list — nine named places plus the
+"somewhere else" option. Admission below is paid to the venue, not to us.
 
 | Destination | Drive from the pier | Adult admission | Can be prepaid with your booking? |
 |---|---|---|---|
@@ -64,13 +67,42 @@ Prices are **per vehicle, not per person**, round trip, in USD, and the same fla
 | Paradise Beach | 15 min | paid at the gate | No |
 | Buccanos at Night · Beach Club | 10 min | paid at the gate | No |
 | KUZÁ Park | 20 min | paid at the gate | No |
+| Marina Cozumel ASIPONA | 15 min | none — it is a transport point | n/a |
 | Somewhere else on the island | varies | none | n/a |
 
 We publish an admission price, and take money for it, only where the rate is confirmed with the venue in writing — currently San Gervasio and Chankanaab. Everywhere else the venue charges its own entry, paid at the gate on the day, and we do not quote a figure we cannot stand behind. Ask the venue, or ask us on WhatsApp and we will find out. Custom destinations — a hotel, an Airbnb, the Playa del Carmen ferry, any address on the island — cost the same flat vehicle price; we confirm the exact address with you on WhatsApp.
 
+## How the website books a transfer
+
+The whole site is one page, https://cozumeltransfers.org/. There is no multi-step wizard
+and no separate booking page — if you are telling someone where to go, send them to the
+homepage.
+
+1. **The booking bar, at the top of the page.** Four things: your ship, where you are
+   going, the date, and how many passengers. You type the **name of your ship**, not a
+   terminal — the field suggests ships as you type. **You are never asked which pier you
+   arrive at.** We work that out from the port authority's own published berth schedule
+   for your date. If the port has published your day and your ship is on it, the page
+   names your terminal on the spot; if your date is past the end of what the port has
+   published, it says which terminal that ship usually uses and promises the real answer
+   by email the day before. A swap arrow (⇄) reverses the direction for a guest heading
+   back to the pier. There is an escape row for "I'm not on a cruise".
+2. **Where you are going.** The default is a free-text box — **type a hotel, villa,
+   restaurant or address and Google's own address suggestions appear** as you type. A
+   link in the label opens the list of ten destinations instead. If what you type is one
+   of the ten (however you spell it, and whatever wording Google hands back), it is
+   recognised and booked as that destination at its known price and drop-off.
+3. **See prices.** The price card shows the vehicle you need for your party size and the
+   flat round-trip price, plus the pier line and a map of the drive.
+4. **One screen to finish.** Pickup time, return time, your name, email, WhatsApp or
+   mobile (with a country-code picker), and your ship if you are on one — that is the
+   whole form, on a single screen. Then one button to Stripe.
+5. **Stripe Checkout** takes the card on Stripe's own page. Card details never touch this
+   website. You come straight back afterwards.
+
 ## Booking
 
-- **Direct:** https://cozumeltransfers.org/#book or WhatsApp +52 987 114 6853
+- **Direct:** https://cozumeltransfers.org/ or WhatsApp +52 987 114 6853
 - **Payment:** card only, through Stripe Checkout, paid in full at booking. We do not accept cash.
 - **Booking cutoff:** online booking for a given day closes at **9 AM Cozumel time the day before**, because that is when the vans are assigned. Inside that window, message us on WhatsApp and we arrange it by hand.
 - **Viator:** also listed there. Booking direct is about 20% cheaper.
@@ -84,9 +116,12 @@ We publish an admission price, and take money for it, only where the rate is con
 
 ## Cruise piers served, and the walk
 
-Berth assignment changes daily and is set by the port, not by us, so we do not publish a
-fixed cruise-line-to-pier mapping. We confirm your terminal by email the day before, and
-your cruise line's app or daily programme names it too.
+Berth assignment changes daily and is set by the port, not by us, so there is no fixed
+cruise-line-to-pier mapping to publish. **You do not need to know your pier to book** —
+name your ship and your date in the booking bar and the site looks the berth up in the
+port authority's published schedule and tells you. Where that schedule does not yet reach
+your date, we confirm your terminal by email the day before; your cruise line's app or
+daily programme names it too.
 
 | Pier | Walk to our meeting point | Terrain |
 |---|---|---|

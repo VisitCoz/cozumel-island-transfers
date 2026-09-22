@@ -1755,14 +1755,22 @@ let _sid = null, _sent = null;
 })();
 
 /* Referrer HOST only, never the full URL: a referrer can carry someone else's query
-   string, and we have no business storing it. */
+   string, and we have no business storing it.
+
+   🚨 One host is folded into another: ChatGPT still sends some traffic from its old
+   domain chat.openai.com, so without this the same assistant lands in the dashboard as
+   two separate sources and neither one looks worth anything. AI referrals are ~12% of
+   the old site's visits — the number this whole funnel exists to watch — so they must
+   add up under ONE name. Add an alias here, never a rename downstream. */
+const SOURCE_ALIAS = { 'chat.openai.com': 'chatgpt.com' };
 function trackSource(){
   try {
     const utm = new URLSearchParams(location.search).get('utm_source');
     if (utm) return utm.slice(0,60);
     if (!document.referrer) return 'direct';
     const h = new URL(document.referrer).hostname.replace(/^www\./,'');
-    return h === location.hostname ? 'direct' : h;
+    if (h === location.hostname.replace(/^www\./,'')) return 'direct';
+    return SOURCE_ALIAS[h] || h;
   } catch (e) { return 'direct'; }
 }
 
