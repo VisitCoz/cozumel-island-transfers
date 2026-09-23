@@ -69,8 +69,8 @@ async function publishedCalendar() {
   // source that fails: without a deadline this await never settles, Netlify kills the
   // function at 10 s, and she gets "We couldn't open the payment page" instead of a booking.
   // Measured 2026-09-23: APIQROO answers in about half a second, so four is generous, and
-  // an expiry here lands in the catch beside a refusal and simply prices her off the month
-  // average. Fail open on the discount, never on the booking.
+  // an expiry throws like any other source failure — straight into meter()'s catch, which
+  // prices her off the month average. Fail open on the discount, never on the booking.
   const res = await fetch(SOURCE, {
     headers: { 'User-Agent': 'Mozilla/5.0 (CIT port-rate)' },
     signal: AbortSignal.timeout(4000),
