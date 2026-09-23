@@ -10,9 +10,58 @@ const {
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 const { logRefusal } = require('./_refusals');
+const { rateFor, publishedCalendar, shipsOn } = require('./port-rate');
 
 const pad = (n) => String(n).padStart(2, '0');
 const hour12 = (h) => `${h % 12 === 0 ? 12 : h % 12}:00 ${h >= 12 ? 'PM' : 'AM'}`;
+
+// ---- the Port Meter, enforced ----
+//
+// The card in the booking bar shows a percent off. This works the SAME percent out again,
+// here, from the date and the vehicle — and then prices the Stripe line at the cut amount.
+// Nothing the browser sends about the discount is read: a page with dev-tools open can
+// change what the guest SEES, and it still cannot change what her card is charged.
+//
+// Why the price is cut rather than couponed: the .org Stripe key is a restricted LIVE key
+// with Checkout Sessions write and PaymentIntents read, and nothing else. It cannot create
+// a coupon, so there is no coupon to attach. The discount is the line price.
+//
+// Fail open on the DISCOUNT, never on the BOOKING. If the port authority's schedule cannot
+// be reached we fall back to the month average; if even that fails we charge the list price
+// and write rate_basis 'unavailable'. A guest is never turned away because a third-party
+// schedule was down — she simply pays what the price list says.
+const NOT_ON_A_CRUISE = /^not on a cruise$/i;
+
+// Whole dollars, the way the card in the bar rounds it (index.html fillMeter()):
+//   Math.round(list × (100 − percent) / 100)
+// Both ends must round identically or the receipt disagrees with the page she agreed to.
+const cutPrice = (listUsd, percent) => Math.round(listUsd * (100 - percent) / 100);
+
+// The half-sentence appended to the Stripe line so the receipt says why it is not the
+// ladder price. Empty when there is nothing to explain.
+function discountLine(basis, percent, listUsd) {
+  const was = ` (was $${listUsd.toLocaleString('en-US')})`;
+  if (basis === 'test') return ` · LIVE TEST — $1 instead of $${cutPrice(listUsd, percent)}`;
+  if (!percent) return '';
+  if (basis === 'floor') return ` · hotel-pickup discount ${percent}%${was}`;
+  return ` · quiet-day discount ${percent}%${was}`;
+}
+
+// One schedule fetch, once, per booking — called from a single place below.
+async function meter({ dateISO, vehicleSlug, cruise }) {
+  try {
+    const cal = await publishedCalendar();
+    return rateFor({ dateISO, vehicleSlug, cruise, ships: shipsOn(dateISO, cal) });
+  } catch (err) {
+    console.warn('port-rate: schedule unavailable, falling back to the month average —', err.message);
+    try {
+      return rateFor({ dateISO, vehicleSlug, cruise, ships: null });   // basis 'average' / 'floor'
+    } catch (err2) {
+      console.error('port-rate: no rate at all, charging list price —', err2.message);
+      return { percent: 0, basis: 'unavailable', ships: null };
+    }
+  }
+}
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'POST only' });
@@ -172,6 +221,28 @@ exports.handler = async (event) => {
     pickup_addr: String(b.pickup || '').trim().slice(0, 400),
   };
 
+  // ---- the discount, worked out here and nowhere else ----
+  //
+  // She is on a cruise unless the ship box is empty or holds the escape phrase. The page
+  // sends '' for a hotel guest (barGo() prefills the box from the bar's ship picker); the
+  // words "not on a cruise" are accepted too, because that is what the old flow wrote and
+  // what a stale tab may still send.
+  const shipName = String(b.ship || '').trim();
+  const cruise = Boolean(shipName) && !NOT_ON_A_CRUISE.test(shipName);
+
+  // 🚨 `b.rate`, `b.percent`, `b.discount` are NEVER read. The browser is told the number,
+  // it does not get to tell us one. A POST carrying one is either a stale build or somebody
+  // trying it on, and both are worth a line in the log.
+  if (b.rate !== undefined || b.percent !== undefined || b.discount !== undefined) {
+    console.warn('create-checkout: ignoring a discount sent by the browser',
+      { rate: b.rate, percent: b.percent, discount: b.discount });
+  }
+
+  const rate = await meter({ dateISO: b.date, vehicleSlug: vehicle.slug, cruise });
+  const listUsd = vehicle.usd;                       // always the real list price
+  let chargeUsd = cutPrice(listUsd, rate.percent);   // what she agreed to on the card
+  let rateBasis = rate.basis;
+
   // TEMPORARY LIVE-TEST OVERRIDE.
   // Set TEST_PRICE_USD=5 in Netlify to charge $5 instead of the real price, so
   // the first end-to-end run on a live key costs $5 rather than $369. Only Mike
@@ -179,8 +250,44 @@ exports.handler = async (event) => {
   // DELETE THE VARIABLE the moment the test passes — while it is set, every
   // booking on the site charges $5.
   const testPrice = Number(process.env.TEST_PRICE_USD) || 0;
-  const chargeUsd = testPrice > 0 ? testPrice : vehicle.usd;
-  if (testPrice > 0) console.warn(`TEST_PRICE_USD is set — charging ${testPrice} instead of ${vehicle.usd}`);
+  if (testPrice > 0) {
+    console.warn(`TEST_PRICE_USD is set — charging ${testPrice} instead of ${chargeUsd}`);
+    chargeUsd = testPrice;
+  }
+
+  // THE TEST SWITCH — a $1 live booking, for proving the chain end to end without a coupon.
+  //
+  // This replaces the promotion code the old site used for cheap live tests. A restricted
+  // key cannot make coupons, so the switch is a shared secret instead: set CT_TEST_SWITCH in
+  // the .org Netlify environment, open the site with ?ts=<that value>, and the page passes
+  // it back here with the booking. Nothing else unlocks it — with the variable unset the
+  // switch cannot fire at all, whatever a guest sends.
+  //
+  // The real percent is still recorded, so a test booking shows what it WOULD have charged;
+  // rate_basis 'test' and test '1' are what mark it as not a sale.
+  const switchSecret = String(process.env.CT_TEST_SWITCH || '');
+  const isTest = switchSecret !== '' && String(b.test_switch || '') === switchSecret;
+  if (isTest) {
+    chargeUsd = 1;
+    rateBasis = 'test';
+    console.warn(`CT_TEST_SWITCH matched — charging $1 instead of ${cutPrice(listUsd, rate.percent)}`);
+  }
+
+  // What the Port Meter did to this booking, on the reservation record. Every existing key
+  // above stays exactly as it was — the old site's webhook reads them by name.
+  //   rate_percent         the percent applied, 0 when we could not work one out
+  //   rate_basis           published · average · floor · unavailable · test
+  //   ships_in_port        the real count for her day, '' when the port had not published it
+  //   list_price_usd       the price on the ladder
+  //   charged_vehicle_usd  what the vehicle line actually charges
+  Object.assign(meta, {
+    rate_percent: String(rate.percent),
+    rate_basis: rateBasis,
+    ships_in_port: rate.ships === null || rate.ships === undefined ? '' : String(rate.ships),
+    list_price_usd: String(listUsd),
+    charged_vehicle_usd: String(chargeUsd),
+    ...(isTest ? { test: '1' } : {}),
+  });
 
   // TEMPORARY CURRENCY OVERRIDE, for testing only.
   // Mexican-issued cards are frequently blocked by their own issuer from foreign
@@ -209,7 +316,15 @@ exports.handler = async (event) => {
     'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * 100)),
     'line_items[0][price_data][product_data][name]': `${vehicle.name} to ${destName}`,
     'line_items[0][price_data][product_data][description]':
-      `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`,
+      `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`
+      // The receipt has to say WHY it is not the ladder price, or a guest comparing her
+      // statement to the site sees a number that appears from nowhere. Stripe shows this
+      // line under the item on Checkout and on the emailed receipt.
+      //
+      // The words follow the basis. A hotel guest never had a ship count, so calling her
+      // floor a "quiet-day" discount would be describing a rule she was not priced under —
+      // and the card in the bar already told her it was for hotel pickups.
+      + discountLine(rateBasis, rate.percent, listUsd),
   };
 
   // Optional prepaid venue admission, per person. The price comes from ADMISSION in
@@ -224,19 +339,15 @@ exports.handler = async (event) => {
     params['line_items[1][price_data][product_data][description]'] = 'Paid now — nothing at the gate';
   }
 
-  // The "Add promotion code" box on Stripe Checkout. ON permanently, by Mike's decision
-  // on 2026-08-07: he runs discounts through the season and wants a code to work at every
-  // checkout, all year.
+  // NO "Add promotion code" box. It was on permanently from 2026-08-07, on the argument
+  // that a code would always be live and advertised, so the box was an asset rather than a
+  // leak. The Port Meter is the discount now: it is worked out from her own day, it is
+  // already in the price above, and it needs no code from anybody.
   //
-  // I removed this earlier the same day on the argument that an empty promo box sends a
-  // nervous buyer off to hunt for a code she'll never find. That argument only holds when
-  // there IS no code. Mike's answer: there will always be a live one, advertised on the
-  // site, so she isn't hunting — she already has it. That is the right call and it makes
-  // the box an asset rather than a leak.
-  //
-  // The condition attached to it: a code must always be live and advertised. If you ever
-  // retire every coupon, take this line out the same day.
-  params.allow_promotion_codes = 'true';
+  // 🚨 Do not switch it back on here. The .org Stripe key is restricted to writing Checkout
+  // Sessions and reading PaymentIntents — it cannot create a coupon or a promotion code — so
+  // the box would open on a screen where every code she types comes back invalid. That is
+  // worse than no box at all: it tells a buyer at the last step that she is missing a deal.
 
   // Metadata on the session AND the payment, so it survives on the charge too.
   // This is what makes the Stripe dashboard readable as a reservation list.
@@ -247,7 +358,21 @@ exports.handler = async (event) => {
 
   try {
     const session = await stripe('checkout/sessions', params);
-    return json(200, { url: session.url, ref });
+    // `charged` is what this booking was actually priced at, echoed back. The page ignores
+    // it; it exists so the pricing can be read without opening a live Checkout page, and so
+    // a mismatch between the card and the receipt is one request away from being proved.
+    // Nothing in it is secret — it is the same arithmetic the guest is looking at.
+    return json(200, {
+      url: session.url,
+      ref,
+      charged: {
+        vehicle_usd: chargeUsd,
+        list_usd: listUsd,
+        percent: rate.percent,
+        basis: rateBasis,
+        ships: rate.ships === undefined ? null : rate.ships,
+      },
+    });
   } catch (err) {
     console.error('create-checkout', err);
     // She got all the way to the price screen and Stripe would not open. Worth knowing how
