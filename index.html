@@ -2904,7 +2904,7 @@ function paintPay(){
   }
   PAY_USD = grand() - disc;
   $('pAll').textContent = moneyOf(PAY_USD);
-  $('pMxn').textContent = '= ' + mxnOf(PAY_USD) + ' charged in pesos at ' + FX_MXN_PER_USD + ' MXN per USD';
+  $('pMxn').textContent = '= ' + mxnOf(PAY_USD) + ' in pesos (' + FX_MXN_PER_USD + ' per USD)';
   $('payBtnAmt').textContent = mxnOf(PAY_USD);
   // "Where are you going?" only makes sense for the destination that doesn't name itself.
   $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
@@ -3134,7 +3134,16 @@ async function payNow(){
     // Logged before the redirect, not after: once location.href fires this page is gone.
     // The gap between 'pay' and 'done' is how many guests reach Stripe and abandon at the
     // card form, which is a different problem from abandoning on our own pages.
-    if (out.url) { track('pay'); location.href = out.url; return; }  // off to Stripe
+    if (out.url) {
+      // What the server actually priced (the Port Meter, the test switch), so the done screen
+      // after Stripe's round trip states the real charge rather than the list price.
+      const payUsd = out.charged && typeof out.charged.vehicle_usd === 'number' ? out.charged.vehicle_usd : PAY_USD;
+      try {
+        const p = JSON.parse(sessionStorage.getItem('cit_pending') || '{}');
+        sessionStorage.setItem('cit_pending', JSON.stringify({ ...p, payUsd }));
+      } catch (e) {}
+      track('pay'); location.href = out.url; return;   // off to Stripe
+    }
     // Every refusal from the server is written for a guest, not a developer,
     // and the ones we can't fix on the page route to a human.
     err.innerHTML = out.error + (out.useWhatsApp
@@ -3162,6 +3171,7 @@ async function payNow(){
     S.ship = b.ship && b.ship !== 'Not on a cruise' ? { name: b.ship } : null;
     S.notCruise = !S.ship;
     $('nameIn').value = b.name || '';
+    S.payUsd = typeof b.payUsd === 'number' ? b.payUsd : null;
     sessionStorage.removeItem('cit_pending');
   }
   S.ref = q.get('ref') || null;
@@ -3195,7 +3205,11 @@ async function payNow(){
 /* ── confirmed ── */
 function paintDone(){
   if (!S.dest) return;
-  $('doneLine').textContent = tripLine() + ' · ' + moneyOf(grand()) + ' charged';
+  // The amount comes from what create-checkout priced (saved before the Stripe redirect).
+  // Without it, no number at all — grand() is the list price, before any discount, in dollars.
+  $('doneLine').textContent = tripLine() + ' · ' + (typeof S.payUsd === 'number'
+    ? mxnOf(S.payUsd) + ' charged (US$' + S.payUsd.toLocaleString('en-US') + ' at ' + FX_MXN_PER_USD + ' MXN/USD)'
+    : 'charged in Mexican pesos, see your receipt');
   // Stripe's reference wins when we have one; the invented one is only for the demo.
   S.ref = S.ref || 'CIT-' + String(Math.floor(100000 + Math.random()*899999));
   $('doneRef').textContent = S.ref;

@@ -340,6 +340,10 @@ exports.handler = async (event) => {
     client_reference_id: ref,
     success_url: `${origin}?paid=1&ref=${ref}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}?cancelled=1`,
+    // Pesos only on the Stripe page. Adaptive Pricing (on by default) offered her USD at
+    // Stripe's own rate — a $90 booking showed $96.43 — so the page contradicted ours.
+    // Off, she sees MX$1,620 and her own bank converts, as the site says it will.
+    'adaptive_pricing[enabled]': 'false',
     'line_items[0][quantity]': '1',
     'line_items[0][price_data][currency]': currency,
     'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * FX_MXN_PER_USD * 100)),
