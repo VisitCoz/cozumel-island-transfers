@@ -2552,7 +2552,8 @@ const RATE_CACHE = {};
 let RATE = null;            // the rate currently on screen; the booking screen reads it
 function loadRate(iso_){
   if (RATE_CACHE[iso_]) return Promise.resolve(RATE_CACHE[iso_]);
-  return fetch('/.netlify/functions/port-rate?date=' + iso_)
+  // bump when the rule or the response shape changes, browsers cache this
+  return fetch('/.netlify/functions/port-rate?date=' + iso_ + '&v=2')
     .then(r => r.json())
     .then(d => { if (!d || !d.vehicles) throw new Error('no rate'); RATE_CACHE[iso_] = d; return d; })
     .catch(() => null);

@@ -136,7 +136,7 @@ exports.handler = async (event) => {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': error ? 'public, max-age=300' : 'public, max-age=21600, s-maxage=21600',
+      'Cache-Control': error ? 'public, max-age=300' : 'public, max-age=600, s-maxage=600',
       'Access-Control-Allow-Origin': '*'
     },
     body: JSON.stringify({
