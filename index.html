@@ -2006,7 +2006,7 @@ let pubPromise = null;
    new cache entry, so the new shape is served at once and still cached six hours after.
    BUMP IT whenever the shape of what this page reads out of that function changes. */
 function loadPublished(){
-  if (!pubPromise) pubPromise = fetch('/.netlify/functions/ships-today?v=1')
+  if (!pubPromise) pubPromise = fetch('/.netlify/functions/ships-today?v=2')
     .then(r => r.json())
     .then(d => { PUBLISHED = d.published || null; return PUBLISHED; })
     .catch(() => null);
