@@ -2766,7 +2766,18 @@ function onShip(){
   const n = $('shipIn').value.trim();
   S.ship = n ? {name:n, line:null} : null;
   S.notCruise = !n;
-  onTimes();
+  /* 🚨 This box IS the discount. `ship` travels to create-checkout from HERE, not from the
+     bar's picker, and an empty one is priced as a hotel guest: the 10% floor, never the
+     quiet-day ladder. RATE was left exactly as the bar painted it, so emptying the box on
+     this screen showed her 20% off while the card was charged 10% — the one thing the
+     server-side meter exists to make impossible, undone on the page. Re-read from the same
+     answer fillMeter() used, so there is no second fetch and no second arithmetic. */
+  const iso_ = $('barDate').value, d = RATE_CACHE[iso_], v = vehFor(S.pax);
+  const pct = d ? (n ? d.vehicles[slugFor(v)] : d.notCruise) : 0;
+  RATE = pct ? {percent: pct, cut: Math.round(v.price * (100 - pct) / 100), list: v.price,
+                ships: n && d.basis === 'published' ? d.ships : null,
+                basis: n ? d.basis : 'floor', date: iso_} : null;
+  paintPay();   // ends with onTimes()
 }
 
 /* ── 4 · who ── */
@@ -2851,11 +2862,20 @@ function paintPay(){
   /* The Port Meter's cut, read from the same answer the bar showed her. No rate — she
      never saw a meter, the fetch failed, or she is not off a ship — and this block stays
      exactly as it was. The cut is on the vehicle only: admissions are the venue's price. */
-  const disc = RATE ? Math.round(priceOf() * RATE.percent / 100) : 0;
+  /* 🚨 Worked out as list MINUS the cut price, not as a rounded percentage of the list.
+     create-checkout charges Math.round(list × (100 − pct) / 100) and the bar's card shows
+     the same figure; subtracting a separately-rounded discount disagrees with both by a
+     dollar wherever the halves fall the other way — $425 at the 10% floor billed $383 and
+     this screen promised $382. Four of the ladder's combinations did it. */
+  const disc = RATE ? priceOf() - Math.round(priceOf() * (100 - RATE.percent) / 100) : 0;
   $('pDiscRow').style.display = disc ? 'flex' : 'none';
   $('pDiscNote').style.display = disc ? 'block' : 'none';
   if (disc){
-    $('pDiscLbl').textContent = `Quiet-day discount (${RATE.percent}%)`;
+    // The words follow the basis, exactly as discountLine() in create-checkout.js does:
+    // a guest with no ship was never priced off a ship count, so "quiet-day" would be
+    // describing a rule she is not under — and it is the wording on her receipt.
+    $('pDiscLbl').textContent = (RATE.basis === 'floor' ? 'Hotel-pickup discount (' : 'Quiet-day discount (')
+      + RATE.percent + '%)';
     $('pDisc').textContent = '−' + moneyOf(disc);
   }
   $('pAll').textContent = moneyOf(grand() - disc);

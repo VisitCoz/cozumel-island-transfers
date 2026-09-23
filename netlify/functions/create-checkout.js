@@ -10,7 +10,7 @@ const {
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 const { logRefusal } = require('./_refusals');
-const { rateFor, publishedCalendar, shipsOn } = require('./port-rate');
+const { rateFor, publishedCalendar, shipsOn, validDate } = require('./port-rate');
 
 const pad = (n) => String(n).padStart(2, '0');
 const hour12 = (h) => `${h % 12 === 0 ? 12 : h % 12}:00 ${h >= 12 ? 'PM' : 'AM'}`;
@@ -73,7 +73,12 @@ exports.handler = async (event) => {
   // ---- shape ----
   const pax = Number(b.pax);
   const vehicle = vehicleFor(pax);
-  const destName = DESTINATIONS[b.destination];
+  // hasOwnProperty, not a plain lookup: DESTINATIONS['__proto__'] and ['toString'] are
+  // inherited from Object.prototype and are truthy, so those two walked straight past
+  // "Pick a destination." and opened a real Stripe session reading "Private minivan to
+  // [object Object]". Only the ten keys in the table are destinations.
+  const destName = Object.prototype.hasOwnProperty.call(DESTINATIONS, b.destination)
+    ? DESTINATIONS[b.destination] : undefined;
 
   // A refusal is logged ONLY where a business rule turns a willing buyer away — the five
   // paths below. The other 400s here are form validation: a missing name is a stale tab,
@@ -114,7 +119,11 @@ exports.handler = async (event) => {
   if (b.destination === 'somewhere-else' && !String(b.dropoff || '').trim()) {
     return json(400, { error: 'Tell us where you’re going — a hotel, an address, or the ferry terminal.' });
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date || '')) return json(400, { error: 'Pick a date.' });
+  // validDate, not a shape test. "2026-11-31" matches the pattern and JS rolls it forward
+  // to 1 December, so the cutoff below passed, the meter priced it as November, and Stripe
+  // took money for a day that does not exist — filed in metadata under "2026-11-31", which
+  // is a date no manifest will ever ask for. Same helper port-rate.js already uses.
+  if (!validDate(String(b.date || ''))) return json(400, { error: 'Pick a date.' });
 
   const pickupHour = Number(b.pickupHour);
   const durationHours = Number(b.durationHours);
@@ -199,8 +208,11 @@ exports.handler = async (event) => {
     pax: String(pax),
     vehicle: vehicle.slug,
     vehicle_name: vehicle.name,
-    ship: b.ship || 'Not on a cruise',
-    guest: b.name || '',
+    // Trimmed for the same reason `dropoff` below is: Stripe caps a metadata value at 500
+    // characters and rejects the WHOLE session if one is over, so a 600-character paste in
+    // either box turned into "We couldn't open the payment page" and a lost booking.
+    ship: String(b.ship || 'Not on a cruise').slice(0, 400),
+    guest: String(b.name || '').slice(0, 400),
     // The guest's address goes in metadata on purpose. Reading it back off the
     // PaymentIntent's receipt_email depends on Stripe's own receipt settings,
     // and if it ever comes back empty the day-before email silently goes to
@@ -315,8 +327,11 @@ exports.handler = async (event) => {
     'line_items[0][price_data][currency]': currency,
     'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * 100)),
     'line_items[0][price_data][product_data][name]': `${vehicle.name} to ${destName}`,
+    // `dateLabel` is the one piece of this line the browser writes, so it is cut to the
+    // length of a date. Uncut, a POST could put two thousand characters of its own wording
+    // directly above the discount sentence below — on our receipt, in our Stripe dashboard.
     'line_items[0][price_data][product_data][description]':
-      `${b.dateLabel || b.date} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`
+      `${String(b.dateLabel || b.date).slice(0, 80)} · ${hour12(pickupHour)}–${hour12(returnHour)} · ${pax} people · round trip`
       // The receipt has to say WHY it is not the ladder price, or a guest comparing her
       // statement to the site sees a number that appears from nowhere. Stripe shows this
       // line under the item on Checkout and on the emailed receipt.

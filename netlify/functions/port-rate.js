@@ -64,7 +64,17 @@ function todayISO() {
 // { window: {from, to}, byDay: {'YYYY-MM-DD': n} } for the published schedule, or null.
 // Cancelled calls (status "red") are not ships in port.
 async function publishedCalendar() {
-  const res = await fetch(SOURCE, { headers: { 'User-Agent': 'Mozilla/5.0 (CIT port-rate)' } });
+  // 🚨 The timeout is the whole fail-open promise. create-checkout.js says a guest is never
+  // turned away because a third-party schedule was down — but a source that HANGS is not a
+  // source that fails: without a deadline this await never settles, Netlify kills the
+  // function at 10 s, and she gets "We couldn't open the payment page" instead of a booking.
+  // Measured 2026-09-23: APIQROO answers in about half a second, so four is generous, and
+  // an expiry here lands in the catch beside a refusal and simply prices her off the month
+  // average. Fail open on the discount, never on the booking.
+  const res = await fetch(SOURCE, {
+    headers: { 'User-Agent': 'Mozilla/5.0 (CIT port-rate)' },
+    signal: AbortSignal.timeout(4000),
+  });
   if (!res.ok) throw new Error(`source ${res.status}`);
   const ships = parseShips(await res.text()).filter(s => s.status !== 'red');
   if (!ships.length) throw new Error('no ships parsed');
