@@ -11,32 +11,25 @@
 //     data/port-month-averages.json (built by scripts/build_port_averages.py).
 // Either way the answer is never blank: a fetch failure just means the month average.
 //
-// The ladder — Mike's decision 2026-09-18, deepened for the Minivan 2026-09-19:
-//   Private minivan:     0–1 ships 40% · 2 ships 30% · 3–4 ships 20% · 5+ ships 10%
-//   Every other vehicle: 0–1 ships 30% · 2 ships 20% · 3–4 ships 15% · 5+ ships 10%
-//   The minivan is the cheapest vehicle for us to put on the road, so a quiet day is worth
-//   buying with a deeper cut. Mike's call, 2026-09-19: "let's see how it goes."
-//   🚨 On .org that means BOTH van_1_4 and van_1_6: _cit.js names them both "Private minivan",
-//   so a guest who sees one ladder for a 4-seater and a shallower one for the same van with
-//   two more seats is reading a bug, not a policy. Mike's call 2026-09-22.
-//   Nov–Apr is clamped to 10–15%, whatever the vehicle.
+// The ladder — Mike, 2026-09-23: aggressive — 0–4 ships 40% on everything.
+//   Every vehicle, the minivans included: 0–4 ships 40% · 5+ ships 10%
+//   Two rungs, no per-vehicle split. Anything short of five ships is a day we would rather
+//   buy than sit out, whatever is going on the road. Replaces the graded 2026-09-18 ladder
+//   and its deeper minivan scale of 2026-09-19.
+//   Nov–Apr is clamped to 10–15%, whatever the vehicle — so high season still tops out at 15%.
 //   A guest who is not on a cruise gets the 10% floor only.
 
 const { parseShips } = require('./ships-today');
 const AVERAGES = require('../../data/port-month-averages.json');
 
 const SOURCE = 'https://servicios.apiqroo.com.mx/programacion/';
-const MINIVAN = new Set(['van_1_4', 'van_1_6']);   // both are "Private minivan" in _cit.js
 const FLOOR = 10;
 
 // _cit.js's catalogue order, so the `vehicles` map reads the way the page lists them.
 const SLUGS = ['van_1_4', 'van_1_6', 'van_7_14', 'van_15_18', 'coach_20', 'bus_40'];
 
-function ladder(ships, minivan) {
-  if (ships <= 1) return minivan ? 40 : 30;
-  if (ships === 2) return minivan ? 30 : 20;
-  if (ships <= 4) return minivan ? 20 : 15;
-  return 10;
+function ladder(ships) {
+  return ships <= 4 ? 40 : 10;
 }
 
 // The percent for one vehicle on one day. `ships` is null when the day is not published.
@@ -49,7 +42,7 @@ function rateFor({ dateISO, vehicleSlug, cruise = true, ships = null }) {
   const basis = ships === null ? 'average' : 'published';
   const count = ships === null ? Math.round(avg ?? 5) : ships;
   const highSeason = month >= 11 || month <= 4;
-  const raw = ladder(count, MINIVAN.has(vehicleSlug));
+  const raw = ladder(count);
   const percent = Math.max(FLOOR, highSeason ? Math.min(15, raw) : raw);
   return { percent, basis, ships: ships === null ? null : ships, shipsPerDay: avg };
 }
