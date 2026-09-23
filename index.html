@@ -3011,6 +3011,26 @@ function waDone(){
   return wa(`My booking reference is ${$('doneRef').textContent}.`);
 }
 
+/* ── the live-test switch ──
+   Opening the site as ?ts=<secret> makes the next booking cost $1 instead of the real
+   price, so the whole chain — Stripe, the webhook, the emails, the calendar — can be
+   proved on the LIVE key without a $250 charge. It replaces the promotion code the old
+   site used for this, because .org's restricted Stripe key cannot make coupons.
+
+   The value is remembered for the tab, not for the booking screen alone: she arrives on
+   the homepage with it and reaches the form several clicks later. Nothing here decides
+   anything — the switch only fires if create-checkout finds the same value in
+   CT_TEST_SWITCH, and with that variable unset it does nothing at all. */
+(function testSwitchInit(){
+  try {
+    const ts = new URLSearchParams(location.search).get('ts');
+    if (ts) sessionStorage.setItem('cit_ts', ts);
+  } catch (e) { /* storage blocked — the switch simply isn't available */ }
+})();
+function testSwitch(){
+  try { return sessionStorage.getItem('cit_ts') || ''; } catch (e) { return ''; }
+}
+
 /* ── paying for real ──
    The prototype's fake card box is gone. This hands the booking to our Netlify
    function, which validates it server-side and opens Stripe Checkout.
@@ -3051,7 +3071,9 @@ async function payNow(){
     // her terminal, worked out in the bar from the port authority's published schedule.
     // When the port has not published her day yet we say exactly that, rather than
     // sending a pier nobody has confirmed. create-checkout files it as `pickup_addr`.
-    pickup:  S.pier || 'Cruise pier, confirmed day before'
+    pickup:  S.pier || 'Cruise pier, confirmed day before',
+    // Empty for every real guest. See testSwitchInit() above.
+    test_switch: testSwitch()
   };
   sessionStorage.setItem('cit_pending', JSON.stringify({
     ...booking, destName: d.short, vehicleName: v.name, total: grand()
