@@ -115,6 +115,9 @@ async function logStep(ev) {
     ship: ev.ship ? String(ev.ship).trim().slice(0, 60) : '',
     line: ev.line ? String(ev.line).trim().slice(0, 40) : '',
     place_text: ev.place_text ? String(ev.place_text).trim().slice(0, 120) : '',
+    // The Port Meter percent on screen when the step fired — 10 to 40, or '' when she
+    // never saw one. Three characters is every value the ladder can produce.
+    rate: ev.rate == null || ev.rate === '' ? '' : String(ev.rate).slice(0, 3),
   };
   try {
     const out = await call('record', { event });

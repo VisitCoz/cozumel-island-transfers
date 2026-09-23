@@ -32,6 +32,10 @@ exports.handler = async () => {
     const byDay = {};
     for (const s of ships) {
       if (s.dateISO < today) continue;
+      // A cancelled call is not a ship in port. port-rate.js drops status "red" before it
+      // counts a day, and this block feeds the same bar on the same page — a day the meter
+      // prices as quiet must not be the day this map fills with a ship that isn't coming.
+      if (s.status === 'red') continue;
       (byDay[s.dateISO] = byDay[s.dateISO] || []).push({ ship: s.ship, port: s.port });
     }
     const days = Object.keys(byDay).sort();

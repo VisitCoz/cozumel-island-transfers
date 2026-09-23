@@ -775,10 +775,37 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
 .gq .pier .tx b{color:var(--navy);font-weight:800}
 .gq .pier.soft{background:var(--surface);border-color:var(--line)}
 .gq .pier.soft .tx{color:#3C4A57}
-/* The card's own order: route line, price, pier, button. */
+/* The card's own order: route line, price, THE PORT METER, pier, button. The meter and
+   the pier share order:1 — DOM order decides between them, and the meter is written
+   first, so the cut sits directly under the price and above her terminal. */
 .gq > div:first-child{order:0}
 .gq .p{order:0}
 .gq .gbook{order:3}
+
+/* ── the Port Meter, compact ────────────────────────────────────────────────────
+   How quiet the port is on her day, and what that earns her. Display only — the same
+   rule runs again in netlify/functions/port-rate.js, and the browser is never trusted
+   with the number. When this card is on screen it OWNS the price: #barPrice is hidden,
+   because a list price shown large above a struck list price inside the card is the
+   same number twice and the guest has to work out which one she pays. */
+.gq .pm{flex:1 1 100%;order:1;background:var(--card-green);border:1px solid #BFE3CB;
+  border-radius:14px;padding:12px 14px}
+.gq .pm .k{font-size:15px;font-weight:700;color:#1D3B57;line-height:1.35}
+.gq .pm .k b{color:var(--navy);font-weight:800}
+.gq .pm .pr{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:9px}
+.gq .pm .was{font-size:17px;font-weight:700;color:var(--mute);text-decoration:line-through;
+  letter-spacing:-.02em}
+.gq .pm .now{font-size:34px;font-weight:800;color:var(--success-deep);letter-spacing:-.035em;
+  line-height:1}
+.gq .pm .ea{font-size:13px;font-weight:700;color:var(--success-deep);white-space:nowrap}
+.gq .pm .one{margin-top:7px;font-size:15px;font-weight:700;color:var(--navy);line-height:1.35}
+.gq .pm .auto{margin-top:7px;font-size:12.5px;font-weight:600;color:var(--mute-2)}
+/* Not off a ship: no meter, one line for the floor. */
+.gq .pmfloor{flex:1 1 100%;order:1;font-size:14px;font-weight:700;color:var(--success-deep)}
+@media(min-width:941px){
+  .gq .pm .now{font-size:38px}
+  .gq .pm .k,.gq .pm .one{font-size:15.5px}
+}
 
 /* On a wide screen the ship field is a narrow column of the capsule, too narrow for a
    ship's name plus its line, so the list is allowed to be wider than the field. */
@@ -1089,6 +1116,20 @@ html.v4-motion .v4-faq .faq.arrived{
           <div class="v" id="barVeh"></div>
         </div>
         <div class="p" id="barPrice"></div>
+        <!-- The Port Meter. Display only — the browser is never trusted with this number.
+             netlify/functions/port-rate.js is the one rule, and it is the rule
+             create-checkout.js will run again from her date before Stripe sees anything.
+             It replaces #barPrice above rather than sitting beside it: the struck figure
+             in here IS the list price, and showing it twice only invites the question
+             which of the two she is actually paying. -->
+        <div class="pm" id="barMeter" style="display:none">
+          <div class="k" id="pmKick"></div>
+          <div class="pr"><span class="was" id="pmWas"></span><span class="now" id="pmNow"></span><span class="ea" id="pmEa"></span></div>
+          <div class="one" id="pmOne"></div>
+          <div class="auto">Applied automatically at checkout — nothing to type.</div>
+        </div>
+        <!-- She is not off a ship. No day to read, so no meter: just the floor, in one line. -->
+        <div class="pmfloor" id="barFloor" style="display:none"></div>
         <!-- The pier we will meet her at. Shown only when the port authority has published
              her day AND her ship is on it. Otherwise it says we will write — never a guess,
              because she will be standing in the terminal we name. -->
@@ -1429,7 +1470,14 @@ html.v4-motion .v4-faq .faq.arrived{
 
   <div class="total" style="margin-top:14px">
     <div class="tr"><span id="pVehLbl"></span><span id="pVeh"></span></div>
+    <!-- The Port Meter's cut, carried down from the bar. It comes off the vehicle only —
+         never off an admission, which is the venue's money and not ours to discount. -->
+    <div class="tr" id="pDiscRow" style="display:none;color:var(--success-deep);font-weight:700">
+      <span id="pDiscLbl"></span><span id="pDisc"></span></div>
     <div class="tr big"><span>Charged today</span><span id="pAll"></span></div>
+    <p class="hint" id="pDiscNote"
+       style="display:none;margin:8px 0 0;font-size:13.5px;color:var(--mute);line-height:1.45">
+      Your discount is applied at checkout — there is no code to type.</p>
   </div>
 
   <div class="field"><label for="pickIn">Pickup time</label>
@@ -1802,6 +1850,14 @@ function trackPlaceText(){
   } catch (e) { return ''; }
 }
 
+/* The discount she was looking at when this step fired, so the funnel can say what the
+   Port Meter was actually offering the people who booked and the people who left.
+
+   🚨 Same guard, same reason as trackShip(): track('land') runs while this file is still
+   being evaluated, and RATE is declared several hundred lines below — reading a `let`
+   before its line has run throws, which would kill the first step of the funnel. */
+function trackRate(){ try { return RATE ? RATE.percent : null; } catch (e) { return null; } }
+
 /* `destOverride` exists for one step: 'place'. S.dest is not set until barGo(), which is
    two steps later, so without it the row that says WHICH place she chose would be the one
    row with no place on it — and that is the column the dashboard ranks destinations by. */
@@ -1818,7 +1874,8 @@ function track(step, destOverride){
     device: window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'desktop',
     ship: who.ship,
     line: who.line,
-    place_text: trackPlaceText()
+    place_text: trackPlaceText(),
+    rate: trackRate()
   });
   // sendBeacon survives the tab being closed or navigated away mid-flight, which is
   // exactly when the most interesting step of all — the one where she gave up — is sent.
@@ -2480,6 +2537,92 @@ function paintPier(){
      through barSync() on its own. */
 }
 
+/* ── the Port Meter ─────────────────────────────────────────────────────────────
+   One fetch per date, answered by netlify/functions/port-rate.js: how many ships are in
+   port on her day (or the month's average when the port has not published that far yet),
+   and the percent that earns her on every vehicle. Cached per date, so changing the head
+   count or the vehicle repaints from memory rather than asking again.
+
+   Display only. If the fetch fails we show the price card exactly as it is today — no
+   card, no error. A guest who never sees the discount has lost nothing; a guest shown a
+   guessed one has been lied to. */
+const VEH_SLUG = ['van_1_4','van_1_6','van_7_14','van_15_18','coach_20','bus_40'];
+const slugFor = v => VEH_SLUG[VEH.indexOf(v)] || 'van_1_6';
+const RATE_CACHE = {};
+let RATE = null;            // the rate currently on screen; the booking screen reads it
+function loadRate(iso_){
+  if (RATE_CACHE[iso_]) return Promise.resolve(RATE_CACHE[iso_]);
+  return fetch('/.netlify/functions/port-rate?date=' + iso_)
+    .then(r => r.json())
+    .then(d => { if (!d || !d.vehicles) throw new Error('no rate'); RATE_CACHE[iso_] = d; return d; })
+    .catch(() => null);
+}
+
+function paintMeter(){
+  const iso_ = $('barDate').value, hotel = barPierSide().on();
+  // Reset first: every repaint starts from the card as it is without a meter, so a
+  // failed fetch or a half-answered bar can only ever leave today's price card standing.
+  $('barMeter').style.display = 'none'; $('barFloor').style.display = 'none';
+  $('barPrice').style.display = ''; RATE = null;
+  if (!iso_) return;
+  // A ship, or an address she typed. Anything in between is not an answer yet.
+  if (!hotel && (!barPierSide().isShip() || !barPierSide().ship())) return;
+  loadRate(iso_).then(d => {
+    // She kept moving while the fetch was out. Whatever is on screen now is not what
+    // this answer describes, and the repaint it triggered will land on its own.
+    if (!d || $('barDate').value !== iso_ || barPierSide().on() !== hotel) return;
+    if (!$('barQ').classList.contains('on')) return;
+    if (hotel){
+      if (d.notCruise !== 10) return;         // the floor moved; say nothing rather than a stale number
+      $('barFloor').textContent = d.notCruise + '% off at checkout for hotel pickups';
+      $('barFloor').style.display = 'block';
+      return;
+    }
+    fillMeter(d, iso_);
+  });
+}
+
+function fillMeter(d, iso_){
+  const v = vehFor(S.pax), pct = d.vehicles[slugFor(v)];
+  if (!pct) return;
+  const cut = Math.round(v.price * (100 - pct) / 100);          // whole dollars
+  const when  = new Date(iso_ + 'T12:00:00');
+  const day   = when.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+  const month = when.toLocaleString('en-US', {month:'long'});
+  // `ships` is a real count only when the port authority has actually published her day.
+  const ships = d.basis === 'published' ? d.ships : null;
+
+  /* Three voices, one tone. Quiet and busy both name the real count, because the count
+     is the reason for the number. The unpublished month says it is a typical day and
+     nothing more — the average is 3.16 ships, and dressing that up as a forecast for
+     the 15th would be precision we do not have. */
+  let kick;
+  if (ships === null){
+    const typical = Math.round(d.shipsPerDay || 5);
+    kick = `The port has not published ${month} yet — a typical ${month} day sees about `
+         + `<b>${typical} ${typical === 1 ? 'ship' : 'ships'}</b>, so that is the day we price yours as.`;
+  } else if (ships <= 2){
+    const n = ships === 0 ? 'no ships at all' : ships === 1 ? 'just 1 ship' : 'just 2 ships';
+    kick = `Your day is a quiet one at the port — <b>${n}</b> in on ${day}.`;
+  } else if (ships >= 5){
+    kick = `Your day is a busy one at the port — <b>${ships} ships</b> in on ${day}.`;
+  } else {
+    kick = `<b>${ships} ships</b> in port on your day, ${day}.`;
+  }
+
+  $('pmKick').innerHTML = kick;
+  $('pmWas').textContent = '$' + v.price.toLocaleString('en-US');
+  $('pmNow').textContent = '$' + cut.toLocaleString('en-US');
+  // The same per-head line the price card already shows, worked out on the cut price.
+  // Below four it flatters nobody, so it says what it says up there instead.
+  $('pmEa').textContent = S.pax >= 4 ? '$' + Math.round(cut / S.pax) + ' each'
+                                     : 'same price up to ' + v.max;
+  $('pmOne').textContent = `${pct}% off your ${v.name} — round trip, whole vehicle, ${v.sub}.`;
+  $('barMeter').style.display = 'block';
+  $('barPrice').style.display = 'none';
+  RATE = {percent: pct, cut: cut, list: v.price, ships: ships, basis: d.basis, date: iso_};
+}
+
 function barQuote(){
   const v = vehFor(S.pax);
   $('barRoute').textContent = BFROM.label() + '  →  ' + BTO.label();
@@ -2502,6 +2645,9 @@ function barQuote(){
     $('barPrice').innerHTML = '<span class="wa-pill">We\'ll confirm this price on WhatsApp</span>';
     $('barBook').textContent = 'Message us on WhatsApp →';
     $('barPier').style.display = 'none'; S.pier = null;
+    // No day to read and no vehicle price to cut, but the floor still holds and she
+    // should know it before she opens WhatsApp. One line, no card.
+    paintMeter();
     return;
   }
   /* 🚨 The empty box is not a typed address. on() only says which half of the field is
@@ -2523,6 +2669,7 @@ function barQuote(){
                   : ' <small>same price up to ' + v.max + '</small>');
   $('barBook').textContent = 'Book this transfer →';
   paintPier();
+  paintMeter();
 }
 
 /* ── the other eight questions ──────────────────────────────────────────────────
@@ -2619,7 +2766,18 @@ function onShip(){
   const n = $('shipIn').value.trim();
   S.ship = n ? {name:n, line:null} : null;
   S.notCruise = !n;
-  onTimes();
+  /* 🚨 This box IS the discount. `ship` travels to create-checkout from HERE, not from the
+     bar's picker, and an empty one is priced as a hotel guest: the 10% floor, never the
+     quiet-day ladder. RATE was left exactly as the bar painted it, so emptying the box on
+     this screen showed her 20% off while the card was charged 10% — the one thing the
+     server-side meter exists to make impossible, undone on the page. Re-read from the same
+     answer fillMeter() used, so there is no second fetch and no second arithmetic. */
+  const iso_ = $('barDate').value, d = RATE_CACHE[iso_], v = vehFor(S.pax);
+  const pct = d ? (n ? d.vehicles[slugFor(v)] : d.notCruise) : 0;
+  RATE = pct ? {percent: pct, cut: Math.round(v.price * (100 - pct) / 100), list: v.price,
+                ships: n && d.basis === 'published' ? d.ships : null,
+                basis: n ? d.basis : 'floor', date: iso_} : null;
+  paintPay();   // ends with onTimes()
 }
 
 /* ── 4 · who ── */
@@ -2701,7 +2859,27 @@ function paintPay(){
   $('paySummary').textContent = tripLine();
   $('pVehLbl').textContent = v.name + ' — round trip';
   $('pVeh').textContent = moneyOf(priceOf());
-  $('pAll').textContent = moneyOf(grand()); $('payBtnAmt').textContent = moneyOf(grand());
+  /* The Port Meter's cut, read from the same answer the bar showed her. No rate — she
+     never saw a meter, the fetch failed, or she is not off a ship — and this block stays
+     exactly as it was. The cut is on the vehicle only: admissions are the venue's price. */
+  /* 🚨 Worked out as list MINUS the cut price, not as a rounded percentage of the list.
+     create-checkout charges Math.round(list × (100 − pct) / 100) and the bar's card shows
+     the same figure; subtracting a separately-rounded discount disagrees with both by a
+     dollar wherever the halves fall the other way — $425 at the 10% floor billed $383 and
+     this screen promised $382. Four of the ladder's combinations did it. */
+  const disc = RATE ? priceOf() - Math.round(priceOf() * (100 - RATE.percent) / 100) : 0;
+  $('pDiscRow').style.display = disc ? 'flex' : 'none';
+  $('pDiscNote').style.display = disc ? 'block' : 'none';
+  if (disc){
+    // The words follow the basis, exactly as discountLine() in create-checkout.js does:
+    // a guest with no ship was never priced off a ship count, so "quiet-day" would be
+    // describing a rule she is not under — and it is the wording on her receipt.
+    $('pDiscLbl').textContent = (RATE.basis === 'floor' ? 'Hotel-pickup discount (' : 'Quiet-day discount (')
+      + RATE.percent + '%)';
+    $('pDisc').textContent = '−' + moneyOf(disc);
+  }
+  $('pAll').textContent = moneyOf(grand() - disc);
+  $('payBtnAmt').textContent = moneyOf(grand() - disc);
   // "Where are you going?" only makes sense for the destination that doesn't name itself.
   $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
   onTimes();
@@ -2853,6 +3031,26 @@ function waDone(){
   return wa(`My booking reference is ${$('doneRef').textContent}.`);
 }
 
+/* ── the live-test switch ──
+   Opening the site as ?ts=<secret> makes the next booking cost $1 instead of the real
+   price, so the whole chain — Stripe, the webhook, the emails, the calendar — can be
+   proved on the LIVE key without a $250 charge. It replaces the promotion code the old
+   site used for this, because .org's restricted Stripe key cannot make coupons.
+
+   The value is remembered for the tab, not for the booking screen alone: she arrives on
+   the homepage with it and reaches the form several clicks later. Nothing here decides
+   anything — the switch only fires if create-checkout finds the same value in
+   CT_TEST_SWITCH, and with that variable unset it does nothing at all. */
+(function testSwitchInit(){
+  try {
+    const ts = new URLSearchParams(location.search).get('ts');
+    if (ts) sessionStorage.setItem('cit_ts', ts);
+  } catch (e) { /* storage blocked — the switch simply isn't available */ }
+})();
+function testSwitch(){
+  try { return sessionStorage.getItem('cit_ts') || ''; } catch (e) { return ''; }
+}
+
 /* ── paying for real ──
    The prototype's fake card box is gone. This hands the booking to our Netlify
    function, which validates it server-side and opens Stripe Checkout.
@@ -2893,7 +3091,9 @@ async function payNow(){
     // her terminal, worked out in the bar from the port authority's published schedule.
     // When the port has not published her day yet we say exactly that, rather than
     // sending a pier nobody has confirmed. create-checkout files it as `pickup_addr`.
-    pickup:  S.pier || 'Cruise pier, confirmed day before'
+    pickup:  S.pier || 'Cruise pier, confirmed day before',
+    // Empty for every real guest. See testSwitchInit() above.
+    test_switch: testSwitch()
   };
   sessionStorage.setItem('cit_pending', JSON.stringify({
     ...booking, destName: d.short, vehicleName: v.name, total: grand()

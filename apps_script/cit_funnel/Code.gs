@@ -52,7 +52,7 @@ var SHEET = 'Funnel';
  */
 var HEADERS = [
   'Logged at (Cozumel)', 'Session', 'Step', 'Step no', 'Destination', 'Pax',
-  'Source', 'Device', 'Ship', 'Line', 'Place text'
+  'Source', 'Device', 'Ship', 'Line', 'Place text', 'Rate %'
 ];
 
 /**
@@ -195,7 +195,8 @@ function record_(ev) {
       ev.device || '',
       ev.ship || '',
       ev.line || '',
-      ev.place_text || ''
+      ev.place_text || '',
+      ev.rate || ''
     ]);
   } finally { lock.releaseLock(); }
   return ok_({ ok: true });
@@ -232,7 +233,8 @@ function list_(month) {
       // Empty on every row written before 2026-09-21, which is correct: we did not ask.
       ship: String(r[8] || ''),
       line: String(r[9] || ''),
-      place_text: String(r[10] || '')
+      place_text: String(r[10] || ''),
+      rate: String(r[11] || '')
     });
   }
   return ok_({ ok: true, month: m, months: months, records: records, labels: STEP_LABEL, steps: STEPS });
