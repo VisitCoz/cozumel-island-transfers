@@ -175,6 +175,33 @@ exports.handler = async (event) => {
     }
   }
 
+  // The quiet-day discount facts, and only when there really was one.
+  //
+  // cozumeltransfers.org prices its vehicles down on days when few ships are in port and
+  // stamps the reasoning on the session. cozumelislandtransfers.com sends none of these
+  // keys, so for every .com booking this object stays empty, the spread below adds nothing,
+  // and the row filed is byte-for-byte the row that has always been filed. A rate of "0",
+  // a blank, or a word is the same as no discount — read defensively, because the money is
+  // already taken by the time this runs and a throw here costs the whole recording.
+  let rateFields = {};
+  try {
+    const pct = Number(String(m.rate_percent ?? '').trim());
+    if (Number.isFinite(pct) && pct > 0) {
+      const str = (v) => String(v ?? '').trim();
+      rateFields = {
+        rate_percent:        str(m.rate_percent),
+        rate_basis:          str(m.rate_basis),
+        ships_in_port:       str(m.ships_in_port),
+        list_price_usd:      str(m.list_price_usd),
+        charged_vehicle_usd: str(m.charged_vehicle_usd),
+        test:                str(m.test),
+      };
+    }
+  } catch (err) {
+    console.error('discount metadata unreadable, filing the row without it', m.booking_ref, err);
+    rateFields = {};
+  }
+
   // The sheet is optional and switches itself on the moment it is configured.
   if (process.env.BOOKINGS_URL && process.env.BOOKINGS_TOKEN) {
     try {
@@ -185,6 +212,8 @@ exports.handler = async (event) => {
         date: m.date || '', pickup: m.pickup || '', ret: m.ret || '',
         pax: Number(m.pax) || 0, vehicle: m.vehicle || '', vehicleName: m.vehicle_name || '',
         ship: m.ship || '', admissionPrepaid: m.admission_prepaid === 'true',
+        // Last, always. Appending never disturbs a field the Apps Script already reads.
+        ...rateFields,
       }});
       done.recorded = true;
     } catch (err) {

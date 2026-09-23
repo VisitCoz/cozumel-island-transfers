@@ -35,6 +35,48 @@ const fmtDate = (iso, opts) => {
 const prettyDate     = (iso) => fmtDate(iso, { weekday:'long', day:'numeric', month:'long' });
 const prettyDateFull = (iso) => fmtDate(iso, { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 
+// ---------- The quiet-day discount, when there is one ----------
+// cozumeltransfers.org prices its vehicles down on days when few ships are in port and
+// stamps the facts on the Stripe session. cozumelislandtransfers.com sends none of these
+// keys, so this returns null for every .com booking and both emails below render exactly
+// as they always have.
+//
+// It must never throw and never half-report. The only thing downstream of these emails is
+// a guest who has already paid, so an odd value — blank, "0", a word, an object — has to
+// come out the same as no discount at all rather than take the announcement down with it.
+// Nothing raw from the metadata reaches the HTML: every number is parsed and re-rendered
+// here, so a hostile metadata value cannot become markup.
+function quietDayDiscount(m) {
+  try {
+    const num = (v) => {
+      const n = Number(String(v ?? '').trim());
+      return Number.isFinite(n) ? n : NaN;
+    };
+    const pct = num((m || {}).rate_percent);
+    if (!(pct > 0)) return null;                 // absent, blank, "0" and NaN all land here
+
+    const list    = num(m.list_price_usd);
+    const charged = num(m.charged_vehicle_usd);
+    const ships   = num(m.ships_in_port);
+    const usd = (n) => '$' + (Number.isInteger(n) ? n : n.toFixed(2));
+
+    return {
+      percent: String(pct),
+      // Both ends or neither. One price on its own tells the reader nothing.
+      // A literal arrow, not &rarr;: the team's table runs its values through esc(),
+      // which would turn the entity's ampersand into "&amp;rarr;" on the screen.
+      prices: (list > 0 && charged > 0) ? `${usd(list)} → ${usd(charged)}` : '',
+      ships:  ships > 0 ? String(ships) : '',
+    };
+  } catch { return null; }
+}
+
+// Mike's secret-switch bookings on the .org site. Marks the team's subject line so a
+// rehearsal is never mistaken for a guest who is actually sailing.
+const isTestBooking = (m) => {
+  try { return String((m || {}).test ?? '').trim() === '1'; } catch { return false; }
+};
+
 // A preheader is the grey line a mail client shows after the subject. Without one
 // it scrapes whatever text comes first and you get "Tomorrow in Cozumel Where to
 // find us Hello Linda…" — the design read aloud.
@@ -55,6 +97,16 @@ function bookingEmail(m, amount, currency, email) {
   const row = (k, v) => v
     ? `<tr><td style="padding:7px 0;color:#6E6E73;width:38%">${k}</td>
            <td style="padding:7px 0;color:#0F2C44;font-weight:600">${esc(v)}</td></tr>`
+    : '';
+  // Empty string for every .com booking, so the table below is unchanged down to the
+  // byte. Deliberately an ordinary row in the existing style — no new colour.
+  // It is appended to the Paid row rather than given its own line in the template,
+  // because an empty ${...} on its own line would still leave a blank line behind.
+  const d = quietDayDiscount(m);
+  const discountRow = d
+    ? row('Quiet-day discount',
+          `${d.percent}%${d.ships ? ` (${d.ships} ships in port)` : ''}` +
+          `${d.prices ? ` — vehicle ${d.prices}` : ''}`)
     : '';
   return `
   <div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:520px;
@@ -82,7 +134,7 @@ function bookingEmail(m, amount, currency, email) {
         ${row('Going to', m.dropoff)}
         ${row('Pick up at', m.pickup_addr)}
         ${row('Vehicle', m.vehicle_name || m.vehicle)}
-        ${row('Paid', `$${amount.toFixed(2)} ${currency}`)}
+        ${row('Paid', `$${amount.toFixed(2)} ${currency}`)}${discountRow}
         ${row('Admission prepaid', m.admission_prepaid === 'true' ? 'Yes' : 'No')}
         ${row('Reference', m.booking_ref)}
       </table>
@@ -95,7 +147,7 @@ function bookingEmail(m, amount, currency, email) {
 }
 
 const bookingSubject = (m) =>
-  `CIT Booking · ${m.destination_name || m.destination} · ${prettyDateFull(m.date)} · ${m.pax} pax`;
+  `${isTestBooking(m) ? '[TEST] ' : ''}CIT Booking · ${m.destination_name || m.destination} · ${prettyDateFull(m.date)} · ${m.pax} pax`;
 
 // ---------- 2. The evening before → the team ----------
 function manifestEmail(date, runs) {
@@ -202,6 +254,13 @@ function confirmationEmail(m, amount, currency, email) {
   const first = m.guest ? esc(String(m.guest).split(' ')[0]) : '';
   const paid = `$${Number(amount).toFixed(2)} ${esc(currency || 'USD')}`;
   const adm = m.admission_prepaid === 'true';
+  // Empty for every .com booking — see quietDayDiscount. It carries its own newline and
+  // indent so that, when there is no discount, this email is unchanged down to the byte.
+  const d = quietDayDiscount(m);
+  const discountNote = d
+    ? `\n      <p style="margin:14px 0 0">Your day was a quiet one at the port, so your` +
+      ` vehicle was ${d.percent}% off${d.prices ? `: ${d.prices}` : ''}.</p>`
+    : '';
   return `
   ${preheader(`You're booked for ${prettyDateFull(m.date)}. Your reference is ${m.booking_ref}.`)}
   <div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:520px;
@@ -236,7 +295,7 @@ function confirmationEmail(m, amount, currency, email) {
       </table>
       <p style="font-size:12.5px;color:#6E6E73;margin:6px 0 0">
         Both times are <b>Cozumel local time</b> (UTC&minus;5) — not your ship's onboard clock.
-        Many ships run an hour ahead.</p>
+        Many ships run an hour ahead.</p>${discountNote}
 
       <div style="background:#F4F8FA;border:1px solid #E5E5E7;border-radius:10px;padding:14px 16px;margin-top:18px">
         <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8C9AAB">What happens next</div>
