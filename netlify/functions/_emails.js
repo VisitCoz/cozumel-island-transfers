@@ -77,6 +77,27 @@ const isTestBooking = (m) => {
   try { return String((m || {}).test ?? '').trim() === '1'; } catch { return false; }
 };
 
+// cozumeltransfers.org charges in pesos (session currency "mxn") and stamps the rate it
+// used as metadata.fx_rate. "$1620.00 MXN" would put a dollar sign on a peso amount, so a
+// peso payment reads "MX$1,620.00 MXN (≈ US$90.00 at 18 MXN/USD)" instead.
+//
+// Returns '' for any other currency, and the callers then build exactly the string they
+// always have — every USD booking is unchanged down to the byte. Never throws: a missing
+// or junk rate just drops the dollar equivalent, and anything odd falls back to ''.
+// Nothing raw from the metadata reaches the HTML — the rate is parsed and re-rendered.
+function pesoPaid(m, amount, currency) {
+  try {
+    if (String(currency ?? '').trim().toUpperCase() !== 'MXN') return '';
+    const n = Number(amount);
+    if (!Number.isFinite(n)) return '';
+    const money = (v) => v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const rate = Number(String((m || {}).fx_rate ?? '').trim());
+    const approx = (Number.isFinite(rate) && rate > 0)
+      ? ` (≈ US$${money(n / rate)} at ${rate} MXN/USD)` : '';
+    return `MX$${money(n)} MXN${approx}`;
+  } catch { return ''; }
+}
+
 // A preheader is the grey line a mail client shows after the subject. Without one
 // it scrapes whatever text comes first and you get "Tomorrow in Cozumel Where to
 // find us Hello Linda…" — the design read aloud.
@@ -134,7 +155,7 @@ function bookingEmail(m, amount, currency, email) {
         ${row('Going to', m.dropoff)}
         ${row('Pick up at', m.pickup_addr)}
         ${row('Vehicle', m.vehicle_name || m.vehicle)}
-        ${row('Paid', `$${amount.toFixed(2)} ${currency}`)}${discountRow}
+        ${row('Paid', pesoPaid(m, amount, currency) || `$${amount.toFixed(2)} ${currency}`)}${discountRow}
         ${row('Admission prepaid', m.admission_prepaid === 'true' ? 'Yes' : 'No')}
         ${row('Reference', m.booking_ref)}
       </table>
@@ -252,7 +273,7 @@ const guestSubject = (r) => `Tomorrow: Cozumel transfer to ${r.destination}`;
 // now, and the day-before email that daily-manifest.js really does send.
 function confirmationEmail(m, amount, currency, email) {
   const first = m.guest ? esc(String(m.guest).split(' ')[0]) : '';
-  const paid = `$${Number(amount).toFixed(2)} ${esc(currency || 'USD')}`;
+  const paid = pesoPaid(m, amount, currency) || `$${Number(amount).toFixed(2)} ${esc(currency || 'USD')}`;
   const adm = m.admission_prepaid === 'true';
   // Empty for every .com booking — see quietDayDiscount. It carries its own newline and
   // indent so that, when there is no discount, this email is unchanged down to the byte.
