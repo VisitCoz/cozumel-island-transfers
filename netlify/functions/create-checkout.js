@@ -6,7 +6,7 @@
 // this is the version that a stale tab or an open dev-tools console cannot get past.
 
 const {
-  DESTINATIONS, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR,
+  DESTINATIONS, ADMISSION, BOOKING_CUTOFF_HOUR,
   COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
 } = require('./_cit');
 const { logRefusal } = require('./_refusals');
@@ -32,6 +32,18 @@ const hour12 = (h) => `${h % 12 === 0 ? 12 : h % 12}:00 ${h >= 12 ? 'PM' : 'AM'}
 // schedule was down — she simply pays what the price list says.
 const NOT_ON_A_CRUISE = /^not on a cruise$/i;
 
+// PRICED IN DOLLARS, CHARGED IN PESOS. Mike 2026-09-23: "Charge everything in pesos with an
+// exchange rate of 18 pesos. The price displayed online will be in US dollars, but we will
+// charge them in pesos, and they will make the conversion."
+// Why: Mexican-issued cards refuse USD charges (Mike could not test with his own), and Stripe
+// takes ~2% converting a USD charge on payout into this MXN account.
+// Every USD figure below — the ladder, the cut, the metadata — stays in dollars. Only the
+// Stripe line amounts are multiplied, here and nowhere else. The page shows the same peso
+// figure from its own FX_MXN_PER_USD in index.html: change one, change both.
+const FX_MXN_PER_USD = 18;
+const toMxn = (usd) => Math.round(usd * FX_MXN_PER_USD);           // whole pesos
+const fmtMxn = (mxn) => `MX$${mxn.toLocaleString('en-US')}`;
+
 // Whole dollars, the way the card in the bar rounds it (index.html fillMeter()):
 //   Math.round(list × (100 − percent) / 100)
 // Both ends must round identically or the receipt disagrees with the page she agreed to.
@@ -41,7 +53,7 @@ const cutPrice = (listUsd, percent) => Math.round(listUsd * (100 - percent) / 10
 // ladder price. Empty when there is nothing to explain.
 function discountLine(basis, percent, listUsd) {
   const was = ` (was $${listUsd.toLocaleString('en-US')})`;
-  if (basis === 'test') return ` · LIVE TEST — $1 instead of $${cutPrice(listUsd, percent)}`;
+  if (basis === 'test') return ` · LIVE TEST — $1 (MX$${FX_MXN_PER_USD}) instead of $${cutPrice(listUsd, percent)}`;
   if (!percent) return '';
   if (basis === 'floor') return ` · hotel-pickup discount ${percent}%${was}`;
   return ` · quiet-day discount ${percent}%${was}`;
@@ -280,9 +292,9 @@ exports.handler = async (event) => {
   const switchSecret = String(process.env.CT_TEST_SWITCH || '');
   const isTest = switchSecret !== '' && String(b.test_switch || '') === switchSecret;
   if (isTest) {
-    chargeUsd = 1;
+    chargeUsd = 1;                 // → MX$18.00 on Stripe (1 USD × 18)
     rateBasis = 'test';
-    console.warn(`CT_TEST_SWITCH matched — charging $1 instead of ${cutPrice(listUsd, rate.percent)}`);
+    console.warn(`CT_TEST_SWITCH matched — charging $1 (MX$${FX_MXN_PER_USD}) instead of ${cutPrice(listUsd, rate.percent)}`);
   }
 
   // What the Port Meter did to this booking, on the reservation record. Every existing key
@@ -301,18 +313,23 @@ exports.handler = async (event) => {
     ...(isTest ? { test: '1' } : {}),
   });
 
-  // TEMPORARY CURRENCY OVERRIDE, for testing only.
-  // Mexican-issued cards are frequently blocked by their own issuer from foreign
-  // currency charges ("Your card doesn't support this currency"), so Mike cannot
-  // test a USD charge with his own card. Setting TEST_CURRENCY=mxn lets him prove
-  // the chain works using pesos.
-  //
-  // GUESTS MUST STAY IN USD. Charging pesos to a US card means her bank converts
-  // at its own rate plus a foreign-transaction fee, so her statement never matches
-  // the price she agreed to on the page — the exact surprise charge this site
-  // exists to avoid. DELETE THIS VARIABLE AFTER THE TEST.
-  const currency = (process.env.TEST_CURRENCY || CURRENCY).toLowerCase();
-  if (currency !== CURRENCY) console.warn(`TEST_CURRENCY is set — charging ${currency}, not ${CURRENCY}`);
+  // Always pesos — see FX_MXN_PER_USD at the top. The old TEST_CURRENCY override is gone:
+  // with every charge already in MXN it had nothing left to switch, and a leftover
+  // TEST_CURRENCY=usd would have charged dollar amounts multiplied by 18.
+  // (`CURRENCY` in _cit.js stays 'usd' — it is the currency the PRICES are in, and the
+  // other site on main still charges in it.)
+  const currency = 'mxn';
+  const vehicleMxn = toMxn(chargeUsd);
+  const adm = ADMISSION[b.destination];
+  const admPrepaid = Boolean(b.admissionPrepaid && adm && adm.verified && adm.usd > 0);
+  const admMxnEach = admPrepaid ? toMxn(adm.usd) : 0;
+  const totalMxn = vehicleMxn + admMxnEach * (admPrepaid ? pax : 0);
+  Object.assign(meta, {
+    fx_rate: String(FX_MXN_PER_USD),
+    charged_currency: currency,
+    charged_vehicle_mxn: String(vehicleMxn),
+    charged_total_mxn: String(totalMxn),
+  });
 
   // Every destination prices the same way: by vehicle, from the one list. The
   // per-destination override that used to sit here sold an 8-pax transfer for MX$100
@@ -325,7 +342,7 @@ exports.handler = async (event) => {
     cancel_url: `${origin}?cancelled=1`,
     'line_items[0][quantity]': '1',
     'line_items[0][price_data][currency]': currency,
-    'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * 100)),
+    'line_items[0][price_data][unit_amount]': String(Math.round(chargeUsd * FX_MXN_PER_USD * 100)),
     'line_items[0][price_data][product_data][name]': `${vehicle.name} to ${destName}`,
     // `dateLabel` is the one piece of this line the browser writes, so it is cut to the
     // length of a date. Uncut, a POST could put two thousand characters of its own wording
@@ -339,19 +356,21 @@ exports.handler = async (event) => {
       // The words follow the basis. A hotel guest never had a ship count, so calling her
       // floor a "quiet-day" discount would be describing a rule she was not priced under —
       // and the card in the bar already told her it was for hotel pickups.
-      + discountLine(rateBasis, rate.percent, listUsd),
+      + discountLine(rateBasis, rate.percent, listUsd)
+      // The dollars she saw, and the pesos her card is actually charged.
+      + ` · charged ${fmtMxn(vehicleMxn)} (US$${chargeUsd.toLocaleString('en-US')} at ${FX_MXN_PER_USD} MXN/USD)`,
   };
 
   // Optional prepaid venue admission, per person. The price comes from ADMISSION in
   // _cit.js, never from the request — `b.admissionUsd` is ignored on purpose.
   // Unverified rates cannot be prepaid at all; see the note beside the table.
-  const adm = ADMISSION[b.destination];
-  if (b.admissionPrepaid && adm && adm.verified && adm.usd > 0) {
+  if (admPrepaid) {
     params['line_items[1][quantity]'] = String(pax);
     params['line_items[1][price_data][currency]'] = currency;
-    params['line_items[1][price_data][unit_amount]'] = String(Math.round(adm.usd * 100));
+    params['line_items[1][price_data][unit_amount]'] = String(Math.round(adm.usd * FX_MXN_PER_USD * 100));
     params['line_items[1][price_data][product_data][name]'] = `${destName} admission`;
-    params['line_items[1][price_data][product_data][description]'] = 'Paid now — nothing at the gate';
+    params['line_items[1][price_data][product_data][description]'] =
+      `Paid now — nothing at the gate · US$${adm.usd} per person, charged ${fmtMxn(admMxnEach)} at ${FX_MXN_PER_USD} MXN/USD`;
   }
 
   // NO "Add promotion code" box. It was on permanently from 2026-08-07, on the argument
@@ -383,6 +402,10 @@ exports.handler = async (event) => {
       charged: {
         vehicle_usd: chargeUsd,
         list_usd: listUsd,
+        fx_rate: FX_MXN_PER_USD,
+        currency,
+        vehicle_mxn: vehicleMxn,
+        total_mxn: totalMxn,
         percent: rate.percent,
         basis: rateBasis,
         ships: rate.ships === undefined ? null : rate.ships,

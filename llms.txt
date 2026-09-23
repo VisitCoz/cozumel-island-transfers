@@ -39,6 +39,8 @@ Cruise port only. Airport transfers were discontinued on 2026-07-29.
 
 Prices are **per vehicle, not per person**, round trip, in USD, and the same flat rate to anywhere on the island.
 
+Prices are quoted in US dollars and charged in Mexican pesos at a fixed 18 MXN per USD (e.g. $90 is charged as MX$1,620); your card's bank does the conversion.
+
 | Tier | Capacity | Round-trip USD |
 |------|----------|----------------|
 | Private minivan | 1–4 passengers | $150 |

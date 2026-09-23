@@ -56,8 +56,11 @@ auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
    `BOOKINGS_TOKEN` are set. Don't reintroduce a spreadsheet.
 2. **Stripe cannot live in Apps Script.** Apps Script can't read request headers, so it can never
    verify a webhook signature. That is the entire reason for Netlify functions.
-3. **Guests are charged USD.** Never a hard-coded peso rate — the dead `booking-script-CIT.js` used
-   18.5 when the real rate was 17.37, a ~$24 surprise overcharge. The statement must match the page.
+3. **Priced in USD, charged in MXN at a fixed 18** — Mike's decision 2026-09-23 on this branch
+   (`cozumeltransfers`), reversing the old USD-only rule: Mexican cards refuse USD charges and
+   Stripe takes ~2% converting USD on payout. `FX_MXN_PER_USD` lives in `create-checkout.js` and
+   is twinned in `index.html`; the card and the pay screen state the peso amount before she pays,
+   so the statement still matches the page. Change the rate only on Mike's word, in both places.
 
 ✅ **`TEST_PRICE_USD` and `TEST_CURRENCY` were DELETED 2026-08-06** (`486617f`) and verified absent
 from the Netlify environment again on 2026-08-11. The override code still exists in

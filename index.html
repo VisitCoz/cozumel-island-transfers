@@ -802,6 +802,11 @@ body{padding-top:64px}                       /* clearance for the fixed nav */
 .gq .pm .auto{margin-top:7px;font-size:12.5px;font-weight:600;color:var(--mute-2)}
 /* Not off a ship: no meter, one line for the floor. */
 .gq .pmfloor{flex:1 1 100%;order:1;font-size:14px;font-weight:700;color:var(--success-deep)}
+/* The peso line. Priced in dollars, charged in pesos (Mike 2026-09-23) — said on the card,
+   before she commits, so the MXN on her statement is never a surprise. Sits under whichever
+   of the price or the meter is showing. */
+.gq .mxn{flex:1 1 100%;order:1;font-size:14px;font-weight:600;color:#45607C;line-height:1.4}
+.gq .mxn b{color:var(--navy);font-weight:800}
 @media(min-width:941px){
   .gq .pm .now{font-size:38px}
   .gq .pm .k,.gq .pm .one{font-size:15.5px}
@@ -1128,6 +1133,7 @@ html.v4-motion .v4-faq .faq.arrived{
           <div class="one" id="pmOne"></div>
           <div class="auto">Applied automatically at checkout — nothing to type.</div>
         </div>
+        <div class="mxn" id="barMxn" style="display:none"></div>
         <!-- She is not off a ship. No day to read, so no meter: just the floor, in one line. -->
         <div class="pmfloor" id="barFloor" style="display:none"></div>
         <!-- The pier we will meet her at. Shown only when the port authority has published
@@ -1475,6 +1481,8 @@ html.v4-motion .v4-faq .faq.arrived{
     <div class="tr" id="pDiscRow" style="display:none;color:var(--success-deep);font-weight:700">
       <span id="pDiscLbl"></span><span id="pDisc"></span></div>
     <div class="tr big"><span>Charged today</span><span id="pAll"></span></div>
+    <p id="pMxn" style="margin:4px 0 0;text-align:right;font-size:15px;font-weight:700;
+       color:var(--navy);line-height:1.4"></p>
     <p class="hint" id="pDiscNote"
        style="display:none;margin:8px 0 0;font-size:13.5px;color:var(--mute);line-height:1.45">
       Your discount is applied at checkout — there is no code to type.</p>
@@ -1727,6 +1735,19 @@ const money = n => '$' + n.toLocaleString('en-US') + ' USD';
    to a real agency on 2026-08-06. The price is per vehicle and flat across the island,
    so there is nothing left for a destination to override. */
 const moneyOf = n => money(n);
+/* Priced in dollars, CHARGED in pesos at a fixed 18 (Mike 2026-09-23). Twin of
+   FX_MXN_PER_USD in netlify/functions/create-checkout.js — that one sets what Stripe
+   charges, this one only says it. Change one, change both. */
+const FX_MXN_PER_USD = 18;
+const mxnOf = usd => 'MX$' + Math.round(usd * FX_MXN_PER_USD).toLocaleString('en-US');
+function paintMxn(usd){
+  const el = $('barMxn');
+  if (!usd){ el.style.display = 'none'; return; }
+  el.innerHTML = 'Charged in Mexican pesos: <b>' + mxnOf(usd) + '</b> (US$'
+    + usd.toLocaleString('en-US') + ' × ' + FX_MXN_PER_USD + '). Your bank converts.';
+  el.style.display = 'block';
+}
+let PAY_USD = 0;   // what paintPay() last said she is charged, for payNow() to restore
 const vehFor = p => VEH.find(v => p <= v.max) || VEH[VEH.length-1];
 const priceOf = () => vehFor(S.pax).price;
 function admTotal(){ return S.adm ? DEST[S.dest].admAdult * S.pax : 0; }
@@ -2565,6 +2586,7 @@ function paintMeter(){
   // failed fetch or a half-answered bar can only ever leave today's price card standing.
   $('barMeter').style.display = 'none'; $('barFloor').style.display = 'none';
   $('barPrice').style.display = ''; RATE = null;
+  paintMxn(hotel ? 0 : vehFor(S.pax).price);    // the list price, until a meter replaces it
   if (!iso_) return;
   // A ship, or an address she typed. Anything in between is not an answer yet.
   if (!hotel && (!barPierSide().isShip() || !barPierSide().ship())) return;
@@ -2621,6 +2643,7 @@ function fillMeter(d, iso_){
   $('pmOne').textContent = `${pct}% off your ${v.name} — round trip, whole vehicle, ${v.sub}.`;
   $('barMeter').style.display = 'block';
   $('barPrice').style.display = 'none';
+  paintMxn(cut);
   RATE = {percent: pct, cut: cut, list: v.price, ships: ships, basis: d.basis, date: iso_};
 }
 
@@ -2879,8 +2902,10 @@ function paintPay(){
       + RATE.percent + '%)';
     $('pDisc').textContent = '−' + moneyOf(disc);
   }
-  $('pAll').textContent = moneyOf(grand() - disc);
-  $('payBtnAmt').textContent = moneyOf(grand() - disc);
+  PAY_USD = grand() - disc;
+  $('pAll').textContent = moneyOf(PAY_USD);
+  $('pMxn').textContent = '= ' + mxnOf(PAY_USD) + ' charged in pesos at ' + FX_MXN_PER_USD + ' MXN per USD';
+  $('payBtnAmt').textContent = mxnOf(PAY_USD);
   // "Where are you going?" only makes sense for the destination that doesn't name itself.
   $('dropoffBlock').style.display = S.dest === 'somewhere-else' ? 'block' : 'none';
   onTimes();
@@ -3119,7 +3144,7 @@ async function payNow(){
     err.textContent = "We couldn't reach the payment system. Please try again, or message us on WhatsApp.";
     err.style.display = 'block';
   }
-  btn.disabled = false; btn.innerHTML = 'Pay ' + moneyOf(grand()) + ' on Stripe →';
+  btn.disabled = false; btn.innerHTML = 'Pay <span id="payBtnAmt">' + mxnOf(PAY_USD) + '</span> on Stripe →';
 }
 
 /* Coming back from Stripe. Without this the guest lands on the homepage and has
