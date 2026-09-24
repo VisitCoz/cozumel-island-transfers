@@ -29,7 +29,7 @@ const META = {
   ret: '3:00 PM',
   pax: '6',
   vehicle: 'van_1_8',
-  vehicle_name: 'Private van',
+  vehicle_name: 'Minivan',
   ship: 'Carnival Breeze',
   guest: 'Linda Harper',
   email: 'linda.harper@example.com',
@@ -39,10 +39,10 @@ const META = {
 
 const RUNS = [
   { ref: 'CIT-4KP2XQ', pickup: '9:00 AM',  ret: '3:00 PM', destination: 'Mr. Sanchos',
-    pax: 6, vehicle: 'Private van', ship: 'Carnival Breeze',
+    pax: 6, vehicle: 'Minivan', ship: 'Carnival Breeze',
     guest: 'Linda Harper', email: 'linda.harper@example.com' },
   { ref: 'CIT-8ZR1MD', pickup: '9:30 AM',  ret: '2:30 PM', destination: 'Tierra Maya',
-    pax: 2, vehicle: 'Private van', ship: 'Celebrity Equinox',
+    pax: 2, vehicle: 'Minivan', ship: 'Celebrity Equinox',
     guest: 'Robert Kingsley', email: 'r.kingsley@example.com' },
   { ref: 'CIT-QW77TN', pickup: '10:00 AM', ret: '4:00 PM', destination: 'Chankanaab',
     pax: 12, vehicle: 'Large private van', ship: 'MSC Divina',

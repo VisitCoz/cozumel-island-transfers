@@ -52,7 +52,9 @@ exports.handler = async () => {
 
 function parseShips(html) {
   const ships = [];
-  const rowRx = /<tr[^>]*>([\s\S]*?)<\/tr>/g;
+  // Split on opening <tr> tags, not on </tr>: the date-header row has no closing tag, so a
+  // match that ran to the next </tr> swallowed the first ship of every day (found 2026-09-19).
+  const rowRx = /<tr[^>]*>([\s\S]*?)(?=<tr[^>]*>|$)/g;
   let currentDate = null;
   let m;
   while ((m = rowRx.exec(html))) {
@@ -121,3 +123,6 @@ function addDays(d, n) {
   r.setUTCDate(r.getUTCDate() + n);
   return r;
 }
+
+// port-rate.js prices the day off the same parse. Exported here rather than copied there.
+module.exports.parseShips = parseShips;

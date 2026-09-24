@@ -9,7 +9,7 @@ const crypto = require('crypto');
 // Amounts are USD. We charge in USD so the card statement matches the page —
 // never a hard-coded peso rate, which drifts and turns into a surprise charge.
 const VEHICLES = [
-  { slug: 'van_1_6',   name: 'Private van',       maxPax: 6,  usd: 250 },
+  { slug: 'van_1_6',   name: 'Minivan',           maxPax: 6,  usd: 250 },
   { slug: 'van_7_14',  name: 'Large private van', maxPax: 14, usd: 425 },
   { slug: 'van_15_18', name: 'Extra-large van',   maxPax: 18, usd: 549 },
   { slug: 'coach_20',  name: 'Mini coach',        maxPax: 20, usd: 609 },
