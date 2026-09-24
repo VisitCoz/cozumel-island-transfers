@@ -665,7 +665,7 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
 <section class="screen on" id="s-hub">
   <div class="home-hero">
     <!-- LCP image. Never lazy, never through the poster-sized transform. -->
-    <img class="hh-img" src="/.netlify/images?url=/assets/dest-mr-sanchos-hero.jpg&amp;w=1400&amp;fm=webp&amp;q=72" alt="" fetchpriority="high" decoding="async">
+    <img class="hh-img" src="/.netlify/images?url=/assets/dest-mr-sanchos-hero.jpg&amp;w=1400&amp;fm=webp&amp;q=72" alt="Guests relaxing by the pool at Mr. Sanchos Beach Club, Cozumel" fetchpriority="high" decoding="async">
     <div class="hh-text">
       <div class="kick">Cozumel cruise port transportation</div>
       <h1>Pick a place.<br>We'll do the rest.</h1>
@@ -726,8 +726,8 @@ figure.proof figcaption,figure.overview figcaption{font-size:13px;color:var(--mu
       <div class="poster-img rotate">
         <img src="/.netlify/images?url=/assets/photos/tm-1.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="A group of guests with their guide under the carved Tierra Maya sign" loading="lazy" decoding="async">
         <img src="/.netlify/images?url=/assets/photos/tm-2.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="Guests grinding cacao on stone at Tierra Maya" loading="lazy" decoding="async" aria-hidden="true">
-        <img src="/.netlify/images?url=/assets/photos/tm-3.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" loading="lazy" decoding="async" aria-hidden="true">
-        <img src="/.netlify/images?url=/assets/photos/tm-4.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img src="/.netlify/images?url=/assets/photos/tm-3.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="A family group with their Tierra Maya guides under the carved Tierra Maya sign" loading="lazy" decoding="async" aria-hidden="true">
+        <img src="/.netlify/images?url=/assets/photos/tm-4.jpg&amp;w=560&amp;fm=webp&amp;q=72" alt="A guide in a straw hat painting a guest's face at Tierra Maya" loading="lazy" decoding="async" aria-hidden="true">
         <span class="pl">Mayan Preserve</span></div>
       <div class="poster-meta"><h3>Tierra Maya</h3><div class="dur">15 min from the pier</div>
       <div class="go">View &amp; book →</div></div>
@@ -1772,7 +1772,7 @@ fetch('/.netlify/functions/ships-today')
 /* ── 2 · destination ── */
 function openDest(k){
   S.dest = k; const d = DEST[k];
-  $('dHero').src = d.img; $('dName').textContent = d.name; $('dType').textContent = d.type;
+  $('dHero').src = d.img; $('dHero').alt = d.name; $('dName').textContent = d.name; $('dType').textContent = d.type;
   $('dDrive').textContent = d.drive; $('dBlurb').textContent = d.blurb;
   // `dist` is optional — see the note on #dDistPill. Hide the pill rather than blanking
   // the span, or the guest is left looking at a lone 📍 in an empty box.
