@@ -12,6 +12,22 @@
 - [Terms of use](https://cozumeltransfers.org/terms.html) — the authoritative cancellation and liability text
 - [Privacy policy](https://cozumeltransfers.org/privacy.html)
 
+## Ship guides
+
+Where each regular cruise ship docks in Cozumel, from the port authority's records: the terminal she used in the last 12 months ("usually" only when one terminal had at least 70% of at least 3 calls), her calls since January 2024, the walk to our meeting point and her next dates in port.
+
+- [All ship guides](https://cozumeltransfers.org/ships/)
+- [Carnival Breeze](https://cozumeltransfers.org/ships/carnival-breeze/) — usually Puerta Maya (77 of 77 calls in the last 12 months)
+- [Carnival Valor](https://cozumeltransfers.org/ships/carnival-valor/) — usually Puerta Maya (78 of 78 calls in the last 12 months)
+- [Mariner of the Seas](https://cozumeltransfers.org/ships/mariner-of-the-seas/) — usually Punta Langosta (68 of 70 calls in the last 12 months)
+- [Carnival Paradise](https://cozumeltransfers.org/ships/carnival-paradise/) — usually Puerta Maya (62 of 62 calls in the last 12 months)
+- [Enchantment of the Seas](https://cozumeltransfers.org/ships/enchantment-of-the-seas/) — it varies between terminals
+- [Carnival Jubilee](https://cozumeltransfers.org/ships/carnival-jubilee/) — usually Puerta Maya (51 of 51 calls in the last 12 months)
+- [Margaritaville at Sea Islander](https://cozumeltransfers.org/ships/margaritaville-at-sea-islander/) — usually the International Pier (55 of 58 calls in the last 12 months)
+- [MSC Seascape](https://cozumeltransfers.org/ships/msc-seascape/) — usually Punta Langosta (46 of 46 calls in the last 12 months)
+- [Norwegian Escape](https://cozumeltransfers.org/ships/norwegian-escape/) — it varies between terminals
+- [Norwegian Prima](https://cozumeltransfers.org/ships/norwegian-prima/) — usually Punta Langosta (32 of 35 calls in the last 12 months)
+
 ## Company
 
 - **Legal name:** Cozumel Island Transfers, S. de R.L. de C.V.

@@ -1445,6 +1445,7 @@ html.v4-motion .v4-faq .faq.arrived{
     </div>
 
     <div class="ft-g ft-pol">
+      <a href="/ships/">Ship guides</a>
       <a href="/terms.html#cancellation">Cancellation &amp; refunds</a>
       <a href="/terms.html">Terms of use</a>
       <a href="/privacy.html">Privacy policy</a>
@@ -3200,6 +3201,32 @@ async function payNow(){
   (barRev ? $('barFrom') : $('barTo')).value = k;
   barQuote();
   history.replaceState({}, '', location.pathname);   // so a refresh doesn't re-open it
+})();
+
+/* Arriving from a ship guide: /?ship=Carnival%20Breeze&utm_source=ship_guide&…
+   Her ship goes into the bar exactly as if she had typed it and tapped it in the list —
+   the same input event, then the same row pick — so the pier line, the map and the
+   discount all work from it. Only a name that is on SHIPS is used: a query string is not
+   to be trusted. The query string is deliberately NOT cleared: trackSource() reads
+   utm_source from it at every step, and the funnel must keep saying "ship_guide". */
+(function handleShipDeepLink(){
+  const q = new URLSearchParams(location.search);
+  if (q.get('paid') || q.get('cancelled')) return;
+  const want = (q.get('ship') || '').trim().toLowerCase();
+  if (!want) return;
+  let done = false;
+  const fill = () => {
+    if (done || !SHIPS.length) return;
+    done = true;
+    const hit = SHIPS.find(s => s[0].toLowerCase() === want);
+    if (!hit || barPierSide().on()) return;
+    const box = $(barRev ? 'barToS' : 'barFromS'), drop = $(barRev ? 'barToD' : 'barFromD');
+    box.value = hit[0];
+    box.dispatchEvent(new Event('input', { bubbles: true }));
+    const row = [...drop.querySelectorAll('.sr[data-n]')].find(b => b.dataset.n === hit[0]);
+    if (row) row.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+  };
+  if (SHIPS.length) fill(); else BAR_DRAWS.push(fill);
 })();
 
 /* ── confirmed ── */
