@@ -37,13 +37,24 @@ const META = {
   admission_prepaid: 'false',
 };
 
+// The same booking as cozumeltransfers.org files it: the site stamp, pesos at 18, and a
+// note in the optional box. META above stays the .com shape, so the page shows the team
+// email both ways — with the Website and Guest note rows, and without either.
+const META_ORG = {
+  ...META,
+  site: 'cozumeltransfers.org',
+  fx_rate: '18',
+  guest_note: 'My mother walks slowly & uses a cane — could the driver meet us close to the terminal exit?',
+};
+
 const RUNS = [
   { ref: 'CIT-4KP2XQ', pickup: '9:00 AM',  ret: '3:00 PM', destination: 'Mr. Sanchos',
     pax: 6, vehicle: 'Private van', ship: 'Carnival Breeze',
     guest: 'Linda Harper', email: 'linda.harper@example.com' },
   { ref: 'CIT-8ZR1MD', pickup: '9:30 AM',  ret: '2:30 PM', destination: 'Tierra Maya',
     pax: 2, vehicle: 'Private van', ship: 'Celebrity Equinox',
-    guest: 'Robert Kingsley', email: 'r.kingsley@example.com' },
+    guest: 'Robert Kingsley', email: 'r.kingsley@example.com',
+    note: 'Celebrating our anniversary — we may want to stay later if the weather is good.' },
   { ref: 'CIT-QW77TN', pickup: '10:00 AM', ret: '4:00 PM', destination: 'Chankanaab',
     pax: 12, vehicle: 'Large private van', ship: 'MSC Divina',
     guest: 'Patricia Nolan', email: 'p.nolan@example.com' },
@@ -65,6 +76,12 @@ const EMAILS = [
     subject: bookingSubject(META),
     html: bookingEmail(META, 369, 'USD', META.email),
     attachments: [icsAttachment(META)] },
+  { key: 'booking-org',
+    goesTo: 'The team, for a cozumeltransfers.org booking with a guest note',
+    when: 'Same email, same webhook. The .org site stamps which site sold it, and the guest\'s note shows only when she wrote one.',
+    subject: bookingSubject(META_ORG),
+    html: bookingEmail(META_ORG, 6642, 'MXN', META.email),
+    attachments: [icsAttachment(META_ORG)] },
   { key: 'manifest',
     goesTo: 'The team, 9 AM Cozumel time, the day before',
     when: 'Sent by daily-manifest.js. Nothing is sent at all on a day with no bookings.',

@@ -250,6 +250,8 @@ async function bookingsOn(dateIso) {
     guest: pi.metadata.guest || '',
     whatsapp: pi.metadata.whatsapp || '',
     email: pi.metadata.email || pi.receipt_email || '',
+    // cozumeltransfers.org's optional "Anything we should know?" box. Absent everywhere else.
+    note: pi.metadata.guest_note || '',
     amount: (pi.amount || 0) / 100,
     currency: (pi.currency || '').toUpperCase(),
   }));

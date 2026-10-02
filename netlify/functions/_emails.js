@@ -147,6 +147,10 @@ function bookingEmail(m, amount, currency, email) {
         ${row('Email', email)}
         ${row('WhatsApp', m.whatsapp)}
         ${row('Ship', m.ship)}
+        ${/* The header already carries both times, unlabelled ("9:00 AM – 3:00 PM"). Mike
+              wanted them named in the table too, so nobody has to work out which is which. */''}
+        ${row('Pickup', m.pickup)}
+        ${row('Return', m.ret)}
         ${/* row() renders nothing when the value is empty, so these two only appear when
               they exist: the drop-off address for a "somewhere else" booking, and the
               pickup address for a guest who is not on a cruise. Before 2026-08-07 both
@@ -155,9 +159,17 @@ function bookingEmail(m, amount, currency, email) {
         ${row('Going to', m.dropoff)}
         ${row('Pick up at', m.pickup_addr)}
         ${row('Vehicle', m.vehicle_name || m.vehicle)}
+        ${/* The optional "Anything we should know?" box on cozumeltransfers.org. Free text the
+              guest typed, so it goes through row()'s esc() like everything else here, and
+              like every other optional row it is simply absent when she left it empty. */''}
+        ${row('Guest note', m.guest_note)}
         ${row('Paid', pesoPaid(m, amount, currency) || `$${amount.toFixed(2)} ${currency}`)}${discountRow}
         ${row('Admission prepaid', m.admission_prepaid === 'true' ? 'Yes' : 'No')}
         ${row('Reference', m.booking_ref)}
+        ${/* Which site sold it. cozumeltransfers.org stamps `site` on every session;
+              cozumelislandtransfers.com stamps nothing, so on a .com booking this row is
+              absent rather than guessed. */''}
+        ${row('Website', m.site)}
       </table>
       ${wa ? `<a href="https://wa.me/${wa}"
         style="display:inline-block;margin-top:14px;background:#1F7A3F;color:#fff;text-decoration:none;
@@ -172,13 +184,16 @@ const bookingSubject = (m) =>
 
 // ---------- 2. The evening before → the team ----------
 function manifestEmail(date, runs) {
+  // The guest note sits on her own line, so whoever plans the day reads it beside her run.
+  // No note and the row is exactly what it always was.
   const rows = runs.map(r => `
     <tr style="border-top:1px solid #E5E5E7">
       <td style="padding:10px 8px 10px 0;font-weight:800;color:#0F2C44;white-space:nowrap">${esc(r.pickup)}</td>
       <td style="padding:10px 8px">
         <div style="font-weight:700;color:#0F2C44">${esc(r.destination)}</div>
         <div style="font-size:12.5px;color:#6E6E73">${esc(r.guest)} · ${r.pax} pax · ${esc(r.vehicle)}</div>
-        <div style="font-size:12.5px;color:#6E6E73">${esc(r.ship)}</div>
+        <div style="font-size:12.5px;color:#6E6E73">${esc(r.ship)}</div>${r.note ? `
+        <div style="font-size:12.5px;color:#0F2C44">Guest note: ${esc(r.note)}</div>` : ''}
       </td>
       <td style="padding:10px 0;text-align:right;white-space:nowrap">
         <div style="font-size:12.5px;color:#6E6E73">back ${esc(r.ret)}</div>
