@@ -161,8 +161,9 @@ function bookingEmail(m, amount, currency, email) {
         ${row('Vehicle', m.vehicle_name || m.vehicle)}
         ${/* The optional "Anything we should know?" box on cozumeltransfers.org. Free text the
               guest typed, so it goes through row()'s esc() like everything else here, and
-              like every other optional row it is simply absent when she left it empty. */''}
-        ${row('Guest note', m.guest_note)}
+              like every other optional row it is simply absent when she left it empty —
+              or typed only spaces, hence the trim. */''}
+        ${row('Guest note', String(m.guest_note || '').trim())}
         ${row('Paid', pesoPaid(m, amount, currency) || `$${amount.toFixed(2)} ${currency}`)}${discountRow}
         ${row('Admission prepaid', m.admission_prepaid === 'true' ? 'Yes' : 'No')}
         ${row('Reference', m.booking_ref)}

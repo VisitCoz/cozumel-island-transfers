@@ -251,7 +251,8 @@ async function bookingsOn(dateIso) {
     whatsapp: pi.metadata.whatsapp || '',
     email: pi.metadata.email || pi.receipt_email || '',
     // cozumeltransfers.org's optional "Anything we should know?" box. Absent everywhere else.
-    note: pi.metadata.guest_note || '',
+    // Trimmed, so a note of nothing but spaces leaves no bare "Guest note:" line.
+    note: String(pi.metadata.guest_note || '').trim(),
     amount: (pi.amount || 0) / 100,
     currency: (pi.currency || '').toUpperCase(),
   }));
