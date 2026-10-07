@@ -15,6 +15,13 @@ const { json, bookingsOn, tomorrowInCozumel, minutesOf, sendEmail, teamEmails } 
 const { manifestEmail, manifestSubject, guestEmail, guestSubject } = require('./_emails');
 
 exports.handler = async () => {
+  // Both sites deploy this file: .org is the test site, .com the live one, and the two branches
+  // are kept identical so a change moves .org → .com in one merge (Mike, 2026-10-07). Only the
+  // live site may send — a second run on .org would email every guest and the team twice.
+  if (/cozumeltransfers\.org/.test(process.env.SITE_URL || '')) {
+    console.log('manifest: skipped on the test site', process.env.SITE_URL);
+    return json(200, { skipped: 'test site' });
+  }
   const date = process.env.MANIFEST_DATE_OVERRIDE || tomorrowInCozumel();
 
   let runs;

@@ -3252,8 +3252,14 @@ function paintDone(){
      see the funnel-beacon note in the page script for why that matters more here than the
      data GA would have added. It reports visits, countries, referrers and web vitals. It
      cannot see the booking steps; that is what /.netlify/functions/funnel is for. -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-        data-cf-beacon='{"token": "b6448e98ea2b4435bcb689081b3b91da"}'></script>
+<script>/* One file, two sites (.org = test, .com = live): each hostname reports to its own
+   Cloudflare Web Analytics site. Previews and any other host report nowhere. */
+(function(){var t={'cozumelislandtransfers.com':'b6448e98ea2b4435bcb689081b3b91da',
+  'cozumeltransfers.org':'a5c9bee4041748b3bab9a93ba829e9b8'}[location.hostname.replace(/^www\./,'')];
+  if(!t)return;var s=document.createElement('script');s.defer=true;
+  s.src='https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon',JSON.stringify({token:t}));
+  (document.body||document.head).appendChild(s);})();</script>
 
 <script>
 /* ══ ADDED ══ A destination card is not a link to a page — it is a way of answering

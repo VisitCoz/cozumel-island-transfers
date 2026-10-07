@@ -393,7 +393,7 @@ def bar(label, cnt, total):
 
 
 def book_url(x):
-    return f"{ORG}/?ship={quote(x['name'])}&utm_source=ship_guide&utm_content={x['slug']}"
+    return f"/?ship={quote(x['name'])}&utm_source=ship_guide&utm_content={x['slug']}"
 
 
 def ship_page(x, ctx):

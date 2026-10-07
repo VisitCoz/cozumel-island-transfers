@@ -18,6 +18,18 @@ If you find yourself in the Drive path, stop and `cd ~/code/cozumel-island-trans
 Marketing site for Cozumel Island Transfers. Static HTML deployed to Netlify (`cozu.netlify.app`),
 auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
 
+## 🧪 Two sites, one code — .org tests, .com is live (Mike, 2026-10-07)
+
+- `cozumeltransfers` branch → **cozumeltransfers.org = the TEST site.** Every change lands here first.
+- `main` branch → **cozumelislandtransfers.com = the LIVE site.** It only gets changes by promotion.
+- **Promote = merge `cozumeltransfers` into `main`.** The two branches hold the SAME files, so that
+  merge is the whole job. Never make a file differ between them — anything that must behave
+  differently per site reads `SITE_URL` (or `location.hostname` in the page) instead.
+- Every canonical, sitemap and llms.txt URL says .com on BOTH sites, so the test site never
+  competes with the live one on Google.
+- `daily-manifest.js` and `deploy-succeeded.js` (IndexNow) do nothing when `SITE_URL` is .org.
+  `stripe-webhook.js` is inert on .org: Stripe only calls .com's, and .org has no webhook secret.
+
 ## Where the code actually lives
 
 - Repo root: `~/code/cozumel-island-transfers` · remote `VisitCoz/cozumel-island-transfers`
