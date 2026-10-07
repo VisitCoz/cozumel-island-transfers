@@ -44,40 +44,65 @@
 
 var SHEET = 'Funnel';
 
+/**
+ * ⚠️ APPEND ONLY. Every extractor and every row already in the sheet reads by POSITION,
+ * so inserting or reordering a column silently re-labels months of history. The last
+ * three arrived on 2026-09-21 — Mike's two questions, "who are my guests" and "where are
+ * they trying to go", which the first eight columns could not answer between them.
+ */
 var HEADERS = [
   'Logged at (Cozumel)', 'Session', 'Step', 'Step no', 'Destination', 'Pax',
-  'Source', 'Device'
+  'Source', 'Device', 'Ship', 'Line', 'Place text', 'Rate %'
 ];
 
 /**
  * The order matters — it IS the funnel. Adding a step in the middle renumbers the ones
  * after it, which is fine going forward but makes old rows and new rows incomparable.
- * Append new steps at the end unless you genuinely want to break the history.
+ * Append new steps at the end unless you genuinely want to break the history — which is
+ * exactly what the 2026-09-21 rewrite below did, deliberately and once, because the flow
+ * those old numbers described no longer exists to be compared with.
  */
 var STEPS = [
+  /* ── the live funnel, in order. Identical to TRACK_STEPS in index.html and to STEPS in
+        netlify/functions/_funnel.js. Rewritten 2026-09-21: the entries that used to sit
+        here were the six-screen wizard's, and record_() below DROPS any step not in this
+        array — so until this list was updated, every step of the new one-page flow was
+        being thrown away on arrival. ── */
   'land',           // the page loaded. Everything else is a fraction of this.
+  'ship',           // picked a ship, or said she is not on a cruise
+  'place',          // committed a destination — list, Google suggestion, or typed
+  'pax',            // moved the head count, or asked for a price with it as it stood
+  'price_seen',     // the price card rendered — a number, or "we'll confirm on WhatsApp"
+  'form_open',      // "Book this transfer" opened the one booking screen
+  'pay',            // pressed Pay on Stripe and create-checkout answered with a URL
+  'done',           // came back on the success URL
+  /* ── the wizard's steps, kept rather than removed. No page sends them any more, but a
+        tab left open on the old build still deserves to be written down instead of
+        dropped. ⚠️ They have MOVED to the end, so their 'Step no' changes — hub was 2 and
+        is now 9. Rows already in the sheet keep the number they were written with, so old
+        and new wizard rows are not comparable by number. Their NAMES are untouched, which
+        is what every report actually reads; nothing else in this file uses 'Step no'. ── */
   'hub',            // opened the booking wizard
   'dest',           // chose a destination
-  'pax',            // set the head count — this is where she first sees a price
-  'ship',           // named her ship
   'day',            // set the date and times
   'who',            // typed her details
-  'pay',            // reached the review-and-pay screen
-  'checkout_open',  // Stripe checkout actually opened
-  'done'            // came back on the success URL
+  'checkout_open'   // the old name for what is now 'pay'
 ];
 
 var STEP_LABEL = {
   land:          'Landed on the site',
-  hub:           'Opened the booking form',
-  dest:          'Chose a destination',
-  pax:           'Set the group size (saw the price)',
-  ship:          'Named their ship',
-  day:           'Picked the date and times',
-  who:           'Entered their details',
-  pay:           'Reached the payment screen',
-  checkout_open: 'Opened Stripe checkout',
-  done:          'Booked'
+  ship:          'Named their ship (or said they are not on a cruise)',
+  place:         'Chose where they are going',
+  pax:           'Set the group size',
+  price_seen:    'Saw the price',
+  form_open:     'Opened the booking form',
+  pay:           'Pressed Pay on Stripe',
+  done:          'Booked',
+  hub:           'Opened the booking form (old wizard)',
+  dest:          'Chose a destination (old wizard)',
+  day:           'Picked the date and times (old wizard)',
+  who:           'Entered their details (old wizard)',
+  checkout_open: 'Opened Stripe checkout (old wizard)'
 };
 
 function stepNo_(step) {
@@ -100,6 +125,7 @@ function monthKey_(d) {
  */
 function sheetFor_(month) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  pinTz_(ss);
   var name = SHEET + ' ' + month;
   var sh = ss.getSheetByName(name);
   if (!sh) {
@@ -107,8 +133,24 @@ function sheetFor_(month) {
     sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
+  } else if (sh.getLastColumn() < HEADERS.length) {
+    /* A tab written before a column was added. Widen the HEADER only, to the right —
+       rows already in it keep exactly the columns they were written with, and the new
+       cells simply stay empty for them. Idempotent: it runs once and then never again. */
+    var have = sh.getLastColumn();
+    sh.getRange(1, have + 1, 1, HEADERS.length - have)
+      .setValues([HEADERS.slice(have)]).setFontWeight('bold');
   }
   return sh;
+}
+
+/**
+ * The SHEET's own timezone decides how a 'yyyy-MM-dd HH:mm' string is parsed on write and
+ * read back on list. A sheet created by clasp defaults to UTC, which shifted every stamp
+ * by five hours (found 2026-09-21). Pin it once; existing rows re-read correctly after.
+ */
+function pinTz_(ss) {
+  if (ss.getSpreadsheetTimeZone() !== 'America/Cancun') ss.setSpreadsheetTimeZone('America/Cancun');
 }
 
 function ok_(obj) {
@@ -150,7 +192,11 @@ function record_(ev) {
       ev.dest || '',
       ev.pax || '',
       ev.source || 'direct',
-      ev.device || ''
+      ev.device || '',
+      ev.ship || '',
+      ev.line || '',
+      ev.place_text || '',
+      ev.rate || ''
     ]);
   } finally { lock.releaseLock(); }
   return ok_({ ok: true });
@@ -158,6 +204,7 @@ function record_(ev) {
 
 function list_(month) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  pinTz_(ss);
   var m = /^\d{4}-\d{2}$/.test(month || '') ? month : monthKey_();
   var sh = ss.getSheetByName(SHEET + ' ' + m);
 
@@ -182,7 +229,12 @@ function list_(month) {
       dest: String(r[4] || ''),
       pax: Number(r[5]) || null,
       source: String(r[6] || ''),
-      device: String(r[7] || '')
+      device: String(r[7] || ''),
+      // Empty on every row written before 2026-09-21, which is correct: we did not ask.
+      ship: String(r[8] || ''),
+      line: String(r[9] || ''),
+      place_text: String(r[10] || ''),
+      rate: String(r[11] || '')
     });
   }
   return ok_({ ok: true, month: m, months: months, records: records, labels: STEP_LABEL, steps: STEPS });

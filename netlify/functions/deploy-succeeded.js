@@ -11,6 +11,12 @@ const KEY = '00694b44d04dd35c136a40dd837fe4cd';
 exports.handler = async (event) => {
   try {
     const deploy = (JSON.parse(event.body || '{}').payload) || {};
+    // Both sites deploy this file. Only .com is pinged: .org is the test site and every page on
+    // it names .com as the original, so it has nothing of its own to index.
+    if (/cozumeltransfers\.org/.test(process.env.SITE_URL || '')) {
+      console.log('indexnow: skipped on the test site');
+      return { statusCode: 200, body: 'skipped' };
+    }
     // Only production deploys change what the public sees. Previews and branch deploys don't.
     if (deploy.context && deploy.context !== 'production') {
       console.log('indexnow: skipped, context', deploy.context);

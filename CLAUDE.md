@@ -18,6 +18,18 @@ If you find yourself in the Drive path, stop and `cd ~/code/cozumel-island-trans
 Marketing site for Cozumel Island Transfers. Static HTML deployed to Netlify (`cozu.netlify.app`),
 auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
 
+## 🧪 Two sites, one code — .org tests, .com is live (Mike, 2026-10-07)
+
+- `cozumeltransfers` branch → **cozumeltransfers.org = the TEST site.** Every change lands here first.
+- `main` branch → **cozumelislandtransfers.com = the LIVE site.** It only gets changes by promotion.
+- **Promote = merge `cozumeltransfers` into `main`.** The two branches hold the SAME files, so that
+  merge is the whole job. Never make a file differ between them — anything that must behave
+  differently per site reads `SITE_URL` (or `location.hostname` in the page) instead.
+- Every canonical, sitemap and llms.txt URL says .com on BOTH sites, so the test site never
+  competes with the live one on Google.
+- `daily-manifest.js` and `deploy-succeeded.js` (IndexNow) do nothing when `SITE_URL` is .org.
+  `stripe-webhook.js` is inert on .org: Stripe only calls .com's, and .org has no webhook secret.
+
 ## Where the code actually lives
 
 - Repo root: `~/code/cozumel-island-transfers` · remote `VisitCoz/cozumel-island-transfers`
@@ -56,8 +68,11 @@ auto-deploy from `main` on GitHub (`VisitCoz/cozumel-island-transfers`).
    `BOOKINGS_TOKEN` are set. Don't reintroduce a spreadsheet.
 2. **Stripe cannot live in Apps Script.** Apps Script can't read request headers, so it can never
    verify a webhook signature. That is the entire reason for Netlify functions.
-3. **Guests are charged USD.** Never a hard-coded peso rate — the dead `booking-script-CIT.js` used
-   18.5 when the real rate was 17.37, a ~$24 surprise overcharge. The statement must match the page.
+3. **Priced in USD, charged in MXN at a fixed 18** — Mike's decision 2026-09-23 (on .org first,
+   then .com), reversing the old USD-only rule: Mexican cards refuse USD charges and
+   Stripe takes ~2% converting USD on payout. `FX_MXN_PER_USD` lives in `create-checkout.js` and
+   is twinned in `index.html`; the card and the pay screen state the peso amount before she pays,
+   so the statement still matches the page. Change the rate only on Mike's word, in both places.
 
 ✅ **`TEST_PRICE_USD` and `TEST_CURRENCY` were DELETED 2026-08-06** (`486617f`) and verified absent
 from the Netlify environment again on 2026-08-11. The override code still exists in

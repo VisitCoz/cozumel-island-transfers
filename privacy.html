@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Privacy Policy for Cozumel Island Transfers — what we collect, how we use it, your rights.">
+<meta name="description" content="Privacy Policy for Cozumel Transfers — what we collect, how we use it, your rights.">
 <link rel="canonical" href="https://cozumelislandtransfers.com/privacy.html">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
-<meta property="og:site_name" content="Cozumel Island Transfers">
+<meta property="og:site_name" content="Cozumel Transfers">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://cozumelislandtransfers.com/privacy.html">
-<meta property="og:title" content="Privacy Policy — Cozumel Island Transfers">
-<meta property="og:description" content="Privacy Policy for Cozumel Island Transfers — what we collect, how we use it, your rights.">
+<meta property="og:title" content="Privacy Policy — Cozumel Transfers">
+<meta property="og:description" content="Privacy Policy for Cozumel Transfers — what we collect, how we use it, your rights.">
 <meta property="og:image" content="https://cozumelislandtransfers.com/assets/og-card.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Privacy Policy — Cozumel Island Transfers">
-<meta name="twitter:description" content="Privacy Policy for Cozumel Island Transfers — what we collect, how we use it, your rights.">
+<meta name="twitter:title" content="Privacy Policy — Cozumel Transfers">
+<meta name="twitter:description" content="Privacy Policy for Cozumel Transfers — what we collect, how we use it, your rights.">
 <meta name="twitter:image" content="https://cozumelislandtransfers.com/assets/og-card.jpg">
-<title>Privacy Policy — Cozumel Island Transfers</title>
+<title>Privacy Policy — Cozumel Transfers</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -174,7 +174,13 @@
      see the funnel-beacon note in the page script for why that matters more here than the
      data GA would have added. It reports visits, countries, referrers and web vitals. It
      cannot see the booking steps; that is what /.netlify/functions/funnel is for. -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-        data-cf-beacon='{"token": "b6448e98ea2b4435bcb689081b3b91da"}'></script>
+<script>/* One file, two sites (.org = test, .com = live): each hostname reports to its own
+   Cloudflare Web Analytics site. Previews and any other host report nowhere. */
+(function(){var t={'cozumelislandtransfers.com':'b6448e98ea2b4435bcb689081b3b91da',
+  'cozumeltransfers.org':'a5c9bee4041748b3bab9a93ba829e9b8'}[location.hostname.replace(/^www\./,'')];
+  if(!t)return;var s=document.createElement('script');s.defer=true;
+  s.src='https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon',JSON.stringify({token:t}));
+  (document.body||document.head).appendChild(s);})();</script>
 </body>
 </html>
