@@ -44,7 +44,7 @@ function monthKey(d = new Date()) {
   return new Date(d.getTime() - 5 * 3600 * 1000).toISOString().slice(0, 7);
 }
 
-async function call(action, payload, timeoutMs = 4000) {
+async function call(action, payload, timeoutMs = 9000) {
   const url = REFUSALS_URL(), token = REFUSALS_TOKEN();
   if (!url || !token) throw new Error('REFUSALS_URL / REFUSALS_TOKEN not set');
   // Apps Script can be slow to wake. A guest is already being refused, so never make her

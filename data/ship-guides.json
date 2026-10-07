@@ -1,0 +1,656 @@
+{
+ "builtAt": "2026-09-25",
+ "window": {
+  "since": "2025-09-25",
+  "countedThrough": "2026-09-24"
+ },
+ "rules": {
+  "listedIf": "at least 10 calls in the last 12 months",
+  "usualIf": "one terminal has at least 70% of at least 3 berthed calls in the last 12 months"
+ },
+ "published": [
+  "carnival-breeze",
+  "carnival-valor",
+  "mariner-of-the-seas",
+  "carnival-paradise",
+  "enchantment-of-the-seas",
+  "carnival-jubilee",
+  "margaritaville-at-sea-islander",
+  "msc-seascape",
+  "norwegian-escape",
+  "norwegian-prima"
+ ],
+ "candidates": [
+  "radiance-of-the-seas",
+  "carnival-liberty",
+  "grandeur-of-the-seas",
+  "regal-princess",
+  "disney-treasure",
+  "msc-world-america",
+  "harmony-of-the-seas",
+  "icon-of-the-seas",
+  "rhapsody-of-the-seas",
+  "carnival-dream",
+  "star-of-the-seas",
+  "symphony-of-the-seas",
+  "carnival-legend",
+  "msc-seashore",
+  "carnival-miracle",
+  "disney-destiny",
+  "disney-magic",
+  "freedom-of-the-seas",
+  "celebrity-constellation",
+  "norwegian-viva",
+  "allure-of-the-seas",
+  "celebrity-beyond",
+  "celebrity-silhouette",
+  "norwegian-dawn",
+  "norwegian-encore",
+  "carnival-celebration",
+  "celebrity-xcel",
+  "norwegian-jewel",
+  "celebrity-eclipse",
+  "explorer-of-the-seas",
+  "mardi-gras",
+  "scarlet-lady",
+  "independence-of-the-seas",
+  "mein-schiff-1",
+  "viking-mars"
+ ],
+ "ships": [
+  {
+   "slug": "carnival-breeze",
+   "name": "Carnival Breeze",
+   "line": "Carnival Cruise Line",
+   "calls12": 77,
+   "berthed12": 77,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Puerta Maya": 77
+   },
+   "usualPier": "Puerta Maya",
+   "usualHits": 77,
+   "usualShare": 1.0,
+   "calls": 214,
+   "berthed": 214,
+   "anchored": 0,
+   "byTerminal": {
+    "Puerta Maya": 213,
+    "Punta Langosta": 1
+   },
+   "next": [
+    {
+     "date": "2026-09-28",
+     "inWindow": true,
+     "terminal": "Puerta Maya",
+     "percent": 40
+    },
+    {
+     "date": "2026-10-03",
+     "inWindow": true,
+     "terminal": "Puerta Maya",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "carnival-valor",
+   "name": "Carnival Valor",
+   "line": "Carnival Cruise Line",
+   "calls12": 78,
+   "berthed12": 78,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Puerta Maya": 78
+   },
+   "usualPier": "Puerta Maya",
+   "usualHits": 78,
+   "usualShare": 1.0,
+   "calls": 197,
+   "berthed": 197,
+   "anchored": 0,
+   "byTerminal": {
+    "Puerta Maya": 197
+   },
+   "next": [
+    {
+     "date": "2026-09-26",
+     "inWindow": true,
+     "terminal": "Puerta Maya",
+     "percent": 40
+    },
+    {
+     "date": "2026-09-30",
+     "inWindow": true,
+     "terminal": "Puerta Maya",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "mariner-of-the-seas",
+   "name": "Mariner of the Seas",
+   "line": "Royal Caribbean",
+   "calls12": 70,
+   "berthed12": 70,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Punta Langosta": 68,
+    "Puerta Maya": 1,
+    "International Pier": 1
+   },
+   "usualPier": "Punta Langosta",
+   "usualHits": 68,
+   "usualShare": 0.97,
+   "calls": 194,
+   "berthed": 194,
+   "anchored": 0,
+   "byTerminal": {
+    "Punta Langosta": 104,
+    "International Pier": 89,
+    "Puerta Maya": 1
+   },
+   "next": [
+    {
+     "date": "2026-09-26",
+     "inWindow": true,
+     "terminal": "Punta Langosta",
+     "percent": 40
+    },
+    {
+     "date": "2026-10-01",
+     "inWindow": true,
+     "terminal": "Punta Langosta",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "carnival-paradise",
+   "name": "Carnival Paradise",
+   "line": "Carnival Cruise Line",
+   "calls12": 62,
+   "berthed12": 62,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Puerta Maya": 62
+   },
+   "usualPier": "Puerta Maya",
+   "usualHits": 62,
+   "usualShare": 1.0,
+   "calls": 166,
+   "berthed": 166,
+   "anchored": 0,
+   "byTerminal": {
+    "Puerta Maya": 164,
+    "International Pier": 1,
+    "Punta Langosta": 1
+   },
+   "next": [
+    {
+     "date": "2026-09-26",
+     "inWindow": true,
+     "terminal": "Puerta Maya",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "enchantment-of-the-seas",
+   "name": "Enchantment of the Seas",
+   "line": "Royal Caribbean",
+   "calls12": 65,
+   "berthed12": 65,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Punta Langosta": 42,
+    "International Pier": 22,
+    "Puerta Maya": 1
+   },
+   "usualPier": null,
+   "usualHits": null,
+   "usualShare": null,
+   "calls": 169,
+   "berthed": 169,
+   "anchored": 0,
+   "byTerminal": {
+    "International Pier": 88,
+    "Punta Langosta": 78,
+    "Puerta Maya": 3
+   },
+   "next": [
+    {
+     "date": "2026-10-01",
+     "inWindow": true,
+     "terminal": "International Pier",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "carnival-jubilee",
+   "name": "Carnival Jubilee",
+   "line": "Carnival Cruise Line",
+   "calls12": 51,
+   "berthed12": 51,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Puerta Maya": 51
+   },
+   "usualPier": "Puerta Maya",
+   "usualHits": 51,
+   "usualShare": 1.0,
+   "calls": 143,
+   "berthed": 143,
+   "anchored": 0,
+   "byTerminal": {
+    "Puerta Maya": 143
+   },
+   "next": [
+    {
+     "date": "2026-09-29",
+     "inWindow": true,
+     "terminal": "Puerta Maya",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "margaritaville-at-sea-islander",
+   "name": "Margaritaville at Sea Islander",
+   "line": "Margaritaville at Sea",
+   "calls12": 58,
+   "berthed12": 58,
+   "anchored12": 0,
+   "byTerminal12": {
+    "International Pier": 55,
+    "Punta Langosta": 2,
+    "Puerta Maya": 1
+   },
+   "usualPier": "International Pier",
+   "usualHits": 55,
+   "usualShare": 0.95,
+   "calls": 140,
+   "berthed": 140,
+   "anchored": 0,
+   "byTerminal": {
+    "International Pier": 131,
+    "Puerta Maya": 6,
+    "Punta Langosta": 3
+   },
+   "next": [
+    {
+     "date": "2026-10-01",
+     "inWindow": true,
+     "terminal": "International Pier",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "msc-seascape",
+   "name": "MSC Seascape",
+   "line": "MSC Cruises",
+   "calls12": 46,
+   "berthed12": 46,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Punta Langosta": 46
+   },
+   "usualPier": "Punta Langosta",
+   "usualHits": 46,
+   "usualShare": 1.0,
+   "calls": 78,
+   "berthed": 78,
+   "anchored": 0,
+   "byTerminal": {
+    "Punta Langosta": 73,
+    "Puerta Maya": 3,
+    "International Pier": 2
+   },
+   "next": [
+    {
+     "date": "2026-09-25",
+     "inWindow": true,
+     "terminal": "Punta Langosta",
+     "percent": 40
+    },
+    {
+     "date": "2026-10-02",
+     "inWindow": true,
+     "terminal": "Punta Langosta",
+     "percent": 40
+    }
+   ]
+  },
+  {
+   "slug": "norwegian-escape",
+   "name": "Norwegian Escape",
+   "line": "Norwegian Cruise Line",
+   "calls12": 41,
+   "berthed12": 41,
+   "anchored12": 0,
+   "byTerminal12": {
+    "International Pier": 28,
+    "Puerta Maya": 10,
+    "Punta Langosta": 3
+   },
+   "usualPier": null,
+   "usualHits": null,
+   "usualShare": null,
+   "calls": 65,
+   "berthed": 65,
+   "anchored": 0,
+   "byTerminal": {
+    "International Pier": 39,
+    "Puerta Maya": 16,
+    "Punta Langosta": 10
+   },
+   "next": []
+  },
+  {
+   "slug": "norwegian-prima",
+   "name": "Norwegian Prima",
+   "line": "Norwegian Cruise Line",
+   "calls12": 35,
+   "berthed12": 35,
+   "anchored12": 0,
+   "byTerminal12": {
+    "Punta Langosta": 32,
+    "Puerta Maya": 2,
+    "International Pier": 1
+   },
+   "usualPier": "Punta Langosta",
+   "usualHits": 32,
+   "usualShare": 0.91,
+   "calls": 58,
+   "berthed": 58,
+   "anchored": 0,
+   "byTerminal": {
+    "Punta Langosta": 53,
+    "Puerta Maya": 3,
+    "International Pier": 2
+   },
+   "next": [
+    {
+     "date": "2026-10-02",
+     "inWindow": true,
+     "terminal": "Punta Langosta",
+     "percent": 40
+    }
+   ]
+  }
+ ],
+ "listed": [
+  {
+   "slug": "carnival-valor",
+   "name": "Carnival Valor",
+   "calls12": 78,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "carnival-breeze",
+   "name": "Carnival Breeze",
+   "calls12": 77,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "mariner-of-the-seas",
+   "name": "Mariner of the Seas",
+   "calls12": 70,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "enchantment-of-the-seas",
+   "name": "Enchantment of the Seas",
+   "calls12": 65,
+   "usualPier": null
+  },
+  {
+   "slug": "carnival-paradise",
+   "name": "Carnival Paradise",
+   "calls12": 62,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "margaritaville-at-sea-islander",
+   "name": "Margaritaville at Sea Islander",
+   "calls12": 58,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "carnival-jubilee",
+   "name": "Carnival Jubilee",
+   "calls12": 51,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "msc-seascape",
+   "name": "MSC Seascape",
+   "calls12": 46,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "norwegian-escape",
+   "name": "Norwegian Escape",
+   "calls12": 41,
+   "usualPier": null
+  },
+  {
+   "slug": "norwegian-prima",
+   "name": "Norwegian Prima",
+   "calls12": 35,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "radiance-of-the-seas",
+   "name": "Radiance of the Seas",
+   "calls12": 34,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "carnival-liberty",
+   "name": "Carnival Liberty",
+   "calls12": 33,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "grandeur-of-the-seas",
+   "name": "Grandeur of the Seas",
+   "calls12": 33,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "regal-princess",
+   "name": "Regal Princess",
+   "calls12": 32,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "disney-treasure",
+   "name": "Disney Treasure",
+   "calls12": 27,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "msc-world-america",
+   "name": "MSC World America",
+   "calls12": 27,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "harmony-of-the-seas",
+   "name": "Harmony of the Seas",
+   "calls12": 26,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "icon-of-the-seas",
+   "name": "Icon of the Seas",
+   "calls12": 24,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "rhapsody-of-the-seas",
+   "name": "Rhapsody of the Seas",
+   "calls12": 23,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "carnival-dream",
+   "name": "Carnival Dream",
+   "calls12": 22,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "star-of-the-seas",
+   "name": "Star of the Seas",
+   "calls12": 22,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "symphony-of-the-seas",
+   "name": "Symphony of the Seas",
+   "calls12": 22,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "carnival-legend",
+   "name": "Carnival Legend",
+   "calls12": 21,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "msc-seashore",
+   "name": "MSC Seashore",
+   "calls12": 19,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "carnival-miracle",
+   "name": "Carnival Miracle",
+   "calls12": 17,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "disney-destiny",
+   "name": "Disney Destiny",
+   "calls12": 16,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "disney-magic",
+   "name": "Disney Magic",
+   "calls12": 16,
+   "usualPier": null
+  },
+  {
+   "slug": "freedom-of-the-seas",
+   "name": "Freedom of the Seas",
+   "calls12": 16,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "celebrity-constellation",
+   "name": "Celebrity Constellation",
+   "calls12": 15,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "norwegian-viva",
+   "name": "Norwegian Viva",
+   "calls12": 15,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "allure-of-the-seas",
+   "name": "Allure of the Seas",
+   "calls12": 14,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "celebrity-beyond",
+   "name": "Celebrity Beyond",
+   "calls12": 14,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "celebrity-silhouette",
+   "name": "Celebrity Silhouette",
+   "calls12": 14,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "norwegian-dawn",
+   "name": "Norwegian Dawn",
+   "calls12": 14,
+   "usualPier": null
+  },
+  {
+   "slug": "norwegian-encore",
+   "name": "Norwegian Encore",
+   "calls12": 14,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "carnival-celebration",
+   "name": "Carnival Celebration",
+   "calls12": 13,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "celebrity-xcel",
+   "name": "Celebrity Xcel",
+   "calls12": 13,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "norwegian-jewel",
+   "name": "Norwegian Jewel",
+   "calls12": 13,
+   "usualPier": null
+  },
+  {
+   "slug": "celebrity-eclipse",
+   "name": "Celebrity Eclipse",
+   "calls12": 12,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "explorer-of-the-seas",
+   "name": "Explorer of the Seas",
+   "calls12": 12,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "mardi-gras",
+   "name": "Mardi Gras",
+   "calls12": 11,
+   "usualPier": "Puerta Maya"
+  },
+  {
+   "slug": "scarlet-lady",
+   "name": "Scarlet Lady",
+   "calls12": 11,
+   "usualPier": "Punta Langosta"
+  },
+  {
+   "slug": "independence-of-the-seas",
+   "name": "Independence of the Seas",
+   "calls12": 10,
+   "usualPier": "International Pier"
+  },
+  {
+   "slug": "mein-schiff-1",
+   "name": "Mein Schiff 1",
+   "calls12": 10,
+   "usualPier": null
+  },
+  {
+   "slug": "viking-mars",
+   "name": "Viking Mars",
+   "calls12": 10,
+   "usualPier": "Punta Langosta"
+  }
+ ]
+}

@@ -11,7 +11,8 @@
 // The GET side is gated. The funnel is commercially revealing — it says exactly where the
 // business loses people — so it reuses PREVIEW_TOKEN, same as the refusal dashboard.
 
-const { logStep, listSteps, monthKey, isConfigured, STEPS, STEP_LABEL } = require('./_funnel');
+const { logStep, listSteps, monthKey, isConfigured,
+        STEPS, LEGACY_STEPS, STEP_LABEL } = require('./_funnel');
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c =>
   ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -40,6 +41,11 @@ function summarise(rows) {
   const seen = {};                     // step -> Set(sid)
   const sessions = new Set();
   const bySource = {}, byDest = {};
+  // Who she is and where she is trying to go. Held per SESSION, not per row: one visitor
+  // who walks the whole funnel writes eight rows, and counting rows would make her look
+  // like eight guests off the same ship. Last non-empty answer wins — the later steps are
+  // the ones where she has actually filled the bar in.
+  const shipOf = {}, lineOf = {}, placeOf = {};
 
   for (const r of rows) {
     if (!r.step || !r.sid) continue;
@@ -54,15 +60,32 @@ function summarise(rows) {
       const s = r.source || 'direct';
       bySource[s] = (bySource[s] || 0) + 1;
     }
-    if (r.step === 'dest' && r.dest) byDest[r.dest] = (byDest[r.dest] || 0) + 1;
+    // 'dest' is the wizard's name for what the one-page flow calls 'place'. Both are read
+    // so the ranking does not restart from zero on the day the page changed.
+    if ((r.step === 'place' || r.step === 'dest') && r.dest) byDest[r.dest] = (byDest[r.dest] || 0) + 1;
+    if (r.ship) shipOf[r.sid] = r.ship;
+    if (r.line) lineOf[r.sid] = r.line;
+    if (r.place_text) placeOf[r.sid] = r.place_text;
   }
 
-  const counts = STEPS.map(s => ({ step: s, label: STEP_LABEL[s] || s, n: (seen[s] || new Set()).size }));
+  // One row per answer, biggest first, ten deep — enough to read at a glance and short
+  // enough that the daily pulse can print it without choosing all over again.
+  const top10 = (bySid) => {
+    const n = {};
+    for (const sid in bySid) n[bySid[sid]] = (n[bySid[sid]] || 0) + 1;
+    return Object.fromEntries(Object.entries(n).sort((a, b) => b[1] - a[1]).slice(0, 10));
+  };
+
+  // The live funnel, then any wizard step that actually has rows this month — normally
+  // none, because no page sends them any more, so this usually adds nothing at all.
+  const counts = STEPS.concat(LEGACY_STEPS.filter(s => seen[s]))
+    .map(s => ({ step: s, label: STEP_LABEL[s] || s, n: (seen[s] || new Set()).size }));
   const top = counts[0].n || 0;
 
   // Drop-off is measured against the previous step that actually had traffic. Measuring
   // against the step immediately before would report a meaningless 0% whenever a step is
-  // skipped — the hero configurator lets a guest answer 'pax' before 'hub', for instance.
+  // skipped — the bar lets a guest press "See prices" without naming a ship, for instance,
+  // so 'price_seen' can run ahead of 'ship'.
   let prev = null;
   for (const c of counts) {
     c.pctOfTop = top ? Math.round(c.n / top * 100) : 0;
@@ -75,7 +98,9 @@ function summarise(rows) {
   const leaks = counts.filter(c => c.lost !== null && c.lost > 0)
     .sort((a, b) => b.lost - a.lost);
 
-  return { counts, sessions: sessions.size, top, bySource, byDest, worst: leaks[0] || null };
+  return { counts, sessions: sessions.size, top, bySource, byDest,
+           byShip: top10(shipOf), byLine: top10(lineOf), byPlaceText: top10(placeOf),
+           worst: leaks[0] || null };
 }
 
 exports.handler = async (event) => {
