@@ -122,7 +122,7 @@
       "name": "What do you guarantee?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print."
+        "text": "Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. We monitor your ship and your pier. We'll be waiting for you."
       }
     },
     {
@@ -130,7 +130,7 @@
       "name": "Will the ship wait for me?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full."
+        "text": "No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. We monitor your ship and your pier. We'll be waiting for you."
       }
     },
     {
@@ -362,6 +362,31 @@ button{font-family:inherit}
 .trust li{display:flex;gap:10px;align-items:flex-start;color:#fff;font-size:18px;line-height:1.35;font-weight:600}
 .trust .ti{flex:none;width:24px;height:24px;border-radius:50%;background:#fff;color:var(--navy);
   display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin-top:1px}
+/* the $150 card and the ship buttons — Layout A (Mike, 2026-10-07), above the bar.
+   Shapes from the 22 Sep and 28 Sep mockups, minus the yellow "proposed" outline. */
+.p150{margin:0 0 14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;max-width:26em;
+  padding:13px 15px;border-radius:14px;background:rgba(9,25,38,.42);border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
+.p150 .amt{color:#fff;font-size:30px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+  line-height:1;text-shadow:0 2px 18px rgba(4,16,26,.55)}
+.p150 .cop{color:rgba(255,255,255,.94);font-size:18px;line-height:1.35;text-shadow:0 1px 14px rgba(4,16,26,.55)}
+.pstrip{margin:0 0 14px;padding:14px 14px 12px;border:1px solid rgba(255,255,255,.18);border-radius:22px;
+  background:rgba(9,25,38,.55);backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
+.pstrip[hidden]{display:none}
+.pstrip .ph{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.01em}
+.pstrip .ps,.pstrip .ps2{font-size:16px;color:rgba(255,255,255,.8);margin-top:4px;line-height:1.35}
+.pstrip .ps2{margin-top:10px}
+.prow{display:flex;gap:8px;overflow-x:auto;padding:12px 2px 4px;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch}
+.pchip{flex:0 0 auto;scroll-snap-align:start;min-height:60px;min-width:150px;text-align:left;cursor:pointer;
+  border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.10);color:#fff;
+  border-radius:16px;padding:9px 14px}
+.pchip .pd{display:block;font-size:14px;font-weight:700;color:#7FB8FF}
+.pchip .pn{display:block;font-size:17px;font-weight:800;margin-top:2px;white-space:nowrap}
+.pchip:active,.pchip.on{background:var(--accent);border-color:var(--accent)}
+.pchip.on .pd{color:#fff}
+@media(max-width:430px){.pstrip .ph{font-size:21px}.pstrip .ps,.pstrip .ps2{font-size:18px}.pchip .pn{font-size:18px}}
+@media(min-width:941px){.p150{max-width:32em}}
 .wa-pill{display:inline-flex;align-items:center;gap:7px;background:var(--card-green);
   color:var(--success-deep);border-radius:999px;padding:9px 14px;font-size:13px;
   font-weight:800;letter-spacing:0;line-height:1.3}
@@ -1084,6 +1109,25 @@ html.v4-motion .v4-faq .faq.arrived{
       <p>Private ground transfer across Cozumel — the price is for the vehicle, so it
         doesn't change when the group does.</p>
 
+      <!-- Layout A (Mike, 2026-10-07): the $150 card, then the ship buttons, then the bar,
+           then the promises. Proposals of 22 Sep (price before anything is asked) and
+           28 Sep (tap your ship), words exactly as approved. $150 is VEH[0].price. -->
+      <div class="p150">
+        <span class="amt">$150</span>
+        <span class="cop">for the whole vehicle, up to 4 people.<br>
+          Not per person. Larger groups have their own flat price.</span>
+      </div>
+
+      <!-- Filled from the port's published schedule (ships-today → published) by
+           paintShipStrip(). Stays hidden when the feed is down or has no ship in the
+           window, and the bar works exactly as it did without it. -->
+      <div class="pstrip" id="pStrip" hidden>
+        <div class="ph">Start here — tap your ship</div>
+        <div class="ps">In port this week. One tap fills in your ship and your day.</div>
+        <div class="prow" id="pRow"></div>
+        <div class="ps2">Not listed, or sailing later? Type your ship in the box below.</div>
+      </div>
+
       <div class="glass">
         <!-- ══ "From" became "Your ship" ══════════════════════════════════════════
              She names the ship and the day; the pier is our problem. The field keeps all
@@ -1124,8 +1168,10 @@ html.v4-motion .v4-faq .faq.arrived{
         <div class="ggo"><button type="button" onclick="barQuote()">See prices</button></div>
       </div>
 
-      <!-- Three promises under the bar (weekly proposal 2026-10-05). All three are already
-           stated further down this page; nothing new is claimed here. -->
+      <!-- Three promises under the bar (weekly proposal 2026-10-05). The first was reworded
+           2026-10-07 — Mike: no refund-if-late promise — and the two FAQ answers below say
+           the same line. All three are stated further down this page; nothing new is
+           claimed here. -->
       <ul class="trust" aria-label="Our promises">
         <li><span class="ti">✓</span>We monitor your ship and your pier. We'll be waiting for you.</li>
         <li><span class="ti">✓</span>Free cancellation up to 24 hours before pickup.</li>
@@ -1425,8 +1471,8 @@ html.v4-motion .v4-faq .faq.arrived{
         <p class="v2-lede">The five we are asked most. The rest are underneath them.</p>
       </div>
       <div>
-      <details class="faq"><summary>What do you guarantee?<span class="fa">+</span></summary><p>Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. If we're ever late, we refund your transfer in full. No questions, no fine print.</p></details>
-      <details class="faq"><summary>Will the ship wait for me?<span class="fa">+</span></summary><p>No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. If we're ever late, we refund the transfer in full.</p></details>
+      <details class="faq"><summary>What do you guarantee?<span class="fa">+</span></summary><p>Two things: we're at the meeting point at the time you chose, and we come back for you at the return time you chose. We watch your ship, so a late arrival moves your pickup instead of costing you the transfer. We monitor your ship and your pier. We'll be waiting for you.</p></details>
+      <details class="faq"><summary>Will the ship wait for me?<span class="fa">+</span></summary><p>No — and past a point it won't wait for its own excursions either. Here's how we make sure it never comes up: you pick a return time that puts you back at the pier well before all-aboard, that time is locked in when you book, and we watch your ship all day. We monitor your ship and your pier. We'll be waiting for you.</p></details>
       <details class="faq"><summary>What if I need to cancel?<span class="fa">+</span></summary><p>Free cancellation up to 24 hours before pickup — we refund 100% to the same card within five business days. And if your ship never docks in Cozumel, we refund you in full without you having to ask.</p></details>
       <details class="faq"><summary>How do I pay?<span class="fa">+</span></summary><p>Credit card, always — secure online payment at booking. No cash to the driver, no deposits, no surprise fees at the curb.</p></details>
       <details class="faq"><summary>What happens on the day?<span class="fa">+</span></summary><p>The day before, we email you your terminal, your meeting point and your times. When you disembark, look for our English-speaking representative holding a sign with your name — we are waiting for you outside — about a 10 minute walk from the ship, and you can see the walk from each pier on this site before you sail. Your driver takes you to your destination and comes back at the time you chose.</p></details>
@@ -3244,6 +3290,60 @@ async function payNow(){
     if (row) row.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
   };
   if (SHIPS.length) fill(); else BAR_DRAWS.push(fill);
+})();
+
+/* The ship buttons above the bar (Layout A, Mike 2026-10-07): "Start here — tap your ship".
+   One button per ship the port has published from the first day she can still book —
+   minDate(), so no button sets a day the wizard and the server would refuse — through
+   seven days from today in Cozumel, in date order. Only ships on SHIPS are shown, matched
+   exactly the way pierFor() strips APIQROO's spelling: that is the name the bar can
+   actually select, spelled the way she knows it.
+   A tap goes down the ship-guide path above — the date first, then the same input event
+   and the same row pick — so the pier line, the map, the discount and track('ship') all
+   follow from it exactly as if she had typed it.
+   No feed, or no ship in the window: the strip stays hidden and the bar is as it was. */
+(function paintShipStrip(){
+  const strip = $('pStrip'), row = $('pRow');
+  const norm = n => n.toUpperCase().replace(/^M\/[SV]\s+/, '').replace(/[^A-Z ]/g, ' ').replace(/\s+/g, ' ').trim();
+  let pub = null, done = false;
+  const paint = () => {
+    if (done || !pub || !pub.byDay || !SHIPS.length) return;
+    done = true;
+    const cz = new Date(Date.now() - 5*3600*1000);
+    const from = iso(minDate());
+    const to = iso(new Date(cz.getUTCFullYear(), cz.getUTCMonth(), cz.getUTCDate() + 7));
+    const byName = new Map(SHIPS.map(r => [norm(r[0]), r[0]]));
+    Object.keys(pub.byDay).filter(d => d >= from && d <= to).sort().forEach(d => {
+      const seen = new Set();
+      const label = new Date(d + 'T12:00:00')
+        .toLocaleDateString('en-GB', {weekday: 'short', day: 'numeric', month: 'short'});
+      (pub.byDay[d] || []).forEach(r => {
+        const name = byName.get(norm(r.ship || ''));
+        if (!name || seen.has(name)) return;
+        seen.add(name);
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'pchip';
+        b.dataset.ship = name; b.dataset.date = d;
+        b.innerHTML = '<span class="pd">' + escHtml(label) + '</span><span class="pn">' + escHtml(name) + '</span>';
+        row.appendChild(b);
+      });
+    });
+    if (row.children.length) strip.hidden = false;
+  };
+  row.addEventListener('click', e => {
+    const b = e.target.closest('.pchip'); if (!b) return;
+    row.querySelectorAll('.pchip.on').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    $('barDate').value = b.dataset.date;
+    if (barPierSide().on()) barPierSide().reset();
+    const box = $(barRev ? 'barToS' : 'barFromS'), drop = $(barRev ? 'barToD' : 'barFromD');
+    box.value = b.dataset.ship;
+    box.dispatchEvent(new Event('input', { bubbles: true }));
+    const hit = [...drop.querySelectorAll('.sr[data-n]')].find(x => x.dataset.n === b.dataset.ship);
+    if (hit) hit.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+  });
+  loadPublished().then(p => { pub = p; paint(); });
+  BAR_DRAWS.push(paint);
 })();
 
 /* ── confirmed ── */
