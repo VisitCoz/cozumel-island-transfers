@@ -55,6 +55,7 @@ import build_ship_list as bsl  # noqa: E402  normalize(), normalize_terminal(), 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "ship-guides.json"
 ORG = "https://cozumeltransfers.org"
+COM = "https://cozumelislandtransfers.com"  # .com is the original for search engines; .org pages point their canonical there
 FIRST_MONTH = (2024, 1)
 MIN_CALLS_12M = 10
 MIN_CALLS, MIN_SHARE = 3, 0.70
@@ -345,7 +346,7 @@ def head(title, desc, canonical, jsonld=""):
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
-<link rel="canonical" href="{canonical}">
+<link rel="canonical" href="{canonical.replace(ORG, COM, 1)}">
 <link rel="icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
