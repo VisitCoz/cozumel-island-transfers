@@ -54,7 +54,7 @@ import build_ship_list as bsl  # noqa: E402  normalize(), normalize_terminal(), 
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "ship-guides.json"
-ORG = "https://cozumeltransfers.org"
+ORG = "https://cozumelislandtransfers.com"
 FIRST_MONTH = (2024, 1)
 MIN_CALLS_12M = 10
 MIN_CALLS, MIN_SHARE = 3, 0.70

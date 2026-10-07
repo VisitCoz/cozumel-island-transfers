@@ -5,110 +5,110 @@
      scratch — it is kept out of here and disallowed in robots.txt on purpose. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cozumeltransfers.org/</loc>
+    <loc>https://cozumelislandtransfers.com/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/meet/</loc>
+    <loc>https://cozumelislandtransfers.com/meet/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/meet/puerta-maya.html</loc>
+    <loc>https://cozumelislandtransfers.com/meet/puerta-maya.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/meet/ssa-mexico.html</loc>
+    <loc>https://cozumelislandtransfers.com/meet/ssa-mexico.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/meet/punta-langosta.html</loc>
+    <loc>https://cozumelislandtransfers.com/meet/punta-langosta.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/terms.html</loc>
+    <loc>https://cozumelislandtransfers.com/terms.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/privacy.html</loc>
+    <loc>https://cozumelislandtransfers.com/privacy.html</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <!-- ship guides: written by scripts/build_ship_guides.py -->
   <url>
-    <loc>https://cozumeltransfers.org/ships/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/carnival-breeze/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/carnival-breeze/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/carnival-valor/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/carnival-valor/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/mariner-of-the-seas/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/mariner-of-the-seas/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/carnival-paradise/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/carnival-paradise/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/enchantment-of-the-seas/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/enchantment-of-the-seas/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/carnival-jubilee/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/carnival-jubilee/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/margaritaville-at-sea-islander/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/margaritaville-at-sea-islander/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/msc-seascape/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/msc-seascape/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/norwegian-escape/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/norwegian-escape/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cozumeltransfers.org/ships/norwegian-prima/</loc>
+    <loc>https://cozumelislandtransfers.com/ships/norwegian-prima/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
