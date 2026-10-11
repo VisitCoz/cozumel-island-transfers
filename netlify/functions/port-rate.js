@@ -11,12 +11,12 @@
 //     data/port-month-averages.json (built by scripts/build_port_averages.py).
 // Either way the answer is never blank: a fetch failure just means the month average.
 //
-// The ladder — Mike, 2026-09-23: aggressive — 0–4 ships 40% on everything.
-//   Every vehicle, the minivans included: 0–4 ships 40% · 5+ ships 10%
-//   Two rungs, no per-vehicle split. Anything short of five ships is a day we would rather
-//   buy than sit out, whatever is going on the road. Replaces the graded 2026-09-18 ladder
-//   and its deeper minivan scale of 2026-09-19.
-//   Nov–Apr is clamped to 10–15%, whatever the vehicle — so high season still tops out at 15%.
+// The ladder — Mike, 2026-10-11: "We should always have a discount. Even in high season
+//   see how it goes."
+//   Minivans (van_1_4, van_1_6): 0–4 ships 30% · 5+ ships 10%
+//   The four larger vehicles (van_7_14, van_15_18, coach_20, bus_40): 20%, every day, all year
+//   No Nov–Apr clamp any more: high season gets the same numbers as every other month.
+//   Replaces the 2026-09-23 rule — 0–4 ships 40% on everything, high season capped at 15%.
 //   A guest who is not on a cruise gets the 10% floor only.
 
 const { parseShips } = require('./ships-today');
@@ -28,8 +28,9 @@ const FLOOR = 10;
 // _cit.js's catalogue order, so the `vehicles` map reads the way the page lists them.
 const SLUGS = ['van_1_4', 'van_1_6', 'van_7_14', 'van_15_18', 'coach_20', 'bus_40'];
 
-function ladder(ships) {
-  return ships <= 4 ? 40 : 10;
+function ladder(ships, vehicleSlug) {
+  const minivan = vehicleSlug === 'van_1_4' || vehicleSlug === 'van_1_6';
+  return minivan ? (ships <= 4 ? 30 : 10) : 20;
 }
 
 // The percent for one vehicle on one day. `ships` is null when the day is not published.
@@ -41,9 +42,7 @@ function rateFor({ dateISO, vehicleSlug, cruise = true, ships = null }) {
 
   const basis = ships === null ? 'average' : 'published';
   const count = ships === null ? Math.round(avg ?? 5) : ships;
-  const highSeason = month >= 11 || month <= 4;
-  const raw = ladder(count);
-  const percent = Math.max(FLOOR, highSeason ? Math.min(15, raw) : raw);
+  const percent = Math.max(FLOOR, ladder(count, vehicleSlug));
   return { percent, basis, ships: ships === null ? null : ships, shipsPerDay: avg };
 }
 
