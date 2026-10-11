@@ -2,7 +2,8 @@
  * Cozumel Island Transfers — the shared operations calendar.
  *
  * ONE JOB. Every paid booking becomes two events on a calendar the whole team
- * subscribes to, and the guest is invited to her own transfer. Nothing else.
+ * subscribes to, and the guest is invited to her own transfer. Since 2026-10-11 it also
+ * lands once on the dispatch calendar (see DISPATCH_CALENDAR_ID). Nothing else.
  *
  * This is NOT apps_script/cit_bookings. That script writes a spreadsheet, mails the
  * team and posts to Slack — all three of which this system already does elsewhere, and
@@ -60,6 +61,14 @@
 var TIMEZONE = 'America/Cancun';   // UTC-5 all year, no daylight saving
 var EVENT_MINUTES = 60;            // each leg blocks an hour, same as the .ics
 var WHATSAPP = '+52 987 114 6853';
+
+// The dispatch calendar the drivers are assigned from. Until 2026-10-11 every booking was
+// retyped onto it by hand, anywhere from an hour to six days after payment. Now it gets one
+// event per booking, in the shape dispatch already typed: "RT Transfer <guest>", half an
+// hour at the pickup time; dispatch adds the unit number to the title.
+// hello@ needs "Make changes to events" on this calendar, or the write is refused.
+var DISPATCH_CALENDAR_ID = 'b3f05d5ff0463c4168fcd27ca1c4e77e58f0dbc106cf3c04a4d3227af49e3fdf@group.calendar.google.com';
+var DISPATCH_MINUTES = 30;
 
 /** Run this once from the editor, then paste the result into Script Properties. */
 function makeToken() {
@@ -270,9 +279,52 @@ function upsertBooking(b) {
     b.dropoff || (b.destination + ', Cozumel')
   );
 
+  // Written whatever happened to the two legs: a Stripe retry that finds both legs already
+  // there still gets its dispatch event if the first attempt could not write one.
+  var dispatch = insertDispatch(b);
+
   // Both already present means this is a Stripe retry, not a new booking.
-  if (!madePickup && !madeReturn) return out({ calendared: false, duplicate: true });
-  return out({ calendared: true, pickup: madePickup, ret: madeReturn });
+  if (!madePickup && !madeReturn) return out({ calendared: false, duplicate: true, dispatch: dispatch });
+  return out({ calendared: true, pickup: madePickup, ret: madeReturn, dispatch: dispatch });
+}
+
+/**
+ * The booking on the dispatch calendar. No attendees and no invitation — the guest already
+ * has hers. Returns true if created, false if already there, or the error as a string.
+ *
+ * 🚨 It never throws. A throw would reach the webhook as a calendar failure, and the webhook
+ * answers that by attaching the .ics to the guest's confirmation — on top of the Google
+ * invitation she has already been sent.
+ */
+function insertDispatch(b) {
+  try {
+    var time = timeOf(b.pickup);
+    var end = new Date(b.date + 'T' + time + '-05:00');
+    end.setMinutes(end.getMinutes() + DISPATCH_MINUTES);
+    var lines = [
+      'Guest: ' + (b.guest || ''),
+      b.email ? 'Email: ' + b.email : null,
+      b.whatsapp ? 'WhatsApp: ' + b.whatsapp : null,
+      b.ship ? 'Ship: ' + b.ship : null,
+      b.ref,
+      'Destino: ' + b.destination,
+      b.vehicle + ' · ' + b.pax + ' pax',
+      'Pick-up: ' + b.pickup + (b.pickupAddr ? ' · ' + b.pickupAddr : ''),
+      'Pick-up ' + (b.dropoff || b.destination) + ': ' + b.ret
+    ];
+    Calendar.Events.insert({
+      id: eventIdFor(b.ref, 'dispatch'),
+      summary: 'RT Transfer ' + (b.guest || b.ref) + ' · ' + b.vehicle,
+      description: lines.filter(function (l) { return l !== null; }).join('\n'),
+      start: { dateTime: b.date + 'T' + time, timeZone: TIMEZONE },
+      end: { dateTime: Utilities.formatDate(end, TIMEZONE, "yyyy-MM-dd'T'HH:mm:ss"), timeZone: TIMEZONE },
+      extendedProperties: { private: opsProperties(b, 'dispatch') }
+    }, DISPATCH_CALENDAR_ID, { sendUpdates: 'none' });
+    return true;
+  } catch (err) {
+    if (isDuplicate(err)) return false;
+    return 'error: ' + String((err && err.message) || err);
+  }
 }
 
 /**
@@ -293,6 +345,12 @@ function cancelBooking(b) {
       if (!/404|410|[Nn]ot ?[Ff]ound|deleted/.test(String((err && err.message) || err))) throw err;
     }
   });
+  try {
+    Calendar.Events.remove(DISPATCH_CALENDAR_ID, eventIdFor(b.ref, 'dispatch'), { sendUpdates: 'none' });
+    removed++;
+  } catch (err) {
+    if (!/404|410|[Nn]ot ?[Ff]ound|deleted/.test(String((err && err.message) || err))) throw err;
+  }
   return out({ cancelled: removed });
 }
 
