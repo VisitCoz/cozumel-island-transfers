@@ -4,7 +4,10 @@
 
 const SOURCE = 'https://servicios.apiqroo.com.mx/programacion/';
 
-const MONTHS_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+// Date-header month names come in Spanish or English ("01 de october de 2026" since Jun
+// 2026), so look them up by their first three letters.
+const MONTHS = { ene: 1, jan: 1, feb: 2, mar: 3, abr: 4, apr: 4, may: 5, jun: 6, jul: 7,
+  ago: 8, aug: 8, sep: 9, set: 9, oct: 10, nov: 11, dic: 12, dec: 12 };
 
 exports.handler = async () => {
   try {
@@ -19,8 +22,10 @@ exports.handler = async () => {
     const today = isoDate(new Date(cancunMs));
     const tomorrow = isoDate(addDays(new Date(cancunMs), 1));
 
-    const todayShips = ships.filter(s => s.dateISO === today);
-    const tomorrowShips = ships.filter(s => s.dateISO === tomorrow);
+    // meet/ lists these two days as "ships in port". A cancelled call (status "red") is not
+    // one — byDay below and port-rate.js already leave it out, so these do too.
+    const todayShips = ships.filter(s => s.dateISO === today && s.status !== 'red');
+    const tomorrowShips = ships.filter(s => s.dateISO === tomorrow && s.status !== 'red');
 
     // ── the whole published window, by day ──────────────────────────────────────
     // The homepage bar asks a different question from meet/: not "who is in port now"
@@ -83,12 +88,13 @@ function parseShips(html) {
     const dateMatch = row.match(/colspan="8"[\s\S]*?<b>[\s\S]*?(\d{1,2}) de (\w+) de (\d{4})/i);
     if (dateMatch) {
       const day = dateMatch[1].padStart(2, '0');
-      const monthIdx = MONTHS_ES.indexOf(dateMatch[2].toLowerCase());
+      const month = MONTHS[dateMatch[2].slice(0, 3).toLowerCase()];
       const year = dateMatch[3];
-      if (monthIdx >= 0) {
-        currentDate = `${year}-${String(monthIdx + 1).padStart(2, '0')}-${day}`;
-      }
-      continue;
+      // An unreadable header must not leave the previous day's date in place.
+      currentDate = month ? `${year}-${String(month).padStart(2, '0')}-${day}` : null;
+      // Only a header-only row is skipped: if the day's first ship ever shares the header's
+      // row (no <tr> between them), it is read below like any other ship.
+      if (!/data-title="CRUCERO"/.test(row)) continue;
     }
     // Row date: <td data-title="FECHA">10/06/2026</td> (first FECHA = arrival date).
     // Primary source — the date-header month names switched language (jun → june)
