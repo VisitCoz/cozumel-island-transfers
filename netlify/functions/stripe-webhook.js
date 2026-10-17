@@ -73,6 +73,7 @@ exports.handler = async (event) => {
   // calendar entry for everyone — the guest by invitation, the team by subscription — and
   // nobody gets the file. When it did not, the file is the fallback for both.
   let calendarOk = false;
+  let fleetProblem = '';
 
   // Put it on the shared calendar FIRST, before anything is mailed.
   //
@@ -100,14 +101,34 @@ exports.handler = async (event) => {
       done.calendared = r.duplicate ? 'already there' : true;
       calendarOk = true;
       // The shared Minivan calendar is what stops Visit Cozumel and Tierra Maya selling the same
-      // minivan. A failed write asks Stripe to retry; the event id makes the retry harmless.
-      if (typeof r.fleet === 'string' && r.fleet.startsWith('error')) {
-        console.error('minivan calendar write failed', m.booking_ref, r.fleet);
-        failures.push('minivan calendar');
-      }
+      // minivan. The script already tried twice; a 500 here would only make Stripe re-send the
+      // emails for three days, so the team gets one alert to add it by hand instead. A minivan
+      // booking with no `fleet` answer means the script deployment is older than this code.
+      const minivan = /minivan/i.test(m.vehicle_name || m.vehicle || '');
+      if (minivan && r.fleet !== true && r.fleet !== false) fleetProblem = String(r.fleet || 'the calendar script did not answer for the Minivan calendar');
     } catch (err) {
       console.error('calendar write failed', m.booking_ref, err);
       failures.push('calendar');
+    }
+  }
+
+  if (fleetProblem) {
+    console.error('minivan calendar write failed', m.booking_ref, fleetProblem);
+    const to = teamEmails();
+    if (to.length) {
+      try {
+        await sendEmail({
+          to,
+          subject: `MINIVAN NOT HELD · ${m.date || ''} · ${m.booking_ref || ''}`,
+          html: `<p>A paid ${m.vehicle_name || 'minivan'} booking on <b>${m.date || ''}</b> (${m.booking_ref || ''}, ${Number(m.pax) || 0} pax, pickup ${m.pickup || ''}, back ${m.ret || ''}) could not be put on the <b>Minivan 240/AV</b> calendar: ${String(fleetProblem).replace(/[<>&]/g, '')}.</p>`
+            + '<p>Until someone adds it there, Visit Cozumel and Tierra Maya can sell that minivan again. Add an event to Minivan 240/AV by hand, titled '
+            + `<b>CIT · Minivan · ${Number(m.pax) || 0} pax · ${m.destination_name || m.destination || ''}</b>, then check the calendar is still shared with hello@cozumelislandtransfers.com ("Make changes to events").</p>`,
+          idempotencyKey: `fleet-${s.id}`,
+        });
+        done.fleetAlert = true;
+      } catch (err) {
+        console.error('fleet alert failed', m.booking_ref, err);
+      }
     }
   }
 

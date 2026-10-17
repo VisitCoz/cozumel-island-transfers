@@ -85,6 +85,8 @@ const vehicleFor = (pax) => VEHICLES.find(v => pax <= v.maxPax) || null;
 const SHARED_MINIVANS = ['van_1_4', 'van_1_6'];
 const SHARED_FLEET_URL = 'https://www.visitcozumel.com.mx/.netlify/functions/availability?date=';
 async function minivanFree(dateIso) {
+  // The engine answers nothing past 400 days (same cut-off as its own check); nobody can have booked that far.
+  if (dateIso > new Date(Date.now() + 400 * 864e5).toISOString().slice(0, 10)) return true;
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 6000);
   try {

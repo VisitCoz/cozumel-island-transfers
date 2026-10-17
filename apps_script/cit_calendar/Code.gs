@@ -341,13 +341,22 @@ function insertDispatch(b) {
 function insertFleet(b) {
   if (!/minivan/i.test(String(b.vehicle || ''))) return 'not a minivan';
   if (!MINIVAN_CALENDAR_ID) return 'error: MINIVAN_CALENDAR_ID is not set';
+  var r = insertFleetOnce(b);
+  if (typeof r === 'string') { Utilities.sleep(2000); r = insertFleetOnce(b); }   // one second try for a passing hiccup
+  return r;
+}
+
+function insertFleetOnce(b) {
   try {
+    var start = new Date(b.date + 'T' + timeOf(b.pickup) + '-05:00');
     var end = new Date(b.date + 'T' + timeOf(b.ret) + '-05:00');
     end.setMinutes(end.getMinutes() + EVENT_MINUTES);
+    if (end <= start) end = new Date(start.getTime() + EVENT_MINUTES * 60 * 1000);   // never an empty range
     Calendar.Events.insert({
       id: eventIdFor(b.ref, 'fleet'),
       summary: 'CIT · Minivan · ' + b.pax + ' pax · ' + b.destination,
-      description: [b.ref, 'Guest: ' + (b.guest || ''), 'Pick-up: ' + b.pickup, 'Return: ' + b.ret].join('\n'),
+      description: [b.ref, 'Guest: ' + (b.guest || ''), 'Pick-up: ' + b.pickup, 'Return: ' + b.ret,
+        'Cancelled or refunded? Delete this event (or add "cancel" to its title): the websites count it until then.'].join('\n'),
       start: { dateTime: b.date + 'T' + timeOf(b.pickup), timeZone: TIMEZONE },
       end: { dateTime: Utilities.formatDate(end, TIMEZONE, "yyyy-MM-dd'T'HH:mm:ss"), timeZone: TIMEZONE },
       extendedProperties: { private: opsProperties(b, 'fleet') }
@@ -365,8 +374,9 @@ function insertFleet(b) {
 function fleetAccess() {
   if (!MINIVAN_CALENDAR_ID) return out({ minivan: 'error: MINIVAN_CALENDAR_ID is not set' });
   try {
-    Calendar.Events.list(MINIVAN_CALENDAR_ID, { maxResults: 1, timeMin: new Date().toISOString() });
-    return out({ minivan: 'ok' });
+    // The list answer carries this account's role on the calendar; only writer/owner can add bookings.
+    var role = Calendar.Events.list(MINIVAN_CALENDAR_ID, { maxResults: 1, timeMin: new Date().toISOString() }).accessRole;
+    return out({ minivan: role === 'writer' || role === 'owner' ? 'ok' : 'error: can only ' + (role || 'see') + ' — needs "Make changes to events"' });
   } catch (err) {
     return out({ minivan: 'error: ' + String((err && err.message) || err) });
   }

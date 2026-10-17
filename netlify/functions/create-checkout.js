@@ -141,6 +141,8 @@ exports.handler = async (event) => {
   const durationHours = Number(b.durationHours);
   if (!(pickupHour >= 6 && pickupHour <= 20)) return json(400, { error: 'Pick a pickup time.' });
   if (!(durationHours >= 1 && durationHours <= 12)) return json(400, { error: 'Pick how long you want to stay.' });
+  // The page's last return is 10 PM (index.html: Math.min(22, start + 12)); later wraps to a daytime hour.
+  if (pickupHour + durationHours > 22) return json(400, { error: 'Pick a return time by 10:00 PM.' });
 
   // ---- the cutoff: 9 AM Cozumel the day before ----
   // Not a rolling 24 hours. The day gets planned when the manifest goes out at
