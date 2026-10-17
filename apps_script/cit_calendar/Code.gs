@@ -360,6 +360,19 @@ function insertFleet(b) {
 }
 
 /**
+ * Read-only: can this account reach the shared Minivan calendar? Reads one event, writes nothing.
+ */
+function fleetAccess() {
+  if (!MINIVAN_CALENDAR_ID) return out({ minivan: 'error: MINIVAN_CALENDAR_ID is not set' });
+  try {
+    Calendar.Events.list(MINIVAN_CALENDAR_ID, { maxResults: 1, timeMin: new Date().toISOString() });
+    return out({ minivan: 'ok' });
+  } catch (err) {
+    return out({ minivan: 'error: ' + String((err && err.message) || err) });
+  }
+}
+
+/**
  * For the refund path. Nothing calls this yet — a refund does not cancel a booking
  * automatically anywhere in this system, and pretending otherwise in a comment is how
  * someone comes to rely on it. Written now because deleting by UID belongs next to
@@ -426,6 +439,7 @@ function doPost(e) {
     if (body.action === 'upsertBooking') return upsertBooking(body.booking);
     if (body.action === 'cancelBooking') return cancelBooking(body.booking);
     if (body.action === 'inspectBooking') return inspectBooking(body.booking);
+    if (body.action === 'fleetAccess') return fleetAccess();
     return out({ error: 'unknown action' });
   } catch (err) {
     return out({ error: String(err) });
