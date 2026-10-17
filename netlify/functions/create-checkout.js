@@ -7,7 +7,7 @@
 
 const {
   DESTINATIONS, ADMISSION, BOOKING_CUTOFF_HOUR,
-  COZUMEL_UTC_OFFSET, vehicleFor, SHARED_MINIVANS, minivanFree, json, stripe,
+  COZUMEL_UTC_OFFSET, vehicleFor, SHARED_MINIVANS, minivanFree, pastFleetHorizon, json, stripe,
 } = require('./_cit');
 const { logRefusal } = require('./_refusals');
 const { rateFor, publishedCalendar, shipsOn, validDate } = require('./port-rate');
@@ -195,6 +195,13 @@ exports.handler = async (event) => {
   // ---- the shared minivans (see minivanFree in _cit.js) ----
   // Full → the minivan goes to WhatsApp; the larger vans stay on sale. Fail closed, like the allotment.
   if (SHARED_MINIVANS.includes(vehicle.slug)) {
+    if (pastFleetHorizon(b.date)) {
+      await refusal('too_far_ahead');
+      return json(409, {
+        error: "We take minivan bookings online up to a year ahead. Message us and we'll book you by hand.",
+        useWhatsApp: true,
+      });
+    }
     const free = await minivanFree(b.date);
     if (free === false) {
       await refusal('minivan_full');

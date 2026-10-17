@@ -127,7 +127,9 @@ exports.handler = async (event) => {
         });
         done.fleetAlert = true;
       } catch (err) {
+        // Retry for the alert only: the guest and team emails above carry their own idempotency keys.
         console.error('fleet alert failed', m.booking_ref, err);
+        failures.push('fleet alert');
       }
     }
   }

@@ -72,7 +72,7 @@ async function call(action, payload, timeoutMs = 9000) {
 async function logRefusal(r) {
   const refusal = {
     at: new Date().toISOString(),
-    reason: r.reason,                       // past_cutoff | over_40 | fleet_full | minivan_full | availability_unknown | payment_open_failed
+    reason: r.reason,                       // past_cutoff | over_40 | fleet_full | minivan_full | too_far_ahead | availability_unknown | payment_open_failed
     wantedDate: r.wantedDate || null,
     destination: r.destination || null,
     destinationName: r.destinationName || null,
