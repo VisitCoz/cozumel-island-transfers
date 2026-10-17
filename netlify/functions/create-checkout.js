@@ -7,7 +7,7 @@
 
 const {
   DESTINATIONS, ADMISSION, BOOKING_CUTOFF_HOUR,
-  COZUMEL_UTC_OFFSET, vehicleFor, json, stripe,
+  COZUMEL_UTC_OFFSET, vehicleFor, SHARED_MINIVANS, minivanFree, json, stripe,
 } = require('./_cit');
 const { logRefusal } = require('./_refusals');
 const { rateFor, publishedCalendar, shipsOn, validDate } = require('./port-rate');
@@ -182,6 +182,26 @@ exports.handler = async (event) => {
     } catch (err) {
       // Fail closed. Selling a van we cannot confirm is worse than losing a booking.
       console.error('allotment check failed', err);
+      await refusal('availability_unknown');
+      return json(503, {
+        error: "We couldn't confirm availability just now. Message us and we'll book you by hand.",
+        useWhatsApp: true,
+      });
+    }
+  }
+
+  // ---- the shared minivans (see minivanFree in _cit.js) ----
+  // Full → the minivan goes to WhatsApp; the larger vans stay on sale. Fail closed, like the allotment.
+  if (SHARED_MINIVANS.includes(vehicle.slug)) {
+    const free = await minivanFree(b.date);
+    if (free === false) {
+      await refusal('minivan_full');
+      return json(409, {
+        error: "Our minivans are booked that day. Message us — we can still put you in a larger van.",
+        useWhatsApp: true,
+      });
+    }
+    if (free !== true) {
       await refusal('availability_unknown');
       return json(503, {
         error: "We couldn't confirm availability just now. Message us and we'll book you by hand.",

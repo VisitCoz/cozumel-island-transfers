@@ -76,6 +76,25 @@ const COZUMEL_UTC_OFFSET = '-05:00';   // no daylight saving, year round
 
 const vehicleFor = (pax) => VEHICLES.find(v => pax <= v.maxPax) || null;
 
+// ---------- The shared minivans ----------
+// Both Private minivans (up to 4, up to 6) run on the two minivans Visit Cozumel and Tierra Maya
+// also sell (Mike, 2026-10-17: "Our minivans: count them"). The larger vans are Uniper's and are not in it.
+// Visit Cozumel's availability engine is the referee: it counts every site's bookings plus the
+// Jeep and Minivan calendars, and answers only sold out or not — never how many (Mike, 2026-09-29).
+// true = a minivan is free that day · false = booked · null = no clear answer (fail closed).
+const SHARED_MINIVANS = ['van_1_4', 'van_1_6'];
+const SHARED_FLEET_URL = 'https://www.visitcozumel.com.mx/.netlify/functions/availability?date=';
+async function minivanFree(dateIso) {
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 6000);
+  try {
+    const res = await fetch(SHARED_FLEET_URL + encodeURIComponent(dateIso), { signal: ctl.signal, headers: { Accept: 'application/json' } });
+    if (!res.ok) return null;
+    const m = (((await res.json()) || {}).products || {}).vc_minivan;
+    return m && typeof m.sold_out === 'boolean' ? !m.sold_out : null;
+  } catch { return null; } finally { clearTimeout(timer); }
+}
+
 const json = (statusCode, body) => ({
   statusCode,
   headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
@@ -275,7 +294,7 @@ const minutesOf = (t) => {
 
 module.exports = {
   VEHICLES, DESTINATIONS, ADMISSION, CURRENCY, BOOKING_CUTOFF_HOUR, FLEET_RUNS_PER_DAY,
-  COZUMEL_UTC_OFFSET, vehicleFor, json, stripe, verifyStripeSignature, bookings,
+  COZUMEL_UTC_OFFSET, vehicleFor, SHARED_MINIVANS, minivanFree, json, stripe, verifyStripeSignature, bookings,
   calendar, calendarConfigured,
   sendEmail, teamEmails, bookingsOn, tomorrowInCozumel, minutesOf,
 };

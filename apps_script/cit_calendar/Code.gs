@@ -69,6 +69,9 @@ var WHATSAPP = '+52 987 114 6853';
 // hello@ needs "Make changes to events" on this calendar, or the write is refused.
 var DISPATCH_CALENDAR_ID = 'b3f05d5ff0463c4168fcd27ca1c4e77e58f0dbc106cf3c04a4d3227af49e3fdf@group.calendar.google.com';
 var DISPATCH_MINUTES = 30;
+// The shared Minivan calendar (Jeep + Minivan pool with Visit Cozumel and Tierra Maya, Mike 2026-10-17).
+// Shared with hello@ ("Make changes to events") from the account that owns it.
+var MINIVAN_CALENDAR_ID = '0042044e539ce3b7177411b6dd0a48eddf1e4f178d853065a167327ff74ce292@group.calendar.google.com';
 
 /** Run this once from the editor, then paste the result into Script Properties. */
 function makeToken() {
@@ -282,10 +285,11 @@ function upsertBooking(b) {
   // Written whatever happened to the two legs: a Stripe retry that finds both legs already
   // there still gets its dispatch event if the first attempt could not write one.
   var dispatch = insertDispatch(b);
+  var fleet = insertFleet(b);
 
   // Both already present means this is a Stripe retry, not a new booking.
-  if (!madePickup && !madeReturn) return out({ calendared: false, duplicate: true, dispatch: dispatch });
-  return out({ calendared: true, pickup: madePickup, ret: madeReturn, dispatch: dispatch });
+  if (!madePickup && !madeReturn) return out({ calendared: false, duplicate: true, dispatch: dispatch, fleet: fleet });
+  return out({ calendared: true, pickup: madePickup, ret: madeReturn, dispatch: dispatch, fleet: fleet });
 }
 
 /**
@@ -328,6 +332,34 @@ function insertDispatch(b) {
 }
 
 /**
+ * A Private minivan booking (up to 4 or up to 6) also goes on the shared Minivan calendar, which Visit Cozumel's availability
+ * engine counts for all three sites. The larger vans are Uniper's and stay off it.
+ * 🚨 The engine reads the TITLE: "Minivan" is the word that makes it count one minivan. Keep the
+ * guest's name and the ref out of the title (a name with "XL" or "cancel" in it would be misread).
+ * Same rules as insertDispatch: no invitation, never throws; true / false (already there) / a string.
+ */
+function insertFleet(b) {
+  if (!/minivan/i.test(String(b.vehicle || ''))) return 'not a minivan';
+  if (!MINIVAN_CALENDAR_ID) return 'error: MINIVAN_CALENDAR_ID is not set';
+  try {
+    var end = new Date(b.date + 'T' + timeOf(b.ret) + '-05:00');
+    end.setMinutes(end.getMinutes() + EVENT_MINUTES);
+    Calendar.Events.insert({
+      id: eventIdFor(b.ref, 'fleet'),
+      summary: 'CIT · Minivan · ' + b.pax + ' pax · ' + b.destination,
+      description: [b.ref, 'Guest: ' + (b.guest || ''), 'Pick-up: ' + b.pickup, 'Return: ' + b.ret].join('\n'),
+      start: { dateTime: b.date + 'T' + timeOf(b.pickup), timeZone: TIMEZONE },
+      end: { dateTime: Utilities.formatDate(end, TIMEZONE, "yyyy-MM-dd'T'HH:mm:ss"), timeZone: TIMEZONE },
+      extendedProperties: { private: opsProperties(b, 'fleet') }
+    }, MINIVAN_CALENDAR_ID, { sendUpdates: 'none' });
+    return true;
+  } catch (err) {
+    if (isDuplicate(err)) return false;
+    return 'error: ' + String((err && err.message) || err);
+  }
+}
+
+/**
  * For the refund path. Nothing calls this yet — a refund does not cancel a booking
  * automatically anywhere in this system, and pretending otherwise in a comment is how
  * someone comes to rely on it. Written now because deleting by UID belongs next to
@@ -345,12 +377,15 @@ function cancelBooking(b) {
       if (!/404|410|[Nn]ot ?[Ff]ound|deleted/.test(String((err && err.message) || err))) throw err;
     }
   });
-  try {
-    Calendar.Events.remove(DISPATCH_CALENDAR_ID, eventIdFor(b.ref, 'dispatch'), { sendUpdates: 'none' });
-    removed++;
-  } catch (err) {
-    if (!/404|410|[Nn]ot ?[Ff]ound|deleted/.test(String((err && err.message) || err))) throw err;
-  }
+  [[DISPATCH_CALENDAR_ID, 'dispatch'], [MINIVAN_CALENDAR_ID, 'fleet']].forEach(function (c) {
+    if (!c[0]) return;
+    try {
+      Calendar.Events.remove(c[0], eventIdFor(b.ref, c[1]), { sendUpdates: 'none' });
+      removed++;
+    } catch (err) {
+      if (!/404|410|[Nn]ot ?[Ff]ound|deleted/.test(String((err && err.message) || err))) throw err;
+    }
+  });
   return out({ cancelled: removed });
 }
 

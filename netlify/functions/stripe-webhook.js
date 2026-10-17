@@ -99,6 +99,12 @@ exports.handler = async (event) => {
       }});
       done.calendared = r.duplicate ? 'already there' : true;
       calendarOk = true;
+      // The shared Minivan calendar is what stops Visit Cozumel and Tierra Maya selling the same
+      // minivan. A failed write asks Stripe to retry; the event id makes the retry harmless.
+      if (typeof r.fleet === 'string' && r.fleet.startsWith('error')) {
+        console.error('minivan calendar write failed', m.booking_ref, r.fleet);
+        failures.push('minivan calendar');
+      }
     } catch (err) {
       console.error('calendar write failed', m.booking_ref, err);
       failures.push('calendar');
