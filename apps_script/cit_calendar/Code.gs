@@ -60,7 +60,7 @@
 
 var TIMEZONE = 'America/Cancun';   // UTC-5 all year, no daylight saving
 var EVENT_MINUTES = 60;            // each leg blocks an hour, same as the .ics
-var WHATSAPP = '+52 987 114 6853';
+var WHATSAPP = '+52 987 119 7796';
 
 // The dispatch calendar the drivers are assigned from. Until 2026-10-11 every booking was
 // retyped onto it by hand, anywhere from an hour to six days after payment. Now it gets one

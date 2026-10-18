@@ -92,7 +92,7 @@ Run all 9 on the preview URL (Stripe TEST mode):
 - [ ] **Discount code** — apply `WELCOME10`, -10% reflects on Stripe + Sheet.
 - [ ] **Amount tamper** — DevTools modify hidden price to $1, Apps Script rejects via `MIN_AMOUNT_CENTS`.
 - [ ] **Guest confirmation** — book for tomorrow, manually run `sendGuestConfirmations` in Apps Script, verify operational-voice email.
-- [ ] **WhatsApp link** — tap on iPhone Safari, opens WhatsApp with `+52 987 114 6853` prefilled.
+- [ ] **WhatsApp link** — tap on iPhone Safari, opens WhatsApp with `+52 987 119 7796` prefilled.
 - [ ] **404 handling** — visit `/nonexistent`, doesn't break.
 - [ ] **Live key dry run** — flip `CIT_STRIPE_SK` Script Property to live, real $1 booking with your own card, refund immediately.
 

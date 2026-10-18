@@ -22,7 +22,7 @@
 
 const { minutesOf } = require('./_cit');
 
-const WA_NUMBER = '5219871146853';   // twin of index.html:1332
+const WA_NUMBER = '5219871197796';   // twin of index.html:1332
 
 // iCalendar escaping: comma, semicolon and backslash are field separators.
 const esc = (s) => String(s ?? '').replace(/([,;\\])/g, '\\$1').replace(/\r?\n/g, '\\n');
@@ -63,7 +63,7 @@ function bookingIcs(m) {
 
   const notes = `Booking ${ref}. Look for a sign reading ${String(m.guest || 'YOUR NAME').toUpperCase()}. `
     + `${vehicle} to ${dest}. Paid in full — nothing to pay the driver. `
-    + `Message us on WhatsApp: wa.me/${WA_NUMBER} (+52 987 114 6853). We answer in English.`;
+    + `Message us on WhatsApp: wa.me/${WA_NUMBER} (+52 987 119 7796). We answer in English.`;
 
   // DTSTAMP must be a UTC instant. Noon on the travel day is stable across re-sends,
   // which matters: a DTSTAMP built from Date.now() changes on every Stripe retry and

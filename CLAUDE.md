@@ -112,7 +112,7 @@ The Netlify deploy is wired to GitHub. Pushing to main = deploying. That is the 
   ⚠️ Two of them are marked "Contains secret values" (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`)
   so `netlify env:get` returns nothing for them — that is correct, not a missing variable.
 - **⚠️ Two identity mismatches on a page that charges cards.** These pages say
-  *Cozumel Island Transfers, S. de R.L. de C.V.* and `+52 987 114 6853`; **Stripe's registered legal
+  *Cozumel Island Transfers, S. de R.L. de C.V.* and (until 2026-10-18) `+52 987 114 6853`; **Stripe's registered legal
   name is Visit Cozumel Mexico** and its receipts carry `+52 987 113 6492`. Ask Mike/Iris before
   changing either — it's a fiscal question, not a copy question.
 - ✅ **DNS cutover DONE 2026-08-06.** Live at `https://cozumelislandtransfers.com` via **Cloudflare

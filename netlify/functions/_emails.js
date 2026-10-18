@@ -5,7 +5,7 @@
 // of it — a preview that can drift from what actually sends is worse than no
 // preview at all, because it teaches you to trust something untested.
 
-const WHATSAPP = '+52 987 114 6853';
+const WHATSAPP = '+52 987 119 7796';
 
 // Where the meeting-point pages live. Change this one line at the DNS cutover.
 const SITE = process.env.SITE_URL || 'https://cozu.netlify.app';
@@ -369,7 +369,7 @@ function confirmationEmail(m, amount, currency, email) {
         <p style="margin:0 0 4px">Any question at all, message us on WhatsApp — we answer in English.</p>
         <div style="font-size:19px;font-weight:800;color:#0F2C44">${WHATSAPP}</div>
         <p style="font-size:12.5px;color:#6E6E73;margin:4px 0 0">
-          From the US or Canada, dial <b>011 52 987 114 6853</b>. Our office is open
+          From the US or Canada, dial <b>011 52 987 119 7796</b>. Our office is open
           9 AM – 5 PM Cozumel time.</p>
         <p style="font-size:12px;color:#8C9AAB;margin:12px 0 0">
           Cozumel Island Transfers · transport permit no. 483290 · ${esc(email || '')}</p>

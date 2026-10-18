@@ -37,7 +37,7 @@ Where each regular cruise ship docks in Cozumel, from the port authority's recor
 - **Transport permit:** 483290
 - **Fleet:** Private vans, mini coaches and buses, 1–40 passenger capacity, dispatched through our local fleet network. We do not own the vehicles.
 - **Representative:** Our English-speaking representative meets you at the pier. Drivers are licensed and local; we do not claim they speak English.
-- **Contact:** WhatsApp +52 987 114 6853 · hello@cozumelislandtransfers.com
+- **Contact:** WhatsApp +52 987 119 7796 · hello@cozumelislandtransfers.com
 - **Hours:** Office 9 AM – 5 PM Cozumel time (UTC−5, year round). WhatsApp is the fastest channel.
 - **Reviews:** Travelers' Choice on TripAdvisor, 4.8★ from 35 verified reviews
 
@@ -120,7 +120,7 @@ homepage.
 
 ## Booking
 
-- **Direct:** https://cozumelislandtransfers.com/ or WhatsApp +52 987 114 6853
+- **Direct:** https://cozumelislandtransfers.com/ or WhatsApp +52 987 119 7796
 - **Payment:** card only, through Stripe Checkout, paid in full at booking. We do not accept cash.
 - **Booking cutoff:** online booking for a given day closes at **9 AM Cozumel time the day before**, because that is when the vans are assigned. Inside that window, message us on WhatsApp and we arrange it by hand.
 - **Viator:** also listed there. Booking direct is about 20% cheaper.
