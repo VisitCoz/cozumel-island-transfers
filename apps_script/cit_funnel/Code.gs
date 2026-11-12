@@ -56,6 +56,13 @@ var HEADERS = [
 ];
 
 /**
+ * The 13th column, Detail, arrived on 2026-11-12: a short machine code saying why a Pay
+ * press did not reach Stripe. Every new row carries it, but only a tab created from now on
+ * gets its header. A tab that already exists keeps the header it has.
+ */
+var NEW_TAB_HEADERS = HEADERS.concat(['Detail']);
+
+/**
  * The order matters — it IS the funnel. Adding a step in the middle renumbers the ones
  * after it, which is fine going forward but makes old rows and new rows incomparable.
  * Append new steps at the end unless you genuinely want to break the history — which is
@@ -86,7 +93,10 @@ var STEPS = [
   'dest',           // chose a destination
   'day',            // set the date and times
   'who',            // typed her details
-  'checkout_open'   // the old name for what is now 'pay'
+  'checkout_open',  // the old name for what is now 'pay'
+  /* ── added 2026-11-12, at the END so no step number above moves. ── */
+  'pay_press',      // pressed Pay, sent before the request to the server
+  'pay_error'       // the press did not reach Stripe: the page blocked it or the server refused
 ];
 
 var STEP_LABEL = {
@@ -102,12 +112,22 @@ var STEP_LABEL = {
   dest:          'Chose a destination (old wizard)',
   day:           'Picked the date and times (old wizard)',
   who:           'Entered their details (old wizard)',
-  checkout_open: 'Opened Stripe checkout (old wizard)'
+  checkout_open: 'Opened Stripe checkout (old wizard)',
+  pay_press:     'Pressed Pay on the page',
+  pay_error:     'Pay press did not reach Stripe'
 };
 
 function stepNo_(step) {
   var i = STEPS.indexOf(step);
   return i < 0 ? '' : i + 1;
+}
+
+/* Detail is a machine code such as 'minivans_booked', never words a guest typed. Letters,
+   digits, '_' and '-' only, at most 40, so nothing personal or formula-like reaches a cell.
+   It starts with a letter, so the sheet never takes it for a number, a date or a formula
+   ('2026-11-12', '-A1'). The same expression as logStep in _funnel.js, so both agree. */
+function detail_(v) {
+  return String(v || '').replace(/[^A-Za-z0-9_-]/g, '').replace(/^[^A-Za-z]+/, '').slice(0, 40);
 }
 
 /* Cozumel is UTC-5 all year. Stamp in local time so a row reads the way Mike thinks. */
@@ -130,9 +150,9 @@ function sheetFor_(month) {
   var sh = ss.getSheetByName(name);
   if (!sh) {
     sh = ss.insertSheet(name);
-    sh.appendRow(HEADERS);
+    sh.appendRow(NEW_TAB_HEADERS);
     sh.setFrozenRows(1);
-    sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
+    sh.getRange(1, 1, 1, NEW_TAB_HEADERS.length).setFontWeight('bold');
   } else if (sh.getLastColumn() < HEADERS.length) {
     /* A tab written before a column was added. Widen the HEADER only, to the right —
        rows already in it keep exactly the columns they were written with, and the new
@@ -196,7 +216,8 @@ function record_(ev) {
       ev.ship || '',
       ev.line || '',
       ev.place_text || '',
-      ev.rate || ''
+      ev.rate || '',
+      detail_(ev.detail)
     ]);
   } finally { lock.releaseLock(); }
   return ok_({ ok: true });
@@ -234,7 +255,9 @@ function list_(month) {
       ship: String(r[8] || ''),
       line: String(r[9] || ''),
       place_text: String(r[10] || ''),
-      rate: String(r[11] || '')
+      rate: String(r[11] || ''),
+      // Empty on every row written before 2026-11-12, and on any step that has nothing to say.
+      detail: String(r[12] || '')
     });
   }
   return ok_({ ok: true, month: m, months: months, records: records, labels: STEP_LABEL, steps: STEPS });

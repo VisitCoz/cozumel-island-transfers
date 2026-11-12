@@ -49,8 +49,13 @@ const STEPS = [
 // any actually have rows. 'checkout_open' is the old name for what is now 'pay'.
 const LEGACY_STEPS = ['hub', 'dest', 'day', 'who', 'checkout_open'];
 
+// Added 2026-11-12: what happens between pressing Pay and Stripe's page. They are not
+// funnel stages — 'pay_error' is a subset of 'pay_press' — so they sit after everything
+// else, in Code.gs too, where appending them moves no existing step number.
+const EXTRA_STEPS = ['pay_press', 'pay_error'];
+
 // What Code.gs accepts, in its order. Keep the two in step.
-const ALL_STEPS = STEPS.concat(LEGACY_STEPS);
+const ALL_STEPS = STEPS.concat(LEGACY_STEPS, EXTRA_STEPS);
 
 const STEP_LABEL = {
   land:          'Landed on the site',
@@ -67,6 +72,8 @@ const STEP_LABEL = {
   day:           'Picked the date and times (old wizard)',
   who:           'Entered their details (old wizard)',
   checkout_open: 'Opened Stripe checkout (old wizard)',
+  pay_press:     'Pressed Pay on the page',
+  pay_error:     'Pay press did not reach Stripe',
 };
 
 /* Cozumel is UTC-5 year round. Bucket by LOCAL month so "August" means what Mike means. */
@@ -118,6 +125,11 @@ async function logStep(ev) {
     // The Port Meter percent on screen when the step fired — 10 to 40, or '' when she
     // never saw one. Three characters is every value the ladder can produce.
     rate: ev.rate == null || ev.rate === '' ? '' : String(ev.rate).slice(0, 3),
+    // A machine code such as 'minivans_booked' or 'server_502', mostly on 'pay_error'.
+    // Letters, digits, '_' and '-' only, so a name or a sentence cannot ride in on it, and it
+    // starts with a letter, so a cell can never take it for a number, a date or a formula
+    // ('2026-11-12', '-A1'). The same expression as detail_() in Code.gs, so both agree.
+    detail: String(ev.detail || '').replace(/[^A-Za-z0-9_-]/g, '').replace(/^[^A-Za-z]+/, '').slice(0, 40),
   };
   try {
     const out = await call('record', { event });
@@ -138,4 +150,4 @@ async function listSteps(month) {
 const isConfigured = () => !!(FUNNEL_URL() && FUNNEL_TOKEN());
 
 module.exports = { logStep, listSteps, monthKey, isConfigured,
-                   STEPS, LEGACY_STEPS, ALL_STEPS, STEP_LABEL };
+                   STEPS, LEGACY_STEPS, EXTRA_STEPS, ALL_STEPS, STEP_LABEL };

@@ -106,7 +106,11 @@ const json = (statusCode, body) => ({
 // ---------- Stripe, over plain fetch ----------
 // Stripe's API is form-encoded. Nested keys use bracket notation, which is why
 // the payload is built as flat "a[b][c]" strings rather than a JSON object.
-async function stripe(path, params, method = 'POST') {
+//
+// `signal` is passed only by the day-before list's pay-page lookups, so that one given up on
+// is not left running (see bookingsOn). Every other call is sent exactly as before, with no
+// time limit.
+async function stripe(path, params, method = 'POST', signal) {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error('STRIPE_SECRET_KEY is not set in Netlify environment variables');
 
@@ -118,6 +122,7 @@ async function stripe(path, params, method = 'POST') {
     },
   };
   if (method === 'POST') opts.body = new URLSearchParams(params).toString();
+  if (signal) opts.signal = signal;
 
   const res = await fetch(`https://api.stripe.com/v1/${path}`, opts);
   const out = await res.json();
@@ -253,14 +258,86 @@ async function sendEmail({ to, subject, html, replyTo, idempotencyKey, attachmen
 const teamEmails = () =>
   (process.env.TEAM_EMAILS || '').split(',').map(e => e.trim()).filter(Boolean);
 
+// ---------- Who booked, wherever Stripe holds it ----------
+// Today's page asks for the name, email and phone itself and sends them as metadata. A page
+// that leaves those questions to Stripe's own pay page finds them on the Checkout Session
+// instead, all three in customer_details: the name for the pier sign comes from Stripe's own
+// name box (`individual_name`), or from the name on the card when there was no box. Only the
+// ship is a custom field of ours (key `ship`). The name never is: Stripe's rule is that custom
+// fields must not collect personal data, and a name is personal data. One reader for both
+// kinds, used by the webhook and the day-before list, so the two can never disagree about a guest.
+//
+// Metadata wins for the name and the phone, which is what keeps a booking made the old way
+// reading exactly as it always has. It calls nothing and never throws: by the time it runs the
+// guest has paid, and whatever comes after it is the announcement she is owed.
+//
+// The ship is the one answer the pay page wins. `asked` says the `ship` box was on her pay
+// page, which is how a booking made the new way is recognised: an old one carries no custom
+// fields at all. Then what she typed or left in that box beats a ship the page sent from the
+// guide link she arrived by, because she may have browsed another ship's guide. With the box
+// empty the page's ship stands, and with neither it is "Not given", so dispatch reads a
+// decision rather than a gap. The guest's own confirmation hides that, like "Not on a cruise".
+const SHIP_NOT_GIVEN = 'Not given';
+
+// A number a WhatsApp link can be built from with nothing guessed: "+" and 8 to 15 digits.
+const STRICT_PHONE = /^\+[0-9]{8,15}$/;
+
+function contactFrom(session, metadata) {
+  const text = (v) => (typeof v === 'string' ? v.trim() : '');
+  const cut = (v, n) => v.slice(0, n).trim();
+  // The metadata is read first, so that whatever happens below she never comes out with less.
+  const out = { guest: '', email: '', whatsapp: '', ship: '', asked: false };
+  try {
+    const m = metadata || {};
+    out.guest = cut(text(m.guest), 400);
+    out.email = text(m.email);
+    out.whatsapp = text(m.whatsapp);
+    out.ship = text(m.ship);
+
+    const s = session || {};
+    const who = s.customer_details || {};
+    const fields = Array.isArray(s.custom_fields) ? s.custom_fields : [];
+    const field = (key) => fields.find(f => f && f.key === key);
+    const typed = (key) => text((((field(key) || {}).text) || {}).value);
+
+    // The name box first, then Stripe's second copy of it, then the name on the card.
+    if (!out.guest) out.guest = cut(text(who.individual_name)
+      || text((s.collected_information || {}).individual_name) || text(who.name), 400);
+    // The email is the one read the other way round: Stripe's own copy of her address first,
+    // exactly as the webhook has always read it, and the metadata only when Stripe has none.
+    out.email = text(who.email) || text(s.customer_email) || out.email;
+
+    if (!out.whatsapp) {
+      // Stripe's phone box gives "+<country><number>". Apple Pay and Google Pay may hand
+      // over a number as she saved it: with no country code, a trunk "(0)", an extension, or
+      // digits of another script. Only a clean "+" number is tidied to "+<digits>"; any other
+      // is kept AS TYPED, never glued together and never given a "+", because guessing what
+      // it meant would one day text a stranger.
+      const phone = text(who.phone);
+      const bare = phone.replace(/[\s.()-]/g, '');
+      if (STRICT_PHONE.test(bare) && !phone.includes('(0)')) out.whatsapp = bare;
+      else if (phone) out.whatsapp = cut(phone, 40);
+    }
+
+    out.asked = Boolean(field('ship'));
+    if (out.asked) out.ship = cut(typed('ship'), 400) || out.ship || SHIP_NOT_GIVEN;
+  } catch (err) {
+    console.error('contactFrom: unreadable session, keeping what was read', err);
+  }
+  return out;
+}
+
 // ---------- Reading bookings back out of Stripe ----------
 // There is no database. Every booking carries its date in metadata, so Stripe's
 // own search is the query layer. Note Stripe's search index lags new objects by
 // up to a minute — irrelevant for a job that runs the evening before.
+const LOOKUP_MS = 4000;    // one pay-page lookup, at most
+const LOOKUPS_MS = 12000;  // all of them together, at most
 async function bookingsOn(dateIso) {
   const q = encodeURIComponent(`metadata['date']:'${dateIso}' AND status:'succeeded'`);
   const out = await stripe(`payment_intents/search?query=${q}&limit=100`, null, 'GET');
-  return (out.data || []).map(pi => ({
+  const pis = out.data || [];
+  const runs = pis.map(pi => ({
     ref: pi.metadata.booking_ref || '',
     date: pi.metadata.date || '',
     pickup: pi.metadata.pickup || '',
@@ -278,6 +355,58 @@ async function bookingsOn(dateIso) {
     amount: (pi.amount || 0) / 100,
     currency: (pi.currency || '').toUpperCase(),
   }));
+
+  // A booking whose name, phone or email was asked on Stripe's pay page has none of them in
+  // its metadata, so the list would send the team a run with no name and her no reminder.
+  // Only those bookings cost one more Stripe call, to the Checkout Session that holds them;
+  // a booking made the old way is read exactly as above, with no extra call.
+  //
+  // One at a time, not all at once: a burst of parallel reads is how a busy day would meet
+  // Stripe's rate limit. And a lookup that fails keeps the metadata values, because the
+  // list going out with a gap beats no list at all.
+  //
+  // Nor may a slow Stripe hold the list up. The job that sends it is a scheduled function,
+  // stopped at 30 seconds, and the team list and every reminder go out only after this
+  // returns: one lookup that never answered would silence the whole day, old bookings
+  // included. So each lookup is given up after 4 seconds and all of them together after 12,
+  // and a booking not read in time keeps its metadata values, like one whose lookup failed.
+  const blank = (v) => !(typeof v === 'string' && v.trim());
+  let outOfTime = false;
+  let endAll;
+  const allLate = new Promise((resolve) => { endAll = resolve; });
+  const allTimer = setTimeout(() => { outOfTime = true; endAll(); }, LOOKUPS_MS);
+  try {
+    for (let i = 0; i < pis.length; i++) {
+      const pi = pis[i];
+      if (!blank(pi.metadata.guest) && !blank(pi.metadata.whatsapp) && !blank(pi.metadata.email)) continue;
+      const ctl = new AbortController();
+      let timer;
+      try {
+        if (outOfTime) throw new Error(`not looked up: the lookups had used their ${LOOKUPS_MS / 1000} seconds`);
+        const found = await Promise.race([
+          stripe('checkout/sessions?payment_intent=' + pi.id + '&limit=1', null, 'GET', ctl.signal),
+          new Promise((_, reject) => {
+            timer = setTimeout(() => reject(new Error(`no answer in ${LOOKUP_MS / 1000} seconds`)), LOOKUP_MS);
+          }),
+          allLate.then(() => { throw new Error(`no answer before the lookups' ${LOOKUPS_MS / 1000} seconds ran out`); }),
+        ]);
+        const c = contactFrom(((found || {}).data || [])[0], pi.metadata);
+        // Same keys, same places in the object: only their values change.
+        runs[i].ship = c.ship;
+        runs[i].guest = c.guest;
+        runs[i].whatsapp = c.whatsapp;
+        runs[i].email = c.email || pi.receipt_email || '';
+      } catch (err) {
+        ctl.abort();   // a lookup given up on is not left running
+        console.error('bookingsOn: could not read the pay page details, using the metadata', pi.metadata.booking_ref, err);
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+  } finally {
+    clearTimeout(allTimer);
+  }
+  return runs;
 }
 
 /* Tomorrow, in Cozumel time (UTC-5, no daylight saving). */
@@ -299,4 +428,5 @@ module.exports = {
   COZUMEL_UTC_OFFSET, vehicleFor, SHARED_MINIVANS, minivanFree, pastFleetHorizon, json, stripe, verifyStripeSignature, bookings,
   calendar, calendarConfigured,
   sendEmail, teamEmails, bookingsOn, tomorrowInCozumel, minutesOf,
+  contactFrom, SHIP_NOT_GIVEN, STRICT_PHONE,
 };

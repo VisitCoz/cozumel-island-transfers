@@ -114,7 +114,12 @@ const preheader = (text) => `
 
 // ---------- 1. A booking just came in → the team ----------
 function bookingEmail(m, amount, currency, email) {
-  const wa = String(m.whatsapp || '').replace(/[^0-9]/g, '');
+  // The button is built from the stored number's digits, as it always has been. The one
+  // exception is a phone the webhook marked (`noWhatsAppLink`): taken from Stripe's pay page
+  // and not a clean "+<digits>" (Apple Pay and Google Pay pass a number on as she saved it).
+  // That one is shown as typed in the table below, with no link: wa.me would read the bare
+  // digits as some other country's number, and the team would be messaging a stranger.
+  const wa = m.noWhatsAppLink ? '' : String(m.whatsapp || '').replace(/[^0-9]/g, '');
   const row = (k, v) => v
     ? `<tr><td style="padding:7px 0;color:#6E6E73;width:38%">${k}</td>
            <td style="padding:7px 0;color:#0F2C44;font-weight:600">${esc(v)}</td></tr>`
@@ -187,12 +192,18 @@ const bookingSubject = (m) =>
 function manifestEmail(date, runs) {
   // The guest note sits on her own line, so whoever plans the day reads it beside her run.
   // No note and the row is exactly what it always was.
+  //
+  // A run with no name is a booking whose name was asked on Stripe's pay page and could not
+  // be read back (the lookup failed or ran out of time). Its row says so, on the line beside
+  // its reference, so dispatch looks the booking up rather than making a sign with nothing on
+  // it. Only this list says it: her own day-before email never does. A run with a name prints
+  // exactly as it always has.
   const rows = runs.map(r => `
     <tr style="border-top:1px solid #E5E5E7">
       <td style="padding:10px 8px 10px 0;font-weight:800;color:#0F2C44;white-space:nowrap">${esc(r.pickup)}</td>
       <td style="padding:10px 8px">
         <div style="font-weight:700;color:#0F2C44">${esc(r.destination)}</div>
-        <div style="font-size:12.5px;color:#6E6E73">${esc(r.guest)} · ${r.pax} pax · ${esc(r.vehicle)}</div>
+        <div style="font-size:12.5px;color:#6E6E73">${String(r.guest || '').trim() ? esc(r.guest) : 'Name not read: see the booking email'} · ${r.pax} pax · ${esc(r.vehicle)}</div>
         <div style="font-size:12.5px;color:#6E6E73">${esc(r.ship)}</div>${r.note ? `
         <div style="font-size:12.5px;color:#0F2C44">Guest note: ${esc(r.note)}</div>` : ''}
       </td>
@@ -321,6 +332,9 @@ function confirmationEmail(m, amount, currency, email) {
         <tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Travelling</td>
             <td style="padding:8px 0;text-align:right">${esc(m.pax)} people · ${esc(m.vehicle_name || m.vehicle)}</td></tr>
         ${m.ship && m.ship !== 'Not on a cruise'
+          // SHIP_NOT_GIVEN in _cit.js: she left the optional ship box on Stripe's pay page
+          // empty. Like 'Not on a cruise', that is a note for the team, not a row for her.
+          && m.ship !== 'Not given'
           ? `<tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Your ship</td>
              <td style="padding:8px 0;text-align:right">${esc(m.ship)}</td></tr>` : ''}
         ${m.dropoff ? `<tr style="border-top:1px solid #E5E5E7"><td style="padding:8px 0;color:#6E6E73">Going to</td>

@@ -12,7 +12,7 @@
 // business loses people — so it reuses PREVIEW_TOKEN, same as the refusal dashboard.
 
 const { logStep, listSteps, monthKey, isConfigured,
-        STEPS, LEGACY_STEPS, STEP_LABEL } = require('./_funnel');
+        STEPS, LEGACY_STEPS, EXTRA_STEPS, STEP_LABEL } = require('./_funnel');
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c =>
   ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -77,8 +77,9 @@ function summarise(rows) {
   };
 
   // The live funnel, then any wizard step that actually has rows this month — normally
-  // none, because no page sends them any more, so this usually adds nothing at all.
-  const counts = STEPS.concat(LEGACY_STEPS.filter(s => seen[s]))
+  // none, because no page sends them any more, so this usually adds nothing at all. Then
+  // the two Pay-press steps, also only when they have rows.
+  const counts = STEPS.concat(LEGACY_STEPS.filter(s => seen[s]), EXTRA_STEPS.filter(s => seen[s]))
     .map(s => ({ step: s, label: STEP_LABEL[s] || s, n: (seen[s] || new Set()).size }));
   const top = counts[0].n || 0;
 
@@ -89,6 +90,10 @@ function summarise(rows) {
   let prev = null;
   for (const c of counts) {
     c.pctOfTop = top ? Math.round(c.n / top * 100) : 0;
+    // The Pay-press steps are a side count, not a stage: 'pay_error' is a subset of
+    // 'pay_press', so a drop between them is not a leak. Kept out of the chain, they cannot
+    // move any other step's numbers or the biggest leak.
+    if (EXTRA_STEPS.includes(c.step)) { c.lost = null; c.lostPct = null; continue; }
     c.lost = prev === null ? null : Math.max(0, prev - c.n);
     c.lostPct = prev ? Math.round(Math.max(0, prev - c.n) / prev * 100) : null;
     if (c.n > 0) prev = c.n;

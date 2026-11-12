@@ -11,7 +11,7 @@
 // be safe to run more than once.
 
 const { json, verifyStripeSignature, sendEmail, teamEmails, bookings,
-        calendar, calendarConfigured } = require('./_cit');
+        calendar, calendarConfigured, contactFrom, SHIP_NOT_GIVEN, STRICT_PHONE } = require('./_cit');
 const { bookingEmail, bookingSubject, confirmationEmail, confirmationSubject } = require('./_emails');
 const { icsAttachment } = require('./_ics');
 
@@ -43,9 +43,36 @@ exports.handler = async (event) => {
   if (s.payment_status !== 'paid') return json(200, { received: true, ignored: 'not paid' });
 
   const m = s.metadata || {};
+  // Her name, phone and ship, wherever Stripe holds them. A booking whose pay page asked for
+  // them has none in its metadata, and announcing it from the metadata alone would tell the
+  // team about a paid guest with no name and no number. `mc` is the metadata with those three
+  // filled in; from here on the team and guest emails, the calendar, the .ics and the sheet
+  // all read it.
+  //
+  // Only a blank is filled (the new-shape ship below is the one exception). A value the
+  // metadata already has is never replaced, not even by a trimmed copy of itself, so a
+  // booking made the old way goes out byte for byte as before.
+  const c = contactFrom(s, m);
+  const mc = { ...m };
+  for (const k of ['guest', 'whatsapp', 'ship']) {
+    if (c[k] && !(typeof m[k] === 'string' && m[k].trim())) mc[k] = c[k];
+  }
+  // Two things only a booking whose pay page asked for her ship can bring (`c.asked`; an old
+  // booking's pay page asked nothing). Her answer in that box beats the ship of the guide link
+  // she arrived by. And a phone taken from that page (the metadata had none) that is not a clean
+  // "+<digits>" is marked, so the team email builds no WhatsApp link for it: wa.me would read
+  // its bare digits as some other country's number. The mark is not enumerable, so no copy or
+  // serialisation of `mc` carries it anywhere: bookingEmail is the only reader.
+  if (c.asked) {
+    mc.ship = c.ship;
+    if (mc.whatsapp !== m.whatsapp && !STRICT_PHONE.test(mc.whatsapp)) {
+      Object.defineProperty(mc, 'noWhatsAppLink', { value: true });
+    }
+  }
   const amount = (s.amount_total || 0) / 100;
   const currency = (s.currency || '').toUpperCase();
-  const email = s.customer_details?.email || s.customer_email || '';
+  // customer_details first, then customer_email, as always; the metadata copy last.
+  const email = c.email;
   const done = {};
   const failures = [];
 
@@ -66,7 +93,7 @@ exports.handler = async (event) => {
   // announcements — a paid guest nobody hears about is the one outcome this whole function
   // exists to prevent.
   let ics = null;
-  try { ics = icsAttachment(m); }
+  try { ics = icsAttachment(mc); }
   catch (err) { console.error('ics build failed, mailing without it', m.booking_ref, err); }
 
   // Whether the shared calendar accepted this booking. When it did, the calendar IS the
@@ -93,7 +120,10 @@ exports.handler = async (event) => {
         date: m.date || '', pickup: m.pickup || '', ret: m.ret || '',
         destination: m.destination_name || m.destination || '',
         pax: Number(m.pax) || 0, vehicle: m.vehicle_name || m.vehicle || '',
-        ship: m.ship || '', guest: m.guest || '', email, whatsapp: m.whatsapp || '',
+        // She reads this entry as her invitation, so "Not given" (a note for the team, whose
+        // email still says it) goes in as no ship at all, and her invitation has no ship line.
+        ship: (c.asked && mc.ship === SHIP_NOT_GIVEN) ? '' : (mc.ship || ''),
+        guest: mc.guest || '', email, whatsapp: mc.whatsapp || '',
         pickupAddr: m.pickup_addr || '', dropoff: m.dropoff || '',
         amountUsd: amount, currency,
         admissionPrepaid: m.admission_prepaid === 'true',
@@ -159,8 +189,8 @@ exports.handler = async (event) => {
         to: onBrand.length ? onBrand : team,
         bcc: onBrand.length ? offBrand : undefined,
         replyTo: email || undefined,
-        subject: bookingSubject(m),
-        html: bookingEmail(m, amount, currency, email),
+        subject: bookingSubject(mc),
+        html: bookingEmail(mc, amount, currency, email),
         // Same rule as the guest's copy: only when the calendar did not take it.
         // Once the shared calendar has the booking the team is already covered, and the
         // attachment actively hurts — Gmail turns it into an "Add to calendar" card, checks
@@ -192,8 +222,8 @@ exports.handler = async (event) => {
     try {
       await sendEmail({
         to: email,
-        subject: confirmationSubject(m),
-        html: confirmationEmail(m, amount, currency, email),
+        subject: confirmationSubject(mc),
+        html: confirmationEmail(mc, amount, currency, email),
         attachments: fallbackIcs,
         idempotencyKey: `guest-${s.id}`,
       });
@@ -236,11 +266,11 @@ exports.handler = async (event) => {
     try {
       await bookings('recordBooking', { booking: {
         sessionId: s.id, ref: m.booking_ref || s.client_reference_id || '',
-        amountUsd: amount, currency, email, guest: m.guest || '', whatsapp: m.whatsapp || '',
+        amountUsd: amount, currency, email, guest: mc.guest || '', whatsapp: mc.whatsapp || '',
         destination: m.destination || '', destinationName: m.destination_name || '',
         date: m.date || '', pickup: m.pickup || '', ret: m.ret || '',
         pax: Number(m.pax) || 0, vehicle: m.vehicle || '', vehicleName: m.vehicle_name || '',
-        ship: m.ship || '', admissionPrepaid: m.admission_prepaid === 'true',
+        ship: mc.ship || '', admissionPrepaid: m.admission_prepaid === 'true',
         // Last, always. Appending never disturbs a field the Apps Script already reads.
         ...rateFields,
       }});
